@@ -1,3 +1,7 @@
+[2024/10/31]
+- ETC
+  + Maven Repository 주소 변경 (http -> https)
+  
 [2023/11/02]
 - Modify
   + open.commons.spring.web.mvc.service.AbstractSshService
