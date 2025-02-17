@@ -1,8 +1,7 @@
 [2025/02/17]
 - Snapshot: 0.8.0-SNAPSHOT
-- Dependencies:
-  + open-commons-core: 2.1.0-SNAPSHOT
-  + open-commons-ssh: 0.4.0-SNAPSHOT
+- Dependencies (공통파일로 별도 관리 적용)
+  + open-commons-spring-dependencies: 0.1.0-SNAPSHOT
 
 [2025/02/17]
 - Release: 0.7.0

@@ -1,6 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>open.commons</groupId>
+	<parent>
+		<groupId>open.commons</groupId>
+		<artifactId>open-commons-spring-dependencies</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
 	<artifactId>open-commons-spring-web</artifactId>
 	<version>0.8.0-SNAPSHOT</version>
 	<name>Open Commons for Spring Web</name>
@@ -13,6 +18,17 @@
 		</license>
 	</licenses>
 
+	<developers>
+		<developer>
+			<name>Park, Jun-Hong</name>
+			<email>parkjunhong77@gmail.com</email>
+		</developer>
+	</developers>
+	<scm>
+		<url>https://github.com/parkjunhong/open-commons-spring-web</url>
+		<developerConnection>parkjunhong77@gmail.com</developerConnection>
+	</scm>
+
 	<properties>
 		<!-- >>> begin: plugin dependencies -->
 		<build.finalName>open-commons-spring-web-${project.version}</build.finalName>
@@ -20,19 +36,19 @@
 		<encoding>UTF-8</encoding>
 		<java.version>1.8</java.version>
 
-		<compile.encoding>UTF-8</compile.encoding>
+		<!-- compile.encoding>UTF-8</compile.encoding>
 		<compile.source.version>1.8</compile.source.version>
 		<compile.target.version>1.8</compile.target.version>
 
 		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
 		<maven-source-plugin.version>2.2.1</maven-source-plugin.version>
-		<maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
+		<maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version -->
 		<!-- >>> end: plugin dependencies -->
 
 		<!-- >>> begin: dependencies -->
-        <spring-core.version>[5.3.29]</spring-core.version>
-        <spring-boot.version>2.7.15</spring-boot.version>
-        <slf4j-api.version>2.0.9</slf4j-api.version>
+		<!-- spring-core.version>[5.3.29]</spring-core.version>
+		<spring-boot.version>2.7.15</spring-boot.version>
+		<slf4j-api.version>2.0.9</slf4j-api.version>
 		<reflections.version>0.9.11</reflections.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<httpclient.version>[4.5.13,)</httpclient.version>
@@ -40,7 +56,7 @@
 		<springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
 
 		<open-commons-core.version>2.1.0-SNAPSHOT</open-commons-core.version>
-		<open-commons-ssh.version>0.4.0-SNAPSHOT</open-commons-ssh.version>
+		<open-commons-ssh.version>0.4.0-SNAPSHOT</open-commons-ssh.version -->
 		<!-- <<< end: dependencies -->
 	</properties>
 
@@ -91,12 +107,10 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>${spring-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>${spring-core.version}</version>
 		</dependency>
 		<!-- end: spring-framework -->
 		<!-- ********************** -->
@@ -107,17 +121,14 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot</artifactId>
-			<version>${spring-boot.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
-			<version>${spring-boot.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
-			<version>${spring-boot.version}</version>
 		</dependency>
 		<!-- end: spring boot -->
 		<!-- ********************** -->
@@ -127,7 +138,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-			<version>${spring-boot.version}</version>
 		</dependency>
 		<!-- end: Spring Security -->
 		<!-- ********************** -->
@@ -138,7 +148,6 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-commons</artifactId>
-			<version>${spring-boot.version}</version>
 		</dependency>
 		<!-- end: Pagination -->
 		<!-- ************** -->
@@ -149,7 +158,6 @@
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-			<version>2.0.1.Final</version>
 		</dependency>
 		<!-- end: validation -->
 		<!-- ************** -->
@@ -160,7 +168,6 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j-api.version}</version>
 		</dependency>
 		<!-- end: slf4j -->
 		<!-- ********************** -->
@@ -171,7 +178,6 @@
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
-			<version>${reflections.version}</version>
 		</dependency>
 		<!-- end: reflections -->
 		<!-- ********************** -->
@@ -182,7 +188,6 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>${httpclient.version}</version>
 		</dependency>
 		<!-- end: httpclient -->
 		<!-- ************** -->
@@ -192,7 +197,6 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>${servlet-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- end: servlet -->
@@ -204,7 +208,6 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>${fasterxml-jackson-core.version}</version>
 		</dependency>
 		<!-- end: jackson -->
 		<!-- ************** -->
@@ -214,12 +217,10 @@
 		<dependency>
 			<groupId>open.commons</groupId>
 			<artifactId>open-commons-core</artifactId>
-			<version>${open-commons-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>open.commons</groupId>
 			<artifactId>open-commons-ssh</artifactId>
-			<version>${open-commons-ssh.version}</version>
 		</dependency>
 		<!-- end: open.commons -->
 		<!-- ************** -->
@@ -232,7 +233,6 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>${springdoc-openapi-ui.version}</version>
 		</dependency>
 
 		<!-- end: REST API Documentation -->
@@ -264,7 +264,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<encoding>${compile.encoding}</encoding>
 					<source>${compile.source.version}</source>
@@ -276,7 +275,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>${maven-source-plugin.version}</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
 				</configuration>
@@ -294,7 +292,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${maven-javadoc-plugin.version}</version>
 				<configuration>
 					<goal>deploy</goal>
 					<show>private</show>
@@ -318,9 +315,4 @@
 			<!-- <<< end: javadoc -->
 		</plugins>
 	</build>
-
-	<scm>
-		<url>https://github.com/parkjunhong/open-commons-spring-web</url>
-		<developerConnection>parkjunhong77@gmail.com</developerConnection>
-	</scm>
 </project>
