@@ -2,12 +2,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>open.commons</groupId>
-		<artifactId>open-commons-spring-dependencies</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
+		<artifactId>open-commons-spring-web-dependencies</artifactId>
+		<version>0.8.0-SNAPSHOT</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>open-commons-spring-web</artifactId>
-	<version>0.8.0-SNAPSHOT</version>
 	<name>Open Commons for Spring Web</name>
 
 	<licenses>
