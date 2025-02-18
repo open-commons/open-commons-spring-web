@@ -129,7 +129,6 @@ public class WebUtils {
      *
      * @since 2018. 8. 22.
      */
-    @SuppressWarnings("unchecked")
     public static void createThrowableResponse(ModelAndView view, HttpStatus status, Throwable ex, HttpServletRequest request) {
 
         view.setStatus(status);
