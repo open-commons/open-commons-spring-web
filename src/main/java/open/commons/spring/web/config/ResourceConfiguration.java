@@ -86,12 +86,10 @@ public class ResourceConfiguration {
      * </pre>
      * 
      * @param context
-     *            TODO
      *
      * @since 2019. 6. 27.
      * @version
      */
-    @Autowired
     public ResourceConfiguration(ApplicationContext context) {
         this.context = context;
     }

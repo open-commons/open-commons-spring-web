@@ -26,6 +26,8 @@
 
 package open.commons.spring.web.resources;
 
+import javax.validation.constraints.Min;
+
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -194,7 +196,7 @@ public class RestTemplateRequestFactoryResource {
      * @see #connectionRequestTimeout
      * @see HttpComponentsClientHttpRequestFactory#setConnectionRequestTimeout(int)
      */
-    public void setConnectionRequestTimeout(int connectionRequestTimeout) {
+    public void setConnectionRequestTimeout(@Min(0) int connectionRequestTimeout) {
         this.connectionRequestTimeout = connectionRequestTimeout;
     }
 
@@ -217,7 +219,7 @@ public class RestTemplateRequestFactoryResource {
      * @see #connectionTimeout
      * @see HttpComponentsClientHttpRequestFactory#setConnectTimeout(int)
      */
-    public void setConnectionTimeout(int connctionTimeout) {
+    public void setConnectionTimeout(@Min(0) int connctionTimeout) {
         this.connectionTimeout = connctionTimeout;
     }
 
@@ -240,7 +242,7 @@ public class RestTemplateRequestFactoryResource {
      * @see #readTimeout
      * @see HttpComponentsClientHttpRequestFactory#setReadTimeout(int)
      */
-    public void setReadTimeout(int readTimeout) {
+    public void setReadTimeout(@Min(0) int readTimeout) {
         this.readTimeout = readTimeout;
     }
 

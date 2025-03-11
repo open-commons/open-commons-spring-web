@@ -26,6 +26,8 @@
 
 package open.commons.spring.web.resources;
 
+import javax.validation.constraints.Min;
+
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
@@ -376,7 +378,7 @@ public class ThreadPoolTaskExecutorConfig {
      * 
      * @see #awaitTerminationSeconds
      */
-    public void setAwaitTerminationSeconds(int awaitTerminationSeconds) {
+    public void setAwaitTerminationSeconds(@Min(0) int awaitTerminationSeconds) {
         this.awaitTerminationSeconds = awaitTerminationSeconds;
     }
 
@@ -420,7 +422,7 @@ public class ThreadPoolTaskExecutorConfig {
      * 
      * @see #corePoolSize
      */
-    public void setCorePoolSize(int corePoolSize) {
+    public void setCorePoolSize(@Min(1) int corePoolSize) {
         this.corePoolSize = corePoolSize;
     }
 
@@ -464,7 +466,7 @@ public class ThreadPoolTaskExecutorConfig {
      * 
      * @see #keepAliveSeconds
      */
-    public void setKeepAliveSeconds(int keepAliveSeconds) {
+    public void setKeepAliveSeconds(@Min(1) int keepAliveSeconds) {
         this.keepAliveSeconds = keepAliveSeconds;
     }
 
@@ -486,7 +488,7 @@ public class ThreadPoolTaskExecutorConfig {
      * 
      * @see #maxPoolSize
      */
-    public void setMaxPoolSize(int maxPoolSize) {
+    public void setMaxPoolSize(@Min(1) int maxPoolSize) {
         this.maxPoolSize = maxPoolSize;
     }
 
@@ -508,7 +510,7 @@ public class ThreadPoolTaskExecutorConfig {
      * 
      * @see #queueCapacity
      */
-    public void setQueueCapacity(int queueCapacity) {
+    public void setQueueCapacity(@Min(1) int queueCapacity) {
         this.queueCapacity = queueCapacity;
     }
 
