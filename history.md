@@ -1,3 +1,7 @@
+[2025/04/03]
+- Add
+  + open.commons.spring.web.initialize 추가
+
 [2025/02/21]
 Apply 'Maven Central Deployment'
 
