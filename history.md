@@ -1,3 +1,10 @@
+[2025/04/08]
+- Add
+  + open.commons.spring.web.oas.GroupedOpenApiProperties
+  + open.commons.spring.web.oas.OpenApiConfig
+    + loadGroupedOpenApiProperties()
+    + transform(GroupedOpenApiProperties, String)
+
 [2025/04/03]
 - Add
   + open.commons.spring.web.initialize 추가

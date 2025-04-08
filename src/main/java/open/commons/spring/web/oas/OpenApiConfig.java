@@ -26,14 +26,22 @@
 
 package open.commons.spring.web.oas;
 
+import java.util.Map;
+
+import javax.validation.constraints.NotNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import open.commons.core.collection.FIFOMap;
+import open.commons.core.utils.StringUtils;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -83,11 +91,35 @@ import io.swagger.v3.oas.models.info.Info;
  */
 @Configuration(OpenApiConfig.BEAN_QUALIFIER)
 public class OpenApiConfig {
-    public static final String BEAN_QUALIFIER = "open.commons.spring.web.oas.OpenApiConfig";
-    public static final String OPEN_API_INFO = "open.commons.spring.web.oas.OpenApiConfig#OPEN_API_INFO";
-    public static final String OPEN_API_EXT_DOCS = "open.commons.spring.web.oas.OpenApiConfig#OPEN_API_EXT_DOCS";
+    private static Logger logger = LoggerFactory.getLogger(OpenApiConfig.class);
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    public static final String BEAN_QUALIFIER = "open.commons.spring.web.oas.OpenApiConfig";
+    public static final String BEAN_QUALIFIER_OPEN_API_INFO = "open.commons.spring.web.oas.OpenApiConfig#OPEN_API_INFO";
+    public static final String BEAN_QUALIFIER_OPEN_API_EXT_DOCS = "open.commons.spring.web.oas.OpenApiConfig#OPEN_API_EXT_DOCS";
+    /**
+     * {@link GroupedOpenApi}를 지원하기 위한 {@link Bean}<br>
+     * <code>
+     * configuration properties path={@value #CONFIGURATION_PROPERTIES_GROUPED_OPEN_API}
+     * </code>
+     * 
+     * @since 0.8.0
+     */
+    public static final String BEAN_QUALIFIER_GROUPED_OPEN_API_PROPERTIES = "open.commons.spring.web.oas.OpenApiConfig#GROUPED_OPEN_API_PROPERTIES";
+    /**
+     * configuration properties path for {@link Info}.
+     */
+    private static final String CONFIGURATION_PROPERTIES_OPEN_API_INFO = "open-commons.springdoc.open-api.info";
+    /**
+     * configuration properties path for {@link ExternalDocumentation}.
+     */
+    private static final String CONFIGURATION_PROPERTIES_OPEN_API_EXT_DOCS = "open-commons.springdoc.open-api.external-docs";
+
+    /**
+     * configuration properties path for {@link GroupedOpenApiProperties}.
+     * 
+     * @since 0.8.0
+     */
+    private static final String CONFIGURATION_PROPERTIES_GROUPED_OPEN_API = "open-commons.springdoc.grouped-open-api";
 
     private ApplicationContext context;
 
@@ -102,8 +134,6 @@ public class OpenApiConfig {
      * </pre>
      * 
      * @param context
-     *            TODO
-     *
      *
      * @since 2023. 7. 19.
      * @version 0.6.0
@@ -130,18 +160,18 @@ public class OpenApiConfig {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Bean
-    @ConditionalOnProperty(prefix = "open-commons.springdoc.open-api.info", name = { "contact.email", "contact.name" })
+    @ConditionalOnProperty(prefix = CONFIGURATION_PROPERTIES_OPEN_API_INFO, name = { "contact.email", "contact.name" })
     public OpenAPI createOpenAPIInfo() {
 
         OpenAPI api = new OpenAPI();
 
-        if (this.context.containsBeanDefinition(OPEN_API_INFO)) {
-            Info info = this.context.getBean(OPEN_API_INFO, Info.class);
+        if (this.context.containsBeanDefinition(BEAN_QUALIFIER_OPEN_API_INFO)) {
+            Info info = this.context.getBean(BEAN_QUALIFIER_OPEN_API_INFO, Info.class);
             api.setInfo(info);
         }
 
-        if (this.context.containsBeanDefinition(OPEN_API_EXT_DOCS)) {
-            ExternalDocumentation extDoc = this.context.getBean(OPEN_API_EXT_DOCS, ExternalDocumentation.class);
+        if (this.context.containsBeanDefinition(BEAN_QUALIFIER_OPEN_API_EXT_DOCS)) {
+            ExternalDocumentation extDoc = this.context.getBean(BEAN_QUALIFIER_OPEN_API_EXT_DOCS, ExternalDocumentation.class);
             api.setExternalDocs(extDoc);
         }
 
@@ -166,9 +196,9 @@ public class OpenApiConfig {
      * @version 0.6.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    @Bean(name = OPEN_API_EXT_DOCS)
-    @ConditionalOnProperty(prefix = "open-commons.springdoc.open-api.external-docs", name = "url")
-    @ConfigurationProperties("open-commons.springdoc.open-api.external-docs")
+    @Bean(name = BEAN_QUALIFIER_OPEN_API_EXT_DOCS)
+    @ConditionalOnProperty(prefix = CONFIGURATION_PROPERTIES_OPEN_API_EXT_DOCS, name = "url")
+    @ConfigurationProperties(CONFIGURATION_PROPERTIES_OPEN_API_EXT_DOCS)
     public ExternalDocumentation getOpenAPIExternalDocumentation() {
         return new ExternalDocumentation();
     }
@@ -192,11 +222,79 @@ public class OpenApiConfig {
      * @see #getOpenAPIInfo()
      * @see #getOpenAPIExternalDocumentation()
      */
-    @Bean(name = OPEN_API_INFO)
-    @ConditionalOnProperty(prefix = "open-commons.springdoc.open-api.info", name = { "contact.email", "contact.name" })
-    @ConfigurationProperties("open-commons.springdoc.open-api.info")
+    @Bean(name = BEAN_QUALIFIER_OPEN_API_INFO)
+    @ConditionalOnProperty(prefix = CONFIGURATION_PROPERTIES_OPEN_API_INFO, name = { "contact.email", "contact.name" })
+    @ConfigurationProperties(CONFIGURATION_PROPERTIES_OPEN_API_INFO)
     public Info getOpenAPIInfo() {
         return new Info();
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 8.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 4. 8.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(BEAN_QUALIFIER_GROUPED_OPEN_API_PROPERTIES)
+    @ConfigurationProperties(CONFIGURATION_PROPERTIES_GROUPED_OPEN_API)
+    public Map<String, GroupedOpenApiProperties> loadGroupedOpenApiProperties() {
+        return new FIFOMap<String, GroupedOpenApiProperties>();
+    }
+
+    /**
+     * {@link GroupedOpenApiProperties} 설정을 {@link GroupedOpenApi} 객체로 변환합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 8.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param prop
+     *            {@link GroupedOpenApi} 생성을 위한 설정.
+     * @param name
+     * 
+     * @return
+     *
+     * @since 2025. 4. 8.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static GroupedOpenApi transform(@NotNull GroupedOpenApiProperties prop, String name) {
+        GroupedOpenApi api = GroupedOpenApi.builder()//
+                .group(prop.getGroup())//
+                .displayName(prop.getDisplayName())//
+                .consumesToMatch(prop.getConsumesToMatch())//
+                .headersToMatch(prop.getHeadersToMatch())//
+                .packagesToExclude(prop.getPackagesToExclude())//
+                .packagesToScan(prop.getPackagesToScan())//
+                .pathsToExclude(prop.getPathsToExclude())//
+                .pathsToMatch(prop.getPathsToMatch())//
+                .producesToMatch(prop.getProducesToMatch()) //
+                .addOpenApiCustomiser(openapi -> {
+                    openapi.setInfo(prop.getInfo());
+                    openapi.setExternalDocs(prop.getExternalDocs());
+                }) //
+                .build();
+
+        if (!StringUtils.isNullOrEmptyString(name)) {
+            logger.info("'{}' 를 위한 Grouped Open API가 생성되었습니다.", name);
+        }
+
+        return api;
+
     }
 
 }
