@@ -109,7 +109,7 @@ public class SecurityUtils {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
 
-    public static String getCurrentUserID() {
+    public static String getCurrentPrincipal() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         return auth != null ? (String) auth.getPrincipal() : null;
