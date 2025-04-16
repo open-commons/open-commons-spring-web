@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -304,6 +305,45 @@ public class WebUtils {
 
     public static final Map<String, String> getParameters(Map<String, String> parameters, String inputCharset, String outputCharset) {
         return getParameters(parameters, Charset.forName(inputCharset), Charset.forName(outputCharset));
+    }
+
+    /**
+     * HTTP URL 문자열에서 파라미터에 해당하는 부분의 내용을 맵으로 전환해서 반환합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2012. 1. 4.      박준홍        최초 작성
+     * 2025. 4. 16.     박준홍        이관 및 이름 변경
+     *                                 - 변경 전: getParams
+     *                                 - 변경 후: getParameters
+     * </pre>
+     *
+     * @param urlLocation
+     *            HTTP URL에서 파라미터에 해당하는 부분
+     * @return
+     *
+     * @since 2025. 4. 16.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static Map<String, String> getParameters(String urlLocation) {
+        String[] url_param = urlLocation.split("[?]");
+
+        urlLocation = url_param.length > 1 ? url_param[1] : urlLocation;
+
+        Map<String, String> paramMap = new ConcurrentHashMap<String, String>();
+
+        String[] paramArr = urlLocation.split("[&]");
+        for (String param : paramArr) {
+            String[] kv = param.split("=");
+            if (kv.length > 0) {
+                paramMap.put(kv[0], (kv.length > 1 ? kv[1] : ""));
+            }
+        }
+
+        return paramMap;
     }
 
     /**

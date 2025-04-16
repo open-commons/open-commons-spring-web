@@ -1,4 +1,12 @@
 [2025/04/08]
+- New
+  + open.commons.spring.web.utils.SecurityUtils
+- Add
+  + open.commons.spring.web.utils.WebUtils
+    + getParameters(String)
+
+
+[2025/04/08]
 - Add
   + open.commons.spring.web.oas.GroupedOpenApiProperties
   + open.commons.spring.web.oas.OpenApiConfig
