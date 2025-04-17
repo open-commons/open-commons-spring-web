@@ -1,4 +1,4 @@
-[2025/04/09]
+[2025/04/17]
 - Add
   + open.commons.spring.web.utils.SecurityUtils
     + clearSession()
@@ -7,6 +7,8 @@
     + getSessionId(boolean)
     + getSessionId(HttpServletRequest, boolean)
     + getSession(HttpServletRequest)
+- Update
+  + open.commons.spring.web.servlet.method.annotation.DefaultGlobalExceptionHandler: 응답 객체 생성 함수를 동적으로 설정하도록 변경
   
 [2025/04/08]
 - New

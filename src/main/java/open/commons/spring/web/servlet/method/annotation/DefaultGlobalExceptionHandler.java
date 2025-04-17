@@ -39,6 +39,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import open.commons.core.collection.FIFOMap;
+import open.commons.core.function.TripleFunction;
 import open.commons.spring.web.servlet.BadRequestException;
 import open.commons.spring.web.servlet.InternalServerException;
 import open.commons.spring.web.servlet.NotFoundException;
@@ -54,6 +55,10 @@ import open.commons.spring.web.utils.WebUtils;
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    public static final TripleFunction<WebRequest, Exception, HttpStatus, FIFOMap<String, Object>> FN_CREATE_ENTITY_DEFAULT = WebUtils::createEntity;
+
+    private final TripleFunction<WebRequest, Exception, HttpStatus, FIFOMap<String, Object>> FN_CREATE_ENTITY;
+
     /**
      * <br>
      * 
@@ -68,6 +73,26 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * @version 0.2.3
      */
     public DefaultGlobalExceptionHandler() {
+        this(null);
+    }
+
+    /**
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 4. 17.     박준홍         최초 작성
+     * </pre>
+     *
+     * @param funcCreateEntity
+     *            응답 객체 생성 함수.
+     *
+     * @since 2025. 4. 17.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     */
+    public DefaultGlobalExceptionHandler(TripleFunction<WebRequest, Exception, HttpStatus, FIFOMap<String, Object>> funcCreateEntity) {
+        FN_CREATE_ENTITY = funcCreateEntity != null ? funcCreateEntity : FN_CREATE_ENTITY_DEFAULT;
     }
 
     /**
@@ -90,7 +115,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
     protected ResponseEntity<Object> createEntity(HttpStatus status, Exception ex, WebRequest request) {
-        FIFOMap<String, Object> entity = WebUtils.createEntity(request, ex, status);
+        FIFOMap<String, Object> entity = this.FN_CREATE_ENTITY.apply(request, ex, status);
         return handleExceptionInternal(ex, entity, new HttpHeaders(), status, request);
     }
 
@@ -132,7 +157,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
             status = HttpStatus.NOT_FOUND;
         }
 
-        FIFOMap<String, Object> entity = WebUtils.createEntity(request, ex, status);
+        FIFOMap<String, Object> entity = this.FN_CREATE_ENTITY.apply(request, ex, status);
 
         return handleExceptionInternal(ex, entity, new HttpHeaders(), status, request);
     }
@@ -168,7 +193,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
     public ResponseEntity<Object> handle5xxException(Exception ex, WebRequest request) {
 
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        FIFOMap<String, Object> entity = WebUtils.createEntity(request, ex, status);
+        FIFOMap<String, Object> entity = this.FN_CREATE_ENTITY.apply(request, ex, status);
 
         return handleExceptionInternal(ex, entity, new HttpHeaders(), status, request);
     }
@@ -177,7 +202,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         if (body == null) {
-            body = WebUtils.createEntity(request, ex, status);
+            body = this.FN_CREATE_ENTITY.apply(request, ex, status);
         }
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
