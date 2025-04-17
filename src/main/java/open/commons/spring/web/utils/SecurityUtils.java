@@ -52,6 +52,7 @@ import open.commons.core.utils.ExceptionUtils;
 import open.commons.spring.web.servlet.InternalServerException;
 
 /**
+ * Http 요청에 관한 보안 기능을 제공하는 클래스.
  * 
  * @since 2025. 4. 16.
  * @version 0.8.0
@@ -86,7 +87,37 @@ public class SecurityUtils {
     }
 
     /**
-     * Http Session 을 제겅합니다. <br>
+     * 현재 요청에 대한 Http Session 정보를 제거합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 17.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param request
+     *
+     * @since 2025. 4. 17.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static void clearSession() {
+
+        HttpServletRequest request = getRequest();
+
+        if (request == null) {
+            return;
+        }
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+    }
+
+    /**
+     * 주어진 요청에 대한 Http Session 정보를 제거합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -97,6 +128,7 @@ public class SecurityUtils {
      * </pre>
      *
      * @param request
+     *            제거할 {@link HttpSession} 정보를 소유한 요청
      *
      * @since 2025. 4. 16.
      * @version 0.8.0
@@ -127,12 +159,14 @@ public class SecurityUtils {
      * @param encText
      *            암호화된 문자열
      * @return
+     * @throws InternalServerException
+     *             오류 발생시
      *
      * @since 2025. 4. 16.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static String decryptBySessionId(@NotNull String encText) {
+    public static String decryptBySessionId(@NotNull String encText) throws InternalServerException {
         return decryptBySessionId(encText, PLAIN_TEXT_CHARSET);
     }
 
@@ -151,12 +185,14 @@ public class SecurityUtils {
      * @param encTextCharset
      *            평문일 때의 문자열 {@link Charset}
      * @return
+     * @throws InternalServerException
+     *             오류 발생시
      *
      * @since 2025. 4. 16.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static String decryptBySessionId(@NotNull String encText, @NotEmpty String encTextCharset) {
+    public static String decryptBySessionId(@NotNull String encText, @NotEmpty String encTextCharset) throws InternalServerException {
 
         try {
             // 복호화 키
@@ -187,12 +223,14 @@ public class SecurityUtils {
      * @param plainText
      *            암호화할 문자열
      * @return
+     * @throws InternalServerException
+     *             오류 발생시
      *
      * @since 2025. 4. 16.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static String encryptBySessionId(@NotNull String text) {
+    public static String encryptBySessionId(@NotNull String text) throws InternalServerException {
         return encryptBySessionId(text, PLAIN_TEXT_CHARSET);
     }
 
@@ -211,12 +249,14 @@ public class SecurityUtils {
      * @param plainTextCharset
      *            암호화할 문자열 {@link Charset}
      * @return
+     * @throws InternalServerException
+     *             오류 발생시
      *
      * @since 2025. 4. 16.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static String encryptBySessionId(@NotNull String plainText, @NotEmpty String plainTextCharset) {
+    public static String encryptBySessionId(@NotNull String plainText, @NotEmpty String plainTextCharset) throws InternalServerException {
 
         try {
             // 암호화 키

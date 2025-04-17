@@ -1,3 +1,8 @@
+[2025/04/09]
+- Add
+  + open.commons.spring.web.utils.SecurityUtils
+    + clearSession()
+  
 [2025/04/08]
 - New
   + open.commons.spring.web.utils.SecurityUtils
