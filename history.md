@@ -2,6 +2,11 @@
 - Add
   + open.commons.spring.web.utils.SecurityUtils
     + clearSession()
+    + getHttpSession()
+    + getHttpSession(HttpServletRequest, boolean)
+    + getSessionId(boolean)
+    + getSessionId(HttpServletRequest, boolean)
+    + getSession(HttpServletRequest)
   
 [2025/04/08]
 - New

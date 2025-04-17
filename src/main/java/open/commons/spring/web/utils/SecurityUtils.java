@@ -320,18 +320,40 @@ public class SecurityUtils {
     }
 
     /**
-     * 현재 요청에 대한 {@link HttpSession}을 제공합니다. <code>create</code>가 <code>true</code>인 경우 새로운 {@link HttpSession}을 생성합니다.
-     * <br>
+     * 현재 요청에 대한 {@link HttpSession}을 제공합니다. <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 16.		박준홍			최초 작성
+     * 2025. 4. 17.		박준홍			최초 작성
      * </pre>
      *
+     * @return
+     *
+     * @since 2025. 4. 17.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static HttpSession getHttpSession() {
+        return getHttpSession(false);
+    }
+
+    /**
+     * 현재 요청에 대한 {@link HttpSession}을 제공합니다. <code>create</code>가 <code>true</code>인 경우 새로운 {@link HttpSession}을 생성합니다.
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 4. 16.     박준홍         최초 작성
+     * </pre>
+     *
+     * @param request
+     *            Http 요청
      * @param create
-     *            새로운 세션 생성 여부.
+     *            요청에 세션이 없는 경우 새로운 세션 생성 여부.
      * @return {@link HttpSession} 또는 <code>null</code>
      *
      * @since 2025. 4. 16.
@@ -342,6 +364,31 @@ public class SecurityUtils {
 
         HttpServletRequest request = getRequest();
 
+        return request != null ? request.getSession(create) : null;
+    }
+
+    /**
+     * 주어진 요청에 대한 {@link HttpSession}을 제공합니다. <code>create</code>가 <code>true</code>인 경우 새로운 {@link HttpSession}을 생성합니다.
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 17.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param request
+     *            Http 요청
+     * @param create
+     *            요청에 세션이 없는 경우 새로운 세션 생성 여부.
+     * @return {@link HttpSession} 또는 <code>null</code>
+     * 
+     * @since 2025. 4. 17.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static HttpSession getHttpSession(HttpServletRequest request, boolean create) {
         return request != null ? request.getSession(create) : null;
     }
 
@@ -393,7 +440,82 @@ public class SecurityUtils {
      * @see #getRequest()
      */
     public static String getSessionId() {
-        HttpSession session = getHttpSession(false);
+        HttpServletRequest request = getRequest();
+        return request != null ? request.getRequestedSessionId() : null;
+    }
+
+    /**
+     * 현재 요청에 대한 {@link HttpSession} ID 를 제공하거나 <code>null</code>을 반환합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 17.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param create
+     *            요청에 세션이 없는 경우 새로운 세션 생성 여부.
+     * @return {@link HttpSession} 또는 <code>null</code>
+     *
+     * @since 2025. 4. 17.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static String getSessionId(boolean create) {
+        HttpSession session = getHttpSession(create);
+        return session != null ? session.getId() : null;
+    }
+
+    /**
+     * 주어진 요청에 대한 {@link HttpSession} ID 를 제공하거나 <code>null</code>을 반환합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 17.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param request
+     *            Http 요청
+     * 
+     * @return {@link HttpSession} 또는 <code>null</code>
+     *
+     * @since 2025. 4. 17.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static String getSessionId(HttpServletRequest request) {
+        return getSessionId(request, false);
+    }
+
+    /**
+     * 주어진 요청에 대한 {@link HttpSession} ID 를 제공하거나 <code>null</code>을 반환합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 17.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param request
+     *            Http 요청
+     * @param create
+     *            요청에 세션이 없는 경우 새로운 세션 생성 여부.
+     * @return {@link HttpSession} 또는 <code>null</code>
+     *
+     * @since 2025. 4. 17.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static String getSessionId(HttpServletRequest request, boolean create) {
+        if (request == null) {
+            return null;
+        }
+
+        HttpSession session = request.getSession(create);
         return session != null ? session.getId() : null;
     }
 }
