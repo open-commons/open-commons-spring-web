@@ -35,17 +35,12 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -176,17 +171,18 @@ import open.commons.spring.web.enums.EnumPackages;
  * }
  * </pre>
  * 
+ * <pre>
+ * [개정이력]
+ *      날짜    	| 작성자			|	내용
+ * ------------------------------------------
+ * 2019. 6.3.         parkjunhong        최초 작성
+ * 2025. 4. 18.       parkjunhong        @Configuration, @EnableWebMvc, @SpringBootAppliication 제거: 구현 클래스에서 적용하도록 허용.
+ * </pre>
+ * 
  * @since 2019. 6. 3.
  * @version 0.0.3
  * @author Park_Jun_Hong_(parkjunhong77@gmail.com)S
  */
-//@Configuration
-//@EnableWebMvc
-//@SpringBootApplication(exclude = {
-//        // Spring Security 자동 실행 방지
-//        SecurityAutoConfiguration.class, ManagementWebSecurityAutoConfiguration.class
-////
-//})
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
     /** Prefix of configurations in appliation.yml(or .properteis, or ...) */

@@ -3,6 +3,8 @@
   + open.commons.spring.web.utils.SecurityUtils
     + decryptBySessionId(String, String): Base64 Url Decoder 적용
     + encryptBySessionId(String, String): Based64 Url Encoder 적용
+  + open.commons.spring.web.config.CustomWebMvcConfigurer: 어노테이션 변경
+    + @Configuration, @EnableWebMvc, @SpringBootAppliication 제거: 구현 클래스에서 적용하도록 허용.
   
 [2025/04/17]
 - Add
