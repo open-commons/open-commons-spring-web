@@ -180,13 +180,13 @@ import open.commons.spring.web.enums.EnumPackages;
  * @version 0.0.3
  * @author Park_Jun_Hong_(parkjunhong77@gmail.com)S
  */
-@Configuration
-@EnableWebMvc
-@SpringBootApplication(exclude = {
-        // Spring Security 자동 실행 방지
-        SecurityAutoConfiguration.class, ManagementWebSecurityAutoConfiguration.class
-//
-})
+//@Configuration
+//@EnableWebMvc
+//@SpringBootApplication(exclude = {
+//        // Spring Security 자동 실행 방지
+//        SecurityAutoConfiguration.class, ManagementWebSecurityAutoConfiguration.class
+////
+//})
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
     /** Prefix of configurations in appliation.yml(or .properteis, or ...) */

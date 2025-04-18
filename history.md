@@ -1,12 +1,29 @@
+[2025/04/18]
+- Update
+  + open.commons.spring.web.utils.SecurityUtils
+    + decryptBySessionId(String, String): Base64 Url Decoder 적용
+    + encryptBySessionId(String, String): Based64 Url Encoder 적용
+  
 [2025/04/17]
 - Add
   + open.commons.spring.web.utils.SecurityUtils
+    + clearAuthentication()
     + clearSession()
+    + clearSession(HttpServletRequest)
+    + decryptBySessionId(String)
+    + decryptBySessionId(String, String)
+    + encryptBySessionId(String)
+    + encryptBySessionId(String, String)
+    + getAuthentication()
+    + getCurrentPrincipal()
     + getHttpSession()
+    + getHttpSession(boolean)
     + getHttpSession(HttpServletRequest, boolean)
+    + getRequest()
+    + getSessionId()
     + getSessionId(boolean)
+    + getSessionId(HttpServletRequest)
     + getSessionId(HttpServletRequest, boolean)
-    + getSession(HttpServletRequest)
 - Update
   + open.commons.spring.web.servlet.method.annotation.DefaultGlobalExceptionHandler: 응답 객체 생성 함수를 동적으로 설정하도록 변경
   

@@ -201,7 +201,7 @@ public class SecurityUtils {
                     // decrypt text
                     EncryptUtils.decrypt(sessinId, ENCRYPTION_KEY_CHARSET //
                     // Base64 'decoding'
-                            , Base64.getDecoder().decode(encText.getBytes()) //
+                            , Base64.getUrlDecoder().decode(encText.getBytes()) //
                             , encTextCharset) //
             );
         } catch (InvalidKeyException | UnsupportedEncodingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException
@@ -264,7 +264,7 @@ public class SecurityUtils {
 
             return new String(
                     // Base64 'encoding'
-                    Base64.getEncoder().encode(
+                    Base64.getUrlEncoder().encode(
                             // encrypt text
                             EncryptUtils.encrypt(sessionId, ENCRYPTION_KEY_CHARSET, plainText, plainTextCharset) //
                     )//
