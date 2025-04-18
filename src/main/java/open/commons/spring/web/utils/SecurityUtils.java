@@ -32,6 +32,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.UUID;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -60,7 +61,11 @@ import open.commons.spring.web.servlet.InternalServerException;
  */
 public class SecurityUtils {
 
-    public static final String PLAIN_TEXT_CHARSET = "UTF-8";
+    /** 세선별 UUID에 대한 키 */
+    private static final String SESSION_KEY_UUID = "__SEC_UUID__";
+    /** 평문 캐릭터셋 기본 값 */
+    private static final String PLAIN_TEXT_CHARSET = "UTF-8";
+    /** 암호화키 캐릭터셋 기본 값 */
     private static final String ENCRYPTION_KEY_CHARSET = "UTF-8";
 
     // prevent to create new instance.
@@ -165,6 +170,7 @@ public class SecurityUtils {
      * @since 2025. 4. 16.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * @deprecated {@link #decryptBySessionUUID(String)}를 사용하세요. 다음 버전에서 삭제될 예정입니다.
      */
     public static String decryptBySessionId(@NotNull String encText) throws InternalServerException {
         return decryptBySessionId(encText, PLAIN_TEXT_CHARSET);
@@ -191,15 +197,66 @@ public class SecurityUtils {
      * @since 2025. 4. 16.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * @deprecated {@link #decryptBySessionUUID(String, String)}를 사용하세요. 다음 버전에서 삭제될 예정입니다.
      */
     public static String decryptBySessionId(@NotNull String encText, @NotEmpty String encTextCharset) throws InternalServerException {
+        return decryptBySessionUUID(encText, encTextCharset);
+    }
 
+    /**
+     * {@link HttpSession}에서 생성한 UUID를 이용하여 암호화한 문자열을 복호화하여 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 18.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param encText
+     *            암호화된 문자열
+     * @return
+     * @throws InternalServerException
+     *             오류 발생시
+     *
+     * @since 2025. 4. 18.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static String decryptBySessionUUID(@NotNull String encText) throws InternalServerException {
+        return decryptBySessionUUID(encText, PLAIN_TEXT_CHARSET);
+    }
+
+    /**
+     * {@link HttpSession}에서 생성한 UUID를 이용하여 암호화한 문자열을 복호화하여 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 18.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param encText
+     *            암호화된 문자열
+     * @param encTextCharset
+     *            평문일 때의 문자열 {@link Charset}
+     * @return
+     * @throws InternalServerException
+     *             오류 발생시
+     *
+     * @since 2025. 4. 18.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static String decryptBySessionUUID(@NotNull String encText, @NotEmpty String encTextCharset) throws InternalServerException {
         try {
             // 복호화 키
-            String sessinId = getSessionId();
+            String decKey = getSessionUUID();
+
             return new String(
                     // decrypt text
-                    EncryptUtils.decrypt(sessinId, ENCRYPTION_KEY_CHARSET //
+                    EncryptUtils.decrypt(decKey, ENCRYPTION_KEY_CHARSET //
                     // Base64 'decoding'
                             , Base64.getUrlDecoder().decode(encText.getBytes()) //
                             , encTextCharset) //
@@ -229,9 +286,10 @@ public class SecurityUtils {
      * @since 2025. 4. 16.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * @deprecated {@link #encryptBySessionUUID(String)}를 사용하세요. 다음 버전에서 삭제될 예정입니다.
      */
-    public static String encryptBySessionId(@NotNull String text) throws InternalServerException {
-        return encryptBySessionId(text, PLAIN_TEXT_CHARSET);
+    public static String encryptBySessionId(@NotNull String plainText) throws InternalServerException {
+        return encryptBySessionId(plainText, PLAIN_TEXT_CHARSET);
     }
 
     /**
@@ -255,18 +313,69 @@ public class SecurityUtils {
      * @since 2025. 4. 16.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * @deprecated {@link #encryptBySessionUUID(String, String)}를 사용하세요. 다음 버전에서 삭제될 예정입니다.
      */
     public static String encryptBySessionId(@NotNull String plainText, @NotEmpty String plainTextCharset) throws InternalServerException {
+        return encryptBySessionUUID(plainText, plainTextCharset);
+    }
 
+    /**
+     * 주어진 문자열을 {@link HttpSession}에서 생성한 UUID를 이용하여 암호화한 결과를 제공합니다. <br>
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 18.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param plainText
+     *            암호화할 문자열
+     * @return
+     * @throws InternalServerException
+     *             오류 발생시
+     *
+     * @since 2025. 4. 18.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static String encryptBySessionUUID(@NotNull String plainText) throws InternalServerException {
+        return encryptBySessionUUID(plainText, PLAIN_TEXT_CHARSET);
+    }
+
+    /**
+     * 주어진 문자열을 {@link HttpSession}에서 생성한 UUID를 이용하여 암호화한 결과를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 18.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param plainText
+     *            암호화할 문자열
+     * @param plainTextCharset
+     *            암호화할 문자열 {@link Charset}
+     * @return
+     * @throws InternalServerException
+     *             오류 발생시
+     *
+     * @since 2025. 4. 18.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static String encryptBySessionUUID(@NotNull String plainText, @NotEmpty String plainTextCharset) throws InternalServerException {
         try {
             // 암호화 키
-            String sessionId = getSessionId();
+            String encKey = getSessionUUID();
 
             return new String(
                     // Base64 'encoding'
                     Base64.getUrlEncoder().encode(
                             // encrypt text
-                            EncryptUtils.encrypt(sessionId, ENCRYPTION_KEY_CHARSET, plainText, plainTextCharset) //
+                            EncryptUtils.encrypt(encKey, ENCRYPTION_KEY_CHARSET, plainText, plainTextCharset) //
                     )//
             );
         } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | UnsupportedEncodingException | InvalidAlgorithmParameterException
@@ -517,5 +626,60 @@ public class SecurityUtils {
 
         HttpSession session = request.getSession(create);
         return session != null ? session.getId() : null;
+    }
+
+    /**
+     * {@link HttpSession}에 저장된 UUID를 제공합니다. UUID가 없는 경우 새로 생성을 합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 18.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     * @throws NullPointerException
+     *             {@link HttpSession}을 없는 경우
+     *
+     * @since 2025. 4. 18.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static String getSessionUUID() throws NullPointerException {
+        return getSessionUUID(getHttpSession());
+    }
+
+    /**
+     * {@link HttpSession}에 저장된 UUID를 제공합니다. UUID가 없는 경우 새로 생성을 합니다.<br>
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 18.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param session
+     *            세션 정보
+     * @return
+     * @throws NullPointerException
+     *             {@link HttpSession}이 <code>null</code>인 경우
+     * 
+     *
+     * @since 2025. 4. 18.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static String getSessionUUID(@NotNull HttpSession session) throws NullPointerException {
+        synchronized (session) {
+            String uuid = (String) session.getAttribute(SESSION_KEY_UUID);
+            if (uuid == null) {
+                uuid = UUID.randomUUID().toString();
+                session.setAttribute(SESSION_KEY_UUID, uuid);
+            }
+            return uuid;
+        }
     }
 }

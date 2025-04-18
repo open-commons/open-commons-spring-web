@@ -1,4 +1,18 @@
 [2025/04/18]
+- Add
+  + open.commons.spring.web.utils.SecurityUtils
+    + decryptBySessionUUID(String)
+    + decryptBySessionUUID(String, String)
+    + encryptBySessionUUID(String)
+    + encryptBySessionUUID(String, String)
+- Deprecated
+  + open.commons.spring.web.utils.SecurityUtils
+    + decryptBySessionId(String)
+    + decryptBySessionId(String, String)
+    + encryptBySessionId(String)
+    + encryptBySessionId(String, String)
+
+[2025/04/18]
 - Update
   + open.commons.spring.web.utils.SecurityUtils
     + decryptBySessionId(String, String): Base64 Url Decoder 적용
