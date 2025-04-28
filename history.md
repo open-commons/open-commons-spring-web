@@ -1,3 +1,13 @@
+[2025/04/28]
+- tranfer
+  + open.commons.spring.web.initialize.DatabaseInitResources: DB 관련 기능으로 open-commons-spring-jdbc로 이관함.
+    ``` xml
+    <dependency>
+      <groupId>io.github.open-commons&lt;/groupId>
+      <artifactId>open-commons-spring-jdbc&lt;/artifactId>
+      <version>${0.5.0-SNAPSHOT or higher}&lt;/version>
+    </dependency>
+    ```
 [2025/04/18]
 - Add
   + open.commons.spring.web.utils.SecurityUtils

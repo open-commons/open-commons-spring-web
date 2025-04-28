@@ -44,6 +44,16 @@ import open.commons.core.utils.ExceptionUtils;
  * @since 2025. 4. 3.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
+ * 
+ * @deprecated Use 'open.commons.spring.jdbc.config.DatabaseInitResources' of follow.
+ * 
+ *             <pre>
+ * &lt;dependency>
+ *   &lt;groupId>io.github.open-commons&lt;/groupId>
+ *   &lt;artifactId>open-commons-spring-jdbc&lt;/artifactId>
+ *   &lt;version>${0.5.0-SNAPSHOT or higher}&lt;/version>
+ * &lt;/dependency>
+ *             </pre>
  */
 public class DatabaseInitResources {
 
