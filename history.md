@@ -1,3 +1,7 @@
+[2025/04/29]
+- Add
+  + open.commons.spring.web.oas.OpenApiConfig.loadGroupedOpenApi(Map<String, GroupedOpenApiProperties>, String): API 그룹에서 해당하는 API 정보를 생성하는 함수 단일화.
+
 [2025/04/28]
 - tranfer
   + open.commons.spring.web.initialize.DatabaseInitResources: DB 관련 기능으로 open-commons-spring-jdbc로 이관함.

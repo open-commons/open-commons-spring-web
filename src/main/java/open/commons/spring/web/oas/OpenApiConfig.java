@@ -28,6 +28,7 @@ package open.commons.spring.web.oas;
 
 import java.util.Map;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
@@ -250,6 +251,56 @@ public class OpenApiConfig {
     @ConfigurationProperties(CONFIGURATION_PROPERTIES_GROUPED_OPEN_API)
     public Map<String, GroupedOpenApiProperties> loadGroupedOpenApiProperties() {
         return new FIFOMap<String, GroupedOpenApiProperties>();
+    }
+
+    /**
+     * 주어진 API 이름에 해당하는 Open API 정보를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 4. 29.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param props
+     *            여러 개의 API 정보
+     * @param apiName
+     *            API 이름
+     * 
+     *            <pre>
+     * open-commons:
+     *   grouped-open-api:
+     *     # 'API' 이름
+     *     {API name}:
+     *       # {string}: API Group Name. Swagger UI에서 API 선택창에 보여지는 정보.
+     *       group: Admin API
+     *       # {string}: Swagger UI를 통해서 보여지는 정보
+     *       displayName: admin
+     *       # {array of string}: package 경로 기준으로 등록하는 API 정보
+     *       packagesToScan:
+     *       # {array of string}: package 경로 기준으로 제외하는 API 정보
+     *       packagesToExclude:
+     *       # {array of string}: REST API Path 기준으로 등록하는 API 정보
+     *       pathsToMatch:
+     *         - /.../**
+     *       ...
+     *            </pre>
+     * 
+     * @return
+     *
+     * @since 2025. 4. 29.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static GroupedOpenApi loadGroupedOpenApi(@NotNull Map<String, GroupedOpenApiProperties> props, @NotEmpty String apiName) {
+        GroupedOpenApiProperties prop = props.get(apiName);
+        if (prop == null) {
+            logger.warn("'{}'를 위한 설정이 존재하지 않습니다.", apiName);
+            return null;
+        }
+
+        return transform(prop, apiName);
     }
 
     /**
