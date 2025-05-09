@@ -1,3 +1,9 @@
+[2025/05/09]
+- Add
+  + open.commons.spring.web.utils.SecurityUtils
+    + registerDecryptionConverter(Class&lt;?&gt;, Class&lt;?&gt;, String)
+    + registerEncryptionConverter(Class&lt;?&gt;, Class&lt;?&gt;, String)
+
 [2025/04/29]
 - Add
   + open.commons.spring.web.oas.OpenApiConfig.loadGroupedOpenApi(Map<String, GroupedOpenApiProperties>, String): API 그룹에서 해당하는 API 정보를 생성하는 함수 단일화.

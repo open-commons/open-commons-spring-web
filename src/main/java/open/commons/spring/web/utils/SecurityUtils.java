@@ -33,6 +33,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.UUID;
+import java.util.function.Function;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -50,6 +51,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import open.commons.core.utils.EncryptUtils;
 import open.commons.core.utils.ExceptionUtils;
+import open.commons.core.utils.ObjectUtils;
 import open.commons.spring.web.servlet.InternalServerException;
 
 /**
@@ -67,6 +69,26 @@ public class SecurityUtils {
     private static final String PLAIN_TEXT_CHARSET = "UTF-8";
     /** 암호화키 캐릭터셋 기본 값 */
     private static final String ENCRYPTION_KEY_CHARSET = "UTF-8";
+
+    /**
+     * 문자열을 {@link HttpSession}에 따라 변경되는 UUID 를 이용하여 암호화한 결과를 제공합니다.
+     * 
+     * @param plainText
+     *            문자열
+     * 
+     * @return 암호화된 문자열
+     */
+    private static final Function<String, String> ENC_BY_SESSION_UUID = plainText -> SecurityUtils.encryptBySessionUUID(plainText);
+
+    /**
+     * {@link HttpSession}에 따라 변경되는 UUID 를 이용하여 암호화한 결과를 복호화화여 제공합니다.
+     * 
+     * @param cipherText
+     *            문자열
+     * 
+     * @return 암호화된 문자열
+     */
+    private static final Function<String, String> DEC_BY_SESSION_UUID = cipherText -> SecurityUtils.decryptBySessionUUID(cipherText);
 
     // prevent to create new instance.
     private SecurityUtils() {
@@ -681,5 +703,55 @@ public class SecurityUtils {
             }
             return uuid;
         }
+    }
+
+    /**
+     * 민감한 정보를 암호화하는 함수를 등록합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 5. 9.      박준홍         최초 작성
+     * </pre>
+     *
+     * @param srcClass
+     *            정보를 제공하는 데이터 유형
+     * @param targetClass
+     *            정보를 받는 데이터 유형
+     * @param property
+     *            속성 이름
+     *
+     * @since 2025. 5. 9.
+     * @version 0.1.0
+     * @author Park Jun-Hong (jhpark@ymtech.co.kr)
+     */
+    public static void registerDecryptionConverter(Class<?> srcClass, Class<?> targetClass, String property) {
+        ObjectUtils.registerPropertyConverter(srcClass, String.class, property, targetClass, String.class, DEC_BY_SESSION_UUID);
+    }
+
+    /**
+     * 암호화된 민감한 정보를 복호화하는 함수를 등록합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 5. 9.      박준홍         최초 작성
+     * </pre>
+     *
+     * @param srcClass
+     *            정보를 제공하는 데이터 유형
+     * @param targetClass
+     *            정보를 받는 데이터 유형
+     * @param property
+     *            속성 이름
+     *
+     * @since 2025. 5. 9.
+     * @version 0.1.0
+     * @author Park Jun-Hong (jhpark@ymtech.co.kr)
+     */
+    public static void registerEncryptionConverter(Class<?> srcClass, Class<?> targetClass, String property) {
+        ObjectUtils.registerPropertyConverter(srcClass, String.class, property, targetClass, String.class, ENC_BY_SESSION_UUID);
     }
 }
