@@ -265,7 +265,9 @@ public interface IConvertingService {
      */
     default <S, T> Result<T> convertSingleResult(@NotNull Result<S> resultSrc, @NotNull Function<S, T> converter) {
         if (resultSrc.isSuccess()) {
-            return Result.success(converter.apply(resultSrc.getData()));
+            return resultSrc.getData() != null //
+                    ? Result.success(converter.apply(resultSrc.getData())) //
+                    : Result.success(null);
         } else {
             return Result.error(resultSrc.getMessage());
         }

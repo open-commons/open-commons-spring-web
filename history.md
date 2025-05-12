@@ -1,3 +1,8 @@
+[2025/05/12]
+- Patch
+  + open.commons.spring.web.mvc.service.IConvertingService.convertSingleResult(Result&lt;S&gt;, Function&lt;S, T&gt;): 내부 데이터 검증 개선
+
+
 [2025/05/09]
 - Add
   + open.commons.spring.web.utils.SecurityUtils
