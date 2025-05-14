@@ -1,3 +1,9 @@
+[2025/05/14]
+- Patch
+  + open.commons.spring.web.utils.SecurityUtils 
+    + encryptBySessionUUID(String, String): 예외처리 세분화
+    + decryptBySessionUUID(String, String): 예외처리 세분화
+
 [2025/05/12]
 - Patch
   + open.commons.spring.web.mvc.service.IConvertingService.convertSingleResult(Result&lt;S&gt;, Function&lt;S, T&gt;): 내부 데이터 검증 개선

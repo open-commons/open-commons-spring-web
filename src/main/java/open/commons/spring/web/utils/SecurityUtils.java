@@ -52,6 +52,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import open.commons.core.utils.EncryptUtils;
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.core.utils.ObjectUtils;
+import open.commons.spring.web.servlet.BadRequestException;
 import open.commons.spring.web.servlet.InternalServerException;
 
 /**
@@ -284,8 +285,21 @@ public class SecurityUtils {
                             , encTextCharset) //
             );
         } catch (InvalidKeyException | UnsupportedEncodingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException
-                | IllegalBlockSizeException | BadPaddingException | NullPointerException e) {
-            throw ExceptionUtils.newException(InternalServerException.class, e, "데이터 복호화 도중에 오류가 발생하였습니다. 원인=%s", e.getMessage());
+                | NullPointerException e) {
+            throw ExceptionUtils.newException(InternalServerException.class, e, "데이터 처리 도중에 오류가 발생하였습니다. 원인=%s", e.getMessage());
+        } catch (IllegalBlockSizeException | BadPaddingException | IllegalArgumentException e) {
+            // 에러 발생 경우
+            // #1. 암호화된 값이
+            // - 길때: Input byte array has incorrect ending byte at {길이} / IllegalArgumentException
+            // - 짧을 때:
+            // + 첫 문자를 지울 때: Last unit does not have enough valid bits / IllegalArgumentException
+            // + 끝 문자를 지울 때: Input byte array has wrong 4-byte ending unit / IllegalArgumentException
+            // - 길이가 다를 때
+            // + Given final block not properly padded. Such issues can arise if a bad key is used during decryption /
+            // javax.crypto.BadPaddingException
+            // + Input length must be multiple of 16 when decrypting with padded cipher /
+            // javax.crypto.IllegalBlockSizeException
+            throw ExceptionUtils.newException(BadRequestException.class, e, "데이터 처리 도중에 오류가 발생하였습니다. 원인=%s", e.getMessage());
         }
     }
 
@@ -400,9 +414,11 @@ public class SecurityUtils {
                             EncryptUtils.encrypt(encKey, ENCRYPTION_KEY_CHARSET, plainText, plainTextCharset) //
                     )//
             );
-        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | UnsupportedEncodingException | InvalidAlgorithmParameterException
-                | IllegalBlockSizeException | BadPaddingException | NullPointerException e) {
-            throw ExceptionUtils.newException(InternalServerException.class, e, "데이터 암호화 도중에 오류가 발생하였습니다. 원인=%s", e.getMessage());
+        } catch (InvalidKeyException | UnsupportedEncodingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException
+                | NullPointerException e) {
+            throw ExceptionUtils.newException(InternalServerException.class, e, "데이터 처리 도중에 오류가 발생하였습니다. 원인=%s", e.getMessage());
+        } catch (IllegalBlockSizeException | BadPaddingException | IllegalArgumentException e) {
+            throw ExceptionUtils.newException(BadRequestException.class, e, "데이터 처리 도중에 오류가 발생하였습니다. 원인=%s", e.getMessage());
         }
     }
 
