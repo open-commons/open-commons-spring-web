@@ -339,7 +339,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
      */
     protected <E> Result<List<E>> selectMulti(SearchResultType type //
             , Function<String[], Result<List<E>>> funcAll //
-            , TripleFunction<Integer, Integer, String[], Result<List<E>>> funcPagination, int offset, int limit //
+            , TripleFunction<Integer, Integer, String[], Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , String... orderByArgs) {
         switch (type) {
             case ALL:
@@ -392,7 +394,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
      */
     protected <E, D> Result<List<D>> selectMulti(SearchResultType type //
             , Function<String[], Result<List<E>>> funcAll //
-            , TripleFunction<Integer, Integer, String[], Result<List<E>>> funcPagination, int offset, int limit //
+            , TripleFunction<Integer, Integer, String[], Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , String[] orderByArgs //
             , Function<E, D> converter) {
         return convertMultiResult(selectMulti(type, funcAll, funcPagination, offset, limit, orderByArgs), converter);
@@ -522,7 +526,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
     protected <E, P> Result<List<E>> selectMulti(SearchResultType type //
             , P param //
             , BiFunction<P, String[], Result<List<E>>> funcAll //
-            , QuadFunction<P, Integer, Integer, String[], Result<List<E>>> funcPagination, int offset, int limit //
+            , QuadFunction<P, Integer, Integer, String[], Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , String... orderByArgs) {
         switch (type) {
             case ALL:
@@ -580,7 +586,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
     protected <E, D, P> Result<List<D>> selectMulti(SearchResultType type //
             , P param //
             , BiFunction<P, String[], Result<List<E>>> funcAll //
-            , QuadFunction<P, Integer, Integer, String[], Result<List<E>>> funcPagination, int offset, int limit //
+            , QuadFunction<P, Integer, Integer, String[], Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , String[] orderByArgs //
             , Function<E, D> converter) {
         return convertMultiResult(selectMulti(type, param, funcAll, funcPagination, offset, limit, orderByArgs), converter);
@@ -715,7 +723,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
     protected <E, P> Result<List<E>> selectMulti(SearchResultType type //
             , P param //
             , Function<P, Result<List<E>>> funcAll //
-            , TripleFunction<P, Integer, Integer, Result<List<E>>> funcPagination, int offset, int limit //
+            , TripleFunction<P, Integer, Integer, Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
     ) {
         switch (type) {
             case ALL:
@@ -768,7 +778,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
     protected <E, D, P> Result<List<D>> selectMulti(SearchResultType type //
             , P param //
             , Function<P, Result<List<E>>> funcAll //
-            , TripleFunction<P, Integer, Integer, Result<List<E>>> funcPagination, int offset, int limit //
+            , TripleFunction<P, Integer, Integer, Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , Function<E, D> converter) {
         return convertMultiResult(selectMulti(type, param, funcAll, funcPagination, offset, limit), converter);
     }
@@ -804,7 +816,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
      */
     protected <E> Result<List<E>> selectMulti(SearchResultType type //
             , Supplier<Result<List<E>>> funcAll //
-            , BiFunction<Integer, Integer, Result<List<E>>> funcPagination, int offset, int limit //
+            , BiFunction<Integer, Integer, Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
     ) {
         switch (type) {
             case ALL:
@@ -851,7 +865,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
      */
     protected <E, D> Result<List<D>> selectMulti(SearchResultType type //
             , Supplier<Result<List<E>>> funcAll //
-            , BiFunction<Integer, Integer, Result<List<E>>> funcPagination, int offset, int limit //
+            , BiFunction<Integer, Integer, Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , Function<E, D> converter) {
         return convertMultiResult(selectMulti(type, funcAll, funcPagination, offset, limit), converter);
     }
@@ -894,7 +910,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
      */
     protected <E, P> Result<Page<E>> selectMultiPagination(P param //
             , Function<P, Result<Integer>> funcCount //
-            , QuadFunction<P, Integer, Integer, String[], Result<List<E>>> funcPagination, int offset, int limit //
+            , QuadFunction<P, Integer, Integer, String[], Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , String... orderByArgs) {
 
         // #1-1. 데이터 조회
@@ -947,7 +965,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
      */
     protected <E, D, P> Result<Page<D>> selectMultiPagination(P param //
             , Function<P, Result<Integer>> funcCount //
-            , QuadFunction<P, Integer, Integer, String[], Result<List<E>>> funcPagination, int offset, int limit //
+            , QuadFunction<P, Integer, Integer, String[], Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , String[] orderByArgs //
             , Function<E, D> converter) {
         return convertMultiPaginationResult(selectMultiPagination(param, funcCount, funcPagination, offset, limit, orderByArgs), converter);
@@ -1061,7 +1081,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
      */
     protected <E, P> Result<Page<E>> selectMultiPagination(P param //
             , Supplier<Result<Integer>> funcCount //
-            , TripleFunction<P, Integer, Integer, Result<List<E>>> funcPagination, int offset, int limit //
+            , TripleFunction<P, Integer, Integer, Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
     ) {
         // #1-1. 데이터 조회
         Supplier<Result<List<E>>> data = () -> funcPagination.apply(param, offset, limit);
@@ -1108,7 +1130,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
      */
     protected <E, D, P> Result<Page<D>> selectMultiPagination(P param //
             , Supplier<Result<Integer>> funcCount //
-            , TripleFunction<P, Integer, Integer, Result<List<E>>> funcPagination, int offset, int limit //
+            , TripleFunction<P, Integer, Integer, Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , Function<E, D> converter) {
         return convertMultiPaginationResult(selectMultiPagination(param, funcCount, funcPagination, offset, limit), converter);
     }
@@ -1157,7 +1181,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
             , P param //
             , Function<P, Result<Integer>> funcCount //
             , BiFunction<P, String[], Result<List<E>>> funcAll //
-            , QuadFunction<P, Integer, Integer, String[], Result<List<E>>> funcPagination, int offset, int limit //
+            , QuadFunction<P, Integer, Integer, String[], Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , String... orderByArgs) {
 
         // #1-1. 데이터 조회
@@ -1226,7 +1252,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
             , P param //
             , Function<P, Result<Integer>> funcCount //
             , BiFunction<P, String[], Result<List<E>>> funcAll //
-            , QuadFunction<P, Integer, Integer, String[], Result<List<E>>> funcPagination, int offset, int limit //
+            , QuadFunction<P, Integer, Integer, String[], Result<List<E>>> funcPagination//
+            , int offset//
+            , int limit //
             , String[] orderByArgs //
             , Function<E, D> converter) {
         return convertMultiPaginationResult(selectMultiPagination(type, param, funcCount, funcAll, funcPagination, offset, limit, orderByArgs), converter);
@@ -1323,7 +1351,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
             , P param //
             , Supplier<Result<Integer>> funcCount //
             , Function<P, Result<List<E>>> funcAll //
-            , TripleFunction<P, Integer, Integer, Result<List<E>>> funcPagination, int offset, int limit //
+            , TripleFunction<P, Integer, Integer, Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
     ) {
         // #1-1. 데이터 조회
         Supplier<Result<List<E>>> data = () -> {
@@ -1386,7 +1416,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
             , P param //
             , Supplier<Result<Integer>> funcCount //
             , Function<P, Result<List<E>>> funcAll //
-            , TripleFunction<P, Integer, Integer, Result<List<E>>> funcPagination, int offset, int limit //
+            , TripleFunction<P, Integer, Integer, Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , Function<E, D> converter) {
         return convertMultiPaginationResult(selectMultiPagination(type, param, funcCount, funcAll, funcPagination, offset, limit), converter);
     }
@@ -1430,7 +1462,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
     protected <E> Result<Page<E>> selectMultiPagination(SearchResultType type //
             , Supplier<Result<Integer>> funcCount //
             , Function<String[], Result<List<E>>> funcAll //
-            , TripleFunction<Integer, Integer, String[], Result<List<E>>> funcPagination, int offset, int limit //
+            , TripleFunction<Integer, Integer, String[], Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , String... orderByArgs) {
 
         // #1-1. 데이터 조회
@@ -1494,7 +1528,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
     protected <E, D> Result<Page<D>> selectMultiPagination(SearchResultType type //
             , Supplier<Result<Integer>> funcCount //
             , Function<String[], Result<List<E>>> funcAll //
-            , TripleFunction<Integer, Integer, String[], Result<List<E>>> funcPagination, int offset, int limit //
+            , TripleFunction<Integer, Integer, String[], Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , String[] orderByArgs //
             , Function<E, D> converter) {
         return convertMultiPaginationResult(selectMultiPagination(type, funcCount, funcAll, funcPagination, offset, limit, orderByArgs), converter);
@@ -1581,7 +1617,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
     protected <E> Result<Page<E>> selectMultiPagination(SearchResultType type //
             , Supplier<Result<Integer>> funcCount //
             , Supplier<Result<List<E>>> funcAll //
-            , BiFunction<Integer, Integer, Result<List<E>>> funcPagination, int offset, int limit //
+            , BiFunction<Integer, Integer, Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
     ) {
 
         // #1-1. 데이터 조회
@@ -1640,7 +1678,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
     protected <E, D> Result<Page<D>> selectMultiPagination(SearchResultType type //
             , Supplier<Result<Integer>> funcCount //
             , Supplier<Result<List<E>>> funcAll //
-            , BiFunction<Integer, Integer, Result<List<E>>> funcPagination, int offset, int limit //
+            , BiFunction<Integer, Integer, Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , Function<E, D> converter) {
         return convertMultiPaginationResult(selectMultiPagination(type, funcCount, funcAll, funcPagination, offset, limit), converter);
     }
@@ -1674,7 +1714,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
      */
     protected <E> Result<Page<E>> selectMultiPagination( //
             Supplier<Result<Integer>> funcCount //
-            , BiFunction<Integer, Integer, Result<List<E>>> funcPagination, int offset, int limit //
+            , BiFunction<Integer, Integer, Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
     ) {
 
         // #1-1. 데이터 조회
@@ -1717,7 +1759,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     protected <E, D> Result<Page<D>> selectMultiPagination(Supplier<Result<Integer>> funcCount //
-            , BiFunction<Integer, Integer, Result<List<E>>> funcPagination, int offset, int limit //
+            , BiFunction<Integer, Integer, Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , Function<E, D> converter) {
         return convertMultiPaginationResult(selectMultiPagination(funcCount, funcPagination, offset, limit), converter);
     }
@@ -1755,7 +1799,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     protected <E> Result<Page<E>> selectMultiPagination(Supplier<Result<Integer>> funcCount //
-            , TripleFunction<Integer, Integer, String[], Result<List<E>>> funcPagination, int offset, int limit //
+            , TripleFunction<Integer, Integer, String[], Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , String... orderByArgs) {
 
         // #1-1. 데이터 조회
@@ -1803,7 +1849,9 @@ public abstract class AbstractMvcService extends AbstractGenericService {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     protected <E, D> Result<Page<D>> selectMultiPagination(Supplier<Result<Integer>> funcCount //
-            , TripleFunction<Integer, Integer, String[], Result<List<E>>> funcPagination, int offset, int limit //
+            , TripleFunction<Integer, Integer, String[], Result<List<E>>> funcPagination //
+            , int offset//
+            , int limit //
             , String[] orderByArgs //
             , Function<E, D> converter) {
         return convertMultiPaginationResult(selectMultiPagination(funcCount, funcPagination, offset, limit, orderByArgs), converter);
