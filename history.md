@@ -1,3 +1,9 @@
+[2025/05/19]
+- New
+  + open.commons.spring.web.ac: 자원 유형별 권한 정의 어노테이션
+  + open.commons.spring.web.aspect: 자원 유형별 권한 중개
+  + open.commons.spring.web.beans.factory: 자원 유형 어노테이션 설정 검증.
+
 [2025/05/14]
 - Patch
   + open.commons.spring.web.utils.SecurityUtils 
