@@ -158,6 +158,8 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
             status = HttpStatus.BAD_REQUEST;
         } else if (NotFoundException.class.equals(exClass)) {
             status = HttpStatus.NOT_FOUND;
+        } else if (UnauthorizedException.class.equals(exClass)) {
+            status = HttpStatus.UNAUTHORIZED;
         }
 
         FIFOMap<String, Object> entity = this.FN_CREATE_ENTITY.apply(request, ex, status);

@@ -41,7 +41,7 @@ import org.springframework.stereotype.Component;
 import open.commons.core.Result;
 import open.commons.spring.web.ac.AuthorizedMethod;
 import open.commons.spring.web.ac.provider.IMethodAccessAuthorityProvider;
-import open.commons.spring.web.servlet.BadRequestException;
+import open.commons.spring.web.servlet.UnauthorizedException;
 
 /**
  * 메소드에 대한 접근권한을 중개합니다.
@@ -93,7 +93,7 @@ public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMe
 
         Result<Boolean> validated = provider.isAllowed(annotation.op(), annotation.roles());
         if (!validated.getResult() || !validated.getData()) {
-            throw new BadRequestException();
+            throw new UnauthorizedException();
         }
 
         return pjp.proceed();

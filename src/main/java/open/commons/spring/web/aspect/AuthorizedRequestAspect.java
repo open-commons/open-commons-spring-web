@@ -52,8 +52,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import open.commons.core.Result;
 import open.commons.spring.web.ac.AuthorizedRequest;
 import open.commons.spring.web.ac.provider.IRequestAccessAuthorityProvider;
-import open.commons.spring.web.servlet.BadRequestException;
 import open.commons.spring.web.servlet.InternalServerException;
+import open.commons.spring.web.servlet.UnauthorizedException;
 
 /**
  * REST API 메소드에 대한 접근권한을 중개합니다.
@@ -205,7 +205,7 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
 
         Result<Boolean> validated = provider.isAllowed(pathBuilder.toString());
         if (!validated.getResult() || !validated.getData()) {
-            throw new BadRequestException();
+            throw new UnauthorizedException();
         }
 
         return pjp.proceed();

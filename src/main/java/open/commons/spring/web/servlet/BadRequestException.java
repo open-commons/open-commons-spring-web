@@ -27,14 +27,14 @@
 package open.commons.spring.web.servlet;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 
 /**
- * 잘못된 요청 데이터를 전달했을 경우, {@link Controller} 내부에서 발생시키는 예외 클래스.
+ * 잘못된 요청 데이터를 전달했을 경우 발생시키는 예외 클래스.
  * 
  * @since 2020. 7. 30.
  * @version
  * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+ * 
  * @see HttpStatus#BAD_REQUEST
  */
 public class BadRequestException extends RuntimeException {

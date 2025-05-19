@@ -26,14 +26,20 @@
 
 package open.commons.spring.web.servlet;
 
+import org.springframework.http.HttpStatus;
+
 /**
  * 권한이 없는 데이터 접근이 경우 발생시키는 예외 클래스.
  * 
  * @since 2025. 5. 19.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
+ * 
+ * @see HttpStatus#BAD_REQUEST
  */
 public class UnauthorizedException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * <br>
