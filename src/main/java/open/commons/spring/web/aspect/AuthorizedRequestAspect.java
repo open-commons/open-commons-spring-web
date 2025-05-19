@@ -37,11 +37,9 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -63,8 +61,6 @@ import open.commons.spring.web.servlet.UnauthorizedException;
  * @author parkjunhong77@gmail.com
  */
 @Aspect
-@Component
-@ConditionalOnBean(IRequestAccessAuthorityProvider.class)
 public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IRequestAccessAuthorityProvider> {
 
     /**

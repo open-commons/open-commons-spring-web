@@ -53,8 +53,8 @@ import open.commons.spring.web.servlet.UnauthorizedException;
  * @see AuthorizedMethod
  */
 @Aspect
-@Component
-@ConditionalOnBean(IMethodAccessAuthorityProvider.class)
+//@Component
+//@ConditionalOnBean(IMethodAccessAuthorityProvider.class)
 public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMethodAccessAuthorityProvider> {
 
     /**
