@@ -26,6 +26,8 @@
 
 package open.commons.spring.web.ac.provider;
 
+import java.lang.reflect.Field;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -70,14 +72,22 @@ public interface IResponseAccessAuthorityProvider extends IResourceAccessAuthori
      * ------------------------------------------
      * 2025. 5. 19.		박준홍			최초 작성
      * </pre>
-     *
+     * 
+     * @param o
+     *            검증 대상 객체
+     * @param f
+     *            검증 대상 변수
+     * @param name
+     *            검증 대상 변수 이름
      * @param string
+     *            실제 값
+     *
      * @return
      *
      * @since 2025. 5. 19.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    String mask(@NotNull String string);
+    String mask(@NotNull Object o, @NotNull Field f, @NotNull String name, @NotNull String string);
 
 }

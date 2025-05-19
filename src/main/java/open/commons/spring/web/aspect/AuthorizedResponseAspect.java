@@ -30,6 +30,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.validation.constraints.NotNull;
 
@@ -42,6 +43,7 @@ import org.springframework.core.annotation.Order;
 import open.commons.core.Result;
 import open.commons.core.utils.AnnotationUtils;
 import open.commons.core.utils.ExceptionUtils;
+import open.commons.core.utils.ObjectUtils;
 import open.commons.spring.web.ac.AuthorizedField;
 import open.commons.spring.web.ac.provider.IResponseAccessAuthorityProvider;
 import open.commons.spring.web.servlet.InternalServerException;
@@ -94,10 +96,14 @@ public class AuthorizedResponseAspect extends AbstractAuthorizedResourceAspect<I
         Class<?> outerClass = result.getClass();
         if (outerClass.isAssignableFrom(Collection.class)) {
             Collection<?> col = (Collection<?>) result;
-            col.forEach(this::validateObject);
+            for (Object o : col) {
+                validateObject(o);
+            }
         } else if (outerClass.isAssignableFrom(Map.class)) {
             Map<?, ?> m = (Map<?, ?>) result;
-            m.forEach((k, v) -> validateObject(v));
+            for (Entry<?, ?> e : m.entrySet()) {
+                validateObject(e.getValue());
+            }
         } else if (outerClass.isAssignableFrom(Result.class)) {
             Result<?> r = (Result<?>) result;
             validateObject(r.getData());
@@ -108,7 +114,10 @@ public class AuthorizedResponseAspect extends AbstractAuthorizedResourceAspect<I
         return result;
     }
 
-    private void validateObject(Object o) {
+    private void nullfy(Object o, Field f) {
+    }
+
+    private void validateObject(Object o) throws IllegalArgumentException, IllegalAccessException {
         if (o == null) {
             return;
         }
@@ -131,10 +140,15 @@ public class AuthorizedResponseAspect extends AbstractAuthorizedResourceAspect<I
                     case DENY:
                         throw new UnauthorizedException("올바르지 않은 접근입니다.");
                     case MASK:
-                        // TODO: Masking 적용 확인
+                        // TODO: Masking 적용 대상 확인
+                        boolean assessible = f.isAccessible();
+                        f.setAccessible(true);
+                        newValue = bean.mask(o, f, "", (String) f.get(o));
+                        f.set(o, newValue);
+                        f.setAccessible(assessible);
                         break;
                     case NULLIFY:
-                        // TODO: 데이터 타입에 따른 NULL 처리
+                        nullfy(o, f);
                         break;
                     default:
                         throw ExceptionUtils.newException(UnsupportedOperationException.class, "지원하지 않는 기능입니다. 원인=%s", anno.mode());
