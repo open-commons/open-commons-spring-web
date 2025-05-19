@@ -18,7 +18,7 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 5. 16. 오후 3:58:47
+ * Date  : 2025. 5. 19. 오전 10:43:06
  *
  * Author: parkjunhong77@gmail.com
  * 
@@ -26,30 +26,37 @@
 
 package open.commons.spring.web.ac;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import open.commons.core.Result;
-import open.commons.spring.web.ac.AuthorizedMethod.Operator;
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * 자원 접근 권한 제공 서비스.
+ * REST API 를 사용하기 위한 접근 권한을 정의하는 클래스.<br>
+ * {@link HttpServletRequest}
  * 
- * @since 2025. 5. 16.
+ * @since 2025. 5. 19.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public interface IResourceAccessAuthorityProvider {
+@Documented
+@Inherited
+@Target({ ElementType.TYPE, ElementType.METHOD })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface AuthorizedRequest {
 
     /**
-     * 
-     * <br>
+     * 접근권한을 검증하는 Bean 정보를 설정합니다. <br>
      * 
      * <pre>
      * [개정이력]
-     *      날짜    	| 작성자	|	내용
+     *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 5. 16.		박준홍			최초 작성
+     * 2025. 5. 16.     박준홍         최초 작성
      * </pre>
      *
      * @return
@@ -58,27 +65,5 @@ public interface IResourceAccessAuthorityProvider {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    Result<String> getCurrentUserId();
-
-    /**
-     * 
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 5. 16.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param operator
-     * @param authorities
-     * @return
-     *
-     * @since 2025. 5. 16.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    Result<Boolean> isAllowed(@NotNull Operator operator, @NotEmpty String... authorities);
-
+    String bean() default "";
 }

@@ -51,6 +51,24 @@ import open.commons.spring.web.ac.AuthorizedMethod.Operator;
 public @interface AuthorizedField {
 
     /**
+     * 접근권한을 검증하는 Bean 정보를 설정합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 5. 16.     박준홍         최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 5. 16.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    String bean() default "";
+
+    /**
      * 허용되지 않은 권한인 경우 처리 방식. <br>
      * 
      * <pre>
@@ -85,24 +103,6 @@ public @interface AuthorizedField {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     Operator op() default Operator.OR;
-
-    /**
-     * 자원접근권한 제공 서비스를 설정합니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜      | 작성자   |   내용
-     * ------------------------------------------
-     * 2025. 5. 16.     박준홍         최초 작성
-     * </pre>
-     *
-     * @return
-     *
-     * @since 2025. 5. 16.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    String provider() default "";
 
     /**
      * 접근이 허용되는 권한(ROLE_XXX) 코드 목록입니다. <br>
