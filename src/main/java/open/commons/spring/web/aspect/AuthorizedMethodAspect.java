@@ -105,13 +105,13 @@ public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMe
 
         // 타입과 메소드에 모두 AuthorizedMethod 가 설정된 경우 메소드에 설정된 어노테이션을 사용함.
         AuthorizedMethod annotation = decideAnnotation(AuthorizedMethod.class, target.getClass(), method);
-        String providerName = annotation.bean();
-        IMethodAccessAuthorityProvider provider = getProvider(providerName);
+        String beanName = annotation.bean();
+        IMethodAccessAuthorityProvider bean = getBean(beanName);
 
         logger.trace("annotation={}", annotation);
-        logger.trace("provider={}", provider);
+        logger.trace("provider={}", bean);
 
-        Result<Boolean> validated = provider.isAllowed(annotation.op(), annotation.roles());
+        Result<Boolean> validated = bean.isAllowed(annotation.op(), annotation.roles());
         if (!validated.getResult() || !validated.getData()) {
             throw new UnauthorizedException("올바르지 않은 접근입니다.");
         }

@@ -38,7 +38,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,6 +48,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import open.commons.core.Result;
+import open.commons.core.utils.AnnotationUtils;
 import open.commons.spring.web.ac.AuthorizedRequest;
 import open.commons.spring.web.ac.provider.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.servlet.InternalServerException;
@@ -109,7 +109,7 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
             // Aspect 설정 조건에서 아래 XXXMapping 중에 반드시 1개는 설정이 되기 때문에 null 확인을 하지 않음.
             Class<?>[] annoTypes = { DeleteMapping.class, GetMapping.class, PatchMapping.class, PostMapping.class, PutMapping.class, RequestMapping.class };
             A anno = Stream.of(annoTypes) //
-                    .map(hm -> AnnotationUtils.findAnnotation(method, (Class<A>) hm)) //
+                    .map(hm -> AnnotationUtils.getAnnotation(method, (Class<A>) hm)) //
                     .filter(a -> a != null) //
                     .findAny().get();
             // XXXMapping 어노테이션은 value() 메소드를 통해서 '경로' 정보를 제공함.
@@ -143,7 +143,7 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     private <A extends Annotation> String pathOnType(Class<?> type) {
-        RequestMapping anno = AnnotationUtils.findAnnotation(type, RequestMapping.class);
+        RequestMapping anno = AnnotationUtils.getAnnotation(type, RequestMapping.class);
         if (anno != null) {
             String path = String.join("", anno.value());
             logger.trace("type={}, anno={}, path={}", type, anno, path);
@@ -198,10 +198,10 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
         pathBuilder.append(pathOnMethod);
 
         AuthorizedRequest annotation = decideAnnotation(AuthorizedRequest.class, target.getClass(), method);
-        String providerName = annotation.bean();
-        IRequestAccessAuthorityProvider provider = getProvider(providerName);
+        String beanName = annotation.bean();
+        IRequestAccessAuthorityProvider bean = getBean(beanName);
 
-        Result<Boolean> validated = provider.isAllowed(pathBuilder.toString());
+        Result<Boolean> validated = bean.isAllowed(pathBuilder.toString());
         if (!validated.getResult() || !validated.getData()) {
             throw new UnauthorizedException("올바르지 않은 접근입니다.");
         }

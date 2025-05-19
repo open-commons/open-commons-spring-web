@@ -36,8 +36,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.annotation.AnnotationUtils;
 
+import open.commons.core.utils.AnnotationUtils;
 import open.commons.core.utils.StringUtils;
 
 /**
@@ -129,10 +129,10 @@ public abstract class AbstractAuthorizedResourceAspect<T> {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     protected final <A extends Annotation> A decideAnnotation(Class<A> annoType, Class<?> o, Method m) {
-        A annoM = (A) AnnotationUtils.findAnnotation(m, annoType);
+        A annoM = (A) AnnotationUtils.getAnnotation(m, annoType);
         return annoM != null //
                 ? annoM //
-                : AnnotationUtils.findAnnotation(o, annoType);
+                : AnnotationUtils.getAnnotation(o, annoType);
     }
 
     /**
@@ -146,7 +146,7 @@ public abstract class AbstractAuthorizedResourceAspect<T> {
      * </pre>
      *
      * @param <T>
-     * @param providerName
+     * @param beanName
      *            Bean 타입.
      * @return
      *
@@ -155,15 +155,15 @@ public abstract class AbstractAuthorizedResourceAspect<T> {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @SuppressWarnings("unchecked")
-    protected final T getProvider(@NotEmpty String providerName) {
-        T provider = null;
-        if (StringUtils.isNullOrEmptyString(providerName)) {
-            provider = this.context.getBean(providerType);
+    protected final T getBean(@NotEmpty String beanName) {
+        T bean = null;
+        if (StringUtils.isNullOrEmptyString(beanName)) {
+            bean = this.context.getBean(providerType);
         } else {
-            provider = (T) this.context.getBean(providerName);
+            bean = (T) this.context.getBean(beanName);
         }
 
-        return provider;
+        return bean;
     }
 
     @Pointcut("(" //
