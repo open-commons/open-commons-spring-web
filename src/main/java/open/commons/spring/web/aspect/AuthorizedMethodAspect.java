@@ -34,9 +34,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
 import open.commons.core.Result;
 import open.commons.spring.web.ac.AuthorizedMethod;
@@ -53,8 +51,6 @@ import open.commons.spring.web.servlet.UnauthorizedException;
  * @see AuthorizedMethod
  */
 @Aspect
-//@Component
-//@ConditionalOnBean(IMethodAccessAuthorityProvider.class)
 public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMethodAccessAuthorityProvider> {
 
     /**
