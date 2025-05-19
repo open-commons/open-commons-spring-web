@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Park Jun-Hong_(parkjunhong77@gmail.com)
+ * Copyright 2025 Park Jun-Hong_(parkjunhong77@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,32 +18,22 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2020. 7. 30. 오후 7:54:55
+ * Date  : 2025. 5. 19. 오후 4:00:06
  *
- * Author: Park_Jun_Hong_(parkjunhong77@gmail.com)
+ * Author: parkjunhong77@gmail.com
  * 
  */
 
 package open.commons.spring.web.servlet;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-
 /**
- * 잘못된 요청 데이터를 전달했을 경우, {@link Controller} 내부에서 발생시키는 예외 클래스.
+ * 권한이 없는 데이터 접근이 경우 발생시키는 예외 클래스.
  * 
- * @since 2020. 7. 30.
- * @version
- * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
- * @see HttpStatus#BAD_REQUEST
+ * @since 2025. 5. 19.
+ * @version 0.8.0
+ * @author parkjunhong77@gmail.com
  */
-public class BadRequestException extends RuntimeException {
-
-    /**
-     *
-     * @since 2020. 7. 30.
-     */
-    private static final long serialVersionUID = 1L;
+public class UnauthorizedException extends RuntimeException {
 
     /**
      * <br>
@@ -52,12 +42,15 @@ public class BadRequestException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 7. 30.		박준홍			최초 작성
+     * 2025. 5. 19.		박준홍			최초 작성
      * </pre>
      *
-     * @since 2020. 7. 30.
+     *
+     * @since 2025. 5. 19.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
      */
-    public BadRequestException() {
+    public UnauthorizedException() {
     }
 
     /**
@@ -67,14 +60,17 @@ public class BadRequestException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 7. 30.		박준홍			최초 작성
+     * 2025. 5. 19.		박준홍			최초 작성
      * </pre>
      *
-     * @param arg0
-     * @since 2020. 7. 30.
+     * @param message
+     *
+     * @since 2025. 5. 19.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
      */
-    public BadRequestException(String arg0) {
-        super(arg0);
+    public UnauthorizedException(String message) {
+        super(message);
     }
 
     /**
@@ -84,14 +80,17 @@ public class BadRequestException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 7. 30.		박준홍			최초 작성
+     * 2025. 5. 19.		박준홍			최초 작성
      * </pre>
      *
      * @param message
      * @param cause
-     * @since 2020. 7. 30.
+     *
+     * @since 2025. 5. 19.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
      */
-    public BadRequestException(String message, Throwable cause) {
+    public UnauthorizedException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -102,16 +101,19 @@ public class BadRequestException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 7. 30.		박준홍			최초 작성
+     * 2025. 5. 19.		박준홍			최초 작성
      * </pre>
      *
      * @param message
      * @param cause
      * @param enableSuppression
      * @param writableStackTrace
-     * @since 2020. 7. 30.
+     *
+     * @since 2025. 5. 19.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
      */
-    public BadRequestException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public UnauthorizedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
@@ -122,13 +124,16 @@ public class BadRequestException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 7. 30.		박준홍			최초 작성
+     * 2025. 5. 19.		박준홍			최초 작성
      * </pre>
      *
      * @param cause
-     * @since 2020. 7. 30.
+     *
+     * @since 2025. 5. 19.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
      */
-    public BadRequestException(Throwable cause) {
+    public UnauthorizedException(Throwable cause) {
         super(cause);
     }
 
