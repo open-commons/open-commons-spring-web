@@ -49,6 +49,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import open.commons.core.Result;
 import open.commons.spring.web.ac.AuthorizedRequest;
 import open.commons.spring.web.ac.provider.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.servlet.BadRequestException;
@@ -202,7 +203,8 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
         String providerName = annotation.bean();
         IRequestAccessAuthorityProvider provider = getProvider(providerName);
 
-        if (!provider.isAllowed(pathBuilder.toString()).getResult()) {
+        Result<Boolean> validated = provider.isAllowed(pathBuilder.toString());
+        if (!validated.getResult() || !validated.getData()) {
             throw new BadRequestException();
         }
 

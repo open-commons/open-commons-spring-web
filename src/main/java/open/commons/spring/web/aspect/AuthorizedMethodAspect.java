@@ -38,6 +38,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import open.commons.core.Result;
 import open.commons.spring.web.ac.AuthorizedMethod;
 import open.commons.spring.web.ac.provider.IMethodAccessAuthorityProvider;
 import open.commons.spring.web.servlet.BadRequestException;
@@ -78,7 +79,7 @@ public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMe
 
     @Around("withinAllStereotypeComponent() && ( annotationAuthorizedMethod() || withinAuthorizedMethod() )")
     public Object validateAuthorizedMethod(ProceedingJoinPoint pjp) throws Throwable {
-        
+
         Object target = pjp.getTarget();
         Method method = ((MethodSignature) pjp.getSignature()).getMethod();
 
@@ -90,7 +91,8 @@ public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMe
         logger.trace("annotation={}", annotation);
         logger.trace("provider={}", provider);
 
-        if (!provider.isAllowed(annotation.op(), annotation.roles()).getResult()) {
+        Result<Boolean> validated = provider.isAllowed(annotation.op(), annotation.roles());
+        if (!validated.getResult() || !validated.getData()) {
             throw new BadRequestException();
         }
 
