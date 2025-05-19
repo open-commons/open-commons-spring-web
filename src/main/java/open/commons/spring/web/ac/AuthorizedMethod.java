@@ -37,6 +37,8 @@ import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import open.commons.spring.web.ac.provider.IMethodAccessAuthorityProvider;
+
 /**
  * 메소드를 사용하기 위한 접근 권한을 정의하는 클래스.<br>
  *
@@ -52,7 +54,9 @@ import org.springframework.security.core.GrantedAuthority;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthorizedMethod {
     /**
+     *
      * 접근권한을 검증하는 Bean 정보를 설정합니다. <br>
+     * 설정된 Bean은 {@link IMethodAccessAuthorityProvider} 인터페이스를 구현해야 합니다.
      * 
      * <pre>
      * [개정이력]

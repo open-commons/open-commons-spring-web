@@ -35,6 +35,9 @@ import java.lang.annotation.Target;
 
 import javax.servlet.http.HttpServletRequest;
 
+import open.commons.spring.web.ac.provider.IMethodAccessAuthorityProvider;
+import open.commons.spring.web.ac.provider.IRequestAccessAuthorityProvider;
+
 /**
  * REST API 를 사용하기 위한 접근 권한을 정의하는 클래스.<br>
  * {@link HttpServletRequest}
@@ -51,6 +54,7 @@ public @interface AuthorizedRequest {
 
     /**
      * 접근권한을 검증하는 Bean 정보를 설정합니다. <br>
+     * 설정된 Bean은 {@link IRequestAccessAuthorityProvider} 인터페이스를 구현해야 합니다.
      * 
      * <pre>
      * [개정이력]

@@ -35,6 +35,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.Order;
 
 import open.commons.core.Result;
 import open.commons.spring.web.ac.AuthorizedMethod;
@@ -51,6 +52,7 @@ import open.commons.spring.web.servlet.UnauthorizedException;
  * @see AuthorizedMethod
  */
 @Aspect
+@Order(AbstractAuthorizedResourceAspect.ORDER_METHOD)
 public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMethodAccessAuthorityProvider> {
 
     /**
@@ -73,6 +75,28 @@ public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMe
         super(context, IMethodAccessAuthorityProvider.class);
     }
 
+    /**
+     * 메소드에 대한 접근권한을 처리합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 5. 19.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param pjp
+     * @return
+     * @throws Throwable
+     *
+     * @since 2025. 5. 19.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see AbstractAuthorizedResourceAspect#withinAllStereotypeComponent()
+     * @see AbstractAuthorizedResourceAspect#annotationAuthorizedMethod()
+     * @see AbstractAuthorizedResourceAspect#withinAuthorizedMethod()
+     */
     @Around("withinAllStereotypeComponent() && ( annotationAuthorizedMethod() || withinAuthorizedMethod() )")
     public Object validateAuthorizedMethod(ProceedingJoinPoint pjp) throws Throwable {
 
@@ -89,7 +113,7 @@ public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMe
 
         Result<Boolean> validated = provider.isAllowed(annotation.op(), annotation.roles());
         if (!validated.getResult() || !validated.getData()) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("올바르지 않은 접근입니다.");
         }
 
         return pjp.proceed();

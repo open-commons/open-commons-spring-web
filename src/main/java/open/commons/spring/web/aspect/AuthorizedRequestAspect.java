@@ -39,6 +39,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,6 +62,7 @@ import open.commons.spring.web.servlet.UnauthorizedException;
  * @author parkjunhong77@gmail.com
  */
 @Aspect
+@Order(AbstractAuthorizedResourceAspect.ORDER_REQUEST)
 public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IRequestAccessAuthorityProvider> {
 
     /**
@@ -152,7 +154,7 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
     }
 
     /**
-     * <br>
+     * REST API 요청에 대한 접근권한을 처리합니다.<br>
      * 
      * <pre>
      * [개정이력]
@@ -201,7 +203,7 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
 
         Result<Boolean> validated = provider.isAllowed(pathBuilder.toString());
         if (!validated.getResult() || !validated.getData()) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("올바르지 않은 접근입니다.");
         }
 
         return pjp.proceed();

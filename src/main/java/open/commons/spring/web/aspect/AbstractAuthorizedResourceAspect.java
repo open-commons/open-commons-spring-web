@@ -48,6 +48,10 @@ import open.commons.core.utils.StringUtils;
  */
 public abstract class AbstractAuthorizedResourceAspect<T> {
 
+    public static final int ORDER_METHOD = Integer.MIN_VALUE;
+    public static final int ORDER_REQUEST = Integer.MIN_VALUE;
+    public static final int ORDER_RESPONSE = 2;
+
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected final ApplicationContext context;
@@ -78,6 +82,17 @@ public abstract class AbstractAuthorizedResourceAspect<T> {
         this.providerType = providerType;
     }
 
+    @Pointcut("(" //
+            + "@annotation(org.springframework.web.bind.annotation.DeleteMapping)" //
+            + " || @annotation(org.springframework.web.bind.annotation.GetMapping)" //
+            + " || @annotation(org.springframework.web.bind.annotation.PatchMapping)" //
+            + " || @annotation(org.springframework.web.bind.annotation.PostMapping)" //
+            + " || @annotation(org.springframework.web.bind.annotation.PutMapping)" //
+            + " || @annotation(org.springframework.web.bind.annotation.RequestMapping)" //
+            + ")")
+    public final void annotationAllRequestMapping() {
+    }
+
     @Pointcut("@annotation(open.commons.spring.web.ac.AuthorizedMethod)")
     public final void annotationAuthorizedMethod() {
     }
@@ -88,17 +103,6 @@ public abstract class AbstractAuthorizedResourceAspect<T> {
 
     @Pointcut("@annotation(open.commons.spring.web.ac.AuthorizedResponse)")
     public final void annotationAuthorizedResponse() {
-    }
-
-    @Pointcut("(" //
-            + "@annotation(org.springframework.web.bind.annotation.DeleteMapping)" //
-            + " || @annotation(org.springframework.web.bind.annotation.GetMapping)" //
-            + " || @annotation(org.springframework.web.bind.annotation.PatchMapping)" //
-            + " || @annotation(org.springframework.web.bind.annotation.PostMapping)" //
-            + " || @annotation(org.springframework.web.bind.annotation.PutMapping)" //
-            + " || @annotation(org.springframework.web.bind.annotation.RequestMapping)" //
-            + ")")
-    public final void annotationAllRequestMapping() {
     }
 
     /**

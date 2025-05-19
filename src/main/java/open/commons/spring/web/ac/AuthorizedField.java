@@ -129,9 +129,25 @@ public @interface AuthorizedField {
 
     /** 허용되지 않는 경우 처리 규칙 */
     enum Mode {
-        /** 일부 데이터 Masking 처리 */
+        /**
+         * 일부 데이터 Masking 처리.<br>
+         * 데이터 타입이 {@link String}인 경우만 지원.
+         */
         MASK,
-        /** 데이터 null 처리 */
+        /**
+         * 데이터 null 처리<br>
+         * Primitive 타입인 경우 아래와 같이 처리됩니다.
+         * <ul>
+         * <li>boolean: {@link Boolean#FALSE}
+         * <li>byte: {@link Byte#MIN_VALUE}
+         * <li>char: ''
+         * <li>double: {@link Double#MIN_VALUE}
+         * <li>float: {@link Float#MIN_NORMAL}
+         * <li>int: {@link Integer#MIN_VALUE}
+         * <li>long: {@link Long#MIN_VALUE}
+         * <li>short: {@link Short#MIN_VALUE}
+         * </ul>
+         */
         NULLIFY,
         /** 오류 발생 */
         DENY
