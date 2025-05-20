@@ -18,76 +18,67 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 5. 19. 오후 5:39:00
+ * Date  : 2025. 5. 20. 오전 11:17:20
  *
  * Author: parkjunhong77@gmail.com
  * 
  */
 
-package open.commons.spring.web.ac.provider;
+package open.commons.spring.web.beans;
 
-import java.lang.reflect.Field;
-
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import open.commons.core.Result;
-import open.commons.spring.web.ac.AuthorizedMethod.Operator;
+import org.springframework.context.ApplicationContext;
+
+import open.commons.spring.web.ac.AuthorizedResponse;
 
 /**
+ * {@link AuthorizedResponse}에 설정된 Bean 유형의 최상위 클래스.
  * 
- * @since 2025. 5. 19.
+ * @since 2025. 5. 20.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public interface IResponseAccessAuthorityProvider extends IResourceAccessAuthorityProvider {
+public abstract class AbstractResponseDataHandler {
+
+    protected final ApplicationContext context;
 
     /**
-     * 
      * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 19.		박준홍			최초 작성
+     * 2025. 5. 20.		박준홍			최초 작성
      * </pre>
+     * 
+     * @param context
      *
-     * @param operator
-     * @param authorities
-     * @return
-     *
-     * @since 2025. 5. 19.
+     * @since 2025. 5. 20.
      * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * @author parkjunhong77@gmail.com
      */
-    Result<Boolean> isAllowed(@NotNull Operator operator, @NotEmpty String... authorities);
+    protected AbstractResponseDataHandler(@NotNull ApplicationContext context) {
+        this.context = context;
+    }
 
     /**
-     * 주어진 문자열을 masking 처리하여 반환합니다. <br>
+     * 데이터를 처리합니다. <br>
      * 
      * <pre>
      * [개정이력]
-     *      날짜    	| 작성자	|	내용
+     *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 5. 19.		박준홍			최초 작성
+     * 2025. 5. 20.     박준홍         최초 작성
      * </pre>
-     * 
+     *
      * @param o
-     *            검증 대상 객체
-     * @param f
-     *            검증 대상 변수
-     * @param name
-     *            검증 대상 변수 이름
-     * @param string
-     *            실제 값
      *
-     * @return
-     *
-     * @since 2025. 5. 19.
+     * @since 2025. 5. 20.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    String mask(@NotNull Object o, @NotNull Field f, @NotNull String name, @NotNull String string);
+    public abstract Object handle(Object o);
 
 }

@@ -1,3 +1,11 @@
+[2025/05/20]
+- Add
+  + open.commons.spring.web.aspect.AuthorizedResponseAspect: 응답 권한 처리 
+  + open.commons.spring.web.beans: 데이터 처리 기본 인터페이스 및 추상 클래스 추가.
+    + AbstractResponseDataHandler.java
+    + DefaultUnauthorizedFieldHandler.java
+    + IUnauthorizedFieldHandler.java
+  
 [2025/05/19]
 - New
   + open.commons.spring.web.ac: 자원 유형별 권한 정의 어노테이션

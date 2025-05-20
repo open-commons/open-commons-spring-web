@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Configuration;
 
 import open.commons.spring.web.ac.provider.IMethodAccessAuthorityProvider;
 import open.commons.spring.web.ac.provider.IRequestAccessAuthorityProvider;
-import open.commons.spring.web.ac.provider.IResponseAccessAuthorityProvider;
+import open.commons.spring.web.ac.provider.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.aspect.AuthorizedMethodAspect;
 import open.commons.spring.web.aspect.AuthorizedRequestAspect;
 import open.commons.spring.web.aspect.AuthorizedResponseAspect;
@@ -66,7 +66,7 @@ public class AuthorizedResourcesConfiguration {
     }
 
     @Bean
-    @ConditionalOnBean(IResponseAccessAuthorityProvider.class)
+    @ConditionalOnBean(IFieldAccessAuthorityProvider.class)
     @ConditionalOnMissingBean
     AuthorizedResponseAspect authorizedResponseAspect(ApplicationContext context) {
         return new AuthorizedResponseAspect(context);

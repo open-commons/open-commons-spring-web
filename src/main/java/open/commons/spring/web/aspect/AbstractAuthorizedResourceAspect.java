@@ -35,9 +35,12 @@ import javax.validation.constraints.NotNull;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.AnnotationUtils;
 
-import open.commons.core.utils.AnnotationUtils;
 import open.commons.core.utils.StringUtils;
 
 /**
@@ -147,20 +150,85 @@ public abstract class AbstractAuthorizedResourceAspect<T> {
      *
      * @param <T>
      * @param beanName
-     *            Bean 타입.
-     * @return
+     *            Bean 이름.
+     * @return Bean 이름에 해당하는 Bean 객체. Bean 이름이 비어 있는 경우 {@link #providerType} 에 해당하는 Bean
      *
+     * @throws NoSuchBeanDefinitionException
+     *             Bean 이름에 해당하는 Bean이 존재하지 않는 경우
+     * @throws BeanNotOfRequiredTypeException
+     *             Bean 이름과 Bean 타입이 일치하지 않는 경우
+     * @throws BeansException
+     *             Bean을 생성할 수 없는 경우
+     * 
      * @since 2025. 5. 19.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see ApplicationContext#getBean(String)
+     * @see ApplicationContext#getBean(String, Class)
      */
-    @SuppressWarnings("unchecked")
-    protected final T getBean(@NotEmpty String beanName) {
+    protected final T getAuthorityBean(@NotEmpty String beanName) throws BeansException {
         T bean = null;
         if (StringUtils.isNullOrEmptyString(beanName)) {
             bean = this.context.getBean(providerType);
         } else {
-            bean = (T) this.context.getBean(beanName);
+            bean = this.context.getBean(beanName, providerType);
+        }
+
+        return bean;
+    }
+
+    /**
+     * 주어진 이름에 해당하는 Bean 객체를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 5. 20.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param <B>
+     * @param beanName
+     *            Bean 이름
+     * @param beanType
+     *            Bean 유형
+     * @param defaultBean
+     *            Bean 이름이 비어있는 경우 기본값.
+     * @param required
+     *            Bean 객체 반환 필수 여부
+     * 
+     * @return Bean 이름에 해당하는 Bean 객체. <br>
+     *         Bean 이름이 비어 있는 경우 기본값을 반환. 단, 기본값이 null 인 경우 <code>beanType(Bean 유형)</code> 에 해당하는 Bean
+     * 
+     * @throws NoSuchBeanDefinitionException
+     *             Bean 이름에 해당하는 Bean이 존재하지 않는 경우
+     * @throws BeanNotOfRequiredTypeException
+     *             Bean 이름과 Bean 타입이 일치하지 않는 경우
+     * @throws BeansException
+     *             Bean을 생성할 수 없는 경우
+     * 
+     * @since 2025. 5. 20.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see ApplicationContext#getBean(String)
+     * @see ApplicationContext#getBean(String, Class)
+     */
+    protected final <B> B getBean(@NotEmpty String beanName, Class<B> beanType, B defaultBean, boolean required) throws BeansException {
+        B bean = null;
+        try {
+            if (StringUtils.isNullOrEmptyString(beanName)) {
+                bean = defaultBean != null //
+                        ? defaultBean //
+                        : this.context.getBean(beanType);
+            } else {
+                bean = this.context.getBean(beanName, beanType);
+            }
+        } catch (BeansException e) {
+            if (required) {
+                throw e;
+            }
         }
 
         return bean;

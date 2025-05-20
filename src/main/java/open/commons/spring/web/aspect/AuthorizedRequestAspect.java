@@ -38,6 +38,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,7 +49,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import open.commons.core.Result;
-import open.commons.core.utils.AnnotationUtils;
+import open.commons.core.TwoValueObject;
 import open.commons.spring.web.ac.AuthorizedRequest;
 import open.commons.spring.web.ac.provider.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.servlet.InternalServerException;
@@ -104,7 +105,7 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @SuppressWarnings("unchecked")
-    private <A extends Annotation> String pathOnMethod(Method method) {
+    private <A extends Annotation> TwoValueObject<HttpMethod, String> mappingOnMethod(Method method) {
         try {
             // Aspect 설정 조건에서 아래 XXXMapping 중에 반드시 1개는 설정이 되기 때문에 null 확인을 하지 않음.
             Class<?>[] annoTypes = { DeleteMapping.class, GetMapping.class, PatchMapping.class, PostMapping.class, PutMapping.class, RequestMapping.class };
@@ -113,12 +114,14 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
                     .filter(a -> a != null) //
                     .findAny().get();
             // XXXMapping 어노테이션은 value() 메소드를 통해서 '경로' 정보를 제공함.
-            Method value = anno.getClass().getMethod("value");
-            String path = String.join("", (String[]) value.invoke(anno));
+            Method mMethod = anno.getClass().getMethod("method");
+            HttpMethod hm = (HttpMethod) mMethod.invoke(anno);
+            Method mValue = anno.getClass().getMethod("value");
+            String path = String.join("", (String[]) mValue.invoke(anno));
 
-            logger.trace("method={}, anno={}, path={}", method, anno, path);
+            logger.trace("method={}, anno={}, httpmethod={}, path={}", method, anno, hm, path);
 
-            return path;
+            return new TwoValueObject<HttpMethod, String>(hm, path);
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new InternalServerException(e);
         }
@@ -142,7 +145,7 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private <A extends Annotation> String pathOnType(Class<?> type) {
+    private <A extends Annotation> String mappingOnType(Class<?> type) {
         RequestMapping anno = AnnotationUtils.getAnnotation(type, RequestMapping.class);
         if (anno != null) {
             String path = String.join("", anno.value());
@@ -184,24 +187,26 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
     public Object validateAuthorizedRequest(ProceedingJoinPoint pjp) throws Throwable {
 
         Object target = pjp.getTarget();
-        Method method = ((MethodSignature) pjp.getSignature()).getMethod();
+        Method invokedMethod = ((MethodSignature) pjp.getSignature()).getMethod();
 
         logger.trace("method.signature={}", pjp.getSignature());
         logger.trace("target={}", pjp.getTarget());
 
         StringBuilder pathBuilder = new StringBuilder();
         // #1. 타입에 정의된 최상위 경로, Nullable
-        String pathOnType = pathOnType(target.getClass());
+        String pathOnType = mappingOnType(target.getClass());
         pathBuilder.append(pathOnType);
         // 메소드에 정의된 세부 경로, NotNull
-        String pathOnMethod = pathOnMethod(method);
+        TwoValueObject<HttpMethod, String> mappingOnMethod = mappingOnMethod(invokedMethod);
+        HttpMethod httpMethod = mappingOnMethod.first;
+        String pathOnMethod = mappingOnMethod.second;
         pathBuilder.append(pathOnMethod);
 
-        AuthorizedRequest annotation = decideAnnotation(AuthorizedRequest.class, target.getClass(), method);
-        String beanName = annotation.bean();
-        IRequestAccessAuthorityProvider bean = getBean(beanName);
+        AuthorizedRequest annotation = decideAnnotation(AuthorizedRequest.class, target.getClass(), invokedMethod);
+        String beanName = annotation.authorityBean();
+        IRequestAccessAuthorityProvider bean = getAuthorityBean(beanName);
 
-        Result<Boolean> validated = bean.isAllowed(pathBuilder.toString());
+        Result<Boolean> validated = bean.isAllowed(httpMethod, pathBuilder.toString());
         if (!validated.getResult() || !validated.getData()) {
             throw new UnauthorizedException("올바르지 않은 접근입니다.");
         }

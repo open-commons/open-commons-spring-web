@@ -70,8 +70,10 @@ public @interface AuthorizedMethod {
      * @since 2025. 5. 16.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see IMethodAccessAuthorityProvider
      */
-    String bean() default "";
+    String authorityBean() default "";
 
     /**
      * {@link #roles()}의 값이 2개 이상인 경우 처리하는 규칙. <br>

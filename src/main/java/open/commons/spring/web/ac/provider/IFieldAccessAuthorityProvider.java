@@ -18,7 +18,7 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 5. 19. 오후 1:08:20
+ * Date  : 2025. 5. 19. 오후 5:39:00
  *
  * Author: parkjunhong77@gmail.com
  * 
@@ -26,32 +26,46 @@
 
 package open.commons.spring.web.ac.provider;
 
+import java.lang.reflect.Field;
+
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import open.commons.core.Result;
-import open.commons.spring.web.ac.AuthorizedRequest;
+import open.commons.spring.web.ac.AuthorizedMethod.Operator;
 
 /**
- * REST API 기능을 제공하는 메소드에 대한 접근 권한 제공 서비스.
+ * 클래스 필드 접근권한 제공 서비스.
  * 
  * @since 2025. 5. 19.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
- * 
- * @see AuthorizedRequest
- * @see Controller
- * @see RestController
- * @see RequestMapping
  */
-public interface IRequestAccessAuthorityProvider extends IResourceAccessAuthorityProvider {
+public interface IFieldAccessAuthorityProvider extends IResourceAccessAuthorityProvider {
 
     /**
-     * URL 패턴에 기반하여 접근여부를 제공합니다. <br>
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 5. 19.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param operator
+     * @param authorities
+     * @return
+     *
+     * @since 2025. 5. 19.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    Result<Boolean> isAllowed(@NotNull Operator operator, @NotEmpty String... authorities);
+
+    /**
+     * 주어진 문자열을 masking 처리하여 반환합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -60,10 +74,14 @@ public interface IRequestAccessAuthorityProvider extends IResourceAccessAuthorit
      * 2025. 5. 19.		박준홍			최초 작성
      * </pre>
      * 
-     * @param httpMethod
-     *            REST API Http Method
-     * @param path
-     *            REST API 경로
+     * @param o
+     *            검증 대상 객체
+     * @param f
+     *            검증 대상 변수
+     * @param name
+     *            검증 대상 변수 이름
+     * @param string
+     *            실제 값
      *
      * @return
      *
@@ -71,6 +89,6 @@ public interface IRequestAccessAuthorityProvider extends IResourceAccessAuthorit
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    Result<Boolean> isAllowed(@NotNull HttpMethod httpMethod, @NotNull String path);
+    String mask(@NotNull Object o, @NotNull Field f, @NotNull String name, @NotNull String string);
 
 }

@@ -33,14 +33,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.core.annotation.AliasFor;
 
-import open.commons.spring.web.ac.provider.IMethodAccessAuthorityProvider;
 import open.commons.spring.web.ac.provider.IRequestAccessAuthorityProvider;
 
 /**
  * REST API 를 사용하기 위한 접근 권한을 정의하는 클래스.<br>
- * {@link HttpServletRequest}
  * 
  * @since 2025. 5. 19.
  * @version 0.8.0
@@ -68,6 +66,29 @@ public @interface AuthorizedRequest {
      * @since 2025. 5. 16.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see IRequestAccessAuthorityProvider
      */
-    String bean() default "";
+    @AliasFor("value")
+    String authorityBean() default "";
+
+    /**
+     * 접근권한을 검증하는 Bean 정보를 설정합니다. <br>
+     * 설정된 Bean은 {@link IRequestAccessAuthorityProvider} 인터페이스를 구현해야 합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 5. 20.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 5. 20.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @AliasFor("authorityBean")
+    String value() default "";
 }
