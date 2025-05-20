@@ -30,14 +30,15 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
+import open.commons.spring.web.ac.provider.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.ac.provider.IMethodAccessAuthorityProvider;
 import open.commons.spring.web.ac.provider.IRequestAccessAuthorityProvider;
-import open.commons.spring.web.ac.provider.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.aspect.AuthorizedMethodAspect;
 import open.commons.spring.web.aspect.AuthorizedRequestAspect;
 import open.commons.spring.web.aspect.AuthorizedResponseAspect;
+import open.commons.spring.web.beans.DefaultUnauthorizedFieldHandler;
 
 /**
  * 
@@ -45,7 +46,6 @@ import open.commons.spring.web.aspect.AuthorizedResponseAspect;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-@Configuration
 public class AuthorizedResourcesConfiguration {
 
     public AuthorizedResourcesConfiguration() {
@@ -70,6 +70,13 @@ public class AuthorizedResourcesConfiguration {
     @ConditionalOnMissingBean
     AuthorizedResponseAspect authorizedResponseAspect(ApplicationContext context) {
         return new AuthorizedResponseAspect(context);
+    }
+
+    @Bean
+    @ConditionalOnBean(AuthorizedResponseAspect.class)
+    @Order(Integer.MIN_VALUE)
+    DefaultUnauthorizedFieldHandler unauthorizedFieldHanlder(ApplicationContext context) {
+        return new DefaultUnauthorizedFieldHandler(context);
     }
 
 }

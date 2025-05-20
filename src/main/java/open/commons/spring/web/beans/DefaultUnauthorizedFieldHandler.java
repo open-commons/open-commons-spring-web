@@ -32,17 +32,13 @@ import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import open.commons.core.utils.ReflectionUtils;
 import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.ac.AuthorizedField;
 import open.commons.spring.web.ac.AuthorizedField.Masking;
-import open.commons.spring.web.aspect.AuthorizedResponseAspect;
 import open.commons.spring.web.servlet.UnauthorizedException;
 
 /**
@@ -52,9 +48,6 @@ import open.commons.spring.web.servlet.UnauthorizedException;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-@Component
-@ConditionalOnBean(AuthorizedResponseAspect.class)
-@Order(Integer.MIN_VALUE)
 public class DefaultUnauthorizedFieldHandler implements IUnauthorizedFieldHandler {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
