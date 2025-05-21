@@ -26,11 +26,12 @@
 
 package open.commons.spring.web.ac.provider;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import open.commons.core.Result;
@@ -60,7 +61,7 @@ public interface IRequestAccessAuthorityProvider extends IResourceAccessAuthorit
      * 2025. 5. 19.		박준홍			최초 작성
      * </pre>
      * 
-     * @param httpMethod
+     * @param requestMethod
      *            REST API Http Method
      * @param path
      *            REST API 경로
@@ -71,6 +72,6 @@ public interface IRequestAccessAuthorityProvider extends IResourceAccessAuthorit
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    Result<Boolean> isAllowed(@NotNull HttpMethod httpMethod, @NotNull String path);
+    Result<Boolean> isAllowed(@NotNull RequestMethod requestMethod, @NotEmpty String path);
 
 }

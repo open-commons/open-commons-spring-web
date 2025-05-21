@@ -39,9 +39,10 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 
-import open.commons.core.utils.StringUtils;
+import open.commons.spring.web.utils.BeanUtils;
 
 /**
  * 
@@ -51,13 +52,15 @@ import open.commons.core.utils.StringUtils;
  */
 public abstract class AbstractAuthorizedResourceAspect<T> {
 
-    public static final int ORDER_METHOD = Integer.MIN_VALUE;
-    public static final int ORDER_REQUEST = Integer.MIN_VALUE;
-    public static final int ORDER_RESPONSE = 2;
+    public static final int ORDER_METHOD = Ordered.HIGHEST_PRECEDENCE;
+    public static final int ORDER_REQUEST = Ordered.HIGHEST_PRECEDENCE;
+    public static final int ORDER_RESPONSE = Ordered.HIGHEST_PRECEDENCE + 1;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected final ApplicationContext context;
+
+    protected final BeanUtils BEAN_UTILS;
 
     protected final Class<T> providerType;
 
@@ -82,6 +85,7 @@ public abstract class AbstractAuthorizedResourceAspect<T> {
      */
     public AbstractAuthorizedResourceAspect(@NotNull ApplicationContext context, Class<T> providerType) {
         this.context = context;
+        this.BEAN_UTILS = BeanUtils.context(context);
         this.providerType = providerType;
     }
 
@@ -163,19 +167,9 @@ public abstract class AbstractAuthorizedResourceAspect<T> {
      * @since 2025. 5. 19.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
-     * 
-     * @see ApplicationContext#getBean(String)
-     * @see ApplicationContext#getBean(String, Class)
      */
     protected final T getAuthorityBean(@NotEmpty String beanName) throws BeansException {
-        T bean = null;
-        if (StringUtils.isNullOrEmptyString(beanName)) {
-            bean = this.context.getBean(providerType);
-        } else {
-            bean = this.context.getBean(beanName, providerType);
-        }
-
-        return bean;
+        return BEAN_UTILS.getBean(beanName, providerType, null, true);
     }
 
     /**
@@ -211,27 +205,48 @@ public abstract class AbstractAuthorizedResourceAspect<T> {
      * @since 2025. 5. 20.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
-     * 
-     * @see ApplicationContext#getBean(String)
-     * @see ApplicationContext#getBean(String, Class)
      */
     protected final <B> B getBean(@NotEmpty String beanName, Class<B> beanType, B defaultBean, boolean required) throws BeansException {
-        B bean = null;
-        try {
-            if (StringUtils.isNullOrEmptyString(beanName)) {
-                bean = defaultBean != null //
-                        ? defaultBean //
-                        : this.context.getBean(beanType);
-            } else {
-                bean = this.context.getBean(beanName, beanType);
-            }
-        } catch (BeansException e) {
-            if (required) {
-                throw e;
-            }
-        }
+        return BEAN_UTILS.getBean(beanName, beanType, defaultBean, required);
+    }
 
-        return bean;
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 5. 21.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param <B>
+     * @param beanName
+     *            Bean 이름
+     * @param beanType
+     *            Bean 유형
+     * @param beanImplType
+     *            Bean 이름이 비어있는 경우, {beanType}에 해당하는 사용자 정의 bean이 없는 경우 제공할 bean 구현 클래스. (일반적으로 시스템 Bean을 제공할 목적으로 사용)
+     * @param required
+     *            Bean 객체 반환 필수 여부
+     * 
+     * @return Bean 이름에 해당하는 Bean 객체. <br>
+     *         Bean 이름이 비어 있는 경우 기본값을 반환. 단, 기본값이 null 인 경우 <code>beanType(Bean 유형)</code> 에 해당하는 Bean
+     * 
+     * @throws NoSuchBeanDefinitionException
+     *             Bean 이름에 해당하는 Bean이 존재하지 않는 경우
+     * @throws BeanNotOfRequiredTypeException
+     *             Bean 이름과 Bean 타입이 일치하지 않는 경우
+     * @throws BeansException
+     *             Bean을 생성할 수 없는 경우
+     *
+     * @since 2025. 5. 21.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected final <I, E extends I> I getBean(@NotEmpty String beanName, Class<I> beanType, Class<E> beanImplType, boolean required) throws BeansException {
+        return BEAN_UTILS.findBean(beanName, beanType, beanImplType, required);
     }
 
     @Pointcut("(" //

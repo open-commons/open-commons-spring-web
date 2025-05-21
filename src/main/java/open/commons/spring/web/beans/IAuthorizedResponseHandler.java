@@ -18,7 +18,7 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 5. 20. 오전 11:17:20
+ * Date  : 2025. 5. 21. 오후 1:29:21
  *
  * Author: parkjunhong77@gmail.com
  * 
@@ -26,42 +26,16 @@
 
 package open.commons.spring.web.beans;
 
-import javax.validation.constraints.NotNull;
-
-import org.springframework.context.ApplicationContext;
-
 import open.commons.spring.web.ac.AuthorizedResponse;
 
 /**
- * {@link AuthorizedResponse}에 설정된 Bean 유형의 최상위 클래스.
+ * {@link AuthorizedResponse}를 처리하는 기능 정의.
  * 
- * @since 2025. 5. 20.
+ * @since 2025. 5. 21.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public abstract class AbstractResponseDataHandler {
-
-    protected final ApplicationContext context;
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 5. 20.		박준홍			최초 작성
-     * </pre>
-     * 
-     * @param context
-     *
-     * @since 2025. 5. 20.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     */
-    protected AbstractResponseDataHandler(@NotNull ApplicationContext context) {
-        this.context = context;
-    }
+public interface IAuthorizedResponseHandler {
 
     /**
      * 데이터를 처리합니다. <br>
@@ -79,6 +53,6 @@ public abstract class AbstractResponseDataHandler {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public abstract Object handle(Object o);
+    Object handle(Object o) throws Throwable;
 
 }

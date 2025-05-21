@@ -42,7 +42,7 @@ import open.commons.spring.web.ac.AuthorizedField.Masking;
 import open.commons.spring.web.servlet.UnauthorizedException;
 
 /**
- * {@link AuthorizedField}가 설정된 필드 데이터 권한 후처리 서비스.
+ * {@link AuthorizedField}가 설정된 필드 데이터 권한 후처리 내장 클래스.
  * 
  * @since 2025. 5. 20.
  * @version 0.8.0

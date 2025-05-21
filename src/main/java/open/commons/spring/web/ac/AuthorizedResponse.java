@@ -35,7 +35,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.core.annotation.AliasFor;
 
-import open.commons.spring.web.beans.AbstractResponseDataHandler;
+import open.commons.spring.web.beans.IAuthorizedResponseHandler;
 
 /**
  * 메소드에서 반환하는 데이터를 사용하기 위한 권한을 정의하는 클래스.
@@ -52,7 +52,7 @@ public @interface AuthorizedResponse {
 
     /**
      * 데이터를 처리하는 Bean 식별정보를 설정합니다. <br>
-     * 설정되는 Bean은 반드시 {@link AbstractResponseDataHandler} 를 구현해야 합니다.
+     * 설정되는 Bean은 반드시 {@link IAuthorizedResponseHandler} 를 구현해야 합니다.
      * 
      * <pre>
      * [개정이력]
@@ -67,14 +67,14 @@ public @interface AuthorizedResponse {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      * 
-     * @see AbstractResponseDataHandler
+     * @see IAuthorizedResponseHandler
      */
     @AliasFor("value")
     String dataHandleBean() default "";
 
     /**
      * 데이터를 처리하는 Bean 식별정보를 설정합니다. <br>
-     * 설정되는 Bean은 반드시 {@link AbstractResponseDataHandler} 를 구현해야 합니다. <br>
+     * 설정되는 Bean은 반드시 {@link IAuthorizedResponseHandler} 를 구현해야 합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -89,7 +89,7 @@ public @interface AuthorizedResponse {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      * 
-     * @see AbstractResponseDataHandler
+     * @see IAuthorizedResponseHandler
      */
     @AliasFor("dataHandleBean")
     String value() default "";

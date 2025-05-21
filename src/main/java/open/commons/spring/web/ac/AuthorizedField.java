@@ -40,8 +40,8 @@ import org.springframework.security.core.GrantedAuthority;
 
 import open.commons.spring.web.ac.AuthorizedMethod.Operator;
 import open.commons.spring.web.ac.provider.IFieldAccessAuthorityProvider;
-import open.commons.spring.web.beans.AbstractResponseDataHandler;
 import open.commons.spring.web.beans.DefaultUnauthorizedFieldHandler;
+import open.commons.spring.web.beans.IAuthorizedResponseHandler;
 import open.commons.spring.web.beans.IUnauthorizedFieldHandler;
 import open.commons.spring.web.servlet.UnauthorizedException;
 
@@ -192,7 +192,7 @@ public @interface AuthorizedField {
      * @author parkjunhong77@gmail.com
      * 
      * @see AuthorizedField
-     * @see AbstractResponseDataHandler
+     * @see IAuthorizedResponseHandler
      */
     @Documented
     @Inherited

@@ -47,6 +47,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import open.commons.core.Result;
 import open.commons.core.TwoValueObject;
@@ -105,23 +106,35 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @SuppressWarnings("unchecked")
-    private <A extends Annotation> TwoValueObject<HttpMethod, String> mappingOnMethod(Method method) {
+    private <A extends Annotation> TwoValueObject<RequestMethod, String> mappingOnMethod(Method method) {
         try {
             // Aspect 설정 조건에서 아래 XXXMapping 중에 반드시 1개는 설정이 되기 때문에 null 확인을 하지 않음.
             Class<?>[] annoTypes = { DeleteMapping.class, GetMapping.class, PatchMapping.class, PostMapping.class, PutMapping.class, RequestMapping.class };
-            A anno = Stream.of(annoTypes) //
-                    .map(hm -> AnnotationUtils.getAnnotation(method, (Class<A>) hm)) //
+
+            TwoValueObject<A, RequestMethod> httpRequest = Stream.of(annoTypes) //
+                    .map(hm -> {
+                        A realAnno = AnnotationUtils.getAnnotation(method, (Class<A>) hm);
+                        if (realAnno == null) {
+                            return null;
+                        }
+
+                        RequestMapping reqMapping = AnnotationUtils.findAnnotation(realAnno.getClass(), RequestMapping.class);
+                        RequestMethod reqMethod = reqMapping.method()[0];
+
+                        return new TwoValueObject<A, RequestMethod>(realAnno, reqMethod);
+                    }) //
                     .filter(a -> a != null) //
                     .findAny().get();
             // XXXMapping 어노테이션은 value() 메소드를 통해서 '경로' 정보를 제공함.
-            Method mMethod = anno.getClass().getMethod("method");
-            HttpMethod hm = (HttpMethod) mMethod.invoke(anno);
+
+            RequestMethod requestMethod = httpRequest.second;
+            A anno = httpRequest.first;
             Method mValue = anno.getClass().getMethod("value");
             String path = String.join("", (String[]) mValue.invoke(anno));
 
-            logger.trace("method={}, anno={}, httpmethod={}, path={}", method, anno, hm, path);
+            logger.trace("method={}, anno={}, req.method={}, req.path={}", method, anno, requestMethod, path);
 
-            return new TwoValueObject<HttpMethod, String>(hm, path);
+            return new TwoValueObject<RequestMethod, String>(httpRequest.second, path);
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new InternalServerException(e);
         }
@@ -197,8 +210,8 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
         String pathOnType = mappingOnType(target.getClass());
         pathBuilder.append(pathOnType);
         // 메소드에 정의된 세부 경로, NotNull
-        TwoValueObject<HttpMethod, String> mappingOnMethod = mappingOnMethod(invokedMethod);
-        HttpMethod httpMethod = mappingOnMethod.first;
+        TwoValueObject<RequestMethod, String> mappingOnMethod = mappingOnMethod(invokedMethod);
+        RequestMethod httpMethod = mappingOnMethod.first;
         String pathOnMethod = mappingOnMethod.second;
         pathBuilder.append(pathOnMethod);
 
