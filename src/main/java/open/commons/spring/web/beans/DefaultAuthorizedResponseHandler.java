@@ -213,8 +213,6 @@ public class DefaultAuthorizedResponseHandler implements IAuthorizedResponseHand
                 }
             }
         }
-        logger.trace("generic.type={}", o.getClass());
-        logger.trace("generic.data={}", o);
     }
 
     private Object watchAndValidate(Object o) throws Throwable {
