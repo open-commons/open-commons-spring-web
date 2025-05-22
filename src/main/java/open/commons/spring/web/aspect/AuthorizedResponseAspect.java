@@ -72,8 +72,8 @@ public class AuthorizedResponseAspect extends AbstractAuthorizedResourceAspect<I
         super(context, IFieldAccessAuthorityProvider.class);
     }
 
-    @Around("withinAllStereotypeComponent() && annotationAuthorizedResponse() ")
-    public Object validateAuthorizedMethod(ProceedingJoinPoint pjp) throws Throwable {
+    @Around("withinAllStereotypeComponent() && annotationAuthorizedResponse()")
+    public Object validateAuthorizedResponse(ProceedingJoinPoint pjp) throws Throwable {
 
         Method method = ((MethodSignature) pjp.getSignature()).getMethod();
 

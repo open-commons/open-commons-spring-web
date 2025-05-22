@@ -270,22 +270,30 @@ public @interface AuthorizedField {
          * 최소 처리 문자열 길이<br>
          * 이 길이보다 작은 경우 모두 마스킹 처리합니다.
          */
-        int min() default DEFAULT_MIN;
+        int min()
+
+        default DEFAULT_MIN;
 
         /**
          * 마스킹 결과 문자열 고정 길이 비율 <br>
          * 1보다 작은 경우 padding 처리를 하지 않습니다. (1: 입력 문자 길이 유지)
          */
-        double padding() default DEFAULT_PADDING;
+        double padding()
+
+        default DEFAULT_PADDING;
 
         /**
          * 앞쪽 마스킹 길이 비율<br>
          * 소수점인 경우 내림처리.
          */
-        double prefix() default DEFAULT_PREFIX;
+        double prefix()
+
+        default DEFAULT_PREFIX;
 
         /** 마스킹 사용 문자 */
-        char sign() default DEFAULT_SIGN;
+        char sign()
+
+        default DEFAULT_SIGN;
 
         /**
          * 뒷쪽 마스킹 길이 비율<br>
