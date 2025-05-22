@@ -96,9 +96,12 @@ public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMe
      * @see AbstractAuthorizedResourceAspect#withinAllStereotypeComponent()
      * @see AbstractAuthorizedResourceAspect#annotationAuthorizedMethod()
      * @see AbstractAuthorizedResourceAspect#withinAuthorizedMethod()
+     * 
+     * @see open.commons.spring.web.aspect.IAuthorizedResource#validateAuthorizedResource(org.aspectj.lang.ProceedingJoinPoint)
      */
     @Around("withinAllStereotypeComponent() && ( annotationAuthorizedMethod() || withinAuthorizedMethod() )")
-    public Object validateAuthorizedMethod(ProceedingJoinPoint pjp) throws Throwable {
+    @Override
+    public Object validateAuthorizedResource(ProceedingJoinPoint pjp) throws Throwable {
 
         Object target = pjp.getTarget();
         Method method = ((MethodSignature) pjp.getSignature()).getMethod();

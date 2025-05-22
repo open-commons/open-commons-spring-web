@@ -111,7 +111,7 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
             // Aspect 설정 조건에서 아래 XXXMapping 중에 반드시 1개는 설정이 되기 때문에 null 확인을 하지 않음.
             Class<?>[] annoTypes = { DeleteMapping.class, GetMapping.class, PatchMapping.class, PostMapping.class, PutMapping.class, RequestMapping.class };
 
-            TwoValueObject<A, RequestMethod> httpRequest = Stream.of(annoTypes) //
+            TwoValueObject<RequestMethod, A> httpRequest = Stream.of(annoTypes) //
                     .map(hm -> {
                         A realAnno = AnnotationUtils.getAnnotation(method, (Class<A>) hm);
                         if (realAnno == null) {
@@ -121,20 +121,21 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
                         RequestMapping reqMapping = AnnotationUtils.findAnnotation(realAnno.getClass(), RequestMapping.class);
                         RequestMethod reqMethod = reqMapping.method()[0];
 
-                        return new TwoValueObject<A, RequestMethod>(realAnno, reqMethod);
+                        return new TwoValueObject<RequestMethod, A>(reqMethod, realAnno);
                     }) //
                     .filter(a -> a != null) //
                     .findAny().get();
-            // XXXMapping 어노테이션은 value() 메소드를 통해서 '경로' 정보를 제공함.
 
-            RequestMethod requestMethod = httpRequest.second;
-            A anno = httpRequest.first;
+            // #1. 요청 Method
+            RequestMethod requestMethod = httpRequest.first;
+            // #2. URL 정보. XXXMapping 어노테이션은 value() 메소드를 통해서 '경로' 정보를 제공함.
+            A anno = httpRequest.second;
             Method mValue = anno.getClass().getMethod("value");
             String path = String.join("", (String[]) mValue.invoke(anno));
 
             logger.trace("method={}, anno={}, req.method={}, req.path={}", method, anno, requestMethod, path);
 
-            return new TwoValueObject<RequestMethod, String>(httpRequest.second, path);
+            return new TwoValueObject<RequestMethod, String>(httpRequest.first, path);
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new InternalServerException(e);
         }
@@ -192,12 +193,15 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
      * @see AbstractAuthorizedResourceAspect#withinAuthorizedRequest()
      * @see AbstractAuthorizedResourceAspect#annotationAllRequestMapping()
      * @see AbstractAuthorizedResourceAspect#withinRequestMapping()
+     * 
+     * @see open.commons.spring.web.aspect.IAuthorizedResource#validateAuthorizedResource(org.aspectj.lang.ProceedingJoinPoint)
      */
     @Around("withinControllerStereotypeComponent()" //
             + " && ( annotationAuthorizedRequest() || withinAuthorizedRequest() )" //
             + " && annotationAllRequestMapping()" //
             + " && ( withinRequestMapping() || withinAuthorizedRequest() ) ")
-    public Object validateAuthorizedRequest(ProceedingJoinPoint pjp) throws Throwable {
+    @Override
+    public Object validateAuthorizedResource(ProceedingJoinPoint pjp) throws Throwable {
 
         Object target = pjp.getTarget();
         Method invokedMethod = ((MethodSignature) pjp.getSignature()).getMethod();

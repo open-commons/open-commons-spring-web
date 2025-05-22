@@ -72,8 +72,32 @@ public class AuthorizedResponseAspect extends AbstractAuthorizedResourceAspect<I
         super(context, IFieldAccessAuthorityProvider.class);
     }
 
+    /**
+     * 응답 데이터에 대한 접근권한을 처리합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 5. 19.     박준홍         최초 작성
+     * </pre>
+     *
+     * @param pjp
+     * @return
+     * @throws Throwable
+     *
+     * @since 2025. 5. 19.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see AbstractAuthorizedResourceAspect#withinAllStereotypeComponent()
+     * @see AbstractAuthorizedResourceAspect#annotationAuthorizedResponse()
+     *
+     * @see open.commons.spring.web.aspect.IAuthorizedResource#validateAuthorizedResource(org.aspectj.lang.ProceedingJoinPoint)
+     */
     @Around("withinAllStereotypeComponent() && annotationAuthorizedResponse()")
-    public Object validateAuthorizedResponse(ProceedingJoinPoint pjp) throws Throwable {
+    @Override
+    public Object validateAuthorizedResource(ProceedingJoinPoint pjp) throws Throwable {
 
         Method method = ((MethodSignature) pjp.getSignature()).getMethod();
 

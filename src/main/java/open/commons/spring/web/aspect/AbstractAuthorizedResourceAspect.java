@@ -50,7 +50,7 @@ import open.commons.spring.web.utils.BeanUtils;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public abstract class AbstractAuthorizedResourceAspect<T> {
+public abstract class AbstractAuthorizedResourceAspect<T> implements IAuthorizedResource<T> {
 
     public static final int ORDER_METHOD = Ordered.HIGHEST_PRECEDENCE;
     public static final int ORDER_REQUEST = Ordered.HIGHEST_PRECEDENCE;
