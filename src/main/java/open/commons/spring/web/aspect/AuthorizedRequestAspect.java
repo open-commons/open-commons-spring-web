@@ -188,7 +188,7 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      * 
-     * @see AbstractAuthorizedResourceAspect#withinControllerStereotypeComponent()
+     * @see AbstractAuthorizedResourceAspect#withinAllControllerStereotypeComponent()
      * @see AbstractAuthorizedResourceAspect#annotationAuthorizedRequest()
      * @see AbstractAuthorizedResourceAspect#withinAuthorizedRequest()
      * @see AbstractAuthorizedResourceAspect#annotationAllRequestMapping()

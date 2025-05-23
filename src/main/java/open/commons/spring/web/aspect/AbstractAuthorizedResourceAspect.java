@@ -275,7 +275,7 @@ public abstract class AbstractAuthorizedResourceAspect<T> implements IAuthorized
             + "@within(org.springframework.stereotype.Controller)" //
             + " || @within(org.springframework.web.bind.annotation.RestController)" //
             + ") ")
-    public final void withinControllerStereotypeComponent() {
+    public final void withinAllControllerStereotypeComponent() {
     }
 
     @Pointcut("@within(org.springframework.stereotype.Repository)")
@@ -284,6 +284,10 @@ public abstract class AbstractAuthorizedResourceAspect<T> implements IAuthorized
 
     @Pointcut("@within(org.springframework.web.bind.annotation.RequestMapping)")
     public final void withinRequestMapping() {
+    }
+
+    @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
+    public final void withinRestControllerComponent() {
     }
 
     @Pointcut("@within(org.springframework.stereotype.Service)")
