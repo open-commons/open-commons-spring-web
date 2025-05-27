@@ -18,50 +18,50 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 5. 16. 오후 3:58:47
+ * Date  : 2025. 5. 19. 오후 5:39:00
  *
  * Author: parkjunhong77@gmail.com
  * 
  */
 
-package open.commons.spring.web.ac.provider;
+package open.commons.spring.web.beans.ac;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import open.commons.core.Result;
-import open.commons.spring.web.ac.AuthorizedMethod;
-import open.commons.spring.web.ac.AuthorizedMethod.Operator;
+import open.commons.core.TwoValueObject;
 
 /**
- * 메소드 접근 권한 제공 서비스.
+ * 클래스 필드 접근권한 제공 서비스.
  * 
- * @since 2025. 5. 16.
+ * @since 2025. 5. 19.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
- * 
- * @see AuthorizedMethod
  */
-public interface IMethodAccessAuthorityProvider extends IResourceAccessAuthorityProvider {
+public interface IFieldAccessAuthorityProvider extends IResourceAccessAuthorityProvider {
 
     /**
-     * 사용자의 권한에 기반하여 접근여부를 제공합니다. <br>
+     * 
+     * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 16.		박준홍			최초 작성
+     * 2025. 5. 27.		박준홍			최초 작성
      * </pre>
      *
-     * @param operator
-     * @param authorities
+     * @param type
+     *            데이터 유형<br>
+     *            {@link Class#toString()} 값이 전달됨.
+     * @param field
+     *            필드 이름
      * @return
      *
-     * @since 2025. 5. 16.
+     * @since 2025. 5. 26.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    Result<Boolean> isAllowed(@NotNull Operator operator, @NotEmpty String... authorities);
+    Result<TwoValueObject<Boolean, Integer>> isAllowed(@NotEmpty String type, @NotEmpty String field);
 
 }

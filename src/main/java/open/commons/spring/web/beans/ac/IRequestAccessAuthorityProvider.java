@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.ac.provider;
+package open.commons.spring.web.beans.ac;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import open.commons.core.Result;
-import open.commons.spring.web.ac.AuthorizedRequest;
+import open.commons.spring.web.authority.AuthorizedRequest;
 
 /**
  * REST API 기능을 제공하는 메소드에 대한 접근 권한 제공 서비스.

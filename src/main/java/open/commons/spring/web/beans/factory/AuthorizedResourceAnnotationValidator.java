@@ -40,8 +40,8 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
-import open.commons.spring.web.ac.AuthorizedMethod;
-import open.commons.spring.web.ac.AuthorizedRequest;
+import open.commons.spring.web.authority.AuthorizedMethod;
+import open.commons.spring.web.authority.AuthorizedRequest;
 
 /**
  * 권한에 기반하여 자원에 접근할 수 있는 어노테이션을 검증하는 클래스.

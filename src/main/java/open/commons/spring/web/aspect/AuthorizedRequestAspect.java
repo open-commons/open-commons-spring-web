@@ -51,10 +51,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import open.commons.core.Result;
 import open.commons.core.TwoValueObject;
-import open.commons.spring.web.ac.AuthorizedRequest;
-import open.commons.spring.web.ac.provider.IRequestAccessAuthorityProvider;
+import open.commons.spring.web.authority.AuthorizedRequest;
+import open.commons.spring.web.beans.ac.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.servlet.InternalServerException;
-import open.commons.spring.web.servlet.UnauthorizedException;
+import open.commons.spring.web.servlet.UnauthorizedAccessException;
 
 /**
  * REST API 메소드에 대한 접근권한을 중개합니다.
@@ -88,7 +88,8 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
     }
 
     /**
-     * 메소드에 정의된 {@link HttpMethod} 어노테이션에서 경로 정보를 찾아 제공합니다. <br>
+     * 메소드에 정의된 {@link RequestMapping} 및 확장 어노테이션 ({@link DeleteMapping}, {@link GetMapping}, {@link PatchMapping},
+     * {@link PostMapping}, {@link PutMapping}) 에서에서 경로 정보를 찾아 제공합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -196,10 +197,11 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
      * 
      * @see open.commons.spring.web.aspect.IAuthorizedResource#validateAuthorizedResource(org.aspectj.lang.ProceedingJoinPoint)
      */
-    @Around("withinControllerStereotypeComponent()" //
+    @Around("withinAllControllerStereotypeComponent()" //
             + " && ( annotationAuthorizedRequest() || withinAuthorizedRequest() )" //
             + " && annotationAllRequestMapping()" //
-            + " && ( withinRequestMapping() || withinAuthorizedRequest() ) ")
+    )
+    // + " && ( withinRequestMapping() || withinAuthorizedRequest() ) ")
     @Override
     public Object validateAuthorizedResource(ProceedingJoinPoint pjp) throws Throwable {
 
@@ -225,7 +227,7 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
 
         Result<Boolean> validated = bean.isAllowed(httpMethod, pathBuilder.toString());
         if (!validated.getResult() || !validated.getData()) {
-            throw new UnauthorizedException("올바르지 않은 접근입니다.");
+            throw new UnauthorizedAccessException("올바르지 않은 접근입니다.");
         }
 
         return pjp.proceed();

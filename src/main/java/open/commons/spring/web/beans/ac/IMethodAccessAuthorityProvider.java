@@ -18,45 +18,47 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 5. 19. 오후 5:39:00
+ * Date  : 2025. 5. 16. 오후 3:58:47
  *
  * Author: parkjunhong77@gmail.com
  * 
  */
 
-package open.commons.spring.web.ac.provider;
+package open.commons.spring.web.beans.ac;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import open.commons.core.Result;
-import open.commons.spring.web.ac.AuthorizedMethod.Operator;
+import open.commons.spring.web.authority.AuthorizedMethod;
+import open.commons.spring.web.authority.AuthorizedMethod.Operator;
 
 /**
- * 클래스 필드 접근권한 제공 서비스.
+ * 메소드 접근 권한 제공 서비스.
  * 
- * @since 2025. 5. 19.
+ * @since 2025. 5. 16.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
+ * 
+ * @see AuthorizedMethod
  */
-public interface IFieldAccessAuthorityProvider extends IResourceAccessAuthorityProvider {
+public interface IMethodAccessAuthorityProvider extends IResourceAccessAuthorityProvider {
 
     /**
-     * 
-     * <br>
+     * 사용자의 권한에 기반하여 접근여부를 제공합니다. <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 19.		박준홍			최초 작성
+     * 2025. 5. 16.		박준홍			최초 작성
      * </pre>
      *
      * @param operator
      * @param authorities
      * @return
      *
-     * @since 2025. 5. 19.
+     * @since 2025. 5. 16.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */

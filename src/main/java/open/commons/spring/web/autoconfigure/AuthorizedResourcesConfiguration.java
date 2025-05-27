@@ -26,23 +26,29 @@
 
 package open.commons.spring.web.autoconfigure;
 
+import java.util.Map;
+
+import javax.validation.constraints.NotNull;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import open.commons.spring.web.ac.provider.IFieldAccessAuthorityProvider;
-import open.commons.spring.web.ac.provider.IMethodAccessAuthorityProvider;
-import open.commons.spring.web.ac.provider.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.aspect.AuthorizedMethodAspect;
 import open.commons.spring.web.aspect.AuthorizedRequestAspect;
-import open.commons.spring.web.aspect.AuthorizedResponseAspect;
-import open.commons.spring.web.beans.DefaultAuthorizedResponseHandler;
-import open.commons.spring.web.beans.DefaultUnauthorizedFieldHandler;
-import open.commons.spring.web.beans.IAuthorizedResponseHandler;
-import open.commons.spring.web.beans.IUnauthorizedFieldHandler;
+import open.commons.spring.web.beans.ac.IFieldAccessAuthorityProvider;
+import open.commons.spring.web.beans.ac.IMethodAccessAuthorityProvider;
+import open.commons.spring.web.beans.ac.IRequestAccessAuthorityProvider;
+import open.commons.spring.web.beans.ac.IUnauthorizedFieldHandler;
+import open.commons.spring.web.config.AuthorizedObjectMessageConfigure;
+import open.commons.spring.web.jackson.AuthorizedFieldSerializerModifier;
+import open.commons.spring.web.jackson.ConditionalJackson2HttpMessageConverter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 /**
  * 
@@ -51,6 +57,8 @@ import open.commons.spring.web.beans.IUnauthorizedFieldHandler;
  * @author parkjunhong77@gmail.com
  */
 public class AuthorizedResourcesConfiguration {
+
+    public static final String BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER = "open.commons.spring.web.autoconfigure.AuthorizedResourcesConfiguration#AUTHORIZED_OBJECT_MAPPER";
 
     public AuthorizedResourcesConfiguration() {
     }
@@ -62,32 +70,33 @@ public class AuthorizedResourcesConfiguration {
         return new AuthorizedMethodAspect(context);
     }
 
+    @Bean(BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER)
+    @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
+    ObjectMapper authorizedObjectMapper(ApplicationContext context) {
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.setSerializerModifier(new AuthorizedFieldSerializerModifier(context));
+        mapper.registerModule(module);
+
+        return mapper;
+    }
+
+    @Bean
+    WebMvcConfigurer authorizedObjectMessageConfigure(
+            @Qualifier(ConditionalJackson2HttpMessageConverter.BEAN_QUALIFIER) @NotNull ConditionalJackson2HttpMessageConverter messageConverter) {
+        return new AuthorizedObjectMessageConfigure(messageConverter);
+    }
+
+    @Bean(ConditionalJackson2HttpMessageConverter.BEAN_QUALIFIER)
+    @ConditionalOnBean(name = { BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER })
+    ConditionalJackson2HttpMessageConverter authorizedObjectMessageConverter(@NotNull Map<String, ObjectMapper> allObjectMappers) {
+        return new ConditionalJackson2HttpMessageConverter(allObjectMappers);
+    }
+
     @Bean
     @ConditionalOnBean(IRequestAccessAuthorityProvider.class)
     @ConditionalOnMissingBean
     AuthorizedRequestAspect authorizedRequestAspect(ApplicationContext context) {
         return new AuthorizedRequestAspect(context);
     }
-
-    @Bean
-    @ConditionalOnBean(IFieldAccessAuthorityProvider.class)
-    @ConditionalOnMissingBean
-    AuthorizedResponseAspect authorizedResponseAspect(ApplicationContext context) {
-        return new AuthorizedResponseAspect(context);
-    }
-
-    @Bean
-    @ConditionalOnBean(AuthorizedResponseAspect.class)
-    @Order(Ordered.LOWEST_PRECEDENCE)
-    IAuthorizedResponseHandler authorizedResponseHandler(ApplicationContext context) {
-        return new DefaultAuthorizedResponseHandler(context);
-    }
-
-    @Bean
-    @ConditionalOnBean(AuthorizedResponseAspect.class)
-    @Order(Ordered.LOWEST_PRECEDENCE)
-    IUnauthorizedFieldHandler unauthorizedFieldHanlder(ApplicationContext context) {
-        return new DefaultUnauthorizedFieldHandler(context);
-    }
-
 }

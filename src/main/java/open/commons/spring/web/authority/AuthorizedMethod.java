@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.ac;
+package open.commons.spring.web.authority;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -37,7 +37,7 @@ import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import open.commons.spring.web.ac.provider.IMethodAccessAuthorityProvider;
+import open.commons.spring.web.beans.ac.IMethodAccessAuthorityProvider;
 
 /**
  * 메소드를 사용하기 위한 접근 권한을 정의하는 클래스.<br>

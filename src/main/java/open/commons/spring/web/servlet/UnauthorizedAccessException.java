@@ -37,7 +37,7 @@ import org.springframework.http.HttpStatus;
  * 
  * @see HttpStatus#BAD_REQUEST
  */
-public class UnauthorizedException extends RuntimeException {
+public class UnauthorizedAccessException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
@@ -56,7 +56,7 @@ public class UnauthorizedException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public UnauthorizedException() {
+    public UnauthorizedAccessException() {
     }
 
     /**
@@ -75,7 +75,7 @@ public class UnauthorizedException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public UnauthorizedException(String message) {
+    public UnauthorizedAccessException(String message) {
         super(message);
     }
 
@@ -96,7 +96,7 @@ public class UnauthorizedException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public UnauthorizedException(String message, Throwable cause) {
+    public UnauthorizedAccessException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -119,7 +119,7 @@ public class UnauthorizedException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public UnauthorizedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public UnauthorizedAccessException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
@@ -139,7 +139,7 @@ public class UnauthorizedException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public UnauthorizedException(Throwable cause) {
+    public UnauthorizedAccessException(Throwable cause) {
         super(cause);
     }
 

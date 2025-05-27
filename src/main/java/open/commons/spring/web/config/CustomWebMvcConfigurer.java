@@ -319,16 +319,16 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      */
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        context.getBeansOfType(HttpMessageConverter.class) // Bean 중에서 HttpMessageConverter 를 구현한 객체를찾아서.
-                .values() //
-                .stream() //
-                // .filter(p -> p.getClass().getAnnotation(CustomHttpMessageConverter.class) != null) // 사용자 정의
-                // CustomHttpMessageConverter
-                .forEach(converter -> {
-                    converters.add(converter);
-
-                    logger.info("Register a HttpMessageConverter. {}.", converter);
-                });
+//        context.getBeansOfType(HttpMessageConverter.class) // Bean 중에서 HttpMessageConverter 를 구현한 객체를찾아서.
+//                .values() //
+//                .stream() //
+//                // .filter(p -> p.getClass().getAnnotation(CustomHttpMessageConverter.class) != null) // 사용자 정의
+//                // CustomHttpMessageConverter
+//                .forEach(converter -> {
+//                    converters.add(converter);
+//
+//                    logger.info("Register a HttpMessageConverter. {}.", converter);
+//                });
 
         WebMvcConfigurer.super.extendMessageConverters(converters);
     }

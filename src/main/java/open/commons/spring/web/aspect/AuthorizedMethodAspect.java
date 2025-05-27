@@ -38,9 +38,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 
 import open.commons.core.Result;
-import open.commons.spring.web.ac.AuthorizedMethod;
-import open.commons.spring.web.ac.provider.IMethodAccessAuthorityProvider;
-import open.commons.spring.web.servlet.UnauthorizedException;
+import open.commons.spring.web.authority.AuthorizedMethod;
+import open.commons.spring.web.beans.ac.IMethodAccessAuthorityProvider;
+import open.commons.spring.web.servlet.UnauthorizedAccessException;
 
 /**
  * 메소드에 대한 접근권한을 중개합니다.
@@ -115,12 +115,12 @@ public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMe
         logger.trace("provider={}", bean);
 
         if (annotation.roles().length < 1) {
-            throw new UnauthorizedException("올바르지 않은 접근입니다.");
+            throw new UnauthorizedAccessException("올바르지 않은 접근입니다.");
         }
 
         Result<Boolean> validated = bean.isAllowed(annotation.op(), annotation.roles());
         if (!validated.getResult() || !validated.getData()) {
-            throw new UnauthorizedException("올바르지 않은 접근입니다.");
+            throw new UnauthorizedAccessException("올바르지 않은 접근입니다.");
         }
 
         return pjp.proceed();

@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.ac.provider;
+package open.commons.spring.web.beans.ac;
 
 import open.commons.core.Result;
 

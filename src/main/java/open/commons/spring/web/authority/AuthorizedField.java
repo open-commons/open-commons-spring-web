@@ -18,13 +18,13 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 5. 19. 오전 10:43:06
+ * Date  : 2025. 5. 16. 오후 3:34:09
  *
  * Author: parkjunhong77@gmail.com
  * 
  */
 
-package open.commons.spring.web.ac;
+package open.commons.spring.web.authority;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -33,26 +33,25 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.springframework.core.annotation.AliasFor;
-
-import open.commons.spring.web.ac.provider.IRequestAccessAuthorityProvider;
+import open.commons.spring.web.beans.ac.IFieldAccessAuthorityProvider;
+import open.commons.spring.web.beans.ac.IUnauthorizedFieldHandler;
 
 /**
- * REST API 를 사용하기 위한 접근 권한을 정의하는 클래스.<br>
+ * 필드값을 사용하기 위한 접근 권한을 정의하는 클래스.<br>
  * 
- * @since 2025. 5. 19.
+ * @since 2025. 5. 16.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
 @Documented
 @Inherited
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ ElementType.FIELD, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AuthorizedRequest {
+public @interface AuthorizedField {
 
     /**
      * 접근권한을 검증하는 Bean 정보를 설정합니다. <br>
-     * 설정된 Bean은 {@link IRequestAccessAuthorityProvider} 인터페이스를 구현해야 합니다.
+     * 설정되는 Bean은 반드시 {@link IFieldAccessAuthorityProvider}를 구현해야 합니다.
      * 
      * <pre>
      * [개정이력]
@@ -67,28 +66,62 @@ public @interface AuthorizedRequest {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      * 
-     * @see IRequestAccessAuthorityProvider
+     * @see IFieldAccessAuthorityProvider
      */
-    @AliasFor("value")
     String authorityBean() default "";
 
     /**
-     * 접근권한을 검증하는 Bean 정보를 설정합니다. <br>
-     * 설정된 Bean은 {@link IRequestAccessAuthorityProvider} 인터페이스를 구현해야 합니다.
+     * 데이터 유형 설명 <br>
      * 
      * <pre>
      * [개정이력]
-     *      날짜    	| 작성자	|	내용
+     *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 5. 20.		박준홍			최초 작성
+     * 2025. 5. 26.     박준홍         최초 작성
      * </pre>
      *
      * @return
      *
-     * @since 2025. 5. 20.
+     * @since 2025. 5. 26.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    @AliasFor("authorityBean")
-    String value() default "";
+    String descr() default "";
+
+    /**
+     * 권한제어 기능을 제공하는 Bean 이름(식별정보)을 설정합니다. <br>
+     * 설정되는 Bean은 반드시 {@link IUnauthorizedFieldHandler}를 구현해야 합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 5. 26.     박준홍         최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 5. 26.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    String fieldHandleBean() default "";
+
+    /**
+     * 데이터 유형 이름<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 5. 26.     박준홍         최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 5. 26.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    String name() default "";
 }

@@ -18,41 +18,45 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 5. 21. 오후 1:29:21
+ * Date  : 2025. 5. 20. 오후 4:41:27
  *
  * Author: parkjunhong77@gmail.com
  * 
  */
 
-package open.commons.spring.web.beans;
+package open.commons.spring.web.beans.ac;
 
-import open.commons.spring.web.ac.AuthorizedResponse;
+import open.commons.spring.web.authority.AuthorizedField;
 
 /**
- * {@link AuthorizedResponse}를 처리하는 기능 정의.
+ * {@link AuthorizedField#mode()} 처리를 하는 기능 정의.
  * 
- * @since 2025. 5. 21.
+ * @since 2025. 5. 20.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public interface IAuthorizedResponseHandler {
+public interface IUnauthorizedFieldHandler {
 
     /**
-     * 데이터를 처리합니다. <br>
+     * 데이터 처리방식에 따라 데이터를 처리한 결과를 제공합니다.
      * 
      * <pre>
      * [개정이력]
-     *      날짜      | 작성자   |   내용
+     *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 20.     박준홍         최초 작성
+     * 2025. 5. 26.		박준홍			최초 작성
      * </pre>
      *
-     * @param o
+     * @param handle
+     *            데이터 처리방식 식별정보
+     * @param data
+     *            데이터
+     * @return
      *
-     * @since 2025. 5. 20.
+     * @since 2025. 5. 26.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    Object handle(Object o) throws Throwable;
+    Object handleObject(int handle, Object data);
 
 }

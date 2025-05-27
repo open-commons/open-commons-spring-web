@@ -43,7 +43,7 @@ import open.commons.core.function.TripleFunction;
 import open.commons.spring.web.servlet.BadRequestException;
 import open.commons.spring.web.servlet.InternalServerException;
 import open.commons.spring.web.servlet.NotFoundException;
-import open.commons.spring.web.servlet.UnauthorizedException;
+import open.commons.spring.web.servlet.UnauthorizedAccessException;
 import open.commons.spring.web.utils.WebUtils;
 
 /**
@@ -130,7 +130,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * 2020. 1. 17.		박준홍			최초 작성
      * 2020. 7. 30.     박준홍         {@link BadRequestException} 추가
      * 2022. 12. 01.    박준홍         {@link NotFoundException} 추가.
-     * 2025. 5. 19.    박준홍         {@link UnauthorizedException} 추가.
+     * 2025. 5. 19.     박준홍         {@link UnauthorizedAccessException} 추가.
      * </pre>
      *
      * @param ex
@@ -145,7 +145,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
             BadRequestException.class, //
             ConstraintViolationException.class, //
             NotFoundException.class, //
-            UnauthorizedException.class //
+            UnauthorizedAccessException.class //
     })
     public ResponseEntity<Object> handle4xxException(Exception ex, WebRequest request) {
 
@@ -158,7 +158,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
             status = HttpStatus.BAD_REQUEST;
         } else if (NotFoundException.class.equals(exClass)) {
             status = HttpStatus.NOT_FOUND;
-        } else if (UnauthorizedException.class.equals(exClass)) {
+        } else if (UnauthorizedAccessException.class.equals(exClass)) {
             status = HttpStatus.UNAUTHORIZED;
         }
 

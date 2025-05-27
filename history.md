@@ -1,3 +1,13 @@
+[2025/05/27]
+- Add
+  + open.commons.spring.web.jackson 패키지
+  + open.commons.spring.web.beans.factory.
+  + open.commons.spring.web.config.AuthorizedObjectMessageConfigure
+- Modify
+  + 패키지 구조 변화 
+    + open.commons.spring.web.ac -> open.commons.spring.web.authority
+    + open.commons.spring.web.ac.provider -> open.commons.spring.web.beans.ac
+    
 [2025/05/20]
 - Add
   + open.commons.spring.web.aspect.AuthorizedResponseAspect: 응답 권한 처리 

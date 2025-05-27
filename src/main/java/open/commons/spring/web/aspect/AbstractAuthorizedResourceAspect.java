@@ -100,15 +100,15 @@ public abstract class AbstractAuthorizedResourceAspect<T> implements IAuthorized
     public final void annotationAllRequestMapping() {
     }
 
-    @Pointcut("@annotation(open.commons.spring.web.ac.AuthorizedMethod)")
+    @Pointcut("@annotation(open.commons.spring.web.authority.AuthorizedMethod)")
     public final void annotationAuthorizedMethod() {
     }
 
-    @Pointcut("@annotation(open.commons.spring.web.ac.AuthorizedRequest)")
+    @Pointcut("@annotation(open.commons.spring.web.authority.AuthorizedRequest)")
     public final void annotationAuthorizedRequest() {
     }
 
-    @Pointcut("@annotation(open.commons.spring.web.ac.AuthorizedResponse)")
+    @Pointcut("@annotation(open.commons.spring.web.authority.AuthorizedResponse)")
     public final void annotationAuthorizedResponse() {
     }
 
@@ -259,12 +259,16 @@ public abstract class AbstractAuthorizedResourceAspect<T> implements IAuthorized
     public final void withinAllStereotypeComponent() {
     }
 
-    @Pointcut("@within(open.commons.spring.web.ac.AuthorizedMethod)")
+    @Pointcut("@within(open.commons.spring.web.authority.AuthorizedMethod)")
     public final void withinAuthorizedMethod() {
     }
 
-    @Pointcut("@within(open.commons.spring.web.ac.AuthorizedRequest)")
+    @Pointcut("@within(open.commons.spring.web.authority.AuthorizedRequest)")
     public final void withinAuthorizedRequest() {
+    }
+    
+    @Pointcut("@within(open.commons.spring.web.authority.AuthorizedResponse)")
+    public final void withinAuthorizedResponse() {
     }
 
     @Pointcut("@within(org.springframework.stereotype.Component)")

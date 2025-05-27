@@ -55,6 +55,10 @@ public class BeanUtils {
         this.context = context;
     }
 
+    public ApplicationContext context() {
+        return this.context;
+    }
+
     /**
      * 주어진 이름에 해당하는 Bean 객체를 제공합니다. <br>
      * 

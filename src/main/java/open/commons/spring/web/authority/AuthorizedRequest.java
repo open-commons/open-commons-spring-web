@@ -18,13 +18,13 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 5. 19. 오전 10:35:11
+ * Date  : 2025. 5. 19. 오전 10:43:06
  *
  * Author: parkjunhong77@gmail.com
  * 
  */
 
-package open.commons.spring.web.ac;
+package open.commons.spring.web.authority;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -35,10 +35,10 @@ import java.lang.annotation.Target;
 
 import org.springframework.core.annotation.AliasFor;
 
-import open.commons.spring.web.beans.IAuthorizedResponseHandler;
+import open.commons.spring.web.beans.ac.IRequestAccessAuthorityProvider;
 
 /**
- * 메소드에서 반환하는 데이터를 사용하기 위한 권한을 정의하는 클래스.
+ * REST API 를 사용하기 위한 접근 권한을 정의하는 클래스.<br>
  * 
  * @since 2025. 5. 19.
  * @version 0.8.0
@@ -46,35 +46,35 @@ import open.commons.spring.web.beans.IAuthorizedResponseHandler;
  */
 @Documented
 @Inherited
-@Target({ ElementType.METHOD })
+@Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AuthorizedResponse {
+public @interface AuthorizedRequest {
 
     /**
-     * 데이터를 처리하는 Bean 식별정보를 설정합니다. <br>
-     * 설정되는 Bean은 반드시 {@link IAuthorizedResponseHandler} 를 구현해야 합니다.
+     * 접근권한을 검증하는 Bean 정보를 설정합니다. <br>
+     * 설정된 Bean은 {@link IRequestAccessAuthorityProvider} 인터페이스를 구현해야 합니다.
      * 
      * <pre>
      * [개정이력]
-     *      날짜    	| 작성자	|	내용
+     *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 5. 20.		박준홍			최초 작성
+     * 2025. 5. 16.     박준홍         최초 작성
      * </pre>
      *
      * @return
      *
-     * @since 2025. 5. 20.
+     * @since 2025. 5. 16.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      * 
-     * @see IAuthorizedResponseHandler
+     * @see IRequestAccessAuthorityProvider
      */
     @AliasFor("value")
-    String dataHandleBean() default "";
+    String authorityBean() default "";
 
     /**
-     * 데이터를 처리하는 Bean 식별정보를 설정합니다. <br>
-     * 설정되는 Bean은 반드시 {@link IAuthorizedResponseHandler} 를 구현해야 합니다. <br>
+     * 접근권한을 검증하는 Bean 정보를 설정합니다. <br>
+     * 설정된 Bean은 {@link IRequestAccessAuthorityProvider} 인터페이스를 구현해야 합니다.
      * 
      * <pre>
      * [개정이력]
@@ -88,10 +88,7 @@ public @interface AuthorizedResponse {
      * @since 2025. 5. 20.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
-     * 
-     * @see IAuthorizedResponseHandler
      */
-    @AliasFor("dataHandleBean")
+    @AliasFor("authorityBean")
     String value() default "";
-
 }
