@@ -73,6 +73,42 @@ public @interface AuthorizedRequest {
     String authorityBean() default "";
 
     /**
+     * 기능 설명 <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 5. 26.     박준홍         최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 5. 26.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    String descr() default "";
+
+    /**
+     * 기능 이름<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 5. 26.     박준홍         최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 5. 26.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    String name() default "";
+
+    /**
      * 접근권한을 검증하는 Bean 정보를 설정합니다. <br>
      * 설정된 Bean은 {@link IRequestAccessAuthorityProvider} 인터페이스를 구현해야 합니다.
      * 
