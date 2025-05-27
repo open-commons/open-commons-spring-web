@@ -45,7 +45,7 @@ import open.commons.spring.web.beans.ac.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.beans.ac.IUnauthorizedFieldHandler;
 import open.commons.spring.web.config.AuthorizedObjectMessageConfigure;
 import open.commons.spring.web.jackson.AuthorizedFieldSerializerModifier;
-import open.commons.spring.web.jackson.ConditionalJackson2HttpMessageConverter;
+import open.commons.spring.web.jackson.AuthorizedObjectJackson2HttpMessageConverter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -83,14 +83,14 @@ public class AuthorizedResourcesConfiguration {
 
     @Bean
     WebMvcConfigurer authorizedObjectMessageConfigure(
-            @Qualifier(ConditionalJackson2HttpMessageConverter.BEAN_QUALIFIER) @NotNull ConditionalJackson2HttpMessageConverter messageConverter) {
+            @Qualifier(AuthorizedObjectJackson2HttpMessageConverter.BEAN_QUALIFIER) @NotNull AuthorizedObjectJackson2HttpMessageConverter messageConverter) {
         return new AuthorizedObjectMessageConfigure(messageConverter);
     }
 
-    @Bean(ConditionalJackson2HttpMessageConverter.BEAN_QUALIFIER)
+    @Bean(AuthorizedObjectJackson2HttpMessageConverter.BEAN_QUALIFIER)
     @ConditionalOnBean(name = { BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER })
-    ConditionalJackson2HttpMessageConverter authorizedObjectMessageConverter(@NotNull Map<String, ObjectMapper> allObjectMappers) {
-        return new ConditionalJackson2HttpMessageConverter(allObjectMappers);
+    AuthorizedObjectJackson2HttpMessageConverter authorizedObjectMessageConverter(@NotNull Map<String, ObjectMapper> allObjectMappers) {
+        return new AuthorizedObjectJackson2HttpMessageConverter(allObjectMappers);
     }
 
     @Bean

@@ -85,9 +85,9 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class ConditionalJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
+public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
 
-    public static final String BEAN_QUALIFIER = "open.commons.spring.web.jackson.ConditionalJackson2HttpMessageConverter";
+    public static final String BEAN_QUALIFIER = "open.commons.spring.web.jackson.AuthorizedObjectJackson2HttpMessageConverter";
 
     private static final String DEFAULT_JACKSON_OBJECT_MAPPER = "jacksonObjectMapper";
 
@@ -117,7 +117,7 @@ public class ConditionalJackson2HttpMessageConverter extends MappingJackson2Http
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public ConditionalJackson2HttpMessageConverter(Map<String, ObjectMapper> allObjectMappers) {
+    public AuthorizedObjectJackson2HttpMessageConverter(Map<String, ObjectMapper> allObjectMappers) {
         super();
         this.allObjectMappers = allObjectMappers;
         this.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -342,7 +342,7 @@ public class ConditionalJackson2HttpMessageConverter extends MappingJackson2Http
      * <ul>
      * <li>{@link AbstractJackson2HttpMessageConverter#writeInternal(Object, Type, HttpOutputMessage)}:
      * selectObject(Class, MediaType)
-     * <li>{@link ConditionalJackson2HttpMessageConverter#write(Object, MediaType, HttpOutputMessage)}:
+     * <li>{@link AuthorizedObjectJackson2HttpMessageConverter#write(Object, MediaType, HttpOutputMessage)}:
      * {@link #resolveMapper(Object, Class, MediaType)}
      * </ul>
      * 
