@@ -18,50 +18,60 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 5. 19. 오후 5:39:00
+ * Date  : 2025. 5. 19. 오후 1:08:20
  *
  * Author: parkjunhong77@gmail.com
  * 
  */
 
-package open.commons.spring.web.beans.ac;
+package open.commons.spring.web.beans.authority;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import open.commons.core.Result;
-import open.commons.core.TwoValueObject;
+import open.commons.spring.web.authority.AuthorizedRequest;
 
 /**
- * 클래스 필드 접근권한 제공 서비스.
+ * REST API 기능을 제공하는 메소드에 대한 접근 권한 제공 서비스.
  * 
  * @since 2025. 5. 19.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
+ * 
+ * @see AuthorizedRequest
+ * @see Controller
+ * @see RestController
+ * @see RequestMapping
  */
-public interface IFieldAccessAuthorityProvider extends IResourceAccessAuthorityProvider {
+public interface IRequestAccessAuthorityProvider extends IResourceAccessAuthorityProvider {
 
     /**
-     * 
-     * <br>
+     * URL 패턴에 기반하여 접근여부를 제공합니다. <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 27.		박준홍			최초 작성
+     * 2025. 5. 19.		박준홍			최초 작성
      * </pre>
+     * 
+     * @param requestMethod
+     *            REST API Http Method
+     * @param path
+     *            REST API 경로
      *
-     * @param type
-     *            데이터 유형<br>
-     *            {@link Class#toString()} 값이 전달됨.
-     * @param field
-     *            필드 이름
      * @return
      *
-     * @since 2025. 5. 26.
+     * @since 2025. 5. 19.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    Result<TwoValueObject<Boolean, Integer>> isAllowed(@NotEmpty String type, @NotEmpty String field);
+    Result<Boolean> isAllowed(@NotNull RequestMethod requestMethod, @NotEmpty String path);
 
 }

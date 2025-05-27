@@ -33,8 +33,8 @@ import open.commons.core.Result;
 import open.commons.core.TwoValueObject;
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.spring.web.authority.AuthorizedField;
-import open.commons.spring.web.beans.ac.IFieldAccessAuthorityProvider;
-import open.commons.spring.web.beans.ac.IUnauthorizedFieldHandler;
+import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.servlet.InternalServerException;
 
 import com.fasterxml.jackson.core.JsonGenerator;

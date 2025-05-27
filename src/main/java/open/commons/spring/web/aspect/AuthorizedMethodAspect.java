@@ -39,7 +39,7 @@ import org.springframework.core.annotation.Order;
 
 import open.commons.core.Result;
 import open.commons.spring.web.authority.AuthorizedMethod;
-import open.commons.spring.web.beans.ac.IMethodAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider;
 import open.commons.spring.web.servlet.UnauthorizedAccessException;
 
 /**

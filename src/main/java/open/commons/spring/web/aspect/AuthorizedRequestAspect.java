@@ -52,7 +52,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import open.commons.core.Result;
 import open.commons.core.TwoValueObject;
 import open.commons.spring.web.authority.AuthorizedRequest;
-import open.commons.spring.web.beans.ac.IRequestAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.servlet.InternalServerException;
 import open.commons.spring.web.servlet.UnauthorizedAccessException;
 

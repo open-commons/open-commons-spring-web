@@ -33,8 +33,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import open.commons.spring.web.beans.ac.IFieldAccessAuthorityProvider;
-import open.commons.spring.web.beans.ac.IUnauthorizedFieldHandler;
+import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 
 /**
  * 권한제어를 적용하는 클래스 선언.

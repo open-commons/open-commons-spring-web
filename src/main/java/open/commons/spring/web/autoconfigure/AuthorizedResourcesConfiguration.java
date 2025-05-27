@@ -39,10 +39,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import open.commons.spring.web.aspect.AuthorizedMethodAspect;
 import open.commons.spring.web.aspect.AuthorizedRequestAspect;
-import open.commons.spring.web.beans.ac.IFieldAccessAuthorityProvider;
-import open.commons.spring.web.beans.ac.IMethodAccessAuthorityProvider;
-import open.commons.spring.web.beans.ac.IRequestAccessAuthorityProvider;
-import open.commons.spring.web.beans.ac.IUnauthorizedFieldHandler;
+import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IRequestAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.config.AuthorizedObjectMessageConfigure;
 import open.commons.spring.web.jackson.AuthorizedFieldSerializerModifier;
 import open.commons.spring.web.jackson.AuthorizedObjectJackson2HttpMessageConverter;

@@ -37,7 +37,7 @@ import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import open.commons.spring.web.beans.ac.IMethodAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider;
 
 /**
  * 메소드를 사용하기 위한 접근 권한을 정의하는 클래스.<br>

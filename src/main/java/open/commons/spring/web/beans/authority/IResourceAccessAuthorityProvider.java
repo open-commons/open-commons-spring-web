@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.beans.ac;
+package open.commons.spring.web.beans.authority;
 
 import open.commons.core.Result;
 

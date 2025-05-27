@@ -35,7 +35,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.core.annotation.AliasFor;
 
-import open.commons.spring.web.beans.ac.IRequestAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IRequestAccessAuthorityProvider;
 
 /**
  * REST API 를 사용하기 위한 접근 권한을 정의하는 클래스.<br>

@@ -37,8 +37,8 @@ import org.springframework.context.ApplicationContext;
 import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedObject;
-import open.commons.spring.web.beans.ac.IFieldAccessAuthorityProvider;
-import open.commons.spring.web.beans.ac.IUnauthorizedFieldHandler;
+import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.utils.BeanUtils;
 
 import com.fasterxml.jackson.databind.BeanDescription;

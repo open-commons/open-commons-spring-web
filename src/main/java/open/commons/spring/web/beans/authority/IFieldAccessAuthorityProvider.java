@@ -18,45 +18,50 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 5. 20. 오후 4:41:27
+ * Date  : 2025. 5. 19. 오후 5:39:00
  *
  * Author: parkjunhong77@gmail.com
  * 
  */
 
-package open.commons.spring.web.beans.ac;
+package open.commons.spring.web.beans.authority;
 
-import open.commons.spring.web.authority.AuthorizedField;
+import javax.validation.constraints.NotEmpty;
+
+import open.commons.core.Result;
+import open.commons.core.TwoValueObject;
 
 /**
- * {@link AuthorizedField#mode()} 처리를 하는 기능 정의.
+ * 클래스 필드 접근권한 제공 서비스.
  * 
- * @since 2025. 5. 20.
+ * @since 2025. 5. 19.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public interface IUnauthorizedFieldHandler {
+public interface IFieldAccessAuthorityProvider extends IResourceAccessAuthorityProvider {
 
     /**
-     * 데이터 처리방식에 따라 데이터를 처리한 결과를 제공합니다.
+     * 
+     * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 26.		박준홍			최초 작성
+     * 2025. 5. 27.		박준홍			최초 작성
      * </pre>
      *
-     * @param handle
-     *            데이터 처리방식 식별정보
-     * @param data
-     *            데이터
+     * @param type
+     *            데이터 유형<br>
+     *            {@link Class#toString()} 값이 전달됨.
+     * @param field
+     *            필드 이름
      * @return
      *
      * @since 2025. 5. 26.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    Object handleObject(int handle, Object data);
+    Result<TwoValueObject<Boolean, Integer>> isAllowed(@NotEmpty String type, @NotEmpty String field);
 
 }

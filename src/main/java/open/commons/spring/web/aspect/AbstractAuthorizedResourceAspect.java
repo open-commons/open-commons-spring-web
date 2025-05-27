@@ -54,7 +54,6 @@ public abstract class AbstractAuthorizedResourceAspect<T> implements IAuthorized
 
     public static final int ORDER_METHOD = Ordered.HIGHEST_PRECEDENCE;
     public static final int ORDER_REQUEST = Ordered.HIGHEST_PRECEDENCE;
-    public static final int ORDER_RESPONSE = Ordered.HIGHEST_PRECEDENCE + 1;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -252,6 +251,13 @@ public abstract class AbstractAuthorizedResourceAspect<T> implements IAuthorized
     @Pointcut("(" //
             + "@within(org.springframework.stereotype.Controller)" //
             + " || @within(org.springframework.web.bind.annotation.RestController)" //
+            + ") ")
+    public final void withinAllControllerStereotypeComponent() {
+    }
+
+    @Pointcut("(" //
+            + "@within(org.springframework.stereotype.Controller)" //
+            + " || @within(org.springframework.web.bind.annotation.RestController)" //
             + " || @within(org.springframework.stereotype.Component)" //
             + " || @within(org.springframework.stereotype.Service)" //
             + " || @within(org.springframework.stereotype.Repository)" //
@@ -266,20 +272,13 @@ public abstract class AbstractAuthorizedResourceAspect<T> implements IAuthorized
     @Pointcut("@within(open.commons.spring.web.authority.AuthorizedRequest)")
     public final void withinAuthorizedRequest() {
     }
-    
+
     @Pointcut("@within(open.commons.spring.web.authority.AuthorizedResponse)")
     public final void withinAuthorizedResponse() {
     }
 
     @Pointcut("@within(org.springframework.stereotype.Component)")
     public final void withinComponentStereotypeComponent() {
-    }
-
-    @Pointcut("(" //
-            + "@within(org.springframework.stereotype.Controller)" //
-            + " || @within(org.springframework.web.bind.annotation.RestController)" //
-            + ") ")
-    public final void withinAllControllerStereotypeComponent() {
     }
 
     @Pointcut("@within(org.springframework.stereotype.Repository)")
