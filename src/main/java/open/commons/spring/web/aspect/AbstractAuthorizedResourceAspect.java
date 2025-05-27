@@ -107,10 +107,6 @@ public abstract class AbstractAuthorizedResourceAspect<T> implements IAuthorized
     public final void annotationAuthorizedRequest() {
     }
 
-    @Pointcut("@annotation(open.commons.spring.web.authority.AuthorizedResponse)")
-    public final void annotationAuthorizedResponse() {
-    }
-
     /**
      * 타입과 메소드에 모두 동일한 어노테이션이 설정되어 있는 경우를 고려하여 사용할 어노테이션을 제공합니다. <br>
      * 
@@ -271,10 +267,6 @@ public abstract class AbstractAuthorizedResourceAspect<T> implements IAuthorized
 
     @Pointcut("@within(open.commons.spring.web.authority.AuthorizedRequest)")
     public final void withinAuthorizedRequest() {
-    }
-
-    @Pointcut("@within(open.commons.spring.web.authority.AuthorizedResponse)")
-    public final void withinAuthorizedResponse() {
     }
 
     @Pointcut("@within(org.springframework.stereotype.Component)")

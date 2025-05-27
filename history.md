@@ -7,6 +7,9 @@
   + 패키지 구조 변화 
     + open.commons.spring.web.ac -> open.commons.spring.web.authority
     + open.commons.spring.web.ac.provider -> open.commons.spring.web.beans.ac
+- Delete
+  + open.commons.spring.web.authority.AuthorizedResponse
+  + open.commons.spring.web.aspect.AuthorizedResponseAspect
     
 [2025/05/20]
 - Add
