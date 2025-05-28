@@ -1,3 +1,10 @@
+[2025/05/28]
+- Add
+  + open.commons.spring.web.servlet.method.annotation.DefaultGlobalExceptionHandler
+    + resolveAnnotatedResponseStatus(Exception, HttpStatus): ResponseStatus 를 통한 HttpStatus 설정 지원
+    + handle4xxException(Exception, WebRequest): resolveAnnotatedResponseStatus 적용
+    + handle5xxException(Exception, WebRequest): resolveAnnotatedResponseStatus 적용
+    
 [2025/05/27]
 - Add
   + open.commons.spring.web.jackson 패키지

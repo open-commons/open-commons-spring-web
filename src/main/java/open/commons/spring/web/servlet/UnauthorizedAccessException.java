@@ -27,6 +27,7 @@
 package open.commons.spring.web.servlet;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * 권한이 없는 데이터 접근이 경우 발생시키는 예외 클래스.
@@ -35,8 +36,9 @@ import org.springframework.http.HttpStatus;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  * 
- * @see HttpStatus#BAD_REQUEST
+ * @see HttpStatus#UNAUTHORIZED
  */
+@ResponseStatus(HttpStatus.UNAUTHORIZED)
 public class UnauthorizedAccessException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;

@@ -29,12 +29,14 @@ package open.commons.spring.web.servlet.method.annotation;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.core.Ordered;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -131,6 +133,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * 2020. 7. 30.     박준홍         {@link BadRequestException} 추가
      * 2022. 12. 01.    박준홍         {@link NotFoundException} 추가.
      * 2025. 5. 19.     박준홍         {@link UnauthorizedAccessException} 추가.
+     * 2025. 5. 28      박준홍         {@link #resolveAnnotatedResponseStatus(Exception, HttpStatus)} 적용
      * </pre>
      *
      * @param ex
@@ -149,19 +152,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
     })
     public ResponseEntity<Object> handle4xxException(Exception ex, WebRequest request) {
 
-        HttpStatus status = null;
-
-        Class<?> exClass = ex.getClass();
-        if (BadRequestException.class.equals(exClass) //
-                || ConstraintViolationException.class.equals(exClass) //
-        ) {
-            status = HttpStatus.BAD_REQUEST;
-        } else if (NotFoundException.class.equals(exClass)) {
-            status = HttpStatus.NOT_FOUND;
-        } else if (UnauthorizedAccessException.class.equals(exClass)) {
-            status = HttpStatus.UNAUTHORIZED;
-        }
-
+        HttpStatus status = resolveAnnotatedResponseStatus(ex, HttpStatus.BAD_REQUEST);
         FIFOMap<String, Object> entity = this.FN_CREATE_ENTITY.apply(request, ex, status);
 
         return handleExceptionInternal(ex, entity, new HttpHeaders(), status, request);
@@ -176,14 +167,18 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * ------------------------------------------
      * 2020. 1. 17.		박준홍			최초 작성
      * 2020. 7. 30.     박준홍         {@link InternalServerException} 추가
+     * 2025. 5. 28      박준홍         {@link UnsupportedOperationException} 처리 분리
+     * 2025. 5. 28      박준홍         {@link #resolveAnnotatedResponseStatus(Exception, HttpStatus)} 적용
      * </pre>
      *
+     * 
+     * 
      * @param ex
      * @param request
      * @return
      *
      * @since 2020. 1. 17.
-     * @version
+     * @version 0.2.3
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
     @ExceptionHandler(value = { //
@@ -197,12 +192,30 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
     })
     public ResponseEntity<Object> handle5xxException(Exception ex, WebRequest request) {
 
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus status = null;
+
+        if (UnsupportedOperationException.class.equals(ex.getClass())) {
+            status = HttpStatus.SERVICE_UNAVAILABLE;
+        } else {
+            status = resolveAnnotatedResponseStatus(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
         FIFOMap<String, Object> entity = this.FN_CREATE_ENTITY.apply(request, ex, status);
 
         return handleExceptionInternal(ex, entity, new HttpHeaders(), status, request);
     }
 
+    /**
+     * 
+     *
+     * @since 2020. 1. 17.
+     * @version 0.2.3
+     * @author parkjunhong77@gmail.com
+     *
+     * @see org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler#handleExceptionInternal(java.lang.Exception,
+     *      java.lang.Object, org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus,
+     *      org.springframework.web.context.request.WebRequest)
+     */
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
@@ -210,5 +223,32 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
             body = this.FN_CREATE_ENTITY.apply(request, ex, status);
         }
         return super.handleExceptionInternal(ex, body, headers, status, request);
+    }
+
+    /**
+     * 사용자 정의 예외 클래스에 선언된 {@link HttpStatus} 정보를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 5. 28.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param ex
+     *            예외클래스.
+     * @param defaultStatus
+     *            설정된 {@link HttpStatus} 정보가 없는 경우 제공될 기본 {@link HttpStatus}
+     * @return
+     *
+     * @since 2025. 5. 28.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see ResponseStatus
+     */
+    protected static HttpStatus resolveAnnotatedResponseStatus(Exception ex, HttpStatus defaultStatus) {
+        ResponseStatus resStatus = AnnotatedElementUtils.findMergedAnnotation(ex.getClass(), ResponseStatus.class);
+        return resStatus != null ? resStatus.code() : defaultStatus;
     }
 }

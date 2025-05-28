@@ -27,6 +27,7 @@
 package open.commons.spring.web.servlet;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * REST API URL에 패턴에는 만족하지만, 데이터가 존재하지 않는 경우 발생시키는 예외 클래스.
@@ -37,6 +38,7 @@ import org.springframework.http.HttpStatus;
  * 
  * @see HttpStatus#NOT_FOUND
  */
+@ResponseStatus(HttpStatus.NOT_FOUND)
 public class NotFoundException extends RuntimeException {
 
     /**

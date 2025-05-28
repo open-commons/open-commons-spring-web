@@ -27,6 +27,7 @@
 package open.commons.spring.web.servlet;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * 잘못된 요청 데이터를 전달했을 경우 발생시키는 예외 클래스.
@@ -37,6 +38,7 @@ import org.springframework.http.HttpStatus;
  * 
  * @see HttpStatus#BAD_REQUEST
  */
+@ResponseStatus(HttpStatus.BAD_REQUEST)
 public class BadRequestException extends RuntimeException {
 
     /**
