@@ -2,6 +2,9 @@
 - Add
   + open.commons.spring.web.servlet.method.annotation.DefaultGlobalExceptionHandler
     + resolveAnnotatedResponseStatus(Exception, HttpStatus): ResponseStatus 를 통한 HttpStatus 설정 지원
+    + handleAllException(Exception, WebRequest): 모든 예외 클래스(Throwable로 설정) 처리.
+- Deprecated
+  + open.commons.spring.web.servlet.method.annotation.DefaultGlobalExceptionHandler
     + handle4xxException(Exception, WebRequest): resolveAnnotatedResponseStatus 적용
     + handle5xxException(Exception, WebRequest): resolveAnnotatedResponseStatus 적용
     

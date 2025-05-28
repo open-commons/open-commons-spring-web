@@ -29,6 +29,8 @@ package open.commons.spring.web.config;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.client.HttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -49,6 +52,7 @@ import org.springframework.web.client.RestTemplate;
 import open.commons.spring.web.resources.RestTemplateRequestFactoryResource;
 import open.commons.spring.web.resources.ThreadPoolTaskExecutorConfig;
 import open.commons.spring.web.rest.RestUtils;
+import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
 
 /**
  * 
@@ -64,6 +68,11 @@ public class ResourceConfiguration {
     public static final String BEAN_QUALIFIER_RESTTEMPLATE_REQUEST_SOURCE = "open.commons.spring.web.config.ResourceConfiguration#BEAN_QUALIFIER_RESTTEMPLATE_REQUEST_SOURCE";
     public static final String BEAN_QUALIFIER_THREAD_POOL = "open.commons.spring.web.config.ResourceConfiguration#THREADPOOL_TASK_EXECUTOR";
     public static final String BEAN_QUALIFIER_THREAD_POOL_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#BEAN_QUALIFIER_THREAD_POOL_CONFIG";
+
+    /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 제공 서비스 */
+    public static final String BEAN_QUALIFIER_EXCETPION_HTTPSTATUS_PROPERTIES = "open.commons.spring.web.config.ResourceConfiguration#EXCETPION_HTTPSTATUS_PROPERTIES";
+    /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 설정 */
+    public static final String CONFIGURATION_PROPERTIES_EXCETPION_HTTPSTATUS_BINDER_PROPERTIS = "open-commons.spring.web.exception-httpstatus-binder.properties";
 
     private ApplicationContext context;
 
@@ -92,6 +101,12 @@ public class ResourceConfiguration {
      */
     public ResourceConfiguration(ApplicationContext context) {
         this.context = context;
+    }
+
+    @Bean(BEAN_QUALIFIER_EXCETPION_HTTPSTATUS_PROPERTIES)
+    @ConfigurationProperties(CONFIGURATION_PROPERTIES_EXCETPION_HTTPSTATUS_BINDER_PROPERTIS)
+    public Map<String, String> configureExceptionHttpStatusProperties() {
+        return new HashMap<>();
     }
 
     /**
@@ -169,7 +184,11 @@ public class ResourceConfiguration {
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
      * 2020. 1. 20.		박준홍			최초 작성
+     * 2025. 5. 28.     박준홍         명시적으로 {@link ThreadPoolTaskExecutorConfig} 파라미터로 전달
      * </pre>
+     * 
+     * @param taskExecConfig
+     *            ThreadPool 실행 설정
      *
      * @return
      *
@@ -180,9 +199,14 @@ public class ResourceConfiguration {
     @Bean(name = BEAN_QUALIFIER_THREAD_POOL, destroyMethod = "destroy")
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Primary
-    public ThreadPoolTaskExecutor createBeanThreadPoolTaskExecutor() {
-        ThreadPoolTaskExecutorConfig taskExecConfig = this.context.getBean(BEAN_QUALIFIER_THREAD_POOL_CONFIG, ThreadPoolTaskExecutorConfig.class);
+    public ThreadPoolTaskExecutor createBeanThreadPoolTaskExecutor(@Qualifier(BEAN_QUALIFIER_THREAD_POOL_CONFIG) ThreadPoolTaskExecutorConfig taskExecConfig) {
         return createThreadPoolTaskExecutor(taskExecConfig, "async-method");
+    }
+
+    @Bean(ExceptionHttpStatusBinder.BEAN_QUALIFIER)
+    @Primary
+    public ExceptionHttpStatusBinder exceptionHttpStatusBinder(@Qualifier(BEAN_QUALIFIER_EXCETPION_HTTPSTATUS_PROPERTIES) Map<String, String> exceptionHttpStatusProperties) {
+        return new ExceptionHttpStatusBinder(exceptionHttpStatusProperties);
     }
 
     /**
