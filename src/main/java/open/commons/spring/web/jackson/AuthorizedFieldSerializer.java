@@ -61,11 +61,6 @@ public class AuthorizedFieldSerializer extends JsonSerializer<Object> implements
     /** 권한제어 유형 처리 기능 */
     private final IUnauthorizedFieldHandler fieldHandler;
 
-    //
-    public AuthorizedFieldSerializer() {
-        this(null, null, null);
-    }
-
     /**
      * <br>
      * 
