@@ -48,6 +48,7 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -57,13 +58,17 @@ import org.springframework.http.converter.json.AbstractJackson2HttpMessageConver
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.TypeUtils;
+import org.springframework.web.bind.annotation.RestController;
 
 import open.commons.spring.web.authority.AuthorizedObject;
 import open.commons.spring.web.autoconfigure.AuthorizedResourcesConfiguration;
+import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -80,10 +85,17 @@ import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 
 /**
+ * 사용자 권한에 기반하여 {@link RestController} 또는 {@link Controller}에서 반환하는 데이터(VO)의 값을 제어하는 클래스.<br>
+ * 이 클래스를 사용하기 위해서는 {@link IFieldAccessAuthorityProvider}와 {@link IUnauthorizedFieldHandler}를 구현한 {@link Bean}이 제공되어야
+ * 합니다.
  * 
  * @since 2025. 5. 26.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
+ * 
+ * @see IFieldAccessAuthorityProvider
+ * @see IUnauthorizedFieldHandler
+ * @see AuthorizedResourcesConfiguration
  */
 public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
 

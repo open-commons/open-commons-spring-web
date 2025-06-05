@@ -176,7 +176,7 @@ public class OpenApiConfig {
             api.setExternalDocs(extDoc);
         }
 
-        logger.info("[Registered] Open API: {}", api);
+        logger.trace("[Registered] Open API: {}", api);
 
         return api;
     }
