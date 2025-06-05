@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.autoconfigure;
+package open.commons.spring.web.autoconfigure.configuration;
 
 import java.util.Map;
 
@@ -82,6 +82,7 @@ public class AuthorizedResourcesConfiguration {
     }
 
     @Bean
+    @ConditionalOnBean(name = { BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER })
     WebMvcConfigurer authorizedObjectMessageConfigure(
             @Qualifier(AuthorizedObjectJackson2HttpMessageConverter.BEAN_QUALIFIER) @NotNull AuthorizedObjectJackson2HttpMessageConverter messageConverter) {
         return new AuthorizedObjectMessageConfigure(messageConverter);

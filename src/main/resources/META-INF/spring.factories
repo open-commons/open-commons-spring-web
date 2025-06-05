@@ -1,0 +1,3 @@
+open.commons.spring.web.autoconfigure.EnableOpenCommonsSpringWeb=\
+  open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration,\
+  open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration

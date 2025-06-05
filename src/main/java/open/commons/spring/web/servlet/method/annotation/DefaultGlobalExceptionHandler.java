@@ -62,6 +62,8 @@ import open.commons.spring.web.utils.WebUtils;
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    public static final String BEAN_QUALIFIER = "open.commons.spring.web.servlet.method.annotation.DefaultGlobalExceptionHandler";
+
     public static final TripleFunction<WebRequest, Exception, HttpStatus, FIFOMap<String, Object>> FN_CREATE_ENTITY_DEFAULT = WebUtils::createEntity;
 
     /** {@link RequestBody} 정보 생성 함수 */
@@ -349,7 +351,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * 2025. 5. 28.		박준홍			최초 작성
      * </pre>
      *
-     * @param exceptionHttpStatusBinder
+     * @param exceptionHttpStatusBinders
      *            the exceptionHttpStatusBinder to set
      *
      * @since 2025. 5. 28.

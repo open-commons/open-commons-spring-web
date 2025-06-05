@@ -18,7 +18,7 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 5. 19. 오후 4:32:07
+ * Date  : 2025. 6. 5. 오후 12:55:54
  *
  * Author: parkjunhong77@gmail.com
  * 
@@ -26,46 +26,53 @@
 
 package open.commons.spring.web.autoconfigure;
 
-import org.springframework.context.annotation.DeferredImportSelector;
-import org.springframework.core.type.AnnotationMetadata;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import org.springframework.context.annotation.Import;
 
 /**
+ * Open-Commons Spring Web에서 제공하는 기능을 활성화하는 어노테이션.
  * 
- * @since 2025. 5. 19.
+ * @since 2025. 6. 5.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class AuthorizedResourcesImportSelector implements DeferredImportSelector {
+@Documented
+@Inherited
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Import(OpenCommonsSpringWebAutoConfigurationImportSelector.class)
+public @interface EnableOpenCommonsSpringWeb {
 
     /**
+     * 
      * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 19.		박준홍			최초 작성
+     * 2025. 6. 5.		박준홍			최초 작성
      * </pre>
      *
+     * @return
      *
-     * @since 2025. 5. 19.
+     * @since 2025. 6. 5.
      * @version 0.8.0
-     * @author parkjunhong77@gmail.com
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public AuthorizedResourcesImportSelector() {
-    }
+    Class<?>[] exclude() default {};
 
     /**
-     *
-     * @since 2025. 5. 19.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see org.springframework.context.annotation.ImportSelector#selectImports(org.springframework.core.type.AnnotationMetadata)
+     * Exclude specific auto-configuration class names such that they will never be applied.
+     * 
+     * @return the class names to exclude
+     * @since 1.3.0
      */
-    @Override
-    public String[] selectImports(AnnotationMetadata importingClassMetadata) {
-        return new String[] { AuthorizedResourcesConfiguration.class.getName() };
-    }
-
+    String[] excludeName() default {};
 }

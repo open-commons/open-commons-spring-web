@@ -66,7 +66,7 @@ import org.springframework.util.TypeUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import open.commons.spring.web.authority.AuthorizedObject;
-import open.commons.spring.web.autoconfigure.AuthorizedResourcesConfiguration;
+import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 
