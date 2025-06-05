@@ -82,7 +82,7 @@ public class AuthorizedResourcesConfiguration {
     }
 
     @Bean
-    @ConditionalOnBean(name = { BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER })
+    @ConditionalOnBean(name = { AuthorizedObjectJackson2HttpMessageConverter.BEAN_QUALIFIER })
     WebMvcConfigurer authorizedObjectMessageConfigure(
             @Qualifier(AuthorizedObjectJackson2HttpMessageConverter.BEAN_QUALIFIER) @NotNull AuthorizedObjectJackson2HttpMessageConverter messageConverter) {
         return new AuthorizedObjectMessageConfigure(messageConverter);
