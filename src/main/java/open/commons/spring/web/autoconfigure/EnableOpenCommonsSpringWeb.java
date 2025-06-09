@@ -73,24 +73,4 @@ public @interface EnableOpenCommonsSpringWeb {
      */
     Class<?>[] exclude() default {};
 
-    // /**
-    // * 제외시키고자 하는 Configuration 클래스.<br>
-    // * 이 속성은 'custom autoconfigure' 를 spring 내부의 autoconfigure 와 동일하게 처리하기 위해서 추가된 속성입니다.
-    // *
-    // * <pre>
-    // * [개정이력]
-    // * 날짜 | 작성자 | 내용
-    // * ------------------------------------------
-    // * 2025. 6. 5. 박준홍 최초 작성
-    // * </pre>
-    // *
-    // * @return
-    // *
-    // * @since 2025. 6. 5.
-    // * @version 0.8.0
-    // * @author Park, Jun-Hong parkjunhong77@gmail.com
-    // *
-    // * @see AutoConfigurationImportSelector#
-    // */
-    // String[] excludeName() default {};
 }
