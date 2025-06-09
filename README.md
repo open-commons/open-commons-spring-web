@@ -3,6 +3,10 @@ Open Commons for Spring Web on Spring Boot
 
 ---
 # News
+[2025/06/09]
+- 'OpenCommonsSpringWeb' autoconfigure 적용.
+  - [자세히 보기](https://github.com/open-commons/open-commons-spring-web/wiki/about-EnableOpenCommonsSpringWeb)
+
 [2025/04/17]
 - Http Session 관련 보안 기능 제공
   - 주요 클래스: [SecurityUtils.java](https://github.com/open-commons/open-commons-spring-web/blob/main/src/main/java/open/commons/spring/web/utils/SecurityUtils.java)
