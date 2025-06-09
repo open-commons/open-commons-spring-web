@@ -1,3 +1,16 @@
+[20225/06/05]
+- Auto Configuration 적용
+  + Add
+    + src/main/resources/META-INF/spring.factories
+    + open.commons.spring.web.autoconfigure.EnableOpenCommonsSpringWeb
+    + open.commons.spring.web.autoconfigure.OpenCommonsSpringWebAutoConfigurationImportSelector
+    + open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration
+  + Modify
+    + open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration: package 변경
+  + Delete
+    + open.commons.spring.web.autoconfigure.AuthorizedResourcesImportSelector: OpenCommonsSpringWebAutoConfigurationImportSelector 으로 통합 처리
+    + open.commons.spring.web.autoconfigure.EnableAuthorizedResorces: EnableOpenCommonsSpringWeb으로 통합 처리
+
 [2025/05/28]
 - Add
   + open.commons.spring.web.servlet.method.annotation.DefaultGlobalExceptionHandler
