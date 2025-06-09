@@ -36,15 +36,14 @@ import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import open.commons.core.utils.ThreadUtils;
-import open.commons.spring.web.annotation.CustomInterceptor;
 
 /**
+ * Http 요청 정보를 {@link Thread} 이름으로 적용하고 응답완료시 기존 {@link Thread}이름으로 반환하는 기능을 제공.<br>
  * 
  * @since 2020. 1. 17.
  * @version
  * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
  */
-@CustomInterceptor
 public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
 
     public static final String BEAN_QUALIFIER = "open.commons.spring.web.handler.DefaultGlobalInterceptor";

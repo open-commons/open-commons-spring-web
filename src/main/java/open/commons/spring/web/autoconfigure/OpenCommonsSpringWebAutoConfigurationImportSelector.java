@@ -27,7 +27,9 @@
 package open.commons.spring.web.autoconfigure;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationImportSelector;
 import org.springframework.core.annotation.AnnotationAttributes;
@@ -91,6 +93,22 @@ public class OpenCommonsSpringWebAutoConfigurationImportSelector extends AutoCon
                 "No auto configuration classes found in META-INF/spring.factories nor in META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports. If you "
                         + "are using a custom packaging, make sure that file is correct.");
         return configurations;
+    }
+
+    /**
+     *
+     * @since 2025. 6. 9.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see org.springframework.boot.autoconfigure.AutoConfigurationImportSelector#getExclusions(org.springframework.core.type.AnnotationMetadata,
+     *      org.springframework.core.annotation.AnnotationAttributes)
+     */
+    @Override
+    protected Set<String> getExclusions(AnnotationMetadata metadata, AnnotationAttributes attributes) {
+        Set<String> excluded = new LinkedHashSet<>();
+        excluded.addAll(asList(attributes, "exclude"));
+        return excluded;
     }
 
     /**

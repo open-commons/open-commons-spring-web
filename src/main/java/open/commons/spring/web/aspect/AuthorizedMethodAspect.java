@@ -38,8 +38,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 
 import open.commons.core.Result;
+import open.commons.core.utils.ExceptionUtils;
 import open.commons.spring.web.authority.AuthorizedMethod;
 import open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider;
+import open.commons.spring.web.servlet.InternalServerException;
 import open.commons.spring.web.servlet.UnauthorizedAccessException;
 
 /**
@@ -119,7 +121,10 @@ public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMe
         }
 
         Result<Boolean> validated = bean.isAllowed(annotation.op(), annotation.roles());
-        if (!validated.getResult() || !validated.getData()) {
+        if (validated == null) {
+            throw ExceptionUtils.newException(InternalServerException.class,
+                    "Method 접근에 대한 판단은 'null'일 수가 없습니다. 원인=open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider.isAllowed(Operator, String...) 구현이 올바르지 않습니다.");
+        } else if (!validated.getResult() || !validated.getData()) {
             throw new UnauthorizedAccessException("올바르지 않은 접근입니다.");
         }
 

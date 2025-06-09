@@ -269,7 +269,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
     @ExceptionHandler(value = { Throwable.class })
     public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
 
-        HttpStatus status = resolveAnnotatedResponseStatus(ex, null);
+        HttpStatus status = resolveAnnotatedResponseStatus(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         if (status == null) {
             // start - 기존에 CaseByCase로 처리되던 예외클래스 지원. : 2025. 5. 28. 오후 4:46:04
             // 4xx:

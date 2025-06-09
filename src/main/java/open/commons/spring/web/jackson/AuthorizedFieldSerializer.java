@@ -123,7 +123,10 @@ public class AuthorizedFieldSerializer extends JsonSerializer<Object> implements
         String field = fieldInfo.getName();
 
         Result<TwoValueObject<Boolean, Integer>> resultFieldAccessible = this.authority.isAllowed(type, field);
-        if (resultFieldAccessible.isError()) {
+        if (resultFieldAccessible == null) {
+            throw ExceptionUtils.newException(InternalServerException.class,
+                    "Field 접근에 대한 판단은 'null'일 수가 없습니다. 원인=open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider.isAllowed(String, String) 구현이 올바르지 않습니다.");
+        } else if (resultFieldAccessible.isError()) {
             throw ExceptionUtils.newException(InternalServerException.class, "필드 접근권한 조회시 오류가 발생하였습니다. 원인=%s", resultFieldAccessible.getMessage());
         } else if (resultFieldAccessible.getData() == null) {
             throw ExceptionUtils.newException(InternalServerException.class, "필드 접근권한 조회시 오류가 발생하였습니다. 원인='권한조회결과가 존재하지 않습니다.'");

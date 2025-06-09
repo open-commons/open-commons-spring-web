@@ -40,6 +40,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
  * @since 2019. 6. 11.
  * @version
  * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+ * 
+ * @deprecated Springframework 방식에 따라 개발하기로 변경함에 따라 더 이상 사용하지 않음.
  */
 @Documented
 @Target(ElementType.TYPE)

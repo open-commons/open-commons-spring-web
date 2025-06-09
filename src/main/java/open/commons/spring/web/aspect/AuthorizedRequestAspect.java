@@ -51,6 +51,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import open.commons.core.Result;
 import open.commons.core.TwoValueObject;
+import open.commons.core.utils.ExceptionUtils;
 import open.commons.spring.web.authority.AuthorizedRequest;
 import open.commons.spring.web.beans.authority.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.servlet.InternalServerException;
@@ -226,7 +227,10 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
         IRequestAccessAuthorityProvider bean = getAuthorityBean(beanName);
 
         Result<Boolean> validated = bean.isAllowed(httpMethod, pathBuilder.toString());
-        if (!validated.getResult() || !validated.getData()) {
+        if (validated == null) {
+            throw ExceptionUtils.newException(InternalServerException.class,
+                    "REST API 접근에 대한 판단은 'null'일 수가 없습니다. 원인=open.commons.spring.web.beans.authority.IRequestAccessAuthorityProvider.isAllowed(RequestMethod, String) 구현이 올바르지 않습니다.");
+        } else if (!validated.getResult() || !validated.getData()) {
             throw new UnauthorizedAccessException("올바르지 않은 접근입니다.");
         }
 
