@@ -7,6 +7,7 @@
   + META-INF/spring.factories
     + open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConverterConfiguration
     + open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConfigureConfiguration
+  + open.commons.spring.web.OpenCommonsSpringWebMarker: 명확한 클래스명으로 변경.
 
 [20225/06/05]
 - Auto Configuration 적용
