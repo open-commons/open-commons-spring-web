@@ -1,3 +1,13 @@
+[20225/06/11]
+- Modify
+  + open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration: 권한제어대상 객체 메시지 변환기 분리
+    + open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConverterConfiguration
+    + open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConfigureConfiguration
+- Add
+  + META-INF/spring.factories
+    + open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConverterConfiguration
+    + open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConfigureConfiguration
+
 [20225/06/05]
 - Auto Configuration 적용
   + Add

@@ -88,7 +88,6 @@ public class OpenCommonsSpringWebAutoConfigurationImportSelector extends AutoCon
     @Override
     protected List<String> getCandidateConfigurations(AnnotationMetadata metadata, AnnotationAttributes attributes) {
         List<String> configurations = new ArrayList<>(SpringFactoriesLoader.loadFactoryNames(getSpringFactoriesLoaderFactoryClass(), getBeanClassLoader()));
-        // ImportCandidates.load(AutoConfiguration.class, getBeanClassLoader()).forEach(configurations::add);
         Assert.notEmpty(configurations,
                 "No auto configuration classes found in META-INF/spring.factories nor in META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports. If you "
                         + "are using a custom packaging, make sure that file is correct.");

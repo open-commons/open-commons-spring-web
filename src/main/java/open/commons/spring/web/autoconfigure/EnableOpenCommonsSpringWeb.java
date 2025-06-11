@@ -35,6 +35,8 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
+import open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConfigureConfiguration;
+import open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConverterConfiguration;
 import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration;
 import open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration;
 
@@ -46,6 +48,8 @@ import open.commons.spring.web.autoconfigure.configuration.GlobalServletConfigur
  * @author parkjunhong77@gmail.com
  * 
  * @see AuthorizedResourcesConfiguration
+ * @see AuthorizedObjectMessageConfigureConfiguration
+ * @see AuthorizedObjectMessageConverterConfiguration
  * @see GlobalServletConfiguration
  */
 @Documented
@@ -72,5 +76,4 @@ public @interface EnableOpenCommonsSpringWeb {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     Class<?>[] exclude() default {};
-
 }

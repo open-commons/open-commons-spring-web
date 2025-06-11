@@ -222,16 +222,13 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
         AtomicBoolean checkDefaultObjectMapper = new AtomicBoolean(false);
 
         List<String> oms = new ArrayList<>();
-        allObjectMappers.forEach((name, om) -> {
+        this.allObjectMappers.forEach((name, om) -> {
             oms.add(String.join("->", name, om.getClass().toString()));
             if (DEFAULT_JACKSON_OBJECT_MAPPER.equals(name)) {
                 checkDefaultObjectMapper.set(true);
             }
             logger.trace("ObjectMapper 등록됨: {} -> {}", name, om.getClass().getName());
         });
-
-        Assert.isTrue(checkDefaultObjectMapper.get(), String.format("기본 ObjectMapper이 존재하지 않습니다. 목록=%s", oms));
-
     }
 
     /**

@@ -26,16 +26,12 @@
 
 package open.commons.spring.web.autoconfigure.configuration;
 
-import java.util.Map;
-
-import javax.validation.constraints.NotNull;
-
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import open.commons.spring.web.aspect.AuthorizedMethodAspect;
 import open.commons.spring.web.aspect.AuthorizedRequestAspect;
@@ -43,9 +39,7 @@ import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
-import open.commons.spring.web.config.AuthorizedObjectMessageConfigure;
 import open.commons.spring.web.jackson.AuthorizedFieldSerializerModifier;
-import open.commons.spring.web.jackson.AuthorizedObjectJackson2HttpMessageConverter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -60,6 +54,8 @@ public class AuthorizedResourcesConfiguration {
 
     public static final String BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER = "open.commons.spring.web.autoconfigure.AuthorizedResourcesConfiguration#AUTHORIZED_OBJECT_MAPPER";
 
+    private static Logger logger = LoggerFactory.getLogger(AuthorizedResourcesConfiguration.class);
+
     public AuthorizedResourcesConfiguration() {
     }
 
@@ -67,7 +63,9 @@ public class AuthorizedResourcesConfiguration {
     @ConditionalOnBean(IMethodAccessAuthorityProvider.class)
     @ConditionalOnMissingBean
     AuthorizedMethodAspect authorizedMethodAspect(ApplicationContext context) {
-        return new AuthorizedMethodAspect(context);
+        AuthorizedMethodAspect aspect = new AuthorizedMethodAspect(context);
+        logger.info("[Registered] authorized-method-aspect={}", aspect);
+        return aspect;
     }
 
     @Bean(BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER)
@@ -78,26 +76,17 @@ public class AuthorizedResourcesConfiguration {
         module.setSerializerModifier(new AuthorizedFieldSerializerModifier(context));
         mapper.registerModule(module);
 
+        logger.info("[authorized-resources] Registered authorized-object-mapper={}", mapper);
+
         return mapper;
-    }
-
-    @Bean
-    @ConditionalOnBean(name = { AuthorizedObjectJackson2HttpMessageConverter.BEAN_QUALIFIER })
-    WebMvcConfigurer authorizedObjectMessageConfigure(
-            @Qualifier(AuthorizedObjectJackson2HttpMessageConverter.BEAN_QUALIFIER) @NotNull AuthorizedObjectJackson2HttpMessageConverter messageConverter) {
-        return new AuthorizedObjectMessageConfigure(messageConverter);
-    }
-
-    @Bean(AuthorizedObjectJackson2HttpMessageConverter.BEAN_QUALIFIER)
-    @ConditionalOnBean(name = { BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER })
-    AuthorizedObjectJackson2HttpMessageConverter authorizedObjectMessageConverter(@NotNull Map<String, ObjectMapper> allObjectMappers) {
-        return new AuthorizedObjectJackson2HttpMessageConverter(allObjectMappers);
     }
 
     @Bean
     @ConditionalOnBean(IRequestAccessAuthorityProvider.class)
     @ConditionalOnMissingBean
     AuthorizedRequestAspect authorizedRequestAspect(ApplicationContext context) {
-        return new AuthorizedRequestAspect(context);
+        AuthorizedRequestAspect aspect = new AuthorizedRequestAspect(context);
+        logger.info("[authorized-resources] Registered authorized-request-aspect={}", aspect);
+        return aspect;
     }
 }
