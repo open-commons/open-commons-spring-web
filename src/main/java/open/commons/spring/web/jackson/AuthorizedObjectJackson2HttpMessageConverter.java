@@ -26,6 +26,7 @@
 
 package open.commons.spring.web.jackson;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
@@ -72,7 +73,6 @@ import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
@@ -293,11 +293,16 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
             object = responseEntity.getBody();
         }
 
-        if (hasAuthorizedObject(object, new HashSet<Object>())) {
-            return allObjectMappers.get(AuthorizedResourcesConfiguration.BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER);
-        } else {
-            om = selectObjectMapper(targetType, targetMediaType);
-            return om != null ? om : getObjectMapper();
+        Set<Object> visited = new HashSet<Object>();
+        try {
+            if (hasAuthorizedObject(object, visited)) {
+                return allObjectMappers.get(AuthorizedResourcesConfiguration.BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER);
+            } else {
+                om = selectObjectMapper(targetType, targetMediaType);
+                return om != null ? om : getObjectMapper();
+            }
+        } finally {
+            visited.clear();
         }
     }
 
@@ -375,8 +380,11 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
         ObjectMapper objectMapper = resolveMapper(object, clazz, contentType);
         Assert.state(objectMapper != null, () -> "No ObjectMapper for " + clazz.getName());
 
-        OutputStream outputStream = StreamUtils.nonClosing(outputMessage.getBody());
-        try (JsonGenerator generator = objectMapper.getFactory().createGenerator(outputStream, encoding)) {
+        try ( //
+                ByteArrayOutputStream serializeBuffer = new ByteArrayOutputStream();
+                JsonGenerator generator = objectMapper.getFactory().createGenerator(serializeBuffer, encoding);
+                OutputStream outputStream = StreamUtils.nonClosing(outputMessage.getBody()); //
+        ) {
             writePrefix(generator, object);
 
             Object value = object;
@@ -405,14 +413,18 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
             if (contentType != null && contentType.isCompatibleWith(MediaType.TEXT_EVENT_STREAM) && config.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
                 objectWriter = objectWriter.with(this.ssePrettyPrinter);
             }
-            objectWriter.writeValue(generator, value);
 
+            // #1. serialize to buffer
+            objectWriter.writeValue(generator, value);
             writeSuffix(generator, object);
             generator.flush();
+            // #2. copy buffer to outputMessage
+            outputStream.write(serializeBuffer.toByteArray());
+
         } catch (InvalidDefinitionException ex) {
             throw new HttpMessageConversionException("Type definition error: " + ex.getType(), ex);
-        } catch (JsonProcessingException ex) {
-            throw new HttpMessageNotWritableException("Could not write JSON: " + ex.getOriginalMessage(), ex);
+        } catch (Exception ex) {
+            throw new HttpMessageNotWritableException("Could not write JSON", ex);
         }
     }
 }

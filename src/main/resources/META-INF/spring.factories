@@ -1,5 +1,6 @@
 #org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 open.commons.spring.web.autoconfigure.EnableOpenCommonsSpringWeb=\
+  open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectForcedUnintelligibleConfiguration,\
   open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConfigureConfiguration,\
   open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConverterConfiguration,\
   open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration,\

@@ -1,3 +1,10 @@
+[20225/06/12]
+- Modify
+  + open.commons.spring.web.jackson.AuthorizedObjectJackson2HttpMessageConverter.writeInternal(Object, Type, HttpOutputMessage): serialize 도중 오류가 발생했을 때, 이전 데이터 제거 처리. (JacksonGenerator는 기본적으로 스트림으로 처리하기 때문에 내부 버퍼를 적용함.)
+- Add
+  + open.commons.spring.web.beans.authority.forced: 패키지 
+  
+  
 [20225/06/11]
 - Modify
   + open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration: 권한제어대상 객체 메시지 변환기 분리
@@ -7,6 +14,7 @@
   + META-INF/spring.factories
     + open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConverterConfiguration
     + open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConfigureConfiguration
+  + open.commons.spring.web.OpenCommonsSpringWebMarker: 명확한 클래스명으로 변경.
 
 [20225/06/05]
 - Auto Configuration 적용

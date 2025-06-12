@@ -28,6 +28,7 @@ package open.commons.spring.web.autoconfigure.configuration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
@@ -50,6 +51,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
+@AutoConfigureAfter(AuthorizedObjectForcedUnintelligibleConfiguration.class)
 public class AuthorizedResourcesConfiguration {
 
     public static final String BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER = "open.commons.spring.web.autoconfigure.AuthorizedResourcesConfiguration#AUTHORIZED_OBJECT_MAPPER";
