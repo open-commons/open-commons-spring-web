@@ -47,7 +47,7 @@ import open.commons.spring.web.autoconfigure.configuration.GlobalServletConfigur
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  * 
- * @see AuthorizedResourcesConfiguration
+ * @see AuthorizedResourcesMetadataConfiguration
  * @see AuthorizedObjectMessageConfigureConfiguration
  * @see AuthorizedObjectMessageConverterConfiguration
  * @see GlobalServletConfiguration

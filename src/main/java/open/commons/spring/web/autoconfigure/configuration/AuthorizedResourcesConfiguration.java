@@ -26,8 +26,11 @@
 
 package open.commons.spring.web.autoconfigure.configuration;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -36,6 +39,9 @@ import org.springframework.context.annotation.Bean;
 
 import open.commons.spring.web.aspect.AuthorizedMethodAspect;
 import open.commons.spring.web.aspect.AuthorizedRequestAspect;
+import open.commons.spring.web.authority.configuratioon.AuthorizedObjectMetadata;
+import open.commons.spring.web.beans.authority.AuthorizedResourcesMetadataProvider;
+import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadataProvider;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IRequestAccessAuthorityProvider;
@@ -51,7 +57,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-@AutoConfigureAfter(AuthorizedObjectForcedUnintelligibleConfiguration.class)
+@AutoConfigureAfter({ AuthorizedObjectForcedUnintelligibleConfiguration.class, AuthorizedResourcesMetadataConfiguration.class })
 public class AuthorizedResourcesConfiguration {
 
     public static final String BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER = "open.commons.spring.web.autoconfigure.AuthorizedResourcesConfiguration#AUTHORIZED_OBJECT_MAPPER";
@@ -90,5 +96,12 @@ public class AuthorizedResourcesConfiguration {
         AuthorizedRequestAspect aspect = new AuthorizedRequestAspect(context);
         logger.info("[authorized-resources] Registered authorized-request-aspect={}", aspect);
         return aspect;
+    }
+
+    @Bean(AuthorizedResourcesMetadataProvider.BEAN_QUALIFIER)
+    @ConditionalOnBean(name = { AuthorizedResourcesMetadataConfiguration.BEAN_QUALIFIER_AUTHORIZED_OBJECT_METADATA })
+    IAuthorizedResourcesMetadataProvider authorizedResourcesMetadataProvider(
+            @Qualifier(AuthorizedResourcesMetadataConfiguration.BEAN_QUALIFIER_AUTHORIZED_OBJECT_METADATA) List<AuthorizedObjectMetadata> authorizdedObjectMetadata) {
+        return new AuthorizedResourcesMetadataProvider(authorizdedObjectMetadata);
     }
 }

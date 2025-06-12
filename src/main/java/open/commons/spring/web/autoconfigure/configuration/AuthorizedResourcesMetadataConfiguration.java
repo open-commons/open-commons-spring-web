@@ -18,7 +18,7 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 6. 12. 오전 10:46:41
+ * Date  : 2025. 6. 12. 오후 6:04:48
  *
  * Author: parkjunhong77@gmail.com
  * 
@@ -26,14 +26,17 @@
 
 package open.commons.spring.web.autoconfigure.configuration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
+import open.commons.spring.web.authority.configuratioon.AuthorizedObjectMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
-import open.commons.spring.web.beans.authority.forced.ForcedUnintelligibleHandler;
-import open.commons.spring.web.beans.authority.forced.ForcedUnintelligibleJudge;
 
 /**
  * 
@@ -41,9 +44,10 @@ import open.commons.spring.web.beans.authority.forced.ForcedUnintelligibleJudge;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class AuthorizedObjectForcedUnintelligibleConfiguration {
+public class AuthorizedResourcesMetadataConfiguration {
 
-    private Logger logger = LoggerFactory.getLogger(AuthorizedObjectForcedUnintelligibleConfiguration.class);
+    public static final String BEAN_QUALIFIER_AUTHORIZED_OBJECT_METADATA = "open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesMetadataConfiguration#AUTHORIZED_OBJECT_METADATA";
+    public static final String PROPERTIES_AUTHOIRZED_OBJECT_METADATA = "open-commons.application.authorized-object";
 
     /**
      * <br>
@@ -60,21 +64,14 @@ public class AuthorizedObjectForcedUnintelligibleConfiguration {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AuthorizedObjectForcedUnintelligibleConfiguration() {
+    public AuthorizedResourcesMetadataConfiguration() {
     }
 
-    @Bean(ForcedUnintelligibleHandler.BEAN_QUALIFIER)
-    IUnauthorizedFieldHandler forcedUnintelligibleHandler() {
-        IUnauthorizedFieldHandler h = new ForcedUnintelligibleHandler();
-        logger.info("[authorized-resources] Registered authorized-object-forced-unintelligible-field-handler={}", h);
-        return h;
+    @Bean(BEAN_QUALIFIER_AUTHORIZED_OBJECT_METADATA)
+    @ConfigurationProperties(PROPERTIES_AUTHOIRZED_OBJECT_METADATA)
+//    @ConditionalOnProperty(prefix = PROPERTIES_AUTHOIRZED_OBJECT_METADATA, name = "type")
+    @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
+    public List<AuthorizedObjectMetadata> authorizdedObjectMetadata() {
+        return new ArrayList<>();
     }
-
-    @Bean(ForcedUnintelligibleJudge.BEAN_QUALIFIER)
-    IFieldAccessAuthorityProvider forcedUnintelligibleJude() {
-        IFieldAccessAuthorityProvider p = new ForcedUnintelligibleJudge();
-        logger.info("[authorized-resources] Registered authorized-object-forced-unintelligible-field-provider={}", p);
-        return p;
-    }
-
 }

@@ -95,7 +95,7 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
  * 
  * @see IFieldAccessAuthorityProvider
  * @see IUnauthorizedFieldHandler
- * @see AuthorizedResourcesConfiguration
+ * @see AuthorizedResourcesMetadataConfiguration
  */
 public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
 
