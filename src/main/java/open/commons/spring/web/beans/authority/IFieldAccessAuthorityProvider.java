@@ -41,8 +41,7 @@ import open.commons.core.TwoValueObject;
 public interface IFieldAccessAuthorityProvider extends IResourceAccessAuthorityProvider {
 
     /**
-     * 
-     * <br>
+     * 클래스의 특정 필드에 대한 처리방식을 제공합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -54,14 +53,16 @@ public interface IFieldAccessAuthorityProvider extends IResourceAccessAuthorityP
      * @param type
      *            데이터 유형<br>
      *            {@link Class#toString()} 값이 전달됨.
-     * @param field
+     * @param fieldName
      *            필드 이름
      * @return
+     *         <li>{@link TwoValueObject#first}: 데이터 제공 허용 여부
+     *         <li>{@link TwoValueObject#second}: 허용되지 않은 경우 처리 방식.
      *
      * @since 2025. 5. 26.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    Result<TwoValueObject<Boolean, Integer>> isAllowed(@NotEmpty String type, @NotEmpty String field);
+    Result<TwoValueObject<Boolean, Integer>> isAllowed(@NotEmpty String type, @NotEmpty String fieldName);
 
 }

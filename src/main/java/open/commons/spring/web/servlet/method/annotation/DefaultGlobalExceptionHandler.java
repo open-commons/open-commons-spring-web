@@ -52,6 +52,8 @@ import open.commons.spring.web.servlet.UnauthorizedAccessException;
 import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
 import open.commons.spring.web.utils.WebUtils;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 /**
  * 
  * @since 2020. 1. 17.
@@ -241,6 +243,13 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
 
         FIFOMap<String, Object> entity = this.FN_CREATE_ENTITY.apply(request, ex, status);
 
+        return handleExceptionInternal(ex, entity, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler({ JsonMappingException.class })
+    public ResponseEntity<Object> handleJsonMappingException(JsonMappingException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        FIFOMap<String, Object> entity = this.FN_CREATE_ENTITY.apply(request, ex, status);
         return handleExceptionInternal(ex, entity, new HttpHeaders(), status, request);
     }
 

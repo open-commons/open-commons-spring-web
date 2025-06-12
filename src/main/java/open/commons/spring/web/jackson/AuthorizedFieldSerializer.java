@@ -29,6 +29,9 @@ package open.commons.spring.web.jackson;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import open.commons.core.Result;
 import open.commons.core.TwoValueObject;
 import open.commons.core.utils.ExceptionUtils;
@@ -53,6 +56,8 @@ import com.fasterxml.jackson.databind.ser.ContextualSerializer;
  * @author parkjunhong77@gmail.com
  */
 public class AuthorizedFieldSerializer extends JsonSerializer<Object> implements ContextualSerializer {
+
+    private Logger logger = LoggerFactory.getLogger(AuthorizedFieldSerializer.class);
 
     /** 권한 제어 대상 필드 */
     private final AnnotatedField annotatedField;
@@ -119,28 +124,34 @@ public class AuthorizedFieldSerializer extends JsonSerializer<Object> implements
 
         // #1. 필드 접근권한 확인
         Field fieldInfo = this.annotatedField.getAnnotated();
-        String type = fieldInfo.getDeclaringClass().toString();
+        String type = fieldInfo.getDeclaringClass().getName();
         String field = fieldInfo.getName();
 
-        Result<TwoValueObject<Boolean, Integer>> resultFieldAccessible = this.authority.isAllowed(type, field);
-        if (resultFieldAccessible == null) {
-            throw ExceptionUtils.newException(InternalServerException.class,
-                    "Field 접근에 대한 판단은 'null'일 수가 없습니다. 원인=open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider.isAllowed(String, String) 구현이 올바르지 않습니다.");
-        } else if (resultFieldAccessible.isError()) {
-            throw ExceptionUtils.newException(InternalServerException.class, "필드 접근권한 조회시 오류가 발생하였습니다. 원인=%s", resultFieldAccessible.getMessage());
-        } else if (resultFieldAccessible.getData() == null) {
-            throw ExceptionUtils.newException(InternalServerException.class, "필드 접근권한 조회시 오류가 발생하였습니다. 원인='권한조회결과가 존재하지 않습니다.'");
-        }
+        try {
+            Result<TwoValueObject<Boolean, Integer>> resultFieldAccessible = this.authority.isAllowed(type, field);
+            if (resultFieldAccessible == null) {
+                throw ExceptionUtils.newException(InternalServerException.class,
+                        "Field 접근에 대한 판단은 'null'일 수가 없습니다. 원인=open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider.isAllowed(String, String) 구현이 올바르지 않습니다.");
+            } else if (resultFieldAccessible.isError()) {
+                throw ExceptionUtils.newException(InternalServerException.class, "필드 접근권한 조회시 오류가 발생하였습니다. 원인=%s", resultFieldAccessible.getMessage());
+            } else if (resultFieldAccessible.getData() == null) {
+                throw ExceptionUtils.newException(InternalServerException.class, "필드 접근권한 조회시 오류가 발생하였습니다. 원인='권한조회결과가 존재하지 않습니다.'");
+            }
 
-        // #2. 데이터 처리
-        TwoValueObject<Boolean, Integer> fieldAccessible = resultFieldAccessible.getData();
-        boolean accessible = fieldAccessible.first;
-        int handle = fieldAccessible.second;
-        if (accessible) {
-            gen.writeObject(value); // 그대로 출력
-        } else {
-            Object newValue = this.fieldHandler.handleObject(handle, value);
-            gen.writeObject(newValue);
+            // #2. 데이터 처리
+            TwoValueObject<Boolean, Integer> fieldAccessible = resultFieldAccessible.getData();
+            boolean accessible = fieldAccessible.first;
+            int handle = fieldAccessible.second;
+            if (accessible) {
+                gen.writeObject(value); // 그대로 출력
+            } else {
+                Object newValue = this.fieldHandler.handleObject(handle, value);
+                gen.writeObject(newValue);
+            }
+        } catch (Exception e) {
+            String errMsg = String.format("데이터 변환 도중 오류가 발생했습니다. type=%s, field=%s, value=%s, 원인=%s", type, field, value, e.getMessage());
+            logger.error(errMsg, e);
+            throw ExceptionUtils.newException(InternalServerException.class, e, errMsg);
         }
     }
 }

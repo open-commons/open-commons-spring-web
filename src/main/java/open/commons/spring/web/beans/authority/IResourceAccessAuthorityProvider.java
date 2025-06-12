@@ -54,6 +54,7 @@ public interface IResourceAccessAuthorityProvider {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    Result<String> getCurrentUserId();
-
+    default Result<String> getCurrentUserId() {
+        return Result.success(null);
+    }
 }
