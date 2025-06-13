@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotEmpty;
@@ -72,53 +73,6 @@ public class AuthorizedResourcesMetadata implements IAuthorizedResourcesMetadata
     private boolean resolved = false;
 
     public AuthorizedResourcesMetadata() {
-
-    }
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 6. 12.		박준홍			최초 작성
-     * </pre>
-     * 
-     * @param metadata
-     *
-     * @since 2025. 6. 12.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     */
-    public AuthorizedResourcesMetadata(List<AuthorizedObjectMetadata> metadata) {
-
-        boolean duplicated = false;
-        Set<Class<?>> errBuf = new HashSet<>();
-
-        Class<?> aoTargetType = null;
-        for (AuthorizedObjectMetadata aoMeta : metadata) {
-            aoTargetType = aoMeta.getType();
-            if (duplicated) {
-                if (this.authorizedClasses.containsKey(aoTargetType)) {
-                    errBuf.add(aoTargetType);
-                }
-            } else {
-                if (this.authorizedClasses.containsKey(aoTargetType)) {
-                    errBuf.add(aoTargetType);
-                    duplicated = true;
-                } else {
-                    this.authorizedClasses.put(aoTargetType, aoMeta);
-                    MapUtils.getOrDefault(this.authorizedFields, aoTargetType, () -> new HashSet<>(), true) //
-                            .addAll(aoMeta.getFields());
-                }
-            }
-        }
-
-        if (duplicated) {
-            MapUtils.clear(this.authorizedClasses, this.authorizedFields);
-            throw new BeanCreationException(BEAN_QUALIFIER, String.format("중복 선언된 클래스가 존재합니다. => %s", errBuf));
-        }
     }
 
     /**
@@ -281,7 +235,8 @@ public class AuthorizedResourcesMetadata implements IAuthorizedResourcesMetadata
                     duplicated = true;
                 } else {
                     this.authorizedClasses.put(aoTargetType, aoMeta);
-                    MapUtils.getOrDefault(this.authorizedFields, aoTargetType, () -> new HashSet<>(), true) //
+                    Supplier<Set<AuthorizedFieldMetadata>> defaultValue = () -> new HashSet<>();
+                    MapUtils.getOrDefault(this.authorizedFields, aoTargetType, defaultValue, true) //
                             .addAll(aoMeta.getFields());
                 }
             }
