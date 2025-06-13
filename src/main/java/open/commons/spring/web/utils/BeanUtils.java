@@ -26,6 +26,7 @@
 
 package open.commons.spring.web.utils;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 
 import javax.validation.constraints.NotNull;
@@ -39,6 +40,7 @@ import org.springframework.util.Assert;
 
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.core.utils.StringUtils;
+import open.commons.spring.web.exception.IllegalBeanNameFqnResolveException;
 
 /**
  * Bean 관련 기능 제공.
@@ -256,5 +258,38 @@ public class BeanUtils {
     public static BeanUtils context(@NotNull ApplicationContext context) {
         Assert.notNull(context, "컨텍스트 정보는 반드시 설정되어야 합니다.");
         return new BeanUtils(context);
+    }
+
+    /**
+     * FQN 문자열을 파싱하여 bean 이름을 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param fqn
+     *            Bean 이름을 표현하는 Full Qualified Name
+     * @return
+     *
+     * @since 2025. 6. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static String resolveBeanNameFromFqn(String fqn) {
+        try {
+            int lastDotIndex = fqn.lastIndexOf(".");
+            String className = fqn.substring(0, lastDotIndex);
+            String fieldName = fqn.substring(lastDotIndex + 1);
+
+            Class<?> clazz = Class.forName(className);
+            Field field = clazz.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return (String) field.get(null); // static field
+        } catch (Exception e) {
+            throw new IllegalBeanNameFqnResolveException("FQN 문자열에서 bean 이름을 추출할 수 없습니다: " + fqn, e);
+        }
     }
 }

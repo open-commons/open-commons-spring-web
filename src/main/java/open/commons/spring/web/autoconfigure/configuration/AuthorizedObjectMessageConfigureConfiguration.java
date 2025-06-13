@@ -73,7 +73,7 @@ public class AuthorizedObjectMessageConfigureConfiguration {
     WebMvcConfigurer authorizedObjectMessageConfigure(
             @Qualifier(AuthorizedObjectJackson2HttpMessageConverter.BEAN_QUALIFIER) @NotNull AuthorizedObjectJackson2HttpMessageConverter messageConverter) {
         WebMvcConfigurer configure = new AuthorizedObjectMessageConfigure(messageConverter);
-        logger.info("[authorized-resources] Registered authorized-object-message-configure={}", configure);
+        logger.info("[authorized-resources] authorized-object-message-configure={}", configure);
         return configure;
     }
 

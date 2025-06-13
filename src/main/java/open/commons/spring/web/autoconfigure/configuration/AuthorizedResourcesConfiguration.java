@@ -26,8 +26,6 @@
 
 package open.commons.spring.web.autoconfigure.configuration;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,9 +37,8 @@ import org.springframework.context.annotation.Bean;
 
 import open.commons.spring.web.aspect.AuthorizedMethodAspect;
 import open.commons.spring.web.aspect.AuthorizedRequestAspect;
-import open.commons.spring.web.authority.configuratioon.AuthorizedObjectMetadata;
-import open.commons.spring.web.beans.authority.AuthorizedResourcesMetadataProvider;
-import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadataProvider;
+import open.commons.spring.web.beans.authority.AuthorizedResourcesMetadata;
+import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IRequestAccessAuthorityProvider;
@@ -78,13 +75,14 @@ public class AuthorizedResourcesConfiguration {
 
     @Bean(BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER)
     @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
-    ObjectMapper authorizedObjectMapper(ApplicationContext context) {
+    ObjectMapper authorizedObjectMapper(ApplicationContext context //
+            , @Qualifier(AuthorizedResourcesMetadata.BEAN_QUALIFIER) IAuthorizedResourcesMetadata authorizedResourcesMetadata) {
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-        module.setSerializerModifier(new AuthorizedFieldSerializerModifier(context));
+        module.setSerializerModifier(new AuthorizedFieldSerializerModifier(context, authorizedResourcesMetadata));
         mapper.registerModule(module);
 
-        logger.info("[authorized-resources] Registered authorized-object-mapper={}", mapper);
+        logger.info("[authorized-resources] authorized-object-mapper={}", mapper);
 
         return mapper;
     }
@@ -94,14 +92,7 @@ public class AuthorizedResourcesConfiguration {
     @ConditionalOnMissingBean
     AuthorizedRequestAspect authorizedRequestAspect(ApplicationContext context) {
         AuthorizedRequestAspect aspect = new AuthorizedRequestAspect(context);
-        logger.info("[authorized-resources] Registered authorized-request-aspect={}", aspect);
+        logger.info("[authorized-resources] authorized-request-aspect={}", aspect);
         return aspect;
-    }
-
-    @Bean(AuthorizedResourcesMetadataProvider.BEAN_QUALIFIER)
-    @ConditionalOnBean(name = { AuthorizedResourcesMetadataConfiguration.BEAN_QUALIFIER_AUTHORIZED_OBJECT_METADATA })
-    IAuthorizedResourcesMetadataProvider authorizedResourcesMetadataProvider(
-            @Qualifier(AuthorizedResourcesMetadataConfiguration.BEAN_QUALIFIER_AUTHORIZED_OBJECT_METADATA) List<AuthorizedObjectMetadata> authorizdedObjectMetadata) {
-        return new AuthorizedResourcesMetadataProvider(authorizdedObjectMetadata);
     }
 }

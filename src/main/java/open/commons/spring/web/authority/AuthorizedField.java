@@ -49,6 +49,9 @@ import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthorizedField {
 
+    /** 데이터 처리 방식을 설정하지 않은 값. */
+    public static final int NO_ASSINGED_HANDLE_TYPE = Integer.MIN_VALUE;
+
     /**
      * 접근권한을 검증하는 Bean 정보를 설정합니다. <br>
      * 설정되는 Bean은 반드시 {@link IFieldAccessAuthorityProvider}를 구현해야 합니다.
@@ -106,6 +109,25 @@ public @interface AuthorizedField {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     String fieldHandleBean() default "";
+
+    /**
+     * 데이터 처리 방식 <br>
+     * 데이터 유형(class)와 필드(field)에 값에 따라 {@link #authorityBean()}의 결과를 이용하지 않고, 강제적으로 처리 방식을 설정할 때 이용합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 6. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    int handleType() default NO_ASSINGED_HANDLE_TYPE;
 
     /**
      * 데이터 유형 이름<br>

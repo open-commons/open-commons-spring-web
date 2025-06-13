@@ -26,6 +26,9 @@
 
 package open.commons.spring.web.authority.configuratioon;
 
+import java.util.Objects;
+
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import open.commons.spring.web.authority.AuthorizedField;
@@ -39,15 +42,17 @@ import open.commons.spring.web.authority.AuthorizedField;
  * 
  * @see AuthorizedField
  */
-public class AuthorizedFieldMetadata {
+public class AuthorizedFieldMetadata extends AuthorizedResourcesMetadata {
 
-    /** {@link AuthorizedField#name()} */
+    /** bind to {@link AuthorizedField#name()} */
     @NotEmpty
     private String name;
-    /** {@link AuthorizedField#authorityBean()} */
+    /** bind to {@link AuthorizedField#authorityBean()} */
     private String authorityBean;
-    /** {@link AuthorizedField#fieldHandleBean()} */
+    /** bind to {@link AuthorizedField#fieldHandleBean()} */
     private String fieldHandleBean;
+    /** bind to {@link AuthorizedField#handleType()} */
+    private int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
 
     /**
      * <br>
@@ -65,6 +70,28 @@ public class AuthorizedFieldMetadata {
      * @author parkjunhong77@gmail.com
      */
     public AuthorizedFieldMetadata() {
+    }
+
+    /**
+     * {@link AuthorizedFieldMetadata}는 {@link AuthorizedObjectMetadata} 내에서 동일한 {@link #name}값을 가질 수가 없습니다. 이 내용을 기준으로
+     * 동일 여부를 {@link #name}으로만 비교합니다.
+     * 
+     * @since 2025. 6. 13.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AuthorizedFieldMetadata other = (AuthorizedFieldMetadata) obj;
+        return Objects.equals(name, other.name);
     }
 
     /**
@@ -120,6 +147,29 @@ public class AuthorizedFieldMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
+     * 2025. 6. 13.		박준홍			최초 작성
+     * </pre>
+     * 
+     * @return the handleType
+     *
+     * @since 2025. 6. 13.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #handleType
+     */
+
+    public int getHandleType() {
+        return handleType;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
      * 2025. 6. 12.		박준홍			최초 작성
      * </pre>
      * 
@@ -134,6 +184,21 @@ public class AuthorizedFieldMetadata {
 
     public String getName() {
         return name;
+    }
+
+    /**
+     * {@link AuthorizedFieldMetadata}는 {@link AuthorizedObjectMetadata} 내에서 동일한 {@link #name}값을 가질 수가 없습니다. 이 내용을 기준으로
+     * 해시코드 생성을 {@link #name}으로만 비교합니다.
+     * 
+     * @since 2025. 6. 13.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     /**
@@ -156,7 +221,7 @@ public class AuthorizedFieldMetadata {
      * @see #authorityBean
      */
     public void setAuthorityBean(String authorityBean) {
-        this.authorityBean = authorityBean;
+        this.authorityBean = resolveBeanName(authorityBean);
     }
 
     /**
@@ -179,7 +244,30 @@ public class AuthorizedFieldMetadata {
      * @see #fieldHandleBean
      */
     public void setFieldHandleBean(String fieldHandleBean) {
-        this.fieldHandleBean = fieldHandleBean;
+        this.fieldHandleBean = resolveBeanName(fieldHandleBean);
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param handleType
+     *            the handleType to set
+     *
+     * @since 2025. 6. 13.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #handleType
+     */
+    public void setHandleType(@Min(AuthorizedField.NO_ASSINGED_HANDLE_TYPE + 1) int handleType) {
+        this.handleType = handleType;
     }
 
     /**
@@ -207,7 +295,7 @@ public class AuthorizedFieldMetadata {
 
     /**
      *
-     * @since 2025. 6. 12.
+     * @since 2025. 6. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -222,6 +310,8 @@ public class AuthorizedFieldMetadata {
         builder.append(authorityBean);
         builder.append(", fieldHandleBean=");
         builder.append(fieldHandleBean);
+        builder.append(", handleType=");
+        builder.append(handleType);
         builder.append("]");
         return builder.toString();
     }

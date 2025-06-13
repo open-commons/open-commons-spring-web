@@ -46,6 +46,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +69,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import open.commons.spring.web.authority.AuthorizedObject;
 import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration;
+import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesMetadataConfiguration;
+import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 
@@ -105,7 +108,11 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @NotNull
     private final Map<String, ObjectMapper> allObjectMappers;
+
+    @NotNull
+    private final IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider;
 
     @Nullable
     private Map<Class<?>, Map<MediaType, ObjectMapper>> objectMapperRegistrations;
@@ -124,18 +131,50 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
      * </pre>
      *
      * @param allObjectMappers
+     * @param authorizedResourcesMetadataProvider
+     *            TODO
      *
      * @since 2025. 5. 26.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AuthorizedObjectJackson2HttpMessageConverter(Map<String, ObjectMapper> allObjectMappers) {
+    public AuthorizedObjectJackson2HttpMessageConverter(@NotNull Map<String, ObjectMapper> allObjectMappers,
+            @NotNull IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider) {
         super();
         this.allObjectMappers = allObjectMappers;
+        this.authorizedResourcesMetadataProvider = authorizedResourcesMetadataProvider;
         this.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
         DefaultPrettyPrinter prettyPrinter = new DefaultPrettyPrinter();
         prettyPrinter.indentObjectsWith(new DefaultIndenter("  ", "\ndata:"));
         this.ssePrettyPrinter = prettyPrinter;
+    }
+
+    /**
+     * 자신 및 상위 클래스의 정보가 외부설정(메타정보)에서 설정되었는지 여부를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param clazz
+     * @return
+     *
+     * @since 2025. 6. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private boolean annotatedOnMetadata(Class<?> clazz) {
+        while (!Object.class.equals(clazz)) {
+            if (this.authorizedResourcesMetadataProvider.isAuthorizedObject(clazz)) {
+                return true;
+            }
+            clazz = clazz.getSuperclass();
+        }
+
+        return false;
     }
 
     /**
@@ -169,7 +208,7 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
         Class<?> clazz = obj.getClass();
 
         // direct class check
-        if (clazz.isAnnotationPresent(AuthorizedObject.class)) {
+        if (clazz.isAnnotationPresent(AuthorizedObject.class) || annotatedOnMetadata(clazz)) {
             return true;
         }
 

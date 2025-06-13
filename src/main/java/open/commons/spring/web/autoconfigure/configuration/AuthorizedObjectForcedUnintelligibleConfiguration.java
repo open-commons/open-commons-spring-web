@@ -66,14 +66,14 @@ public class AuthorizedObjectForcedUnintelligibleConfiguration {
     @Bean(ForcedUnintelligibleHandler.BEAN_QUALIFIER)
     IUnauthorizedFieldHandler forcedUnintelligibleHandler() {
         IUnauthorizedFieldHandler h = new ForcedUnintelligibleHandler();
-        logger.info("[authorized-resources] Registered authorized-object-forced-unintelligible-field-handler={}", h);
+        logger.info("[authorized-resources] authorized-object-forced-unintelligible-field-handler={}", h);
         return h;
     }
 
     @Bean(ForcedUnintelligibleJudge.BEAN_QUALIFIER)
     IFieldAccessAuthorityProvider forcedUnintelligibleJude() {
         IFieldAccessAuthorityProvider p = new ForcedUnintelligibleJudge();
-        logger.info("[authorized-resources] Registered authorized-object-forced-unintelligible-field-provider={}", p);
+        logger.info("[authorized-resources] authorized-object-forced-unintelligible-field-provider={}", p);
         return p;
     }
 

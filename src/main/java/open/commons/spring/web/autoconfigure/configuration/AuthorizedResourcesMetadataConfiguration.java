@@ -26,15 +26,14 @@
 
 package open.commons.spring.web.autoconfigure.configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-import open.commons.spring.web.authority.configuratioon.AuthorizedObjectMetadata;
+import open.commons.spring.web.beans.authority.AuthorizedResourcesMetadata;
+import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 
@@ -46,8 +45,9 @@ import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
  */
 public class AuthorizedResourcesMetadataConfiguration {
 
-    public static final String BEAN_QUALIFIER_AUTHORIZED_OBJECT_METADATA = "open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesMetadataConfiguration#AUTHORIZED_OBJECT_METADATA";
-    public static final String PROPERTIES_AUTHOIRZED_OBJECT_METADATA = "open-commons.application.authorized-object";
+    public static final String PROPERTIES_AUTHOIRZED_OBJECT_METADATA = "open-commons.application.authorized-resources";
+
+    private final Logger logger = LoggerFactory.getLogger(AuthorizedResourcesMetadataConfiguration.class);
 
     /**
      * <br>
@@ -67,11 +67,13 @@ public class AuthorizedResourcesMetadataConfiguration {
     public AuthorizedResourcesMetadataConfiguration() {
     }
 
-    @Bean(BEAN_QUALIFIER_AUTHORIZED_OBJECT_METADATA)
+    @Bean(AuthorizedResourcesMetadata.BEAN_QUALIFIER)
     @ConfigurationProperties(PROPERTIES_AUTHOIRZED_OBJECT_METADATA)
-//    @ConditionalOnProperty(prefix = PROPERTIES_AUTHOIRZED_OBJECT_METADATA, name = "type")
     @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
-    public List<AuthorizedObjectMetadata> authorizdedObjectMetadata() {
-        return new ArrayList<>();
+    IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider() {
+        IAuthorizedResourcesMetadata armp = new AuthorizedResourcesMetadata();
+        logger.info("[authorized-resources] authorized-resources-metadata-provider={}", armp);
+        return armp;
     }
+
 }

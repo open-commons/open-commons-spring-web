@@ -30,6 +30,8 @@ import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.beans.InvalidPropertyException;
+
 import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedObject;
 
@@ -40,15 +42,16 @@ import open.commons.spring.web.authority.AuthorizedObject;
  * @author parkjunhong77@gmail.com
  * 
  * @see AuthorizedObject
+ * @see AuthorizedField
  */
-public class AuthorizedObjectMetadata {
+public class AuthorizedObjectMetadata extends AuthorizedResourcesMetadata {
 
-    /** {@link AuthorizedObject#name()} */
+    /** 데이터 유형 */
     @NotEmpty
-    private String name;
-    /** {@link AuthorizedObject#authorityBean()} */
+    private Class<?> type;
+    /** bind to {@link AuthorizedObject#authorityBean()} */
     private String authorityBean;
-    /** {@link AuthorizedObject#fieldHandleBean()} */
+    /** bind to {@link AuthorizedObject#fieldHandleBean()} */
     private String fieldHandleBean;
     /** {@link AuthorizedField} 정보 */
     @NotEmpty
@@ -151,17 +154,17 @@ public class AuthorizedObjectMetadata {
      * 2025. 6. 12.		박준홍			최초 작성
      * </pre>
      * 
-     * @return the name
+     * @return the type
      *
      * @since 2025. 6. 12.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see #name
+     * @see #type
      */
 
-    public String getName() {
-        return name;
+    public Class<?> getType() {
+        return type;
     }
 
     /**
@@ -184,7 +187,7 @@ public class AuthorizedObjectMetadata {
      * @see #authorityBean
      */
     public void setAuthorityBean(String authorityBean) {
-        this.authorityBean = authorityBean;
+        this.authorityBean = resolveBeanName(authorityBean);
     }
 
     /**
@@ -207,7 +210,7 @@ public class AuthorizedObjectMetadata {
      * @see #fieldHandleBean
      */
     public void setFieldHandleBean(String fieldHandleBean) {
-        this.fieldHandleBean = fieldHandleBean;
+        this.fieldHandleBean = resolveBeanName(fieldHandleBean);
     }
 
     /**
@@ -243,17 +246,21 @@ public class AuthorizedObjectMetadata {
      * 2025. 6. 12.		박준홍			최초 작성
      * </pre>
      *
-     * @param name
-     *            the name to set
+     * @param type
+     *            the type to set
      *
      * @since 2025. 6. 12.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see #name
+     * @see #type
      */
-    public void setName(@NotEmpty String name) {
-        this.name = name;
+    public void setType(@NotEmpty String name) {
+        try {
+            this.type = Class.forName(name);
+        } catch (ClassNotFoundException e) {
+            throw new InvalidPropertyException(getClass(), "type", name, e);
+        }
     }
 
     /**
@@ -267,8 +274,8 @@ public class AuthorizedObjectMetadata {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("AuthorizedObjectMetadata [name=");
-        builder.append(name);
+        builder.append("AuthorizedObjectMetadata [type=");
+        builder.append(type);
         builder.append(", authorityBean=");
         builder.append(authorityBean);
         builder.append(", fieldHandleBean=");
