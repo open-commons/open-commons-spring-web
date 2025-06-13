@@ -44,7 +44,7 @@ import open.commons.spring.web.authority.AuthorizedObject;
  * @see AuthorizedObject
  * @see AuthorizedField
  */
-public class AuthorizedObjectMetadata extends AuthorizedResourcesMetadata {
+public class AuthorizedObjectMetadata extends AuthorizedMetadata {
 
     /** 데이터 유형 */
     @NotEmpty

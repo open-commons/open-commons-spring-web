@@ -42,7 +42,7 @@ import open.commons.spring.web.authority.AuthorizedField;
  * 
  * @see AuthorizedField
  */
-public class AuthorizedFieldMetadata extends AuthorizedResourcesMetadata {
+public class AuthorizedFieldMetadata extends AuthorizedMetadata {
 
     /** bind to {@link AuthorizedField#name()} */
     @NotEmpty

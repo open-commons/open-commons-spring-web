@@ -36,7 +36,7 @@ import open.commons.spring.web.utils.BeanUtils;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public abstract class AuthorizedResourcesMetadata {
+public abstract class AuthorizedMetadata {
 
     private static final String PREFIX_CLASSPATH = "classpath:";
 
