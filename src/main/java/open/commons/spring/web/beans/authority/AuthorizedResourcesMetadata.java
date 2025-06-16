@@ -46,8 +46,8 @@ import org.springframework.beans.factory.BeanCreationException;
 import open.commons.core.utils.MapUtils;
 import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedObject;
-import open.commons.spring.web.authority.configuratioon.AuthorizedFieldMetadata;
-import open.commons.spring.web.authority.configuratioon.AuthorizedObjectMetadata;
+import open.commons.spring.web.authority.metadata.AuthorizedFieldMetadata;
+import open.commons.spring.web.authority.metadata.AuthorizedObjectMetadata;
 
 /**
  * 

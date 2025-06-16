@@ -18,41 +18,44 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 6. 12. 오후 5:58:33
+ * Date  : 2025. 6. 12. 오후 5:58:20
  *
  * Author: parkjunhong77@gmail.com
  * 
  */
 
-package open.commons.spring.web.authority.configuratioon;
+package open.commons.spring.web.authority.metadata;
 
-import java.util.Objects;
+import java.util.List;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.beans.InvalidPropertyException;
+
 import open.commons.spring.web.authority.AuthorizedField;
+import open.commons.spring.web.authority.AuthorizedObject;
 
 /**
- * {@link AuthorizedField}를 외부에서 설정하는 클래스.
  * 
  * @since 2025. 6. 12.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  * 
+ * @see AuthorizedObject
  * @see AuthorizedField
  */
-public class AuthorizedFieldMetadata extends AuthorizedMetadata {
+public class AuthorizedObjectMetadata extends AuthorizedMetadata {
 
-    /** bind to {@link AuthorizedField#name()} */
+    /** 데이터 유형 */
     @NotEmpty
-    private String name;
-    /** bind to {@link AuthorizedField#authorityBean()} */
+    private Class<?> type;
+    /** bind to {@link AuthorizedObject#authorityBean()} */
     private String authorityBean;
-    /** bind to {@link AuthorizedField#fieldHandleBean()} */
+    /** bind to {@link AuthorizedObject#fieldHandleBean()} */
     private String fieldHandleBean;
-    /** bind to {@link AuthorizedField#handleType()} */
-    private int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
+    /** {@link AuthorizedField} 정보 */
+    @NotEmpty
+    private List<AuthorizedFieldMetadata> fields;
 
     /**
      * <br>
@@ -69,29 +72,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AuthorizedFieldMetadata() {
-    }
-
-    /**
-     * {@link AuthorizedFieldMetadata}는 {@link AuthorizedObjectMetadata} 내에서 동일한 {@link #name}값을 가질 수가 없습니다. 이 내용을 기준으로
-     * 동일 여부를 {@link #name}으로만 비교합니다.
-     * 
-     * @since 2025. 6. 13.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        AuthorizedFieldMetadata other = (AuthorizedFieldMetadata) obj;
-        return Objects.equals(name, other.name);
+    public AuthorizedObjectMetadata() {
     }
 
     /**
@@ -147,20 +128,20 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 13.		박준홍			최초 작성
+     * 2025. 6. 12.		박준홍			최초 작성
      * </pre>
      * 
-     * @return the handleType
+     * @return the fields
      *
-     * @since 2025. 6. 13.
+     * @since 2025. 6. 12.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see #handleType
+     * @see #fields
      */
 
-    public int getHandleType() {
-        return handleType;
+    public List<AuthorizedFieldMetadata> getFields() {
+        return fields;
     }
 
     /**
@@ -173,32 +154,17 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * 2025. 6. 12.		박준홍			최초 작성
      * </pre>
      * 
-     * @return the name
+     * @return the type
      *
      * @since 2025. 6. 12.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see #name
+     * @see #type
      */
 
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * {@link AuthorizedFieldMetadata}는 {@link AuthorizedObjectMetadata} 내에서 동일한 {@link #name}값을 가질 수가 없습니다. 이 내용을 기준으로
-     * 해시코드 생성을 {@link #name}으로만 비교합니다.
-     * 
-     * @since 2025. 6. 13.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
+    public Class<?> getType() {
+        return type;
     }
 
     /**
@@ -254,20 +220,20 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 13.		박준홍			최초 작성
+     * 2025. 6. 12.		박준홍			최초 작성
      * </pre>
      *
-     * @param handleType
-     *            the handleType to set
+     * @param fields
+     *            the fields to set
      *
-     * @since 2025. 6. 13.
+     * @since 2025. 6. 12.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see #handleType
+     * @see #fields
      */
-    public void setHandleType(@Min(AuthorizedField.NO_ASSINGED_HANDLE_TYPE + 1) int handleType) {
-        this.handleType = handleType;
+    public void setFields(@NotEmpty List<AuthorizedFieldMetadata> fields) {
+        this.fields = fields;
     }
 
     /**
@@ -280,22 +246,26 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * 2025. 6. 12.		박준홍			최초 작성
      * </pre>
      *
-     * @param name
-     *            the name to set
+     * @param type
+     *            the type to set
      *
      * @since 2025. 6. 12.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see #name
+     * @see #type
      */
-    public void setName(@NotEmpty String name) {
-        this.name = name;
+    public void setType(@NotEmpty String name) {
+        try {
+            this.type = Class.forName(name);
+        } catch (ClassNotFoundException e) {
+            throw new InvalidPropertyException(getClass(), "type", name, e);
+        }
     }
 
     /**
      *
-     * @since 2025. 6. 13.
+     * @since 2025. 6. 12.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -304,14 +274,14 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("AuthorizedFieldMetadata [name=");
-        builder.append(name);
+        builder.append("AuthorizedObjectMetadata [type=");
+        builder.append(type);
         builder.append(", authorityBean=");
         builder.append(authorityBean);
         builder.append(", fieldHandleBean=");
         builder.append(fieldHandleBean);
-        builder.append(", handleType=");
-        builder.append(handleType);
+        builder.append(", fields=");
+        builder.append(fields);
         builder.append("]");
         return builder.toString();
     }

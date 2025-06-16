@@ -38,7 +38,7 @@ import open.commons.core.TwoValueObject;
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedObject;
-import open.commons.spring.web.authority.configuratioon.AuthorizedFieldMetadata;
+import open.commons.spring.web.authority.metadata.AuthorizedFieldMetadata;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;

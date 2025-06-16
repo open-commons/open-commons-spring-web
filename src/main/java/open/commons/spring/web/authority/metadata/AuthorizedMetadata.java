@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.authority.configuratioon;
+package open.commons.spring.web.authority.metadata;
 
 import javax.validation.constraints.NotNull;
 
