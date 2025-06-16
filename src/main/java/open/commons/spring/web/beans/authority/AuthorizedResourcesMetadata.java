@@ -27,6 +27,7 @@
 package open.commons.spring.web.beans.authority;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -219,32 +220,36 @@ public class AuthorizedResourcesMetadata implements IAuthorizedResourcesMetadata
             return;
         }
 
-        boolean duplicated = false;
-        Set<Class<?>> errBuf = new HashSet<>();
+        if (authorizedObjectMetadata != null) {
+            boolean duplicated = false;
+            Set<Class<?>> errBuf = new HashSet<>();
 
-        Class<?> aoTargetType = null;
-        for (AuthorizedObjectMetadata aoMeta : authorizedObjectMetadata) {
-            aoTargetType = aoMeta.getType();
-            if (duplicated) {
-                if (this.authorizedClasses.containsKey(aoTargetType)) {
-                    errBuf.add(aoTargetType);
-                }
-            } else {
-                if (this.authorizedClasses.containsKey(aoTargetType)) {
-                    errBuf.add(aoTargetType);
-                    duplicated = true;
+            Class<?> aoTargetType = null;
+            for (AuthorizedObjectMetadata aoMeta : authorizedObjectMetadata) {
+                aoTargetType = aoMeta.getType();
+                if (duplicated) {
+                    if (this.authorizedClasses.containsKey(aoTargetType)) {
+                        errBuf.add(aoTargetType);
+                    }
                 } else {
-                    this.authorizedClasses.put(aoTargetType, aoMeta);
-                    Supplier<Set<AuthorizedFieldMetadata>> defaultValue = () -> new HashSet<>();
-                    MapUtils.getOrDefault(this.authorizedFields, aoTargetType, defaultValue, true) //
-                            .addAll(aoMeta.getFields());
+                    if (this.authorizedClasses.containsKey(aoTargetType)) {
+                        errBuf.add(aoTargetType);
+                        duplicated = true;
+                    } else {
+                        this.authorizedClasses.put(aoTargetType, aoMeta);
+                        Supplier<Set<AuthorizedFieldMetadata>> defaultValue = () -> new HashSet<>();
+                        MapUtils.getOrDefault(this.authorizedFields, aoTargetType, defaultValue, true) //
+                                .addAll(aoMeta.getFields());
+                    }
                 }
             }
-        }
 
-        if (duplicated) {
-            MapUtils.clear(this.authorizedClasses, this.authorizedFields);
-            throw new BeanCreationException(IAuthorizedResourcesMetadata.class.getName(), String.format("중복 선언된 클래스가 존재합니다. => %s", errBuf));
+            if (duplicated) {
+                MapUtils.clear(this.authorizedClasses, this.authorizedFields);
+                throw new BeanCreationException(IAuthorizedResourcesMetadata.class.getName(), String.format("중복 선언된 클래스가 존재합니다. => %s", errBuf));
+            }
+        } else {
+            authorizedObjectMetadata = new ArrayList<>();
         }
 
         resolved = false;
