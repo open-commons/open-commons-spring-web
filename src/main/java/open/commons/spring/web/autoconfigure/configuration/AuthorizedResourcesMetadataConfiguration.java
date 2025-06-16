@@ -29,6 +29,7 @@ package open.commons.spring.web.autoconfigure.configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
@@ -70,6 +71,7 @@ public class AuthorizedResourcesMetadataConfiguration {
     @Bean(AuthorizedResourcesMetadata.BEAN_QUALIFIER)
     @ConfigurationProperties(PROPERTIES_AUTHOIRZED_OBJECT_METADATA)
     @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
+    @ConditionalOnMissingBean
     IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider() {
         IAuthorizedResourcesMetadata armp = new AuthorizedResourcesMetadata();
         logger.info("[authorized-resources] authorized-resources-metadata-provider={}", armp);

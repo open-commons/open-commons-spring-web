@@ -32,12 +32,10 @@ import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 
-import open.commons.spring.web.beans.authority.AuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.jackson.AuthorizedObjectJackson2HttpMessageConverter;
 
@@ -73,9 +71,9 @@ public class AuthorizedObjectMessageConverterConfiguration {
     }
 
     @Bean(AuthorizedObjectJackson2HttpMessageConverter.BEAN_QUALIFIER)
-    @ConditionalOnBean(name = { AuthorizedResourcesConfiguration.BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER, AuthorizedResourcesMetadata.BEAN_QUALIFIER })
+    @ConditionalOnBean({ ObjectMapper.class, IAuthorizedResourcesMetadata.class })
     AuthorizedObjectJackson2HttpMessageConverter authorizedObjectMessageConverter(@NotNull Map<String, ObjectMapper> allObjectMappers,
-            @Qualifier(AuthorizedResourcesMetadata.BEAN_QUALIFIER) @NotNull IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider) {
+            @NotNull IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider) {
         AuthorizedObjectJackson2HttpMessageConverter converter = new AuthorizedObjectJackson2HttpMessageConverter(allObjectMappers, authorizedResourcesMetadataProvider);
         logger.info("[authorized-resources] authorized-object-message-converter={}", converter);
         return converter;

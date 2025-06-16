@@ -244,7 +244,7 @@ public class AuthorizedResourcesMetadata implements IAuthorizedResourcesMetadata
 
         if (duplicated) {
             MapUtils.clear(this.authorizedClasses, this.authorizedFields);
-            throw new BeanCreationException(BEAN_QUALIFIER, String.format("중복 선언된 클래스가 존재합니다. => %s", errBuf));
+            throw new BeanCreationException(IAuthorizedResourcesMetadata.class.getName(), String.format("중복 선언된 클래스가 존재합니다. => %s", errBuf));
         }
 
         resolved = false;

@@ -26,9 +26,10 @@
 
 package open.commons.spring.web.autoconfigure.configuration;
 
+import javax.validation.constraints.NotNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -37,7 +38,6 @@ import org.springframework.context.annotation.Bean;
 
 import open.commons.spring.web.aspect.AuthorizedMethodAspect;
 import open.commons.spring.web.aspect.AuthorizedRequestAspect;
-import open.commons.spring.web.beans.authority.AuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider;
@@ -75,8 +75,7 @@ public class AuthorizedResourcesConfiguration {
 
     @Bean(BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER)
     @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
-    ObjectMapper authorizedObjectMapper(ApplicationContext context //
-            , @Qualifier(AuthorizedResourcesMetadata.BEAN_QUALIFIER) IAuthorizedResourcesMetadata authorizedResourcesMetadata) {
+    ObjectMapper authorizedObjectMapper(ApplicationContext context, @NotNull IAuthorizedResourcesMetadata authorizedResourcesMetadata) {
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.setSerializerModifier(new AuthorizedFieldSerializerModifier(context, authorizedResourcesMetadata));
