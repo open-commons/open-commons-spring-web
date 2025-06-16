@@ -66,7 +66,7 @@ public class AuthorizedResourcesMetadata implements IAuthorizedResourcesMetadata
     private final Map<Class<?>, AuthorizedObjectMetadata> authorizedClasses = new ConcurrentHashMap<>();
     /** {@link AuthorizedField}가 적용되는 필드({@link Field}) */
     private final Map<Class<?>, Set<AuthorizedFieldMetadata>> authorizedFields = new ConcurrentHashMap<>();
-
+    /** 외부 설정 정보 */
     private List<AuthorizedObjectMetadata> authorizedObjectMetadata;
 
     /** {@link AuthorizedObjectMetadata} 데이터 분석 여부 */
