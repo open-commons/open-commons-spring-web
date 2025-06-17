@@ -51,6 +51,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -69,10 +70,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import open.commons.spring.web.authority.AuthorizedObject;
 import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration;
-import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesMetadataConfiguration;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
+import open.commons.spring.web.config.AuthorizedResourcesMetadataConfiguration;
+import open.commons.spring.web.utils.ClassInspector;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -112,7 +114,7 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
     private final Map<String, ObjectMapper> allObjectMappers;
 
     @NotNull
-    private final IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider;
+    private final IAuthorizedResourcesMetadata authorizedResourcesMetadata;
 
     @Nullable
     private Map<Class<?>, Map<MediaType, ObjectMapper>> objectMapperRegistrations;
@@ -129,20 +131,23 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
      * ------------------------------------------
      * 2025. 5. 26.		박준홍			최초 작성
      * </pre>
-     *
+     * 
+     * @param objectMapper
+     *            {@link Primary} {@link ObjectMapper}
      * @param allObjectMappers
-     * @param authorizedResourcesMetadataProvider
+     *            모든 {@link ObjectMapper}
+     * @param authorizedResourcesMetadata
      *            TODO
      *
      * @since 2025. 5. 26.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AuthorizedObjectJackson2HttpMessageConverter(@NotNull Map<String, ObjectMapper> allObjectMappers,
-            @NotNull IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider) {
-        super();
+    public AuthorizedObjectJackson2HttpMessageConverter(ObjectMapper objectMapper, @NotNull Map<String, ObjectMapper> allObjectMappers,
+            @NotNull IAuthorizedResourcesMetadata authorizedResourcesMetadata) {
+        super(objectMapper);
         this.allObjectMappers = allObjectMappers;
-        this.authorizedResourcesMetadataProvider = authorizedResourcesMetadataProvider;
+        this.authorizedResourcesMetadata = authorizedResourcesMetadata;
         this.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
         DefaultPrettyPrinter prettyPrinter = new DefaultPrettyPrinter();
         prettyPrinter.indentObjectsWith(new DefaultIndenter("  ", "\ndata:"));
@@ -168,7 +173,7 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
      */
     private boolean annotatedOnMetadata(Class<?> clazz) {
         while (!Object.class.equals(clazz)) {
-            if (this.authorizedResourcesMetadataProvider.isAuthorizedObject(clazz)) {
+            if (this.authorizedResourcesMetadata.isAuthorizedObject(clazz)) {
                 return true;
             }
             clazz = clazz.getSuperclass();
@@ -239,7 +244,7 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
         }
 
         // recursive field scan
-        Field[] fields = clazz.getDeclaredFields();
+        List<Field> fields = ClassInspector.getAllFields(clazz);
         for (Field field : fields) {
             if (Modifier.isStatic(field.getModifiers()))
                 continue;

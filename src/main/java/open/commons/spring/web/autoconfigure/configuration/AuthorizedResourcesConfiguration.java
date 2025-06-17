@@ -35,9 +35,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import open.commons.spring.web.aspect.AuthorizedMethodAspect;
 import open.commons.spring.web.aspect.AuthorizedRequestAspect;
+import open.commons.spring.web.beans.authority.IAuthorizedObjectMapperDecorator;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider;
@@ -54,7 +56,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-@AutoConfigureAfter({ AuthorizedObjectForcedUnintelligibleConfiguration.class, AuthorizedResourcesMetadataConfiguration.class })
+@AutoConfigureAfter({ AuthorizedObjectForcedUnintelligibleConfiguration.class })
 public class AuthorizedResourcesConfiguration {
 
     public static final String BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER = "open.commons.spring.web.autoconfigure.AuthorizedResourcesConfiguration#AUTHORIZED_OBJECT_MAPPER";
@@ -75,11 +77,13 @@ public class AuthorizedResourcesConfiguration {
 
     @Bean(BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER)
     @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
-    ObjectMapper authorizedObjectMapper(ApplicationContext context, @NotNull IAuthorizedResourcesMetadata authorizedResourcesMetadata) {
-        ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper authorizedObjectMapper(ApplicationContext context, @NotNull IAuthorizedResourcesMetadata authorizedResourcesMetadata,
+            @NotNull IAuthorizedObjectMapperDecorator authorizedObjectMapperDecorator) {
+        ObjectMapper mapper = Jackson2ObjectMapperBuilder.json().build();
         SimpleModule module = new SimpleModule();
         module.setSerializerModifier(new AuthorizedFieldSerializerModifier(context, authorizedResourcesMetadata));
         mapper.registerModule(module);
+        authorizedObjectMapperDecorator.configureFeature(mapper);
 
         logger.info("[authorized-resources] authorized-object-mapper={}", mapper);
 
@@ -94,4 +98,5 @@ public class AuthorizedResourcesConfiguration {
         logger.info("[authorized-resources] authorized-request-aspect={}", aspect);
         return aspect;
     }
+
 }

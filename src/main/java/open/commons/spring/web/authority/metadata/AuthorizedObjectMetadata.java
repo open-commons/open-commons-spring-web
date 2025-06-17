@@ -29,11 +29,14 @@ package open.commons.spring.web.authority.metadata;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-import org.springframework.beans.InvalidPropertyException;
+import org.springframework.context.annotation.Bean;
 
 import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedObject;
+import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 
 /**
  * 
@@ -76,7 +79,9 @@ public class AuthorizedObjectMetadata extends AuthorizedMetadata {
     }
 
     /**
-     * <br>
+     * {@link IFieldAccessAuthorityProvider}를 구현한 {@link Bean} 이름을 제공합니다.<br>
+     * {@link AuthorizedFieldMetadata#getAuthorityBean()}에도 설정되어 있는 경우에는
+     * {@link AuthorizedFieldMetadata#getAuthorityBean ()}이 사용됩니다.
      * 
      * <pre>
      * [개정이력]
@@ -99,7 +104,9 @@ public class AuthorizedObjectMetadata extends AuthorizedMetadata {
     }
 
     /**
-     * <br>
+     * {@link IUnauthorizedFieldHandler}를 구현한 {@link Bean} 이름을 제공합니다.<br>
+     * {@link AuthorizedFieldMetadata#getFieldHandleBean()}에도 설정되어 있는 경우에는
+     * {@link AuthorizedFieldMetadata#getFieldHandleBean()}이 사용됩니다.
      * 
      * <pre>
      * [개정이력]
@@ -168,7 +175,7 @@ public class AuthorizedObjectMetadata extends AuthorizedMetadata {
     }
 
     /**
-     * <br>
+     * {@link IFieldAccessAuthorityProvider}를 구현한 {@link Bean} 이름을 설정합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -178,20 +185,21 @@ public class AuthorizedObjectMetadata extends AuthorizedMetadata {
      * </pre>
      *
      * @param authorityBean
-     *            the authorityBean to set
+     *            {@link IFieldAccessAuthorityProvider}를 구현한 {@link Bean} 이름
      *
      * @since 2025. 6. 12.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
      * @see #authorityBean
+     * @see IFieldAccessAuthorityProvider
      */
     public void setAuthorityBean(String authorityBean) {
         this.authorityBean = resolveBeanName(authorityBean);
     }
 
     /**
-     * <br>
+     * {@link IUnauthorizedFieldHandler}를 구현한 {@link Bean} 이름을 설정합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -201,13 +209,14 @@ public class AuthorizedObjectMetadata extends AuthorizedMetadata {
      * </pre>
      *
      * @param fieldHandleBean
-     *            the fieldHandleBean to set
+     *            {@link IUnauthorizedFieldHandler}를 구현한 {@link Bean} 이름
      *
      * @since 2025. 6. 12.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
      * @see #fieldHandleBean
+     * @see IUnauthorizedFieldHandler
      */
     public void setFieldHandleBean(String fieldHandleBean) {
         this.fieldHandleBean = resolveBeanName(fieldHandleBean);
@@ -237,7 +246,7 @@ public class AuthorizedObjectMetadata extends AuthorizedMetadata {
     }
 
     /**
-     * <br>
+     * {@link AuthorizedObject}를 적용할 데이터 유형을 설정합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -247,20 +256,13 @@ public class AuthorizedObjectMetadata extends AuthorizedMetadata {
      * </pre>
      *
      * @param type
-     *            the type to set
      *
      * @since 2025. 6. 12.
      * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see #type
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public void setType(@NotEmpty String name) {
-        try {
-            this.type = Class.forName(name);
-        } catch (ClassNotFoundException e) {
-            throw new InvalidPropertyException(getClass(), "type", name, e);
-        }
+    public void setType(@NotNull Class<?> type) {
+        this.type = type;
     }
 
     /**

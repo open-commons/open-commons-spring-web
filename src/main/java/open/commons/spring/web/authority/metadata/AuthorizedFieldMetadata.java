@@ -26,12 +26,17 @@
 
 package open.commons.spring.web.authority.metadata;
 
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.context.annotation.Bean;
+
 import open.commons.spring.web.authority.AuthorizedField;
+import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
+import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 
 /**
  * {@link AuthorizedField}를 외부에서 설정하는 클래스.
@@ -95,7 +100,9 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
     }
 
     /**
-     * <br>
+     * {@link IFieldAccessAuthorityProvider}를 구현한 {@link Bean} 이름을 제공합니다.<br>
+     * {@link AuthorizedObjectMetadata#getAuthorityBean()}에도 설정되어 있는 경우에는
+     * {@link AuthorizedFieldMetadata#getAuthorityBean()}이 사용됩니다.
      * 
      * <pre>
      * [개정이력]
@@ -118,7 +125,9 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
     }
 
     /**
-     * <br>
+     * {@link IUnauthorizedFieldHandler}를 구현한 {@link Bean} 이름을 제공합니다.<br>
+     * {@link AuthorizedObjectMetadata#getFieldHandleBean()}에도 설정되어 있는 경우에는
+     * {@link AuthorizedFieldMetadata#getFieldHandleBean()}이 사용됩니다.
      * 
      * <pre>
      * [개정이력]
@@ -202,7 +211,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
     }
 
     /**
-     * <br>
+     * {@link IFieldAccessAuthorityProvider}를 구현한 {@link Bean} 이름을 설정합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -212,20 +221,21 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * </pre>
      *
      * @param authorityBean
-     *            the authorityBean to set
+     *            {@link IFieldAccessAuthorityProvider}를 구현한 {@link Bean} 이름
      *
      * @since 2025. 6. 12.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
      * @see #authorityBean
+     * @see IFieldAccessAuthorityProvider
      */
     public void setAuthorityBean(String authorityBean) {
         this.authorityBean = resolveBeanName(authorityBean);
     }
 
     /**
-     * <br>
+     * {@link IUnauthorizedFieldHandler}를 구현한 {@link Bean} 이름을 설정합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -235,20 +245,21 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * </pre>
      *
      * @param fieldHandleBean
-     *            the fieldHandleBean to set
+     * @link IUnauthorizedFieldHandler}를 구현한 {@link Bean} 이름
      *
      * @since 2025. 6. 12.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
      * @see #fieldHandleBean
+     * @see IUnauthorizedFieldHandler
      */
     public void setFieldHandleBean(String fieldHandleBean) {
         this.fieldHandleBean = resolveBeanName(fieldHandleBean);
     }
 
     /**
-     * <br>
+     * 데이터 처리 유형을 설정합니다.<br>
      * 
      * <pre>
      * [개정이력]
@@ -258,7 +269,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * </pre>
      *
      * @param handleType
-     *            the handleType to set
+     *            데이터 처리 유형
      *
      * @since 2025. 6. 13.
      * @version 0.8.0
@@ -271,7 +282,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
     }
 
     /**
-     * <br>
+     * {@link Field} 이름을 설정합니다.<br>
      * 
      * <pre>
      * [개정이력]

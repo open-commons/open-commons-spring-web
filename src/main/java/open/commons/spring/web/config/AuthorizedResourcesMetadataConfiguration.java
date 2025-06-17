@@ -24,19 +24,25 @@
  * 
  */
 
-package open.commons.spring.web.autoconfigure.configuration;
+package open.commons.spring.web.config;
+
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
+import open.commons.spring.web.beans.authority.AuthorizedObjectMapperDecorator;
 import open.commons.spring.web.beans.authority.AuthorizedResourcesMetadata;
+import open.commons.spring.web.beans.authority.IAuthorizedObjectMapperDecorator;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
-import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
-import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 
@@ -44,8 +50,10 @@ import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
+@Configuration
 public class AuthorizedResourcesMetadataConfiguration {
 
+    public static final String BEAN_QUALIFIER_DEFAULT_OBJECT_MAPPER = "open.commons.spring.web.config.AuthorizedResourcesMetadataConfiguration#DEFAULT_OBJECT_MAPPER";
     public static final String PROPERTIES_AUTHOIRZED_OBJECT_METADATA = "open-commons.application.authorized-resources";
 
     private final Logger logger = LoggerFactory.getLogger(AuthorizedResourcesMetadataConfiguration.class);
@@ -68,14 +76,32 @@ public class AuthorizedResourcesMetadataConfiguration {
     public AuthorizedResourcesMetadataConfiguration() {
     }
 
+    @Bean(AuthorizedObjectMapperDecorator.BEAN_QUALIFIER)
+    @ConditionalOnMissingBean
+    IAuthorizedObjectMapperDecorator authorizedObjectMapperDecorator() {
+        IAuthorizedObjectMapperDecorator aomd = new AuthorizedObjectMapperDecorator();
+        logger.info("[authorized-resources] authorized-object-mapper-decorator={}", aomd);
+        return aomd;
+    }
+
     @Bean(AuthorizedResourcesMetadata.BEAN_QUALIFIER)
     @ConfigurationProperties(PROPERTIES_AUTHOIRZED_OBJECT_METADATA)
-    @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
     @ConditionalOnMissingBean
     IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider() {
         IAuthorizedResourcesMetadata armp = new AuthorizedResourcesMetadata();
         logger.info("[authorized-resources] authorized-resources-metadata-provider={}", armp);
         return armp;
+    }
+
+    @Bean(BEAN_QUALIFIER_DEFAULT_OBJECT_MAPPER)
+    @Primary
+    ObjectMapper objectMapper(@NotNull IAuthorizedObjectMapperDecorator authorizedObjectMapperDecorator) {
+        ObjectMapper mapper = Jackson2ObjectMapperBuilder.json().build();
+        authorizedObjectMapperDecorator.configureFeature(mapper);
+
+        logger.info("[authorized-resources] default-object-mapper={}", mapper);
+
+        return mapper;
     }
 
 }
