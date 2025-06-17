@@ -80,7 +80,8 @@ public class AuthorizedObjectMapperDecorator implements IAuthorizedObjectMapperD
         objectMapper.registerModules(modules());
 
         // #2. set NamedType
-        objectMapper.registerSubtypes(subtypes().stream().toArray(Class[]::new));
+        Class<?>[] namedTypes = subtypes().stream().toArray(Class[]::new);
+        objectMapper.registerSubtypes(namedTypes);
 
         // #3. configure ConfigFeature
         for (Object feature : enables()) {
