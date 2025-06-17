@@ -39,13 +39,13 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import open.commons.spring.web.aspect.AuthorizedMethodAspect;
 import open.commons.spring.web.aspect.AuthorizedRequestAspect;
-import open.commons.spring.web.beans.authority.IAuthorizedObjectMapperDecorator;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.jackson.AuthorizedFieldSerializerModifier;
+import open.commons.spring.web.jacksons.decoration.IObjectMapperDecorationConsolidator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -78,12 +78,15 @@ public class AuthorizedResourcesConfiguration {
     @Bean(BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER)
     @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
     ObjectMapper authorizedObjectMapper(ApplicationContext context, @NotNull IAuthorizedResourcesMetadata authorizedResourcesMetadata,
-            @NotNull IAuthorizedObjectMapperDecorator authorizedObjectMapperDecorator) {
+            @NotNull IObjectMapperDecorationConsolidator objectMapperConsolidator) {
+        // #1. ObjectMapper 생성
         ObjectMapper mapper = Jackson2ObjectMapperBuilder.json().build();
+        // #2. AuthorizedObject 처리 모듈 등록
         SimpleModule module = new SimpleModule();
         module.setSerializerModifier(new AuthorizedFieldSerializerModifier(context, authorizedResourcesMetadata));
         mapper.registerModule(module);
-        authorizedObjectMapperDecorator.configureFeature(mapper);
+        // #3. 사용자 모듈 등록
+        objectMapperConsolidator.configureFeature(mapper);
 
         logger.info("[authorized-resources] authorized-object-mapper={}", mapper);
 

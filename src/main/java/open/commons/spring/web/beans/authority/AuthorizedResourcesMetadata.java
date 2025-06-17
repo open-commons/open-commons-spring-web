@@ -28,6 +28,8 @@ package open.commons.spring.web.beans.authority;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotEmpty;
@@ -68,7 +71,7 @@ public class AuthorizedResourcesMetadata implements IAuthorizedResourcesMetadata
     /** {@link AuthorizedField}가 적용되는 필드({@link Field}) */
     private final Map<Class<?>, Set<AuthorizedFieldMetadata>> authorizedFields = new ConcurrentHashMap<>();
     /** 외부 설정 정보 */
-    private List<AuthorizedObjectMetadata> authorizedObjectMetadata;
+    private Collection<AuthorizedObjectMetadata> authorizedObjectMetadata;
 
     /** {@link AuthorizedObjectMetadata} 데이터 분석 여부 */
     private boolean resolved = false;
@@ -214,6 +217,7 @@ public class AuthorizedResourcesMetadata implements IAuthorizedResourcesMetadata
         return this.authorizedClasses.containsKey(clazz);
     }
 
+    @SuppressWarnings("unused")
     @PostConstruct
     public void resolveAuthorizedObjectMetadata() {
         if (resolved) {
@@ -225,34 +229,44 @@ public class AuthorizedResourcesMetadata implements IAuthorizedResourcesMetadata
             Set<Class<?>> errBuf = new HashSet<>();
 
             Class<?> aoTargetType = null;
+
+            Supplier<AuthorizedObjectMetadata> aomSup = null;
+            Supplier<Set<AuthorizedFieldMetadata>> afmSup = null;
+            Set<AuthorizedFieldMetadata> afmsCur = null;
+            List<AuthorizedFieldMetadata> afmsNew = null;
+            Map<Class<?>, List<AuthorizedObjectMetadata>> aoTypes = new HashMap<>();
+            Supplier<List<AuthorizedObjectMetadata>> allAomSup = null;
             for (AuthorizedObjectMetadata aoMeta : authorizedObjectMetadata) {
+                // #1. Authorized Object 설정
                 aoTargetType = aoMeta.getType();
-                if (duplicated) {
-                    if (this.authorizedClasses.containsKey(aoTargetType)) {
-                        errBuf.add(aoTargetType);
-                    }
-                } else {
-                    if (this.authorizedClasses.containsKey(aoTargetType)) {
+                MapUtils.getOrDefault(this.authorizedClasses, aoTargetType, aomSup = () -> aoMeta, true);
+                // #2. Authorized Field 설정
+                afmsNew = aoMeta.getFields();
+                afmsCur = MapUtils.getOrDefault(this.authorizedFields, aoTargetType, afmSup = () -> new HashSet<>(), true);
+                for (AuthorizedFieldMetadata afm : afmsNew) {
+                    // 중복 체크
+                    if (afmsCur.contains(afm)) {
                         errBuf.add(aoTargetType);
                         duplicated = true;
                     } else {
-                        this.authorizedClasses.put(aoTargetType, aoMeta);
-                        Supplier<Set<AuthorizedFieldMetadata>> defaultValue = () -> new HashSet<>();
-                        MapUtils.getOrDefault(this.authorizedFields, aoTargetType, defaultValue, true) //
-                                .addAll(aoMeta.getFields());
+                        afmsCur.add(afm);
                     }
                 }
+                MapUtils.getOrDefault(aoTypes, aoTargetType, allAomSup = () -> new ArrayList<>(), true).add(aoMeta);
             }
 
             if (duplicated) {
                 MapUtils.clear(this.authorizedClasses, this.authorizedFields);
-                throw new BeanCreationException(IAuthorizedResourcesMetadata.class.getName(), String.format("중복 선언된 클래스가 존재합니다. => %s", errBuf));
+                throw new BeanCreationException(IAuthorizedResourcesMetadata.class.getName(), //
+                        String.format("중복 선언된 클래스가 존재합니다. => %s", //
+                                errBuf.stream().map(aoTypes::get).flatMap(List::stream).collect(Collectors.toList())) //
+                );
             }
         } else {
             authorizedObjectMetadata = new ArrayList<>();
         }
 
-        resolved = false;
+        resolved = true;
     }
 
     /**
@@ -274,8 +288,9 @@ public class AuthorizedResourcesMetadata implements IAuthorizedResourcesMetadata
      *
      * @see #authorizedObjectMetadata
      */
-    public void setAuthorizedObjectMetadata(List<AuthorizedObjectMetadata> authorizedObjectMetadata) {
+    public void setAuthorizedObjectMetadata(Collection<AuthorizedObjectMetadata> authorizedObjectMetadata) {
         this.authorizedObjectMetadata = authorizedObjectMetadata;
+        this.resolved = false;
     }
 
 }

@@ -27,6 +27,8 @@
 package open.commons.spring.web.utils;
 
 import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.constraints.NotNull;
@@ -35,7 +37,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.context.properties.bind.Bindable;
+import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
 
 import open.commons.core.utils.ExceptionUtils;
@@ -258,6 +264,35 @@ public class BeanUtils {
     public static BeanUtils context(@NotNull ApplicationContext context) {
         Assert.notNull(context, "컨텍스트 정보는 반드시 설정되어야 합니다.");
         return new BeanUtils(context);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 17.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param <E>
+     *            데이터 유형 Generic Type 문자
+     * @param environment
+     *            {@link SpringApplication} 환경 정보
+     * @param property
+     *            데이터 속성값. (전체 경로)
+     * @param type
+     *            데이터 유형
+     * @return
+     *
+     * @since 2025. 6. 17.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static <E> List<E> listOf(Environment environment, String property, Class<E> type) {
+        return Binder.get(environment).bind(property, Bindable.listOf(type)).orElse(Collections.emptyList());
     }
 
     /**

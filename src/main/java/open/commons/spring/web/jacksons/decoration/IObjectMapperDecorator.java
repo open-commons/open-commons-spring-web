@@ -24,14 +24,11 @@
  * 
  */
 
-package open.commons.spring.web.beans.authority;
+package open.commons.spring.web.jacksons.decoration;
 
 import java.util.Set;
 
-import javax.validation.constraints.NotNull;
-
 import open.commons.spring.web.authority.AuthorizedObject;
-import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -49,27 +46,7 @@ import com.fasterxml.jackson.databind.jsontype.NamedType;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public interface IAuthorizedObjectMapperDecorator {
-
-    /**
-     * 추가기능을 {@link ObjectMapper}에 설정합니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 6. 17.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param objectMapper
-     *
-     * @since 2025. 6. 17.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     * 
-     * @see AuthorizedResourcesConfiguration#authorizedObjectMapper()
-     */
-    public void configureFeature(@NotNull ObjectMapper objectMapper);
+public interface IObjectMapperDecorator {
 
     /**
      * 비활성화 기능을 제공합니다. <br>
@@ -147,6 +124,27 @@ public interface IAuthorizedObjectMapperDecorator {
      * 
      * <pre>
      * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 6. 17.     박준홍         최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 6. 17.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     *
+     * @see NamedType
+     * @see ObjectMapper#registerSubtypes(NamedType...)
+     */
+    public Set<NamedType> namedTypes();
+
+    /**
+     * {@link NamedType}을 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
      * 2025. 6. 17.		박준홍			최초 작성
@@ -164,4 +162,5 @@ public interface IAuthorizedObjectMapperDecorator {
      * @see ObjectMapper#registerSubtypes(NamedType...)
      */
     public Set<Class<?>> subtypes();
+
 }

@@ -26,23 +26,26 @@
 
 package open.commons.spring.web.config;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.core.env.Environment;
 
-import open.commons.spring.web.beans.authority.AuthorizedObjectMapperDecorator;
+import open.commons.spring.web.authority.metadata.AuthorizedObjectMetadata;
 import open.commons.spring.web.beans.authority.AuthorizedResourcesMetadata;
-import open.commons.spring.web.beans.authority.IAuthorizedObjectMapperDecorator;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import open.commons.spring.web.utils.BeanUtils;
 
 /**
  * 
@@ -53,8 +56,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Configuration
 public class AuthorizedResourcesMetadataConfiguration {
 
-    public static final String BEAN_QUALIFIER_DEFAULT_OBJECT_MAPPER = "open.commons.spring.web.config.AuthorizedResourcesMetadataConfiguration#DEFAULT_OBJECT_MAPPER";
-    public static final String PROPERTIES_AUTHOIRZED_OBJECT_METADATA = "open-commons.application.authorized-resources";
+    private static final String PREFIX_OPEN_COMMONS_APPLICATION = "open-commons.application";
+    private static final String NAME_AUTHORIZED_OBJECT_METADATA = "authorized-object-metadata[0].type";
 
     private final Logger logger = LoggerFactory.getLogger(AuthorizedResourcesMetadataConfiguration.class);
 
@@ -76,32 +79,72 @@ public class AuthorizedResourcesMetadataConfiguration {
     public AuthorizedResourcesMetadataConfiguration() {
     }
 
-    @Bean(AuthorizedObjectMapperDecorator.BEAN_QUALIFIER)
-    @ConditionalOnMissingBean
-    IAuthorizedObjectMapperDecorator authorizedObjectMapperDecorator() {
-        IAuthorizedObjectMapperDecorator aomd = new AuthorizedObjectMapperDecorator();
-        logger.info("[authorized-resources] authorized-object-mapper-decorator={}", aomd);
-        return aomd;
-    }
-
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 17.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param singleAuthorizedObjectMetadata
+     *            단일 데이터 유형에 대한 메타데이터 정보
+     * @param multiAuthorizedObjectMetadata
+     *            여러 데이터 유형에 대한 메타데이터 정보
+     * @return
+     *
+     * @since 2025. 6. 17.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Bean(AuthorizedResourcesMetadata.BEAN_QUALIFIER)
-    @ConfigurationProperties(PROPERTIES_AUTHOIRZED_OBJECT_METADATA)
-    @ConditionalOnMissingBean
-    IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider() {
-        IAuthorizedResourcesMetadata armp = new AuthorizedResourcesMetadata();
-        logger.info("[authorized-resources] authorized-resources-metadata-provider={}", armp);
-        return armp;
-    }
-
-    @Bean(BEAN_QUALIFIER_DEFAULT_OBJECT_MAPPER)
     @Primary
-    ObjectMapper objectMapper(@NotNull IAuthorizedObjectMapperDecorator authorizedObjectMapperDecorator) {
-        ObjectMapper mapper = Jackson2ObjectMapperBuilder.json().build();
-        authorizedObjectMapperDecorator.configureFeature(mapper);
+    IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider(@NotNull Map<String, AuthorizedObjectMetadata> singleAuthorizedObjectMetadata,
+            @NotNull Map<String, List<AuthorizedObjectMetadata>> multiAuthorizedObjectMetadata) {
+        AuthorizedResourcesMetadata arm = new AuthorizedResourcesMetadata();
 
-        logger.info("[authorized-resources] default-object-mapper={}", mapper);
+        Collection<AuthorizedObjectMetadata> aoms = Stream
+                .of(singleAuthorizedObjectMetadata.values().stream(), multiAuthorizedObjectMetadata.values().stream().flatMap(List::stream)) //
+                .flatMap(s -> s) //
+                .collect(Collectors.toList());
+        
+        arm.setAuthorizedObjectMetadata(aoms);
 
-        return mapper;
+        logger.info("[authorized-resources] authorized-resources-metadata={}", arm);
+
+        return arm;
     }
 
+    /**
+     * <code>open-commons.application.authorized-object-metadata</code> 항목으로 설정된 값을 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 17.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param environment
+     * @return
+     *
+     * @since 2025. 6. 17.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = PREFIX_OPEN_COMMONS_APPLICATION, name = NAME_AUTHORIZED_OBJECT_METADATA)
+    List<AuthorizedObjectMetadata> builtInAuthorizedObjectMetadata(Environment environment) {
+        List<AuthorizedObjectMetadata> aoms = BeanUtils.listOf( //
+                environment, //
+                String.join(".", PREFIX_OPEN_COMMONS_APPLICATION, NAME_AUTHORIZED_OBJECT_METADATA.replace("[0].type", "")), //
+                AuthorizedObjectMetadata.class //
+        );
+
+        logger.info("[authorized-resources] authorized-object-metadata-multiple={}", aoms);
+
+        return aoms;
+    }
 }

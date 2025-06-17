@@ -37,7 +37,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
-import open.commons.spring.web.config.AuthorizedResourcesMetadataConfiguration;
+import open.commons.spring.web.config.ObjectMapperConfiguration;
 import open.commons.spring.web.jackson.AuthorizedObjectJackson2HttpMessageConverter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,7 +75,7 @@ public class AuthorizedObjectMessageConverterConfiguration {
     @ConditionalOnBean({ ObjectMapper.class, IAuthorizedResourcesMetadata.class })
     AuthorizedObjectJackson2HttpMessageConverter authorizedObjectMessageConverter(@NotNull Map<String, ObjectMapper> allObjectMappers,
             @NotNull IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider) {
-        ObjectMapper defaultObjectMapper = allObjectMappers.get(AuthorizedResourcesMetadataConfiguration.BEAN_QUALIFIER_DEFAULT_OBJECT_MAPPER);
+        ObjectMapper defaultObjectMapper = allObjectMappers.get(ObjectMapperConfiguration.BEAN_QUALIFIER_DEFAULT_OBJECT_MAPPER);
         AuthorizedObjectJackson2HttpMessageConverter converter = new AuthorizedObjectJackson2HttpMessageConverter(defaultObjectMapper, allObjectMappers,
                 authorizedResourcesMetadataProvider);
         logger.info("[authorized-resources] authorized-object-message-converter={}", converter);
