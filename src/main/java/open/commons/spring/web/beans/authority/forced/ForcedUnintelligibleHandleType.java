@@ -33,7 +33,7 @@ package open.commons.spring.web.beans.authority.forced;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class ForceUnintelligibleHandleType {
+public class ForcedUnintelligibleHandleType {
 
     /** 없는 유형 */
     public static final int NONE = 0x00;
@@ -58,7 +58,7 @@ public class ForceUnintelligibleHandleType {
     /** {@link CharSequence} */
     public static final int CHAR_SEQUENCE = STRING + 1;
 
-    private ForceUnintelligibleHandleType() {
+    private ForcedUnintelligibleHandleType() {
     }
 
     public static int find(Class<?> fieldType) {

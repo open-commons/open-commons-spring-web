@@ -80,7 +80,7 @@ public class ForcedUnintelligibleJudge implements IFieldAccessAuthorityProvider 
             Class<?> typeClass = Class.forName(type);
             Field field = typeClass.getDeclaredField(fieldName);
             Class<?> fieldClass = field.getType();
-            return Result.success(new TwoValueObject(false, ForceUnintelligibleHandleType.find(fieldClass)));
+            return Result.success(new TwoValueObject(false, ForcedUnintelligibleHandleType.find(fieldClass)));
         } catch (ClassNotFoundException | NoSuchFieldException | SecurityException e) {
             throw ExceptionUtils.newException(InternalServerException.class, e, "필드유형에 따른 처리 방식을 결정하는 도중에 오류가 발생하였습니다. 원인=%s", e.getMessage());
         }

@@ -73,25 +73,25 @@ public class ForcedUnintelligibleHandler implements IUnauthorizedFieldHandler {
         }
 
         switch (handle) {
-            case ForceUnintelligibleHandleType.BOOLEAN:
+            case ForcedUnintelligibleHandleType.BOOLEAN:
                 return false;
-            case ForceUnintelligibleHandleType.CHARACTER:
+            case ForcedUnintelligibleHandleType.CHARACTER:
                 return "".charAt(0);
-            case ForceUnintelligibleHandleType.BYTE:
+            case ForcedUnintelligibleHandleType.BYTE:
                 return Byte.MIN_VALUE;
-            case ForceUnintelligibleHandleType.SHORT:
+            case ForcedUnintelligibleHandleType.SHORT:
                 return Short.MIN_VALUE;
-            case ForceUnintelligibleHandleType.DOUBLE:
+            case ForcedUnintelligibleHandleType.DOUBLE:
                 return Double.MIN_EXPONENT;
-            case ForceUnintelligibleHandleType.FLOAT:
+            case ForcedUnintelligibleHandleType.FLOAT:
                 return Float.MIN_EXPONENT;
-            case ForceUnintelligibleHandleType.INTEGER:
+            case ForcedUnintelligibleHandleType.INTEGER:
                 return Integer.MIN_VALUE;
-            case ForceUnintelligibleHandleType.LONG:
+            case ForcedUnintelligibleHandleType.LONG:
                 return Long.MIN_VALUE;
-            case ForceUnintelligibleHandleType.STRING:
+            case ForcedUnintelligibleHandleType.STRING:
                 return (String) null;
-            case ForceUnintelligibleHandleType.CHAR_SEQUENCE:
+            case ForcedUnintelligibleHandleType.CHAR_SEQUENCE:
                 return (String) null;
             default:
                 throw ExceptionUtils.newException(InternalServerException.class, "지원하지 않는 처리방식입니다. 입력=%s", handle);

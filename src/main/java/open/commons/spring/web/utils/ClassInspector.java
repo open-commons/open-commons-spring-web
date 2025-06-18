@@ -32,6 +32,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import open.commons.core.utils.ExceptionUtils;
+import open.commons.spring.web.servlet.InternalServerException;
+
 /**
  * 
  * @since 2025. 6. 16.
@@ -104,5 +110,113 @@ public class ClassInspector {
         }
 
         return fields;
+    }
+
+    /**
+     * 이름에 해당하는 {@link Field}를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 19.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param clazz
+     * @param fieldName
+     * @return
+     *
+     * @since 2025. 6. 19.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see Class#getDeclaredField(String)
+     */
+    public static Field getDeclaredFieldIfExist(@NotNull Class<?> clazz, @NotEmpty String fieldName) {
+        try {
+            return clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+            return null;
+        } catch (Exception e) {
+            throw ExceptionUtils.newException(InternalServerException.class, e, "clazz=%s, field-name=%s, 오류=%s", clazz, fieldName, e.getMessage());
+        }
+    }
+
+    /**
+     * 이름에 해당하는 {@link Field}를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 19.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param clazz
+     * @param fieldName
+     * @return
+     *
+     * @since 2025. 6. 19.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see Class#getField(String)
+     */
+    public static Field getFieldIfExist(@NotNull Class<?> clazz, @NotEmpty String fieldName) {
+        try {
+            return clazz.getField(fieldName);
+        } catch (NoSuchFieldException e) {
+            return null;
+        } catch (Exception e) {
+            throw ExceptionUtils.newException(InternalServerException.class, e, "clazz=%s, field-name=%s, 오류=%s", clazz, fieldName, e.getMessage());
+        }
+    }
+
+    /**
+     * 이름에 해당하는 {@link Field}가 있는지 여부를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 19.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param clazz
+     * @param fieldName
+     * @return
+     *
+     * @since 2025. 6. 19.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see Class#getDeclaredField(String)
+     */
+    public static boolean hasDeclaredField(@NotNull Class<?> clazz, @NotEmpty String fieldName) {
+        return getDeclaredFieldIfExist(clazz, fieldName) != null;
+    }
+
+    /**
+     * 이름에 해당하는 {@link Field}가 있는지 여부를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 19.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param clazz
+     * @param fieldName
+     * @return
+     *
+     * @since 2025. 6. 19.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see Class#getField(String)
+     */
+    public static boolean hasField(@NotNull Class<?> clazz, @NotEmpty String fieldName) {
+        return getFieldIfExist(clazz, fieldName) != null;
     }
 }
