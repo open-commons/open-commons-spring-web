@@ -1,3 +1,9 @@
+[20225/06/18]
+- Modify
+  + open.commons.spring.web.beans.authority.forced.ForcedUnintelligibleJudge: 클래스명 오타 수정
+- Add
+  + open.commons.spring.web.authority.metadata.AuthorizedMetadataBuilder: 권한제어 메타데이터 빌더 추가
+
 [20225/06/12]
 - Modify
   + open.commons.spring.web.jackson.AuthorizedObjectJackson2HttpMessageConverter.writeInternal(Object, Type, HttpOutputMessage): serialize 도중 오류가 발생했을 때, 이전 데이터 제거 처리. (JacksonGenerator는 기본적으로 스트림으로 처리하기 때문에 내부 버퍼를 적용함.)

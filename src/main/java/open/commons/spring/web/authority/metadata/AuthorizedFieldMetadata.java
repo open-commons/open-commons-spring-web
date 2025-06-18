@@ -245,7 +245,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * </pre>
      *
      * @param fieldHandleBean
-     * @link IUnauthorizedFieldHandler}를 구현한 {@link Bean} 이름
+     *            {@link IUnauthorizedFieldHandler}를 구현한 {@link Bean} 이름
      *
      * @since 2025. 6. 12.
      * @version 0.8.0
