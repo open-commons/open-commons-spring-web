@@ -165,6 +165,7 @@ public class AuthorizedMetadataBuilder {
         @SuppressWarnings("unused")
         private static class AuthorizedFieldMetadataBuilder {
             private String authorityBean;
+            private String fieldHandleBean;
             private int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
             private String name;
 
@@ -353,25 +354,6 @@ public class AuthorizedMetadataBuilder {
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
         AuthorizedFieldMetadata build();
-
-        /**
-         * 새로운 {@link AuthorizedFieldMetadata}를 생성합니다. <br>
-         * 
-         * <pre>
-         * [개정이력]
-         *      날짜    	| 작성자	|	내용
-         * ------------------------------------------
-         * 2025. 6. 18.		박준홍			최초 작성
-         * </pre>
-         *
-         * @return
-         *
-         * @since 2025. 6. 18.
-         * @version 0.8.0
-         * @author Park, Jun-Hong parkjunhong77@gmail.com
-         */
-        FieldBuilder field();
->>>>>>> 689da18e966baf6415ab9f1619cafc9d1a3f09c1
 
         /**
          * {@link IUnauthorizedFieldHandler}를 구현한 {@link Bean} 이름을 설정합니다. <br>
