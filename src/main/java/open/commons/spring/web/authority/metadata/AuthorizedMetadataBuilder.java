@@ -568,14 +568,14 @@ public class AuthorizedMetadataBuilder {
          * 2025. 6. 19.		박준홍			최초 작성
          * </pre>
          *
-         * @param consumer
+         * @param function
          * @return
          *
          * @since 2025. 6. 19.
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
-        ObjectBuilder field(Function<FieldBuilder, FieldBuilder> consumer);
+        ObjectBuilder field(Function<FieldBuilder, FieldBuilder> function);
 
         /**
          * {@link AuthorizedObject#fieldHandleBean()}에 해당하는 값을 설정합니다.
@@ -622,6 +622,6 @@ public class AuthorizedMetadataBuilder {
 
         List<AuthorizedObjectMetadata> build();
 
-        ObjectsBuilder object(Function<ObjectBuilder, ObjectBuilder> consumer);
+        ObjectsBuilder object(Function<ObjectBuilder, ObjectBuilder> function);
     }
 }
