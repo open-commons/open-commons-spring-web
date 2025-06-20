@@ -29,19 +29,13 @@ package open.commons.spring.web.jackson;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
@@ -54,7 +48,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
@@ -68,13 +61,11 @@ import org.springframework.util.StreamUtils;
 import org.springframework.util.TypeUtils;
 import org.springframework.web.bind.annotation.RestController;
 
-import open.commons.spring.web.authority.AuthorizedObject;
 import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.config.AuthorizedResourcesMetadataConfiguration;
-import open.commons.spring.web.utils.ClassInspector;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -204,63 +195,6 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
         return (this.objectMapperRegistrations != null ? this.objectMapperRegistrations : Collections.emptyMap());
     }
 
-    private boolean hasAuthorizedObject(Object obj, Set<Object> visited) {
-        if (obj == null || visited.contains(obj))
-            return false;
-
-        visited.add(obj);
-
-        Class<?> clazz = obj.getClass();
-
-        // direct class check
-        if (clazz.isAnnotationPresent(AuthorizedObject.class) || annotatedOnMetadata(clazz)) {
-            return true;
-        }
-
-        // array
-        if (clazz.isArray()) {
-            int len = Array.getLength(obj);
-            for (int i = 0; i < len; i++) {
-                Object element = Array.get(obj, i);
-                if (hasAuthorizedObject(element, visited))
-                    return true;
-            }
-        }
-
-        // collection
-        if (obj instanceof Collection) {
-            for (Object item : (Collection<?>) obj) {
-                if (hasAuthorizedObject(item, visited))
-                    return true;
-            }
-        }
-
-        // map
-        if (obj instanceof Map) {
-            for (Object value : ((Map<?, ?>) obj).values()) {
-                if (hasAuthorizedObject(value, visited))
-                    return true;
-            }
-        }
-
-        // recursive field scan
-        List<Field> fields = ClassInspector.getAllFields(clazz);
-        for (Field field : fields) {
-            if (Modifier.isStatic(field.getModifiers()))
-                continue;
-
-            field.setAccessible(true);
-            try {
-                Object fieldValue = field.get(obj);
-                if (hasAuthorizedObject(fieldValue, visited))
-                    return true;
-            } catch (IllegalAccessException ignored) {
-            }
-        }
-
-        return false;
-    }
-
     @PostConstruct
     public void logAllObjectMappers() {
         AtomicBoolean checkDefaultObjectMapper = new AtomicBoolean(false);
@@ -324,30 +258,12 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     private ObjectMapper resolveMapper(Object object, Class<?> targetType, @Nullable MediaType targetMediaType) {
-
         ObjectMapper om = null;
         if (object == null) {
             om = selectObjectMapper(targetType, targetMediaType);
             return om != null ? om : getObjectMapper();
         }
-
-        // unwrap ResponseEntity
-        if (object instanceof ResponseEntity) {
-            ResponseEntity<?> responseEntity = (ResponseEntity<?>) object;
-            object = responseEntity.getBody();
-        }
-
-        Set<Object> visited = new HashSet<Object>();
-        try {
-            if (hasAuthorizedObject(object, visited)) {
-                return allObjectMappers.get(AuthorizedResourcesConfiguration.BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER);
-            } else {
-                om = selectObjectMapper(targetType, targetMediaType);
-                return om != null ? om : getObjectMapper();
-            }
-        } finally {
-            visited.clear();
-        }
+        return allObjectMappers.get(AuthorizedResourcesConfiguration.BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER);
     }
 
     /**
