@@ -299,7 +299,7 @@ public class SecurityUtils {
             // javax.crypto.BadPaddingException
             // + Input length must be multiple of 16 when decrypting with padded cipher /
             // javax.crypto.IllegalBlockSizeException
-            throw ExceptionUtils.newException(BadRequestException.class, e, "데이터 처리 도중에 오류가 발생하였습니다. 원인=%s", e.getMessage());
+            throw ExceptionUtils.newException(BadRequestException.class, e, "잘못된 입력 데이터 입니다. 이로 인해 데이터가 처리 도중에 오류가 발생하였습니다. 원인은 다음과 같습니다. '%s'", e.getMessage());
         }
     }
 
