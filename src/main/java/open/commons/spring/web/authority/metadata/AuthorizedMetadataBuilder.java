@@ -268,7 +268,7 @@ public class AuthorizedMetadataBuilder {
         private static class AuthorizedObjectMetadataBuilder {
             static Map<String, Function<Object, Object>> pp = new HashMap<>();
             static {
-                pp.put("objects", o -> ((List<FieldBuilder>) o).stream().map(b -> b.build()).collect(Collectors.toList()));
+                pp.put("fields", o -> ((List<FieldBuilder>) o).stream().map(b -> b.build()).collect(Collectors.toList()));
             }
             private String authorityBean;
             private String fieldHandleBean;
