@@ -1,3 +1,7 @@
+[20225/06/20]
+- Add
+  + open.commons.spring.web.authority.metadata 패키지 추가: AuthorizedObject, AuthorizedField 어노테이션 정보를 외부설정(예: yaml 파일), 프로그래밍 코드에서 설정할 수 있도록 지원.
+
 [20225/06/18]
 - Modify
   + open.commons.spring.web.beans.authority.forced.ForcedUnintelligibleJudge: 클래스명 오타 수정
