@@ -40,6 +40,18 @@ import open.commons.core.utils.ThreadUtils;
 /**
  * Http 요청 정보를 {@link Thread} 이름으로 적용하고 응답완료시 기존 {@link Thread}이름으로 반환하는 기능을 제공.<br>
  * 
+ * 
+ * 
+ * <br>
+ * 
+ * <pre>
+ * [개정이력]
+ *      날짜      | 작성자		         	   |	내용
+ * ------------------------------------------
+ * 2020. 1. 17.     박준홍                         최초 작성
+ * 2025. 6. 23.     박준홍(jhpark@ymtech.co.kr)    {@link #postHandle(HttpServletRequest, HttpServletResponse, Object, ModelAndView)}을 제거하고 {@link #afterCompletion(HttpServletRequest, HttpServletResponse, Object, Exception)}로 변경. 
+ * </pre>
+ * 
  * @since 2020. 1. 17.
  * @version
  * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
@@ -67,11 +79,18 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
     }
 
     /**
-     * @see org.springframework.web.servlet.HandlerInterceptor#postHandle(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.web.servlet.ModelAndView)
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see org.springframework.web.servlet.HandlerInterceptor#afterCompletion(javax.servlet.http.HttpServletRequest,
+     *      javax.servlet.http.HttpServletResponse, java.lang.Object, java.lang.Exception)
      */
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+
+        AsyncHandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 
         String otn = ThreadContext.get(BEAN_QUALIFIER);
 

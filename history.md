@@ -1,3 +1,11 @@
+[20225/06/23]
+- Add
+  + open.commons.spring.web.aspect.AbstractAspectPointcuts: Aspect Pointcut 을 지원하기 위한 상위 클래스 추출
+- Modify
+  + open.commons.spring.web.aspect.AbstractAuthorizedResourceAspect.AbstractAuthorizedResourceAspect(ApplicationContext, Class<T>): 상위 Aspect 기능 제거
+- New
+  + open.commons.spring.web.aspect.AbstractMethodLogAspect: 메소드 호출을 추적하기 위한 Aspect 추가
+
 [20225/06/20]
 - Add
   + open.commons.spring.web.authority.metadata 패키지 추가: AuthorizedObject, AuthorizedField 어노테이션 정보를 외부설정(예: yaml 파일), 프로그래밍 코드에서 설정할 수 있도록 지원.
