@@ -50,6 +50,10 @@ import open.commons.spring.web.thread.MethodContextHandler;
  * 메소드의 실행 전/후에 로그를 기록하는 기능을 제공합니다.<br>
  * </p>
  * 
+ * <p>
+ * 반드시 {@link #pointcutRootPackage()} 메소드를 구현하여 적용하는 프로그램의 최상위 경로를 설정해야 합니다.
+ * </p>
+ * 
  * 어노테이션별로 AOP가 적용되는 메소드를 아래와 같습니다.
  * <li>{@link Controller}, {@link RestController}: {@link #handleController(ProceedingJoinPoint)}
  * <li>{@link Service}: {@link #handleServicve(ProceedingJoinPoint)}
@@ -279,31 +283,139 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
         this.handleIfOriginatedFromController = handleIfOriginatedFromController;
     }
 
+    /**
+     * {@link Controller}가 적용된 클래스의 메소드가 호출된 후에 실행됩니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param logger
+     * @param pjp
+     * @throws Throwable
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     public void afterController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
         Object[] msg = log(pjp, "afterController...");
         logger.log(msg);
     }
 
+    /**
+     * {@link Repository}가 적용된 클래스의 메소드가 호출된 후에 실행됩니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param logger
+     * @param pjp
+     * @throws Throwable
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     public void afterRepository(Log logger, ProceedingJoinPoint pjp) throws Throwable {
         Object[] msg = log(pjp, "afterRepository...");
         logger.log(msg);
     }
 
+    /**
+     * {@link Service }가 적용된 클래스의 메소드가 호출된 후에 실행됩니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param logger
+     * @param pjp
+     * @throws Throwable
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     public void afterService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
         Object[] msg = log(pjp, "beforeService...");
         logger.log(msg);
     }
 
+    /**
+     * {@link Controller}가 적용된 클래스의 메소드가 호출되기 전에 실행됩니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param logger
+     * @param pjp
+     * @throws Throwable
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     public void beforeController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
         Object[] msg = log(pjp, "beforeController...");
         logger.log(msg);
     }
 
+    /**
+     * {@link Repository}가 적용된 클래스의 메소드가 호출되기 전에 실행됩니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param logger
+     * @param pjp
+     * @throws Throwable
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     public void beforeRepository(Log logger, ProceedingJoinPoint pjp) throws Throwable {
         Object[] msg = log(pjp, "beforeRepository...");
         logger.log(msg);
     }
 
+    /**
+     * {@link Service}가 적용된 클래스의 메소드가 호출되기 전에 실행됩니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param logger
+     * @param pjp
+     * @throws Throwable
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     public void beforeService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
         Object[] msg = log(pjp, "beforeService...");
         logger.log(msg);
@@ -325,7 +437,25 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
     }
 
     /**
+     * {@link Controller}, {@link RestController} 어노테이션이 적용된 클래스의 메소드를 처리합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param pjp
+     * @return
+     * @throws Throwable
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
      * @see #withinAllControllerStereotypeComponent()
+     * @see #pointcutRootPackage()
      */
     @Around("pointcutRootPackage() && withinAllControllerStereotypeComponent()")
     public Object handleController(ProceedingJoinPoint pjp) throws Throwable {
@@ -350,7 +480,25 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
     }
 
     /**
+     * {@link Repository} 어노테이션이 적용된 클래스의 메소드를 처리합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param pjp
+     * @return
+     * @throws Throwable
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
      * @see #withinRepositoryStereotypeComponent()
+     * @see #pointcutRootPackage()
      */
     @Around("pointcutRootPackage() && withinRepositoryStereotypeComponent()")
     public Object handleRespository(ProceedingJoinPoint pjp) throws Throwable {
@@ -379,7 +527,25 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
     }
 
     /**
+     * {@link Service} 어노테이션이 적용된 클래스의 메소드를 처리합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param pjp
+     * @return
+     * @throws Throwable
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
      * @see #withinServiceStereotypeComponent()
+     * @see #pointcutRootPackage()
      */
     @Around("pointcutRootPackage() && withinServiceStereotypeComponent()")
     public Object handleServicve(ProceedingJoinPoint pjp) throws Throwable {
