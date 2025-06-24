@@ -37,8 +37,8 @@ import org.springframework.context.annotation.Import;
 
 import open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConfigureConfiguration;
 import open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConverterConfiguration;
-import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration;
 import open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration;
+import open.commons.spring.web.config.AuthorizedResourcesMetadataConfiguration;
 
 /**
  * Open-Commons Spring Web에서 제공하는 기능을 활성화하는 어노테이션.

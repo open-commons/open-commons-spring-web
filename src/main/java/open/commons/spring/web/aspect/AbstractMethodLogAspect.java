@@ -29,6 +29,7 @@ package open.commons.spring.web.aspect;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -43,7 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import open.commons.core.utils.ArrayUtils;
 import open.commons.core.utils.StringUtils;
-import open.commons.spring.web.thread.MethodContextHandler;
+import open.commons.spring.web.thread.MethodLogContext;
 
 /**
  * {@link Controller}, {@link RestController}, {@link Service}, {@link Repository} 어노테이션이 설정된 클래스의 <code>public</code>
@@ -107,10 +108,17 @@ import open.commons.spring.web.thread.MethodContextHandler;
  */
 public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
 
+    /** Aspect 시점 holder key 생성자 */
+    private static final Supplier<String> HOLDER_GEN = () -> UUID.randomUUID().toString();
+
+    /** {@link Controller} 설정 클래스 AOP 미적용 여부 */
     private final boolean disableController;
+    /** {@link Service} 설정 클래스 AOP 미적용 여부 */
     private final boolean disableService;
+    /** {@link Repository} 설정 클래스 AOP 미적용 여부 */
     private final boolean disableRepository;
 
+    /** 메소드 호출이 {@link Controller}에서부터 시작된 경우에만 AOP 적용 여부 */
     private final boolean handleIfOriginatedFromController;
 
     /**
@@ -481,19 +489,19 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
             return pjp.proceed();
         }
 
-        final String holder = UUID.randomUUID().toString();
-        int indent = MethodContextHandler.getBeforeIncrement(holder, Controller.class);
+        final String holder = HOLDER_GEN.get();
+        int indent = MethodLogContext.getBeforeIncrement(holder, Controller.class);
         try {
             // 메소드 실행 전
             beforeController(logger(indent), pjp);
             // 메소드 실행
             return pjp.proceed();
         } finally {
-            indent = MethodContextHandler.getAfterDecrement(holder);
+            indent = MethodLogContext.getAfterDecrement(holder);
             // 메소드실행 후
             afterController(logger(indent), pjp);
 
-            MethodContextHandler.clear(holder);
+            MethodLogContext.clear(holder);
         }
     }
 
@@ -524,23 +532,23 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
             return pjp.proceed();
         }
         // 쓰레드 호출이 Controller로부터 시작이 되지 않은 경우
-        if (this.handleIfOriginatedFromController && !MethodContextHandler.originatedFrom(Controller.class)) {
+        if (this.handleIfOriginatedFromController && !MethodLogContext.originatedFrom(Controller.class)) {
             return pjp.proceed();
         }
 
-        final String holder = UUID.randomUUID().toString();
-        int indent = MethodContextHandler.getBeforeIncrement(holder, Service.class);
+        final String holder = HOLDER_GEN.get();
+        int indent = MethodLogContext.getBeforeIncrement(holder, Service.class);
         try {
             // 메소드 실행 전
             beforeRepository(logger(indent), pjp);
             // 메소드 실행
             return pjp.proceed();
         } finally {
-            indent = MethodContextHandler.getAfterDecrement(holder);
+            indent = MethodLogContext.getAfterDecrement(holder);
             // 메소드실행 후
             afterRepository(logger(indent), pjp);
 
-            MethodContextHandler.clear(holder);
+            MethodLogContext.clear(holder);
         }
     }
 
@@ -572,23 +580,23 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
         }
 
         // 쓰레드 호출이 Controller로부터 시작이 되지 않은 경우
-        if (this.handleIfOriginatedFromController && !MethodContextHandler.originatedFrom(Controller.class)) {
+        if (this.handleIfOriginatedFromController && !MethodLogContext.originatedFrom(Controller.class)) {
             return pjp.proceed();
         }
 
-        final String holder = UUID.randomUUID().toString();
-        int indent = MethodContextHandler.getBeforeIncrement(holder, Repository.class);
+        final String holder = HOLDER_GEN.get();
+        int indent = MethodLogContext.getBeforeIncrement(holder, Repository.class);
         try {
             // 메소드 실행 전
             beforeService(logger(indent), pjp);
             // 메소드 실행
             return pjp.proceed();
         } finally {
-            indent = MethodContextHandler.getAfterDecrement(holder);
+            indent = MethodLogContext.getAfterDecrement(holder);
             // 메소드실행 후
             afterService(logger(indent), pjp);
 
-            MethodContextHandler.clear(holder);
+            MethodLogContext.clear(holder);
         }
     }
 

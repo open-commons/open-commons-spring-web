@@ -30,15 +30,18 @@ import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import open.commons.spring.web.aspect.AuthorizedMethodAspect;
 import open.commons.spring.web.aspect.AuthorizedRequestAspect;
+import open.commons.spring.web.beans.authority.IAuthorizedResourceAuthenticationPause;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider;
@@ -46,6 +49,7 @@ import open.commons.spring.web.beans.authority.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.jackson.AuthorizedFieldSerializerModifier;
 import open.commons.spring.web.jacksons.decoration.IObjectMapperDecorationConsolidator;
+import open.commons.spring.web.servlet.filter.AuthorizedResourceFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -102,4 +106,17 @@ public class AuthorizedResourcesConfiguration {
         return aspect;
     }
 
+    @Bean
+    @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
+    @Order(Integer.MAX_VALUE)
+    AuthorizedResourceFilter authorizedResourceFilter(ApplicationContext context) {
+        IAuthorizedResourceAuthenticationPause auth = null;
+        try {
+            auth = context.getBean(IAuthorizedResourceAuthenticationPause.class);
+        } catch (BeansException ignored) {
+        }
+        AuthorizedResourceFilter f = new AuthorizedResourceFilter(auth);
+        logger.info("[authorized-resources] authorized-resources-filter={}", f);
+        return f;
+    }
 }

@@ -26,8 +26,6 @@
 
 package open.commons.spring.web.thread;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.validation.constraints.NotEmpty;
@@ -35,34 +33,32 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.util.Assert;
 
+import open.commons.core.lang.IThreadLocalContext;
+import open.commons.core.lang.ThreadLocalContextService;
+
 /**
  * 
  * @since 2025. 6. 23.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class MethodContextHandler {
+public class MethodLogContext {
 
+    private static final IThreadLocalContext CONTEXT = ThreadLocalContextService.context(MethodLogContext.class);
+
+    /** 메소드 호출의 시작 위치 식별정보 */
     private static final String HOLDER = "holder";
+    /** 들여쓰기 단계 */
     private static final String INDENTATION = "indentation";
+    /** 메소드 호출의 시작 위치 유형 */
     private static final String ORIGIN = "origin";
 
-    /**
-     * {@link Thread} 별 데이터 목록
-     * 
-     * <li>holder: {@link String}
-     * <li>indentation: {@link AtomicInteger}
-     * <li>root: Class<?>
-     */
-    private static final ThreadLocal<Map<String, Object>> CONTEXT = new ThreadLocal<>();
+    private MethodLogContext() {
+    }
 
     public static void clear(@NotEmpty String holder) {
-        if (CONTEXT.get() == null) {
-            return;
-        }
-
-        if (holder.equals(CONTEXT.get().get(HOLDER))) {
-            CONTEXT.remove();
+        if (holder.equals(CONTEXT.get(HOLDER))) {
+            CONTEXT.clear();
         }
     }
 
@@ -78,32 +74,25 @@ public class MethodContextHandler {
 
     private static void initialize(@NotEmpty String holder, Class<?> originClass) {
         Assert.hasLength(holder, "Thread Context Holder MUST not be null and not the empty string.");
-        if (CONTEXT.get() == null) {
-            Map<String, Object> props = new HashMap<>();
-            props.put(HOLDER, holder);
-            props.put(INDENTATION, new AtomicInteger());
+        if (CONTEXT.containsNot(HOLDER)) {
+            CONTEXT.set(HOLDER, holder);
+            CONTEXT.set(INDENTATION, new AtomicInteger());
             if (originClass != null) {
-                props.put(ORIGIN, originClass);
+                CONTEXT.set(ORIGIN, originClass);
             }
-
-            CONTEXT.set(props);
         }
     }
 
     private static int internalDecrementAndGet() {
-        return ((AtomicInteger) CONTEXT.get().get(INDENTATION)).decrementAndGet();
+        return ((AtomicInteger) CONTEXT.get(INDENTATION)).decrementAndGet();
     }
 
     private static int internalGetAndIncrement() {
-        return ((AtomicInteger) CONTEXT.get().get(INDENTATION)).getAndIncrement();
+        return ((AtomicInteger) CONTEXT.get(INDENTATION)).getAndIncrement();
     }
 
     public static boolean originatedFrom(@NotNull Class<?> clazz) {
         Assert.notNull(clazz, "The origin of method calling is MUST NOT be null.");
-        if (CONTEXT.get() == null) {
-            return false;
-        }
-
-        return clazz.equals(CONTEXT.get().get(ORIGIN));
+        return clazz.equals(CONTEXT.get(ORIGIN));
     }
 }

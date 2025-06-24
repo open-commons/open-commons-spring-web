@@ -1,3 +1,20 @@
+[20225/06/24]
+- Notation
+  + (req) Controller -> ... -> (res) Controller 과정의 메소드 호출 추적 
+  + Authorized-Resources 권한인증 비활성화 기능 지원
+- New
+  + open.commons.spring.web.beans.authority.IAuthorizedResourceAuthenticationPause
+  + open.commons.spring.web.servlet.filter.AuthorizedResourceFilter
+  + open.commons.spring.web.thread.AuthorizedResourceContext
+  + open.commons.spring.web.thread.MethodContextHandler
+  + open.commons.spring.web.thread.MethodLogContext
+- Modify
+  + open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration
+  + open.commons.spring.web.autoconfigure.EnableOpenCommonsSpringWeb
+  + open.commons.spring.web.aspect.AbstractMethodLogAspect
+  + open.commons.spring.web.jackson.AuthorizedObjectJackson2HttpMessageConverter
+
+
 [20225/06/23]
 - Add
   + open.commons.spring.web.aspect.AbstractAspectPointcuts: Aspect Pointcut 을 지원하기 위한 상위 클래스 추출

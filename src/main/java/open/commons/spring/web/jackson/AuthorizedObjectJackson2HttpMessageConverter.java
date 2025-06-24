@@ -66,6 +66,7 @@ import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.config.AuthorizedResourcesMetadataConfiguration;
+import open.commons.spring.web.thread.AuthorizedResourceContext;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -162,7 +163,7 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private boolean annotatedOnMetadata(Class<?> clazz) {
+    protected boolean annotatedOnMetadata(Class<?> clazz) {
         while (!Object.class.equals(clazz)) {
             if (this.authorizedResourcesMetadata.isAuthorizedObject(clazz)) {
                 return true;
@@ -259,11 +260,14 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
      */
     private ObjectMapper resolveMapper(Object object, Class<?> targetType, @Nullable MediaType targetMediaType) {
         ObjectMapper om = null;
-        if (object == null) {
+        if (object == null //
+                || // "민감 데이터 해제요청"이 허용된 경우 (권한기반 데이터 제어(Authorized-Resources)를 비활성화), 2025. 6. 24.
+                AuthorizedResourceContext.isDisableAuthentication()) {
             om = selectObjectMapper(targetType, targetMediaType);
             return om != null ? om : getObjectMapper();
+        } else {
+            return allObjectMappers.get(AuthorizedResourcesConfiguration.BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER);
         }
-        return allObjectMappers.get(AuthorizedResourcesConfiguration.BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER);
     }
 
     /**
@@ -329,62 +333,66 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
      */
     @Override
     protected void writeInternal(Object object, Type type, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+        try {
+            MediaType contentType = outputMessage.getHeaders().getContentType();
+            JsonEncoding encoding = getJsonEncoding(contentType);
 
-        MediaType contentType = outputMessage.getHeaders().getContentType();
-        JsonEncoding encoding = getJsonEncoding(contentType);
+            Class<?> clazz = object instanceof MappingJacksonValue //
+                    ? ((MappingJacksonValue) object).getValue().getClass() //
+                    : object.getClass();
 
-        Class<?> clazz = object instanceof MappingJacksonValue //
-                ? ((MappingJacksonValue) object).getValue().getClass() //
-                : object.getClass();
+            ObjectMapper objectMapper = resolveMapper(object, clazz, contentType);
+            Assert.state(objectMapper != null, () -> "No ObjectMapper for " + clazz.getName());
 
-        ObjectMapper objectMapper = resolveMapper(object, clazz, contentType);
-        Assert.state(objectMapper != null, () -> "No ObjectMapper for " + clazz.getName());
+            try ( //
+                    ByteArrayOutputStream serializeBuffer = new ByteArrayOutputStream();
+                    JsonGenerator generator = objectMapper.getFactory().createGenerator(serializeBuffer, encoding);
+                    OutputStream outputStream = StreamUtils.nonClosing(outputMessage.getBody()); //
+            ) {
+                writePrefix(generator, object);
 
-        try ( //
-                ByteArrayOutputStream serializeBuffer = new ByteArrayOutputStream();
-                JsonGenerator generator = objectMapper.getFactory().createGenerator(serializeBuffer, encoding);
-                OutputStream outputStream = StreamUtils.nonClosing(outputMessage.getBody()); //
-        ) {
-            writePrefix(generator, object);
+                Object value = object;
+                Class<?> serializationView = null;
+                FilterProvider filters = null;
+                JavaType javaType = null;
 
-            Object value = object;
-            Class<?> serializationView = null;
-            FilterProvider filters = null;
-            JavaType javaType = null;
+                if (object instanceof MappingJacksonValue) {
+                    MappingJacksonValue container = (MappingJacksonValue) object;
+                    value = container.getValue();
+                    serializationView = container.getSerializationView();
+                    filters = container.getFilters();
+                }
+                if (type != null && TypeUtils.isAssignable(type, value.getClass())) {
+                    javaType = getJavaType(type, null);
+                }
 
-            if (object instanceof MappingJacksonValue) {
-                MappingJacksonValue container = (MappingJacksonValue) object;
-                value = container.getValue();
-                serializationView = container.getSerializationView();
-                filters = container.getFilters();
+                ObjectWriter objectWriter = (serializationView != null ? objectMapper.writerWithView(serializationView) : objectMapper.writer());
+                if (filters != null) {
+                    objectWriter = objectWriter.with(filters);
+                }
+                if (javaType != null && javaType.isContainerType()) {
+                    objectWriter = objectWriter.forType(javaType);
+                }
+                SerializationConfig config = objectWriter.getConfig();
+                if (contentType != null && contentType.isCompatibleWith(MediaType.TEXT_EVENT_STREAM) && config.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
+                    objectWriter = objectWriter.with(this.ssePrettyPrinter);
+                }
+
+                // #1. serialize to buffer
+                objectWriter.writeValue(generator, value);
+                writeSuffix(generator, object);
+                generator.flush();
+                // #2. copy buffer to outputMessage
+                outputStream.write(serializeBuffer.toByteArray());
+
+            } catch (InvalidDefinitionException ex) {
+                throw new HttpMessageConversionException("Type definition error: " + ex.getType(), ex);
+            } catch (Exception ex) {
+                throw new HttpMessageNotWritableException("Could not write JSON", ex);
             }
-            if (type != null && TypeUtils.isAssignable(type, value.getClass())) {
-                javaType = getJavaType(type, null);
-            }
-
-            ObjectWriter objectWriter = (serializationView != null ? objectMapper.writerWithView(serializationView) : objectMapper.writer());
-            if (filters != null) {
-                objectWriter = objectWriter.with(filters);
-            }
-            if (javaType != null && javaType.isContainerType()) {
-                objectWriter = objectWriter.forType(javaType);
-            }
-            SerializationConfig config = objectWriter.getConfig();
-            if (contentType != null && contentType.isCompatibleWith(MediaType.TEXT_EVENT_STREAM) && config.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
-                objectWriter = objectWriter.with(this.ssePrettyPrinter);
-            }
-
-            // #1. serialize to buffer
-            objectWriter.writeValue(generator, value);
-            writeSuffix(generator, object);
-            generator.flush();
-            // #2. copy buffer to outputMessage
-            outputStream.write(serializeBuffer.toByteArray());
-
-        } catch (InvalidDefinitionException ex) {
-            throw new HttpMessageConversionException("Type definition error: " + ex.getType(), ex);
-        } catch (Exception ex) {
-            throw new HttpMessageNotWritableException("Could not write JSON", ex);
+        } finally {
+            // 데이터 요청에 "민감데이터 해제요청"이 있는 경우 사용자 권한에 따라서 허용 여부를 전달하는 데이터 초기화
+            // AuthorizedResourceContext.clear();
         }
     }
 }
