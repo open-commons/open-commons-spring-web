@@ -302,8 +302,6 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public void afterController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        Object[] msg = log(pjp, "afterController...");
-        logger.log(msg);
     }
 
     /**
@@ -325,8 +323,6 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public void afterRepository(Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        Object[] msg = log(pjp, "afterRepository...");
-        logger.log(msg);
     }
 
     /**
@@ -348,8 +344,6 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public void afterService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        Object[] msg = log(pjp, "beforeService...");
-        logger.log(msg);
     }
 
     /**
@@ -371,8 +365,6 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public void beforeController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        Object[] msg = log(pjp, "beforeController...");
-        logger.log(msg);
     }
 
     /**
@@ -394,8 +386,6 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public void beforeRepository(Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        Object[] msg = log(pjp, "beforeRepository...");
-        logger.log(msg);
     }
 
     /**
@@ -417,6 +407,34 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public void beforeService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+    }
+
+    protected final void defaultAfterController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        Object[] msg = log(pjp, "afterController...");
+        logger.log(msg);
+    }
+
+    protected final void defaultAfterRepository(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        Object[] msg = log(pjp, "afterRepository...");
+        logger.log(msg);
+    }
+
+    protected final void defaultAfterService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        Object[] msg = log(pjp, "beforeService...");
+        logger.log(msg);
+    }
+
+    protected final void defaultBeforeController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        Object[] msg = log(pjp, "beforeController...");
+        logger.log(msg);
+    }
+
+    protected final void defaultBeforeRepository(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        Object[] msg = log(pjp, "beforeRepository...");
+        logger.log(msg);
+    }
+
+    protected final void defaultBeforeService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
         Object[] msg = log(pjp, "beforeService...");
         logger.log(msg);
     }
