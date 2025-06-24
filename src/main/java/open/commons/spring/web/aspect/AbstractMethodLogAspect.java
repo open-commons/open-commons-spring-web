@@ -428,7 +428,7 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
     }
 
     protected final void defaultAfterService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        Object[] msg = log(pjp, "beforeService...");
+        Object[] msg = log(pjp, "afterService...");
         logger.log(msg);
     }
 
