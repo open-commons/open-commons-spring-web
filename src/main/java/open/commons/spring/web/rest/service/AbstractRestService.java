@@ -467,7 +467,7 @@ public abstract class AbstractRestService {
             , HttpEntity<REQ> entity //
             , Class<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , Function<Exception, Result<RET>> onError, int retryCount) {
-        URI uri = createURI(path, toMultiValueMap(query), fragment);
+        URI uri = createURI(path, convertToMultiValueMap(query), fragment);
         return RestUtils2.exchange(restTemplate, method, uri, retryCount, entity, responseType, onSuccess, onError);
     }
 
@@ -523,7 +523,7 @@ public abstract class AbstractRestService {
             , HttpEntity<REQ> entity //
             , ParameterizedTypeReference<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , Function<Exception, Result<RET>> onError, int retryCount) {
-        URI uri = createURI(path, toMultiValueMap(query), fragment);
+        URI uri = createURI(path, convertToMultiValueMap(query), fragment);
         return RestUtils2.exchange(restTemplate, method, uri, retryCount, entity, responseType, onSuccess, onError);
     }
 
