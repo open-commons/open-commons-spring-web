@@ -890,7 +890,7 @@ public abstract class AbstractRestService {
 
     private final <RET> Function<Exception, Result<RET>> onError() {
         return e -> {
-            return new Result<RET>().andFalse().setMessage(e.getMessage());
+            return Result.error(e.getMessage());
         };
     }
 
@@ -899,7 +899,7 @@ public abstract class AbstractRestService {
         return resEntity -> {
             try {
                 RES res = resEntity.getBody();
-                return new Result<RET>((RET) res);
+                return Result.success((RET) res);
             } catch (Exception e) {
                 String errMsg = String.format("데이터 변환 도중 오류가 발생하였습니다. 원인=%s", e.getMessage());
                 logger.error(errMsg, e);
