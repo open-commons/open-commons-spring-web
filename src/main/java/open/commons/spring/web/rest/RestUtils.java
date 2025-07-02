@@ -26,9 +26,12 @@
 
 package open.commons.spring.web.rest;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -78,7 +81,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import open.commons.core.Result;
-import open.commons.core.utils.AssertUtils;
+import open.commons.core.utils.AssertUtils2;
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.core.utils.ThreadUtils;
 
@@ -991,7 +994,7 @@ public class RestUtils {
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
     public static final HttpHeaders headers(MultiValueMap<String, String> headers, String... headerEntries) {
-        AssertUtils.assertNulls(IllegalArgumentException.class, (Object[]) headerEntries);
+        AssertUtils2.assertNotNulls(IllegalArgumentException.class, (Object[]) headerEntries);
 
         if (headerEntries == null) {
             return new HttpHeaders(headers);
@@ -1013,6 +1016,7 @@ public class RestUtils {
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
      * 2020. 10. 21.		박준홍			최초 작성
+     * 2025. 7. 2.          박준홍     key=value에 {@link URLEncoder#encode(String)} 적용
      * </pre>
      *
      * @param parameters
@@ -1032,9 +1036,12 @@ public class RestUtils {
                     StringBuffer param = new StringBuffer();
                     String name = e.getKey();
                     for (Object o : e.getValue()) {
-                        param.append(name);
+                        if (o == null) {
+                            continue;
+                        }
+                        param.append(encode(name));
                         param.append('=');
-                        param.append(o);
+                        param.append(encode(o.toString()));
                     }
                     return param.toString();
                 }) //
@@ -1045,6 +1052,31 @@ public class RestUtils {
     }
 
     /**
+     * URI 쿼리 파라미터 데이터를 인코딩합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 2.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param value
+     * @return
+     *
+     * @since 2025. 7. 2.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private static String encode(String value) {
+        try {
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalArgumentException("Encoding failed for: " + value, e);
+        }
+    }
+
+    /**
      * 쿼리 파라미터 데이터를 하나의 문자열로 제공한다. <br>
      * 
      * <pre>
@@ -1052,6 +1084,7 @@ public class RestUtils {
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
      * 2020. 10. 21.		박준홍			최초 작성
+     * 2025. 7. 2.          박준홍     key=value에서 key 의 <code>null</code> 여부 확인.
      * </pre>
      *
      * @param parameters
@@ -1070,6 +1103,9 @@ public class RestUtils {
         }
         LinkedMultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<>();
         for (int i = 0; i < parameters.length; i += 2) {
+            if (parameters[i] == null) {
+                continue;
+            }
             paramMap.add(parameters[i], parameters[i + 1]);
         }
         return queryParameters(paramMap);

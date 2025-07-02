@@ -1,3 +1,7 @@
+[20225/07/02]
+- New
+  + open.commons.spring.web.rest.service.AbstractRestService: REST API 서비스 연동 지원
+
 [20225/06/24]
 - Notation
   + (req) Controller -> ... -> (res) Controller 과정의 메소드 호출 추적 
