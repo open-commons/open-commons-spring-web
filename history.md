@@ -1,3 +1,14 @@
+[20225/07/03]
+- New
+  + 'ID'기반 REST API 식별 기능 추가
+    + open.commons.spring.web.beans.rest.AbstractIdBasedRestApiService
+    + open.commons.spring.web.beans.rest.IdBasedRestApiDecl
+    + open.commons.spring.web.beans.rest.IIdBasedRestApiService
+- Modify
+  + open.commons.spring.web.rest.service.AbstractRestApiClient
+    : 기존 `open.commons.spring.web.rest.service.AbstractRestService` 클래스 기능 개선 및 이름 변경
+  
+
 [20225/07/02]
 - New
   + open.commons.spring.web.rest.service.AbstractRestService: REST API 서비스 연동 지원
