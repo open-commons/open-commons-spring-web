@@ -129,7 +129,7 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
             return Result.error(errMsg);
         }
 
-        return execute(api.method, api.path, api.queries, api.headers, requestBody, responseType, getRetryCount());
+        return execute(api.method, api.path, api.queries, api.headers, requestBody, responseType, onSuccess, onError, getRetryCount());
     }
 
     /**
@@ -155,7 +155,7 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
             return Result.error(errMsg);
         }
 
-        return execute(api.method, api.path, api.queries, api.headers, requestBody, responseType, getRetryCount());
+        return execute(api.method, api.path, api.queries, api.headers, requestBody, responseType, onSuccess, onError, getRetryCount());
     }
 
     private class RestEndpoint {
