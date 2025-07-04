@@ -1272,8 +1272,7 @@ public abstract class AbstractRestApiClient {
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
             , int retryCount) {
-        URI uri = createURI(path, convertToMultiValueMap(query), fragment);
-        return RestUtils2.exchange(restTemplate, method, uri, entity, responseType, onSuccess, onError, retryCount);
+        return execute(method, path, null, query, fragment, entity, responseType, onSuccess, onError, retryCount);
     }
 
     /**
@@ -1330,8 +1329,7 @@ public abstract class AbstractRestApiClient {
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
             , int retryCount) {
-        URI uri = createURI(path, convertToMultiValueMap(query), fragment);
-        return RestUtils2.exchange(restTemplate, method, uri, entity, responseType, onSuccess, onError, retryCount);
+        return execute(method, path, null, query, fragment, entity, responseType, onSuccess, onError, retryCount);
     }
 
     /**
