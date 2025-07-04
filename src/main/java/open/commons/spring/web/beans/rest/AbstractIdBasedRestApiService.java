@@ -119,9 +119,9 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
      *      java.lang.String, java.util.function.Function, java.util.function.Function)
      */
     @Override
-    public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, REQ requestBody, Class<RES> responseType //
+    public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
-            , @Nullable MultiValueMap<String, Object> query, String fragment //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
 
@@ -147,9 +147,9 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
      *      java.util.function.Function)
      */
     @Override
-    public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, REQ requestBody, ParameterizedTypeReference<RES> responseType //
+    public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
-            , @Nullable MultiValueMap<String, Object> query, String fragment //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
 
