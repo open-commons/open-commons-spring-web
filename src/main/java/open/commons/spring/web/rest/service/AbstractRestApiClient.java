@@ -166,10 +166,12 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query//
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query//
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , Class<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , Function<Exception, Result<RET>> onError, int retryCount) {
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
         return execute(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -215,9 +217,10 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , Class<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , int retryCount) {
         return execute(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
@@ -262,9 +265,9 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , Class<RES> responseType //
+            , @NotNull Class<RES> responseType //
             , int retryCount) {
         return execute(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(),
                 retryCount);
@@ -320,10 +323,12 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , ParameterizedTypeReference<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , Function<Exception, Result<RET>> onError, int retryCount) {
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
         return execute(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -375,9 +380,10 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , ParameterizedTypeReference<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , int retryCount) {
         return execute(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
@@ -428,9 +434,9 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , ParameterizedTypeReference<RES> responseType //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
         return execute(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(),
                 retryCount);
@@ -480,10 +486,13 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query, String fragment //
-            , HttpEntity<REQ> entity //
-            , Class<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , Function<Exception, Result<RET>> onError, int retryCount) {
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
 
         if (pathVariables != null) {
             NamedTemplate tpl = new NamedTemplate(path);
@@ -495,7 +504,7 @@ public abstract class AbstractRestApiClient {
 
         URI uri = createURI(path, convertToMultiValueMap(query), fragment);
 
-        return RestUtils2.exchange(restTemplate, method, uri, retryCount, entity, responseType, onSuccess, onError);
+        return RestUtils2.exchange(restTemplate, method, uri, entity, responseType, onSuccess, onError, retryCount);
     }
 
     /**
@@ -548,10 +557,13 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query, String fragment //
-            , HttpEntity<REQ> entity //
-            , ParameterizedTypeReference<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , Function<Exception, Result<RET>> onError, int retryCount) {
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
 
         if (pathVariables != null) {
             NamedTemplate tpl = new NamedTemplate(path);
@@ -563,7 +575,7 @@ public abstract class AbstractRestApiClient {
 
         URI uri = createURI(path, convertToMultiValueMap(query), fragment);
 
-        return RestUtils2.exchange(restTemplate, method, uri, retryCount, entity, responseType, onSuccess, onError);
+        return RestUtils2.exchange(restTemplate, method, uri, entity, responseType, onSuccess, onError, retryCount);
     }
 
     /**
@@ -612,10 +624,13 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , Class<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , Function<Exception, Result<RET>> onError, int retryCount) {
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
         return execute(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -663,9 +678,11 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , Class<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , int retryCount) {
         return execute(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
@@ -712,9 +729,10 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , Class<RES> responseType//
+            , @NotNull Class<RES> responseType//
             , int retryCount) {
         return execute(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(),
                 retryCount);
@@ -772,10 +790,13 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , ParameterizedTypeReference<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , Function<Exception, Result<RET>> onError, int retryCount) {
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
         return execute(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -829,9 +850,11 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , ParameterizedTypeReference<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , int retryCount) {
         return execute(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
@@ -884,9 +907,10 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , ParameterizedTypeReference<RES> responseType //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
         return execute(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(),
                 retryCount);
@@ -934,10 +958,12 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query//
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query//
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , Class<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , Function<Exception, Result<RET>> onError, int retryCount) {
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
         return execute(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -981,9 +1007,10 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , Class<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , int retryCount) {
         return execute(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
@@ -1026,9 +1053,9 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , Class<RES> responseType //
+            , @NotNull Class<RES> responseType //
             , int retryCount) {
         return execute(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(),
                 retryCount);
@@ -1082,10 +1109,12 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , ParameterizedTypeReference<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , Function<Exception, Result<RET>> onError, int retryCount) {
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
         return execute(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -1135,9 +1164,10 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , ParameterizedTypeReference<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , int retryCount) {
         return execute(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
@@ -1186,9 +1216,9 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , ParameterizedTypeReference<RES> responseType //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
         return execute(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(),
                 retryCount);
@@ -1236,12 +1266,14 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query, String fragment //
-            , HttpEntity<REQ> entity //
-            , Class<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , Function<Exception, Result<RET>> onError, int retryCount) {
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
         URI uri = createURI(path, convertToMultiValueMap(query), fragment);
-        return RestUtils2.exchange(restTemplate, method, uri, retryCount, entity, responseType, onSuccess, onError);
+        return RestUtils2.exchange(restTemplate, method, uri, entity, responseType, onSuccess, onError, retryCount);
     }
 
     /**
@@ -1292,12 +1324,14 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query, String fragment //
-            , HttpEntity<REQ> entity //
-            , ParameterizedTypeReference<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , Function<Exception, Result<RET>> onError, int retryCount) {
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
         URI uri = createURI(path, convertToMultiValueMap(query), fragment);
-        return RestUtils2.exchange(restTemplate, method, uri, retryCount, entity, responseType, onSuccess, onError);
+        return RestUtils2.exchange(restTemplate, method, uri, entity, responseType, onSuccess, onError, retryCount);
     }
 
     /**
@@ -1344,10 +1378,12 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , Class<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , Function<Exception, Result<RET>> onError, int retryCount) {
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -1393,9 +1429,10 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , Class<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , int retryCount) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
@@ -1440,9 +1477,9 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , Class<RES> responseType//
+            , @NotNull Class<RES> responseType//
             , int retryCount) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(), retryCount);
     }
@@ -1497,10 +1534,11 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , ParameterizedTypeReference<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , Function<Exception, Result<RET>> onError, int retryCount) {
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess, @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -1552,9 +1590,10 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , ParameterizedTypeReference<RES> responseType, Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , int retryCount) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
@@ -1605,9 +1644,9 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
-            , ParameterizedTypeReference<RES> responseType //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(), retryCount);
     }
@@ -1677,7 +1716,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected static final HttpHeaders convertToHeaders(@NotNull MultiValueMap<String, Object> data) {
+    protected static final HttpHeaders convertToHeaders(@Nullable MultiValueMap<String, Object> data) {
         return new HttpHeaders(convertToMultiValueMap(data));
     }
 
@@ -1698,7 +1737,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected static final MultiValueMap<String, String> convertToMultiValueMap(@NotNull List<Object> data) {
+    protected static final MultiValueMap<String, String> convertToMultiValueMap(@Nullable List<Object> data) {
         return toMultiValueMap(data.toArray(new Object[0]));
     }
 
@@ -1719,16 +1758,18 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected static final MultiValueMap<String, String> convertToMultiValueMap(@NotNull MultiValueMap<String, Object> data) {
+    protected static final MultiValueMap<String, String> convertToMultiValueMap(@Nullable MultiValueMap<String, Object> data) {
 
         MultiValueMap<String, String> m = new LinkedMultiValueMap<>();
 
-        data.forEach((key, value) -> {
-            if (value == null) {
-                return;
-            }
-            value.stream().filter(v -> v != null).forEach(v -> m.add(key, v.toString()));
-        });
+        if (data != null) {
+            data.forEach((key, value) -> {
+                if (value == null) {
+                    return;
+                }
+                value.stream().filter(v -> v != null).forEach(v -> m.add(key, v.toString()));
+            });
+        }
 
         return m;
     }
@@ -1966,7 +2007,7 @@ public abstract class AbstractRestApiClient {
      */
     protected static final MultiValueMap<String, String> toMultiValueMap(Object... data) {
         if (data == null) {
-            return null;
+            return new LinkedMultiValueMap<>();
         }
         if (data.length != 2) {
             throw ExceptionUtils.newException(IllegalArgumentException.class, "올바르지 않은 파라미터 입니다. data=%s", Arrays.toString(data));
@@ -1993,7 +2034,7 @@ public abstract class AbstractRestApiClient {
      */
     protected static final MultiValueMap<String, String> toMultiValueMap(String... data) {
         if (data == null) {
-            return null;
+            return new LinkedMultiValueMap<>();
         }
         if (data.length % 2 != 0) {
             throw ExceptionUtils.newException(IllegalArgumentException.class, "올바르지 않은 파라미터 입니다. data=%s", Arrays.toString(data));

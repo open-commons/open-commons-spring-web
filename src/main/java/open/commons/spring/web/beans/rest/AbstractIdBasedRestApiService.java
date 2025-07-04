@@ -40,6 +40,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -119,8 +120,10 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
      */
     @Override
     public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, REQ requestBody, Class<RES> responseType //
-            , HttpHeaders headers, MultiValueMap<String, Object> query, String fragment //
-            , Function<ResponseEntity<RES>, Result<RET>> onSuccess, Function<Exception, Result<RET>> onError) {
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
 
         RestEndpoint api = createRestEndpoint(id, headers, query);
 
@@ -145,8 +148,10 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
      */
     @Override
     public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, REQ requestBody, ParameterizedTypeReference<RES> responseType //
-            , HttpHeaders headers, MultiValueMap<String, Object> query, String fragment //
-            , Function<ResponseEntity<RES>, Result<RET>> onSuccess, Function<Exception, Result<RET>> onError) {
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
 
         RestEndpoint api = createRestEndpoint(id, headers, query);
 
