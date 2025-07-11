@@ -107,7 +107,7 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
             for (Entry<String, Boolean> entry : queryParams.entrySet()) {
                 params = queries.get(entry.getKey());
                 if (params != null) {
-                    finalQueries.add(entry.getKey(), params);
+                    finalQueries.addAll(entry.getKey(), params);
                 }
                 // 전달받은 파라미터는 없지만, 해당 쿼리가 '필수'인 경우
                 else if (entry.getValue()) {
