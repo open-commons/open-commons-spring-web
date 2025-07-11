@@ -1,3 +1,10 @@
+[20225/07/10]
+- New
+  + open.commons.spring.web.beans.rest.QueryParam: 쿼리 파라미터 필수 여부 검증
+- Modify
+  + open.commons.spring.web.beans.rest.AbstractIdBasedRestApiService: 쿼리 파라미터 변경에 따른 수정.
+  + open.commons.spring.web.beans.rest.IdBasedRestApiDecl: 쿼리 파라미터 변경에 따른 수정.
+
 [20225/07/03]
 - New
   + 'ID'기반 REST API 식별 기능 추가

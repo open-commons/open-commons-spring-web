@@ -26,12 +26,16 @@
 
 package open.commons.spring.web.beans.rest;
 
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -78,12 +82,15 @@ import org.springframework.util.MultiValueMap;
  */
 public class IdBasedRestApiDecl {
 
+    private final Logger logger = LoggerFactory.getLogger(IdBasedRestApiDecl.class);
+
     /** REST API 식별정보 */
     @NotEmpty
     private String id;
     /** REST API 설명 */
     private String title;
     /** Http Method */
+    @NotNull
     private HttpMethod method;
     /** REST API Endpoint Path */
     @NotEmpty
@@ -91,7 +98,8 @@ public class IdBasedRestApiDecl {
     /** headers */
     private MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
     /** Request Query 파라미터 */
-    private Set<String> queries;
+    @NotNull
+    private Map<String, Boolean> queries = new HashMap<>();
 
     /**
      * <br>
@@ -129,9 +137,9 @@ public class IdBasedRestApiDecl {
      *
      * @see #headers
      */
-
+    @NotNull
     public MultiValueMap<String, String> getHeaders() {
-        return headers;
+        return new LinkedMultiValueMap<>(this.headers);
     }
 
     /**
@@ -152,7 +160,7 @@ public class IdBasedRestApiDecl {
      *
      * @see #id
      */
-
+    @NotEmpty
     public String getId() {
         return id;
     }
@@ -175,7 +183,7 @@ public class IdBasedRestApiDecl {
      *
      * @see #method
      */
-
+    @NotNull
     public HttpMethod getMethod() {
         return method;
     }
@@ -198,7 +206,7 @@ public class IdBasedRestApiDecl {
      *
      * @see #path
      */
-
+    @NotEmpty
     public String getPath() {
         return path;
     }
@@ -221,9 +229,9 @@ public class IdBasedRestApiDecl {
      *
      * @see #queries
      */
-
-    public Set<String> getQueries() {
-        return this.queries != null ? this.queries : new HashSet<>();
+    @NotNull
+    public Map<String, Boolean> getQueries() {
+        return this.queries != null ? Collections.unmodifiableMap(this.queries) : Collections.emptyMap();
     }
 
     /**
@@ -244,7 +252,6 @@ public class IdBasedRestApiDecl {
      *
      * @see #title
      */
-
     public String getTitle() {
         return title;
     }
@@ -268,7 +275,7 @@ public class IdBasedRestApiDecl {
      *
      * @see #headers
      */
-    public void setHeaders(List<String> headers) {
+    public void setHeaders(@NotNull List<String> headers) {
         for (String header : headers) {
             int sepIdx = header.indexOf(':');
             if (sepIdx == -1) {
@@ -301,7 +308,7 @@ public class IdBasedRestApiDecl {
      *
      * @see #id
      */
-    public void setId(String id) {
+    public void setId(@NotEmpty String id) {
         this.id = id;
     }
 
@@ -324,7 +331,7 @@ public class IdBasedRestApiDecl {
      *
      * @see #method
      */
-    public void setMethod(HttpMethod method) {
+    public void setMethod(@NotNull HttpMethod method) {
         this.method = method;
     }
 
@@ -347,7 +354,7 @@ public class IdBasedRestApiDecl {
      *
      * @see #path
      */
-    public void setPath(String path) {
+    public void setPath(@NotEmpty String path) {
         this.path = path;
     }
 
@@ -370,8 +377,15 @@ public class IdBasedRestApiDecl {
      *
      * @see #queries
      */
-    public void setQueries(Set<String> queries) {
-        this.queries = queries;
+    public void setQueries(@NotNull List<QueryParam> queries) {
+        Boolean o = null;
+        for (QueryParam q : queries) {
+            o = this.queries.get(q.getName());
+            if (o != null) {
+                logger.info("'{}'의 '{}' 파라미터 속성이 '{}' -> '{}' 으로 변경되었습니다.", this.id, q.getName(), o, q.isRequired());
+            }
+            this.queries.put(q.getName(), q.isRequired());
+        }
     }
 
     /**

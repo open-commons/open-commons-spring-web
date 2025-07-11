@@ -28,6 +28,7 @@ package open.commons.spring.web.beans.rest;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.Function;
@@ -46,6 +47,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import open.commons.core.Result;
+import open.commons.spring.web.exception.RequiredQueryNotFoundException;
 import open.commons.spring.web.rest.service.AbstractRestApiClient;
 
 /**
@@ -98,11 +100,26 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
         }
         // #2. query 파라미터
         MultiValueMap<String, Object> finalQueries = new LinkedMultiValueMap<>();
-        Set<String> queryNames = api.getQueries();
+        // #2-1. 전달받은 쿼리 파라미터가 있는 경우
+        Map<String, Boolean> queryParams = api.getQueries();
         if (queries != null) {
-            queries.entrySet().stream() //
-                    .filter(e -> queryNames.contains(e.getKey())) //
-                    .forEach(e -> finalQueries.addAll(e.getKey(), e.getValue()));
+            List<Object> params = null;
+            for (Entry<String, Boolean> entry : queryParams.entrySet()) {
+                params = queries.get(entry.getKey());
+                if (params != null) {
+                    finalQueries.add(entry.getKey(), params);
+                }
+                // 전달받은 파라미터는 없지만, 해당 쿼리가 '필수'인 경우
+                else if (entry.getValue()) {
+                    throw new RequiredQueryNotFoundException(String.format("필수 Query Parameters ('%s')를 찾을 수 없습니다.", entry.getKey()));
+                }
+            }
+        } else {
+            // 2-2. REST API에 필수 쿼리파라미터가 있는지 확인
+            Set<String> requiredQueryNames = queryParams.entrySet().stream().filter(p -> p.getValue()).map(p -> p.getKey()).collect(Collectors.toSet());
+            if (requiredQueryNames.size() > 0) {
+                throw new RequiredQueryNotFoundException(String.format("필수 Query Parameters를 찾을 수 없습니다. query-names=%s", String.join(", ", requiredQueryNames)));
+            }
         }
 
         return new RestEndpoint(method, path, staticHeaders, finalQueries);
