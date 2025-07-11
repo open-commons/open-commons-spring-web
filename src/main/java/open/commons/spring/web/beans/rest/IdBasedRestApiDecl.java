@@ -59,9 +59,13 @@ import org.springframework.util.MultiValueMap;
  *         - "X-Example-Header: example#1"
  *       # 쿼리에 사용되는 파라미터 이름
  *       queries:
- *         - {쿼리 파라미터 이름1}
- *         - {쿼리 파라미터 이름2}
  *         - 
+ *           name: {쿼리 파라미터 이름1}
+ *           required: {필수여부}
+ *         - 
+ *           name: {쿼리 파라미터 이름2}
+ *           required: {필수여부}
+ *
  *       id: "{REST API 식별정보#2}"
  *       title: "{REST API 설명#2}"
  *       method: "{Http Method}"
@@ -72,8 +76,12 @@ import org.springframework.util.MultiValueMap;
  *         - "X-Example-Header: example#2"
  *       # 쿼리에 사용되는 파라미터 이름
  *       queries:
- *         - {쿼리 파라미터 이름1}
- *         - {쿼리 파라미터 이름2}
+ *         - 
+ *           name: {쿼리 파라미터 이름1}
+ *           required: {필수여부}
+ *         - 
+ *           name: {쿼리 파라미터 이름2}
+ *           required: {필수여부}
  * </pre>
  * 
  * @since 2025. 7. 3.
