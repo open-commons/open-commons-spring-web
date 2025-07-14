@@ -468,7 +468,7 @@ public abstract class AbstractRestApiClient {
      * @param query
      *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
      * @param fragment
-     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등) TODO
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
      * @param entity
      *            요청 데이터. <br>
      *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
@@ -1248,7 +1248,7 @@ public abstract class AbstractRestApiClient {
      * @param query
      *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
      * @param fragment
-     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등) TODO
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
      * @param entity
      *            요청 데이터. <br>
      *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
@@ -1535,7 +1535,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
-            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess, @NotNull Function<Exception, Result<RET>> onError //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
             , int retryCount) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
@@ -1647,6 +1648,1068 @@ public abstract class AbstractRestApiClient {
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(), retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param pathVariables
+     *            <code>path</code>에 사용되는 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query//
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+        return executeAsRaw(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param pathVariables
+     *            <code>path</code>에 사용되는 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull Class<RES> responseType //
+            , int retryCount) {
+        return executeAsRaw(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger),
+                retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param pathVariables
+     *            <code>path</code>에 사용되는 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+        return executeAsRaw(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param pathVariables
+     *            <code>path</code>에 사용되는 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , int retryCount) {
+        return executeAsRaw(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger),
+                retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param pathVariables
+     *            <code>path</code>에 사용되는 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+
+        if (pathVariables != null) {
+            NamedTemplate tpl = new NamedTemplate(path);
+            pathVariables.forEach((k, v) -> {
+                tpl.addValue(k, v);
+            });
+            path = tpl.format();
+        }
+
+        URI uri = createURI(path, convertToMultiValueMap(query), fragment);
+
+        return RestUtils2.exchangeAsRaw(restTemplate, method, uri, entity, responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param pathVariables
+     *            <code>path</code>에 사용되는 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+
+        if (pathVariables != null) {
+            NamedTemplate tpl = new NamedTemplate(path);
+            pathVariables.forEach((k, v) -> {
+                tpl.addValue(k, v);
+            });
+            path = tpl.format();
+        }
+
+        URI uri = createURI(path, convertToMultiValueMap(query), fragment);
+
+        return RestUtils2.exchangeAsRaw(restTemplate, method, uri, entity, responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param pathVariables
+     *            <code>path</code>에 사용되는 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+        return executeAsRaw(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param pathVariables
+     *            <code>path</code>에 사용되는 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull Class<RES> responseType//
+            , int retryCount) {
+        return executeAsRaw(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param pathVariables
+     *            <code>path</code>에 사용되는 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+        return executeAsRaw(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param pathVariables
+     *            <code>path</code>에 사용되는 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
+            String fragment //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , int retryCount) {
+        return executeAsRaw(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query//
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+        return executeAsRaw(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull Class<RES> responseType //
+            , int retryCount) {
+        return executeAsRaw(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+        return executeAsRaw(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , int retryCount) {
+        return executeAsRaw(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+        return executeAsRaw(method, path, null, query, fragment, entity, responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+        return executeAsRaw(method, path, null, query, fragment, entity, responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+        return executeAsRaw(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull Class<RES> responseType//
+            , int retryCount) {
+        return executeAsRaw(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+        return executeAsRaw(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+            , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , int retryCount) {
+        return executeAsRaw(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
     }
 
     /**
@@ -2075,11 +3138,36 @@ public abstract class AbstractRestApiClient {
             };
         }
 
+        @SuppressWarnings("unchecked")
+        public static <RES, RET> Function<ResponseEntity<RES>, RET> successAsRaw(Logger logger) {
+            return resEntity -> {
+                try {
+                    RES res = resEntity.getBody();
+                    return (RET) res;
+                } catch (Exception e) {
+                    String errMsg = String.format("연동 데이터 변환 도중 오류가 발생하였습니다. 원인=%s", e.getMessage());
+                    if (logger != null) {
+                        logger.error(errMsg, e);
+                    }
+                    throw new InternalServerException(errMsg, e);
+                }
+            };
+        }
+
+        public static <RET> Function<Exception, RET> throwAsRaw() {
+            return e -> {
+                if (RuntimeException.class.isAssignableFrom(e.getClass())) {
+                    throw (RuntimeException) e;
+                } else {
+                    throw new InternalServerException(e);
+                }
+            };
+        }
+
         public static <RET> Function<Exception, Result<RET>> throwError() {
             return e -> {
                 throw new InternalServerException(e);
             };
         }
     }
-
 }

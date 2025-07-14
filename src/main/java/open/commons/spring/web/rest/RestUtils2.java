@@ -791,11 +791,758 @@ public class RestUtils2 {
      * @version 0.5.0
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
-    private static <REQ, RES, RET> Result<RET> exchange(@NotNull Supplier<ResponseEntity<RES>> sup //
+    public static <REQ, RES, RET> Result<RET> exchange(@NotNull Supplier<ResponseEntity<RES>> sup //
             , @NotNull HttpMethod method, URI uri //
             , HttpEntity<REQ> entity, Object responseType //
             , Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount) {
+
+        try {
+            return exchangeAsRaw(sup, method, uri, entity, responseType, onSuccess, retryCount);
+        } catch (Exception e) {
+            return onError.apply(e);
+        }
+
+        // final int RETRY_MAX_COUNT = retryCount;
+        // int retrial = 0;
+        //
+        // Exception unhandled = null;
+        // while (retrial < RETRY_MAX_COUNT) {
+        // try {
+        // ResponseEntity<RES> response = sup.get();
+        //
+        // HttpStatus statusCode = response.getStatusCode();
+        //
+        // // redirection
+        // if (statusCode.is3xxRedirection()) {
+        // logger.info("URL is redirectioned. status={}, information={}", statusCode, response.getBody());
+        // } else
+        // // success
+        // if (statusCode.is2xxSuccessful()) {
+        // logger.debug("Success to send information. target={}", uri.toString());
+        // } else
+        // // informational...
+        // if (statusCode.is1xxInformational()) {
+        // logger.debug("Information. status={}, information={}", statusCode, response.getBody());
+        // }
+        //
+        // return onSuccess.apply(response);
+        // } catch (HttpClientErrorException | HttpServerErrorException e) {
+        //
+        // logger.warn("'Request' -> method={}, uri={}, req.entity={}, res.type={}", method, uri, entity, responseType);
+        //
+        // HttpStatus statusCode = e.getStatusCode();
+        // String occurs = null;
+        // // request error
+        // if (statusCode.is4xxClientError()) {
+        // occurs = "Request Client Error.";
+        // } else
+        // // remote server internal error
+        // if (statusCode.is5xxServerError()) {
+        // occurs = "Remote Server Error.";
+        // }
+        //
+        // logger.warn("'{}' -> res.status={}, res.status.raw={}, res.status.text={}, res.body={}", occurs, statusCode,
+        // e.getRawStatusCode(), e.getStatusText(),
+        // e.getResponseBodyAsString());
+        //
+        // return onError.apply(e);
+        // } catch (Exception e) {
+        // unhandled = e;
+        // logger.warn("{} Occured {}", "* * * * * ", e.getClass().getName());
+        // if (NoHttpResponseException.class.isAssignableFrom(e.getClass()) //
+        // || ResourceAccessException.class.isAssignableFrom(e.getClass()) //
+        // ) {
+        // retrial++;
+        // logger.warn("{} Retry {} by {}", "* * * * * ", retrial, e.getClass().getName());
+        // logger.warn("{} Request -> method={}, uri={}, req.entity={}, res.type={}", "* * * * * ", method, uri, entity,
+        // responseType);
+        // ThreadUtils.sleep(1000);
+        // } else {
+        // throw ExceptionUtils.newException(RuntimeException.class, e, "예상하지 못한 에러가 발생하였습니다. 원인=%s, parent=%s",
+        // e.getMessage(), e);
+        // }
+        // }
+        // }
+        // return onError.apply(unhandled);
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2021. 06. 11.        박준홍         최초 작성
+     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 타입
+     * @param <RES>
+     *            수신 데이터 타입
+     * @param <RET>
+     *            메소드가 제공하는 데이터 타입
+     * @param restTemplate
+     *            {@link RestTemplate} 객체
+     * @param method
+     *            Http 메소드
+     * @param scheme
+     *            Connection Protocol
+     * @param host
+     *            Target Service IP or Hostname
+     * @param port
+     *            Target Service Port
+     * @param path
+     *            URL Path
+     * @param entity
+     *            요청 데이터
+     * @param responseType
+     *            수신 데이터 타입
+     * @param onSuccess
+     *            요청 성공 처리자
+     * @return
+     *
+     * @since 2021. 06. 11.
+     * @version 0.4.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     * @throws URISyntaxException
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull RestTemplate restTemplate //
+            , @NotNull HttpMethod method, @NotEmpty String scheme, @NotEmpty String host, int port, String path //
+            , HttpEntity<REQ> entity //
+            , Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+    ) throws URISyntaxException {
+        return exchangeAsRaw(restTemplate, method, scheme, host, port, path, null, entity, responseType, onSuccess);
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2023. 03. 06.        박준홍         최초 작성
+     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, Class, Function, Result, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 타입
+     * @param <RES>
+     *            수신 데이터 타입
+     * @param <RET>
+     *            메소드가 제공하는 데이터 타입
+     * @param restTemplate
+     *            {@link RestTemplate} 객체
+     * @param method
+     *            Http 메소드
+     * @param scheme
+     *            Connection Protocol
+     * @param host
+     *            Target Service IP or Hostname
+     * @param port
+     *            Target Service Port
+     * @param path
+     *            URL Path
+     * @param entity
+     *            요청 데이터
+     * @param responseType
+     *            수신 데이터 타입
+     * @param onSuccess
+     *            요청 성공 처리자
+     * @param retryCount
+     *            재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @version 0.8.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     * @throws URISyntaxException
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull RestTemplate restTemplate //
+            , @NotNull HttpMethod method, @NotEmpty String scheme, @NotEmpty String host, int port, String path //
+            , HttpEntity<REQ> entity //
+            , Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) throws URISyntaxException {
+        return exchangeAsRaw(restTemplate, method, scheme, host, port, path, null, entity, responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2021. 06. 11.        박준홍         최초 작성
+     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, ParameterizedTypeReference, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 타입
+     * @param <RES>
+     *            수신 데이터 타입
+     * @param <RET>
+     *            메소드가 제공하는 데이터 타입
+     * @param restTemplate
+     *            {@link RestTemplate} 객체
+     * @param method
+     *            Http 메소드
+     * @param scheme
+     *            Connection Protocol
+     * @param host
+     *            Target Service IP or Hostname
+     * @param port
+     *            Target Service Port
+     * @param path
+     *            URL Path
+     * @param entity
+     *            요청 데이터
+     * @param responseType
+     *            수신 데이터 타입
+     * @param onSuccess
+     *            요청 성공 처리자
+     * @return
+     *
+     * @since 2021. 06. 11.
+     * @version 0.4.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     * @throws URISyntaxException
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull RestTemplate restTemplate //
+            , @NotNull HttpMethod method, @NotEmpty String scheme, @NotEmpty String host, int port, String path //
+            , HttpEntity<REQ> entity //
+            , ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+    ) throws URISyntaxException {
+        return exchangeAsRaw(restTemplate, method, scheme, host, port, path, null, entity, responseType, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2023. 03. 06.        박준홍         최초 작성
+     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 타입
+     * @param <RES>
+     *            수신 데이터 타입
+     * @param <RET>
+     *            메소드가 제공하는 데이터 타입
+     * @param restTemplate
+     *            {@link RestTemplate} 객체
+     * @param method
+     *            Http 메소드
+     * @param scheme
+     *            Connection Protocol
+     * @param host
+     *            Target Service IP or Hostname
+     * @param port
+     *            Target Service Port
+     * @param path
+     *            URL Path
+     * @param entity
+     *            요청 데이터
+     * @param responseType
+     *            수신 데이터 타입
+     * @param onSuccess
+     *            요청 성공 처리자
+     * @param retryCount
+     *            재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @version 0.8.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     * @throws URISyntaxException
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull RestTemplate restTemplate //
+            , @NotNull HttpMethod method, @NotEmpty String scheme, @NotEmpty String host, int port, String path //
+            , HttpEntity<REQ> entity //
+            , ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) throws URISyntaxException {
+        return exchangeAsRaw(restTemplate, method, scheme, host, port, path, null, entity, responseType, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2021. 06. 11.        박준홍         최초 작성
+     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 타입
+     * @param <RES>
+     *            수신 데이터 타입
+     * @param <RET>
+     *            메소드가 제공하는 데이터 타입
+     * @param restTemplate
+     *            {@link RestTemplate} 객체
+     * @param method
+     *            Http 메소드
+     * @param scheme
+     *            Connection Protocol
+     * @param host
+     *            Target Service IP or Hostname
+     * @param port
+     *            Target Service Port
+     * @param path
+     *            URL Path
+     * @param query
+     *            URL Query Parameters
+     * @param entity
+     *            요청 데이터
+     * @param responseType
+     *            수신 데이터 타입
+     * @param onSuccess
+     *            요청 성공 처리자
+     * @return
+     *
+     * @since 2021. 06. 11.
+     * @version 0.4.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     * @throws URISyntaxException
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull RestTemplate restTemplate //
+            , @NotNull HttpMethod method, @NotEmpty String scheme, @NotEmpty String host, int port, String path, String query //
+            , HttpEntity<REQ> entity //
+            , Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+    ) throws URISyntaxException {
+        try {
+            return exchangeAsRaw(restTemplate, method, new URI(scheme, null, host, port, path, query, null), entity, responseType, onSuccess);
+        } catch (URISyntaxException e) {
+            logger.warn("method={}, scheme={}, host={}, port={}, path={}, query={}, entity={}, response.type={}", method, scheme, host, port, path, query, entity, responseType);
+            throw e;
+        }
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2023. 03. 06.        박준홍         최초 작성
+     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, Class, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 타입
+     * @param <RES>
+     *            수신 데이터 타입
+     * @param <RET>
+     *            메소드가 제공하는 데이터 타입
+     * @param restTemplate
+     *            {@link RestTemplate} 객체
+     * @param method
+     *            Http 메소드
+     * @param scheme
+     *            Connection Protocol
+     * @param host
+     *            Target Service IP or Hostname
+     * @param port
+     *            Target Service Port
+     * @param path
+     *            URL Path
+     * @param query
+     *            URL Query Parameters
+     * @param entity
+     *            요청 데이터
+     * @param responseType
+     *            수신 데이터 타입
+     * @param onSuccess
+     *            요청 성공 처리자
+     * @param retryCount
+     *            재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @version 0.8.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     * @throws URISyntaxException
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull RestTemplate restTemplate //
+            , @NotNull HttpMethod method, @NotEmpty String scheme, @NotEmpty String host, int port, String path, String query //
+            , HttpEntity<REQ> entity //
+            , Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) throws URISyntaxException {
+        try {
+            return exchangeAsRaw(restTemplate, method, new URI(scheme, null, host, port, path, query, null), entity, responseType, onSuccess, retryCount);
+        } catch (URISyntaxException e) {
+            logger.warn("method={}, scheme={}, host={}, port={}, path={}, query={}, entity={}, response.type={}", method, scheme, host, port, path, query, entity, responseType);
+            throw e;
+        }
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2021. 06. 11.    박준홍     최초 작성
+     * 2025. 7. 15.     박준홍    {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, ParameterizedTypeReference, Function, Function)}  메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 타입
+     * @param <RES>
+     *            수신 데이터 타입
+     * @param <RET>
+     *            메소드가 제공하는 데이터 타입
+     * @param restTemplate
+     *            {@link RestTemplate} 객체
+     * @param method
+     *            Http 메소드
+     * @param scheme
+     *            Connection Protocol
+     * @param host
+     *            Target Service IP or Hostname
+     * @param port
+     *            Target Service Port
+     * @param path
+     *            URL Path
+     * @param query
+     *            URL Query Parameters
+     * @param entity
+     *            요청 데이터
+     * @param responseType
+     *            수신 데이터 타입
+     * @param onSuccess
+     *            요청 성공 처리자
+     * @return
+     *
+     * @since 2021. 06. 11.
+     * @version 0.4.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     * @throws URISyntaxException
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull RestTemplate restTemplate //
+            , @NotNull HttpMethod method, @NotEmpty String scheme, @NotEmpty String host, int port, String path, String query //
+            , HttpEntity<REQ> entity //
+            , ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+    ) throws URISyntaxException {
+        try {
+            return exchangeAsRaw(restTemplate, method, new URI(scheme, null, host, port, path, query, null), entity, responseType, onSuccess);
+        } catch (URISyntaxException e) {
+            logger.warn("method={}, scheme={}, host={}, port={}, path={}, query={}, entity={}, response.type={}", method, scheme, host, port, path, query, entity, responseType);
+            throw e;
+        }
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2023. 03. 06.        박준홍     최초 작성
+     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 타입
+     * @param <RES>
+     *            수신 데이터 타입
+     * @param <RET>
+     *            메소드가 제공하는 데이터 타입
+     * @param restTemplate
+     *            {@link RestTemplate} 객체
+     * @param method
+     *            Http 메소드
+     * @param scheme
+     *            Connection Protocol
+     * @param host
+     *            Target Service IP or Hostname
+     * @param port
+     *            Target Service Port
+     * @param path
+     *            URL Path
+     * @param query
+     *            URL Query Parameters
+     * @param entity
+     *            요청 데이터
+     * @param responseType
+     *            수신 데이터 타입
+     * @param onSuccess
+     *            요청 성공 처리자
+     * @param retryCount
+     *            재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @version 0.8.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     * @throws URISyntaxException
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull RestTemplate restTemplate //
+            , @NotNull HttpMethod method, @NotEmpty String scheme, @NotEmpty String host, int port, String path, String query //
+            , HttpEntity<REQ> entity //
+            , ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) throws URISyntaxException {
+        try {
+            return exchangeAsRaw(restTemplate, method, new URI(scheme, null, host, port, path, query, null), entity, responseType, onSuccess);
+        } catch (URISyntaxException e) {
+            logger.warn("method={}, scheme={}, host={}, port={}, path={}, query={}, entity={}, response.type={}", method, scheme, host, port, path, query, entity, responseType);
+            throw e;
+        }
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2021. 06. 11.        박준홍         최초 작성
+     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 타입
+     * @param <RES>
+     *            수신 데이터 타입
+     * @param <RET>
+     *            메소드가 제공하는 데이터 타입
+     * @param restTemplate
+     *            {@link RestTemplate} 객체
+     * @param method
+     *            Http 메소드
+     * @param uri
+     *            대상 URI 정보
+     * @param entity
+     *            요청 데이터
+     * @param responseType
+     *            수신 데이터 타입
+     * @param onSuccess
+     *            요청 성공 처리자
+     * @return
+     *
+     * @since 2021. 06. 11.
+     * @version 0.4.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull RestTemplate restTemplate //
+            , @NotNull HttpMethod method, @NotNull URI uri //
+            , HttpEntity<REQ> entity //
+            , Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+    ) {
+        Supplier<ResponseEntity<RES>> sup = () -> restTemplate.exchange(uri, method, entity, responseType);
+        return exchangeAsRaw(sup, method, uri, entity, responseType, onSuccess, 3);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2023. 03. 06.        박준홍         최초 작성
+     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, Class, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 타입
+     * @param <RES>
+     *            수신 데이터 타입
+     * @param <RET>
+     *            메소드가 제공하는 데이터 타입
+     * @param restTemplate
+     *            {@link RestTemplate} 객체
+     * @param method
+     *            Http 메소드
+     * @param uri
+     *            대상 URI 정보
+     * @param entity
+     *            요청 데이터
+     * @param responseType
+     *            수신 데이터 타입
+     * @param onSuccess
+     *            요청 성공 처리자
+     * @param retryCount
+     *            재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @version 0.8.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull RestTemplate restTemplate //
+            , @NotNull HttpMethod method, @NotNull URI uri //
+            , HttpEntity<REQ> entity //
+            , Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+        Supplier<ResponseEntity<RES>> sup = () -> restTemplate.exchange(uri, method, entity, responseType);
+        return exchangeAsRaw(sup, method, uri, entity, responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2021. 06. 11.        박준홍         최초 작성
+     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, ParameterizedTypeReference, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 타입
+     * @param <RES>
+     *            수신 데이터 타입
+     * @param <RET>
+     *            메소드가 제공하는 데이터 타입
+     * @param restTemplate
+     *            {@link RestTemplate} 객체
+     * @param method
+     *            Http 메소드
+     * @param uri
+     *            대상 URI 정보
+     * @param entity
+     *            요청 데이터
+     * @param responseType
+     *            수신 데이터 타입
+     * @param onSuccess
+     *            요청 성공 처리자
+     * @return
+     *
+     * @since 2021. 06. 11.
+     * @version 0.4.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull RestTemplate restTemplate //
+            , @NotNull HttpMethod method, @NotNull URI uri //
+            , HttpEntity<REQ> entity //
+            , ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+    ) {
+        Supplier<ResponseEntity<RES>> sup = () -> restTemplate.exchange(uri, method, entity, responseType);
+        return exchangeAsRaw(sup, method, uri, entity, responseType, onSuccess, 3);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2023. 03. 06.        박준홍         최초 작성
+     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 타입
+     * @param <RES>
+     *            수신 데이터 타입
+     * @param <RET>
+     *            메소드가 제공하는 데이터 타입
+     * @param restTemplate
+     *            {@link RestTemplate} 객체
+     * @param method
+     *            Http 메소드
+     * @param uri
+     *            대상 URI 정보
+     * @param entity
+     *            요청 데이터
+     * @param responseType
+     *            수신 데이터 타입
+     * @param onSuccess
+     *            요청 성공 처리자
+     * @param retryCount
+     *            재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @version 0.8.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull RestTemplate restTemplate //
+            , @NotNull HttpMethod method, @NotNull URI uri //
+            , HttpEntity<REQ> entity //
+            , ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount) {
+        Supplier<ResponseEntity<RES>> sup = () -> restTemplate.exchange(uri, method, entity, responseType);
+        return exchangeAsRaw(sup, method, uri, entity, responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2023. 03. 06.        박준홍         최초 작성
+     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(Supplier, HttpMethod, URI, HttpEntity, Object, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param sup
+     *            요청 처리 함수
+     * @param method
+     *            HTTP 메소드
+     * @param uri
+     *            접속 정보
+     * @param entity
+     *            접속 데이터
+     * @param responseType
+     *            응답 데이터 타입
+     * @param onSuccess
+     *            성공 처리 함수
+     * @param retryCount
+     *            접속 재시도 횟수
+     * @return
+     *
+     * @since 2025. 7. 14.
+     * @version 0.8.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     */
+    public static <REQ, RES, RET> RET exchangeAsRaw(@NotNull Supplier<ResponseEntity<RES>> sup //
+            , @NotNull HttpMethod method, URI uri //
+            , HttpEntity<REQ> entity, Object responseType //
+            , Function<ResponseEntity<RES>, RET> onSuccess //
             , int retryCount) {
         final int RETRY_MAX_COUNT = retryCount;
         int retrial = 0;
@@ -839,7 +1586,7 @@ public class RestUtils2 {
                 logger.warn("'{}' -> res.status={}, res.status.raw={}, res.status.text={}, res.body={}", occurs, statusCode, e.getRawStatusCode(), e.getStatusText(),
                         e.getResponseBodyAsString());
 
-                return onError.apply(e);
+                throw e;
             } catch (Exception e) {
                 unhandled = e;
                 logger.warn("{} Occured {}", "* * * * * ", e.getClass().getName());
@@ -855,6 +1602,15 @@ public class RestUtils2 {
                 }
             }
         }
-        return onError.apply(unhandled);
+
+        if (unhandled != null) {
+            if (RuntimeException.class.isAssignableFrom(unhandled.getClass())) {
+                throw (RuntimeException) unhandled;
+            } else {
+                throw ExceptionUtils.newException(RuntimeException.class, unhandled, "서비스연동에 실패했습니다. 원인=%s, parent=%s", unhandled.getMessage(), unhandled);
+            }
+        } else {
+            throw ExceptionUtils.newException(UnsupportedOperationException.class, "예상하지 못한 에러가 발생하였습니다.");
+        }
     }
 }

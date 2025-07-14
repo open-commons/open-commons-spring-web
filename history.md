@@ -1,3 +1,23 @@
+[20225/07/14]
+- Add
+  + open.commons.spring.web.rest.RestUtils2: Result&lt;R&gt;를 제거한 메소드 추가
+    + exchangeAsRaw(RestTemplate, HttpMethod, String, String, int, String, HttpEntity&lt;REQ&gt;, Class&lt;RES&gt;, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;)
+    + exchangeAsRaw(RestTemplate, HttpMethod, String, String, int, String, HttpEntity&lt;REQ&gt;, Class&lt;RES&gt;, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;, int)
+    + exchangeAsRaw(RestTemplate, HttpMethod, String, String, int, String, HttpEntity&lt;REQ&gt;, ParameterizedTypeReference&lt;RES&gt;, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;)
+    + exchangeAsRaw(RestTemplate, HttpMethod, String, String, int, String, HttpEntity&lt;REQ&gt;, ParameterizedTypeReference&lt;RES&gt;, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;, int)
+    + exchangeAsRaw(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity&lt;REQ&gt;, Class&lt;RES&gt;, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;)
+    + exchangeAsRaw(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity&lt;REQ&gt;, Class&lt;RES&gt;, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;, int)
+    + exchangeAsRaw(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity&lt;REQ&gt;, ParameterizedTypeReference&lt;RES&gt;, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;)
+    + exchangeAsRaw(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity&lt;REQ&gt;, ParameterizedTypeReference&lt;RES&gt;, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;, int)
+    + exchangeAsRaw(RestTemplate, HttpMethod, URI, HttpEntity&lt;REQ&gt;, Class&lt;RES&gt;, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;)
+    + exchangeAsRaw(RestTemplate, HttpMethod, URI, HttpEntity&lt;REQ&gt;, Class&lt;RES&gt;, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;, int)
+    + exchangeAsRaw(RestTemplate, HttpMethod, URI, HttpEntity&lt;REQ&gt;, ParameterizedTypeReference&lt;RES&gt;, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;)
+    + exchangeAsRaw(RestTemplate, HttpMethod, URI, HttpEntity&lt;REQ&gt;, ParameterizedTypeReference&lt;RES&gt;, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;, int)
+    + exchangeAsRaw(Supplier&lt;ResponseEntity&lt;RES&gt;&gt;, HttpMethod, URI, HttpEntity&lt;REQ&gt;, Object, Function&lt;ResponseEntity&lt;RES&gt;, RET&gt;, int)
+  + open.commons.spring.web.rest.service.AbstractRestApiClient: open.commons.spring.web.rest.RestUtils2 메소드 확장에 따른 대응 메소드 추가
+  + open.commons.spring.web.beans.rest.IIdBasedRestApiService: open.commons.spring.web.rest.RestUtils2 메소드 확장에 따른 대응 메소드 추가
+  + open.commons.spring.web.beans.rest.AbstractIdBasedRestApiService: open.commons.spring.web.beans.rest.IIdBasedRestApiService 메소드 확장에 따른 대응 메소드 추가
+
 [20225/07/10]
 - New
   + open.commons.spring.web.beans.rest.QueryParam: 쿼리 파라미터 필수 여부 검증

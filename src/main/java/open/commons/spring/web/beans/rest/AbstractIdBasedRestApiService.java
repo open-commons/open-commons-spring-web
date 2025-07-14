@@ -180,6 +180,58 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
         return execute(api.method, api.path, api.queries, api.headers, requestBody, responseType, onSuccess, onError, getRetryCount());
     }
 
+    /**
+     *
+     * @since 2025. 7. 14.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see open.commons.spring.web.beans.rest.IIdBasedRestApiService#executeAsRaw(java.lang.String, java.lang.Object,
+     *      java.lang.Class, org.springframework.http.HttpHeaders, org.springframework.util.MultiValueMap,
+     *      java.lang.String, java.util.function.Function)
+     */
+    @Override
+    public <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+
+        RestEndpoint api = createRestEndpoint(id, headers, query);
+
+        if (api == null) {
+            String errMsg = String.format("REST API('%s') 연동을 실패하였습니다. 원인=REST API가 존재하지 않습니다.", id);
+            throw new UnsupportedOperationException(errMsg);
+        }
+
+        return executeAsRaw(api.method, api.path, api.queries, api.headers, requestBody, responseType, onSuccess, getRetryCount());
+    }
+
+    /**
+     *
+     * @since 2025. 7. 14.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see open.commons.spring.web.beans.rest.IIdBasedRestApiService#executeAsRaw(java.lang.String, java.lang.Object,
+     *      org.springframework.core.ParameterizedTypeReference, org.springframework.http.HttpHeaders,
+     *      org.springframework.util.MultiValueMap, java.lang.String, java.util.function.Function)
+     */
+    @Override
+    public <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+
+        RestEndpoint api = createRestEndpoint(id, headers, query);
+
+        if (api == null) {
+            String errMsg = String.format("REST API('%s') 연동을 실패하였습니다. 원인=REST API가 존재하지 않습니다.", id);
+            throw new UnsupportedOperationException(errMsg);
+        }
+
+        return executeAsRaw(api.method, api.path, api.queries, api.headers, requestBody, responseType, onSuccess, getRetryCount());
+    }
+
     private class RestEndpoint {
         private final HttpMethod method;
         private final String path;
