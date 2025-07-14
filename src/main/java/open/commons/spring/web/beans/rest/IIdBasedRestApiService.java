@@ -36,12 +36,11 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 
 import open.commons.core.Result;
 import open.commons.spring.web.rest.service.AbstractRestApiClient.CallbackOn;
-
-import io.micrometer.core.lang.Nullable;
 
 /**
  * 
