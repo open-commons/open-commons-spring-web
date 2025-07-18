@@ -27,11 +27,14 @@
 package open.commons.spring.web.autoconfigure.configuration;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 import open.commons.spring.web.handler.DefaultGlobalInterceptor;
+import open.commons.spring.web.handler.HttpRequestProxyHeader;
 
 /**
  * 
@@ -40,6 +43,9 @@ import open.commons.spring.web.handler.DefaultGlobalInterceptor;
  * @author parkjunhong77@gmail.com
  */
 public class GlobalServletConfiguration {
+
+    /** Proxy 서버를 통해서 전달되는 실제 클라이언트의 Http 요청 정보 @ */
+    private static final String CONFIGURATION_PROPERTIES_HTTP_REQUEST_PROXY_HEADER = "open-commons.proxy-header";
 
     /**
      * <br>
@@ -64,5 +70,12 @@ public class GlobalServletConfiguration {
     @Order(Ordered.LOWEST_PRECEDENCE)
     DefaultGlobalInterceptor defaultGlobalInterceptor() {
         return new DefaultGlobalInterceptor();
+    }
+
+    @Bean
+    @Primary
+    @ConfigurationProperties(CONFIGURATION_PROPERTIES_HTTP_REQUEST_PROXY_HEADER)
+    HttpRequestProxyHeader getProxyHeader() {
+        return new HttpRequestProxyHeader();
     }
 }

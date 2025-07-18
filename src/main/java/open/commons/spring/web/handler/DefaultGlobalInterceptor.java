@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.ThreadContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -61,6 +62,8 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
     public static final String BEAN_QUALIFIER = "open.commons.spring.web.handler.DefaultGlobalInterceptor";
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private HttpRequestProxyHeader proxyHeader;
 
     /**
      * <br>
@@ -115,9 +118,9 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
                 .append(' ') //
                 .append(request.getRequestURI()) //
                 .append(' ') //
-                .append(request.getRemoteAddr()) //
+                .append(ProxyHeaderUtil.getClientIP(request, this.proxyHeader)) //
                 .append(':') //
-                .append(String.valueOf(request.getRemotePort())) //
+                .append(ProxyHeaderUtil.getClientPort(request, this.proxyHeader)) //
                 .toString();
 
         String threadName = ThreadContext.get(BEAN_QUALIFIER);
@@ -129,6 +132,30 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
         }
 
         return true;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 18.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param proxyHeader
+     *            the proxyHeader to set
+     *
+     * @since 2025. 7. 18.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #proxyHeader
+     */
+    @Autowired
+    public void setProxyHeader(HttpRequestProxyHeader proxyHeader) {
+        this.proxyHeader = proxyHeader;
     }
 
 }

@@ -1,3 +1,16 @@
+[20225/07/18]
+- New
+  + nginx와 같은 proxy 서비스를 통한 http request의 실제 클라이언트 연결 정보 제공
+    + open.commons.spring.web.handler.HttpRequestProxyHeader
+    + open.commons.spring.web.handler.ProxyHeaderUtil
+- Add
+  + nginx와 같은 proxy 서비스를 통한 http request의 실제 클라이언트 연결 정보 제공
+    + open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration.getProxyHeader(): 추가
+    + open.commons.spring.web.handler.DefaultGlobalInterceptor.setProxyHeader(HttpRequestProxyHeader)
+- Modify
+  + nginx와 같은 proxy 서비스를 통한 http request의 실제 클라이언트 연결 정보 제공
+    + open.commons.spring.web.handler.DefaultGlobalInterceptor.preHandle(HttpServletRequest, HttpServletResponse, Object)
+
 [20225/07/14]
 - Add
   + open.commons.spring.web.rest.RestUtils2: Result&lt;R&gt;를 제거한 메소드 추가
