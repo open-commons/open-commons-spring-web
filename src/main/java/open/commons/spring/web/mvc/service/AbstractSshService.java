@@ -26,18 +26,25 @@
 
 package open.commons.spring.web.mvc.service;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Function;
 import java.util.function.Supplier;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Value;
 
 import open.commons.core.Result;
 import open.commons.core.function.TripleFunction;
-import open.commons.core.utils.IOUtils;
 import open.commons.core.utils.MapUtils;
 import open.commons.spring.web.servlet.InternalServerException;
 import open.commons.ssh.SshConnection;
@@ -107,6 +114,61 @@ public class AbstractSshService extends AbstractGenericService {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
+     * 2025. 7. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param host
+     *            sftp host
+     * @param port
+     *            sftp port
+     * @param username
+     *            sftp 접속 계정
+     * @param password
+     *            sftp 접속 비밀번호
+     * @param srcPath
+     *            작업 대상 파일경로 (절대경로)
+     * @param dstOutput
+     *            작업 결과 데이터
+     * @param autoClose
+     *            {@link OutputStream} 형태의 결과 데이터 자동 종료 여부
+     * @return
+     *
+     * @since 2025. 7. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected Result<Boolean> download(@NotBlank String host, @Min(1) int port, @NotBlank String username, @NotBlank String password, @NotBlank String srcPath,
+            OutputStream dstOutput, boolean autoClose) {
+
+        Result<Boolean> resultExistSrcFile = existsRemoteFile(host, port, username, password, srcPath);
+
+        if (resultExistSrcFile.isSuccess()) {
+            if (resultExistSrcFile.getResult()) {
+                return transfer(host, port, username, password, sftp -> {
+                    try {
+                        return sftp.download(srcPath, dstOutput, autoClose);
+                    } catch (Exception e) {
+                        String errMsg = String.format("파일 다운로드(%s)를 실패하였습니다. 원인=%s", srcPath, e.getMessage());
+                        logger.error("{}", errMsg, e);
+                        return Result.error(errMsg);
+                    }
+                }, false);
+            } else {
+                logger.warn("{}", resultExistSrcFile.getMessage());
+                return resultExistSrcFile;
+            }
+        } else {
+            return Result.copyOf(resultExistSrcFile);
+        }
+    }
+
+    /**
+     * 파일을 다운로드 합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
      * 2023. 11. 20.		박준홍			최초 작성
      * </pre>
      * 
@@ -118,9 +180,9 @@ public class AbstractSshService extends AbstractGenericService {
      *            sftp 접속 계정
      * @param password
      *            sftp 접속 비밀번호
-     * @param srcFile
+     * @param srcPath
      *            작업 대상 파일경로 (절대경로)
-     * @param dstFile
+     * @param dstPath
      *            작업 결과 파일경로 (절대경로)
      *
      * @return
@@ -129,7 +191,42 @@ public class AbstractSshService extends AbstractGenericService {
      * @version 0.7.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    protected Result<Boolean> download(String host, int port, String username, String password, String srcFile, String dstFile) {
+    protected Result<Boolean> download(@NotBlank String host, @Min(1) int port, @NotBlank String username, @NotBlank String password, @NotBlank String srcPath,
+            @NotBlank String dstPath) {
+        try (OutputStream out = new FileOutputStream(dstPath);) {
+            return download(host, port, username, password, srcPath, out, true);
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 원격지에 파일이 존재하는지 여부를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param host
+     *            sftp host
+     * @param port
+     *            sftp port
+     * @param username
+     *            sftp 접속 계정
+     * @param password
+     *            sftp 접속 비밀번호
+     * @param srcFile
+     *            작업 대상 파일경로 (절대경로)
+     * @return
+     *
+     * @since 2025. 7. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected final Result<Boolean> existsRemoteFile(@NotBlank String host, @Min(1) int port, @NotBlank String username, @NotBlank String password, @NotBlank String srcFile) {
         try ( //
                 FileTransfer sftp = new FileTransfer(getConnection(username, password, host, port));
         //
@@ -143,16 +240,41 @@ public class AbstractSshService extends AbstractGenericService {
             } else if (resultList.getData().isEmpty()) {
                 // 파일이 없는 경우
                 return Result.success(false).setMessage("[%s:%s] No File. => %s", host, port, srcFile);
+            } else {
+                return Result.success(true);
             }
-            IOUtils.close(sftp);
-            return transfer(host, port, username, password, srcFile, dstFile, false);
         } catch (Exception e) {
-            String errMsg = String.format("'%s' 파일 다운로드를 실패하였습니다. 원인=%s", srcFile, e.getMessage());
+            String errMsg = String.format("'%s' 파일 존재 확인 중 오류가 발생하였습니다. 원인=%s", srcFile, e.getMessage());
             logger.error("[{}] {}", errMsg, e);
             return Result.error(errMsg);
         }
     }
 
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2023. 11. 20.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param host
+     *            sftp host
+     * @param port
+     *            sftp port
+     * @param username
+     *            sftp 접속 계정
+     * @param password
+     *            sftp 접속 비밀번호
+     * @return
+     *
+     * @since 2023. 11. 20.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     protected SshConnection getConnection(String username, String password, String host, int port) {
         ReentrantLock lock = this.mutexSession;
         try {
@@ -175,9 +297,9 @@ public class AbstractSshService extends AbstractGenericService {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 11. 20.		박준홍			최초 작성
+     * 2025. 7. 23.		박준홍			최초 작성
      * </pre>
-     * 
+     *
      * @param host
      *            sftp host
      * @param port
@@ -186,39 +308,65 @@ public class AbstractSshService extends AbstractGenericService {
      *            sftp 접속 계정
      * @param password
      *            sftp 접속 비밀번호
-     * @param srcPath
-     *            작업 대상 파일경로 (절대경로)
-     * @param dstPath
-     *            작업 결과 파일경로 (절대경로)
+     * @param action
+     *            파일 전송 작업.
      * @param isUpload
-     *            업/다운로드.
-     *
+     *            업로드 여부
      * @return
      *
-     * @since 2023. 11. 20.
-     * @version 0.7.0
+     * @since 2025. 7. 23.
+     * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    protected Result<Boolean> transfer(String host, int port, String username, String password, String srcPath, String dstPath, boolean isUpload) {
+    protected Result<Boolean> transfer(@NotBlank String host, @Min(1) int port, @NotBlank String username, @NotBlank String password,
+            Function<FileTransfer, Result<Boolean>> action, boolean isUpload) {
         return execute(() -> {
-            Result<Boolean> resultXfer = null;
             try ( //
                     FileTransfer sftp = new FileTransfer(getConnection(username, password, host, port));
             //
             ) {
-                // #2. 존재하는 경우 다운로드
-                resultXfer = isUpload //
-                        ? sftp.upload(srcPath, dstPath) //
-                        : sftp.download(srcPath, dstPath);
-                return resultXfer;
+                return action.apply(sftp);
             } catch (Exception e) {
-                String errMsg = String.format("파일 %s를 실패하였습니다. 원인=%s", isUpload ? "업로드" : "다운로드", e.getMessage());
-                logger.error("{}", errMsg, e);
-                return Result.error(errMsg);
-            } finally {
-                logger.debug("파일 {}를 {} 하였습니다. Source={}, Destination={}", isUpload ? "업로드" : "다운로드", resultXfer.isSuccess() ? "성공" : "실패", srcPath, dstPath, resultXfer.getData());
+                return Result.error(e.getMessage());
             }
         }, "파일 " + (isUpload ? "업로드" : "다운로드"));
+    }
+
+    /**
+     * 파일을 업로드 합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param host
+     *            sftp host
+     * @param port
+     *            sftp port
+     * @param username
+     *            sftp 접속 계정
+     * @param password
+     *            sftp 접속 비밀번호
+     * @param srcInput
+     *            입력 데이터
+     * @param dstPath
+     *            작업 결과 파일경로 (절대경로)
+     * @param autoClose
+     *            {@link InputStream} 형태의 입력 데이터 자동 종료 여부
+     * @return
+     *
+     * @since 2025. 7. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected Result<Boolean> upload(@NotBlank String host, @Min(1) int port, @NotBlank String username, @NotBlank String password, InputStream srcInput, @NotBlank String dstPath,
+            boolean autoClose) {
+        return transfer(host, port, username, password, sftp -> {
+            return sftp.upload(srcInput, dstPath, autoClose);
+        }, true);
     }
 
     /**
@@ -239,23 +387,29 @@ public class AbstractSshService extends AbstractGenericService {
      *            sftp 접속 계정
      * @param password
      *            sftp 접속 비밀번호
-     * @param srcFile
+     * @param srcPath
      *            작업 대상 파일경로 (절대경로)
-     * @param dstFile
+     * @param dstPath
      *            작업 결과 파일경로 (절대경로)
-     *
      * @return
      *
      * @since 2023. 11. 20.
      * @version 0.7.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    protected Result<Boolean> upload(String host, int port, String username, String password, String srcFile, String dstFile) {
+    protected Result<Boolean> upload(@NotBlank String host, @Min(1) int port, @NotBlank String username, @NotBlank String password, String srcPath, @NotBlank String dstPath) {
         // #1. 대상파일 존재 확인
-        if (!Files.exists(Paths.get(srcFile))) {
+        if (!Files.exists(Paths.get(srcPath))) {
             // 파일이 없는 경우
             return Result.success(false);
         }
-        return transfer(host, port, username, password, srcFile, dstFile, true);
+
+        try (FileInputStream input = new FileInputStream(srcPath);) {
+            return upload(host, port, username, password, input, dstPath, true);
+        } catch (Exception e) {
+            String errMsg = String.format("파일 업로드(%s)를 실패하였습니다. 원인=%s", srcPath, e.getMessage());
+            logger.error("{}", errMsg, e);
+            return Result.error(errMsg);
+        }
     }
 }

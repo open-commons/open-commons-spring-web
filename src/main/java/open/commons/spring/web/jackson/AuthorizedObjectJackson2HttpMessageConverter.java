@@ -346,6 +346,7 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
 
             try ( //
                     ByteArrayOutputStream serializeBuffer = new ByteArrayOutputStream();
+                    @SuppressWarnings("null")
                     JsonGenerator generator = objectMapper.getFactory().createGenerator(serializeBuffer, encoding);
                     OutputStream outputStream = StreamUtils.nonClosing(outputMessage.getBody()); //
             ) {

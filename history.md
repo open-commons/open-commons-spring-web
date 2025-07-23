@@ -1,3 +1,9 @@
+[20225/07/23]
+- Add
+  + open.commons.spring.web.mvc.service.AbstractSshService: Input/Output Stream 형태의 데이터 전송 추가
+    + download(String, int, String, String, String, OutputStream, boolean)
+    + upload(String, int, String, String, InputStream, String, boolean)
+
 [20225/07/18]
 - New
   + nginx와 같은 proxy 서비스를 통한 http request의 실제 클라이언트 연결 정보 제공

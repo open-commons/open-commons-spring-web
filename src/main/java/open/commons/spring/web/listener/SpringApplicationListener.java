@@ -380,6 +380,7 @@ public class SpringApplicationListener implements ApplicationListener<Applicatio
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
     public void onServletRequestHandledEvent(ServletRequestHandledEvent event) {
+        logger.trace("ServletRequestHandled - {}", event);
     }
 
     /**
