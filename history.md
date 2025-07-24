@@ -1,3 +1,9 @@
+[2025/07/24]
+- Dependencies
+  + Add
+    + jakarta.validation:jakarata.validation-api:${managed-version}
+    + com.google.code.findbugs:jsr305:${managed-version}
+
 [20225/07/23]
 - Add
   + open.commons.spring.web.mvc.service.AbstractSshService: Input/Output Stream 형태의 데이터 전송 추가
