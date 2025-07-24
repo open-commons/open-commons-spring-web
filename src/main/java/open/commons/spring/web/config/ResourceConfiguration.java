@@ -74,6 +74,7 @@ public class ResourceConfiguration {
     /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 설정 */
     public static final String CONFIGURATION_PROPERTIES_EXCETPION_HTTPSTATUS_BINDER_PROPERTIS = "open-commons.spring.web.exception-httpstatus-binder.properties";
 
+    @SuppressWarnings("unused")
     private ApplicationContext context;
 
     @Autowired

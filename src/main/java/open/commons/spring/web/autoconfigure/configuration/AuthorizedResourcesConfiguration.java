@@ -26,6 +26,7 @@
 
 package open.commons.spring.web.autoconfigure.configuration;
 
+import javax.annotation.Nonnull;
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
@@ -48,7 +49,6 @@ import open.commons.spring.web.beans.authority.IMethodAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.jackson.AuthorizedFieldSerializerModifier;
-import open.commons.spring.web.jacksons.decoration.IObjectMapperDecorationConsolidator;
 import open.commons.spring.web.servlet.filter.AuthorizedResourceFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -81,16 +81,15 @@ public class AuthorizedResourcesConfiguration {
 
     @Bean(BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER)
     @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
-    ObjectMapper authorizedObjectMapper(ApplicationContext context, @NotNull IAuthorizedResourcesMetadata authorizedResourcesMetadata,
-            @NotNull IObjectMapperDecorationConsolidator objectMapperConsolidator) {
+    ObjectMapper authorizedObjectMapper(ApplicationContext context //
+            , @NotNull @Nonnull IAuthorizedResourcesMetadata authorizedResourcesMetadata //
+            , @NotNull @Nonnull Jackson2ObjectMapperBuilder objectMapperBuilder) {
         // #1. ObjectMapper 생성
-        ObjectMapper mapper = Jackson2ObjectMapperBuilder.json().build();
+        ObjectMapper mapper = objectMapperBuilder.build();
         // #2. AuthorizedObject 처리 모듈 등록
         SimpleModule module = new SimpleModule();
         module.setSerializerModifier(new AuthorizedFieldSerializerModifier(context, authorizedResourcesMetadata));
         mapper.registerModule(module);
-        // #3. 사용자 모듈 등록
-        objectMapperConsolidator.configureFeature(mapper);
 
         logger.info("[authorized-resources] authorized-object-mapper={}", mapper);
 

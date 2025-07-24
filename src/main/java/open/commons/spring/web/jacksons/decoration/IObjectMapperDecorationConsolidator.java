@@ -30,6 +30,9 @@ import java.util.Collection;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -37,6 +40,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @since 2025. 6. 17.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
+ * 
+ * @deprecated {@link Jackson2ObjectMapperBuilder}를 {@link Bean}으로 제공받아 {@link ObjectMapper}를 생성하는 방식으로 변경됨에 따라 필요성이
+ *             없어짐.
  */
 public interface IObjectMapperDecorationConsolidator {
 

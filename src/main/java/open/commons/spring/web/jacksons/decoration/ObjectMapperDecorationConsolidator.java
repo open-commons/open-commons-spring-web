@@ -45,6 +45,8 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import open.commons.core.utils.CollectionUtils;
 import open.commons.core.utils.MapUtils;
@@ -63,6 +65,9 @@ import com.fasterxml.jackson.databind.jsontype.NamedType;
  * @since 2025. 6. 17.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
+ * 
+ * @deprecated {@link Jackson2ObjectMapperBuilder}를 {@link Bean}으로 제공받아 {@link ObjectMapper}를 생성하는 방식으로 변경됨에 따라 필요성이
+ *             없어짐.
  */
 public class ObjectMapperDecorationConsolidator implements IObjectMapperDecorationConsolidator {
 

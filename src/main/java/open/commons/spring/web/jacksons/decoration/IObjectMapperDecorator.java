@@ -28,6 +28,9 @@ package open.commons.spring.web.jacksons.decoration;
 
 import java.util.Set;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+
 import open.commons.spring.web.authority.AuthorizedObject;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -45,6 +48,9 @@ import com.fasterxml.jackson.databind.jsontype.NamedType;
  * @since 2025. 6. 17.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
+ * 
+ * @deprecated {@link Jackson2ObjectMapperBuilder}를 {@link Bean}으로 제공받아 {@link ObjectMapper}를 생성하는 방식으로 변경됨에 따라 필요성이
+ *             없어짐.
  */
 public interface IObjectMapperDecorator {
 
@@ -162,5 +168,9 @@ public interface IObjectMapperDecorator {
      * @see ObjectMapper#registerSubtypes(NamedType...)
      */
     public Set<Class<?>> subtypes();
+
+    // public JsonInclude.Include serializationInclusion();
+    //
+    // public JsonInclude.Value serializationInclusionValue();
 
 }

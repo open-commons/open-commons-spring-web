@@ -1,4 +1,12 @@
 [2025/07/24]
+- Deprecated
+  + open.commons.spring.web.jacksons.decoration: {@link Jackson2ObjectMapperBuilder}를 {@link Bean}으로 제공받아 {@link ObjectMapper}를 생성하는 방식으로 변경됨에 따라 필요성이 없어짐.
+    + open.commons.spring.web.jacksons.decoration.IObjectMapperDecorationConsolidator
+    + open.commons.spring.web.jacksons.decoration.IObjectMapperDecorator
+    + open.commons.spring.web.jacksons.decoration.ObjectMapperDecorationConsolidator
+    + open.commons.spring.web.jacksons.decoration.ObjectMapperDecorator
+
+[2025/07/24]
 - Dependencies
   + Add
     + jakarta.validation:jakarata.validation-api:${managed-version}
