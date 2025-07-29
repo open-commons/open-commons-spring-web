@@ -1,3 +1,13 @@
+[2025/07/29]
+- New
+  + open.commons.spring.web.log
+    + IMdcPropertyLogDecorationConsolidator.java
+    + IMdcPropertyLogDecorator.java
+    + InvalidServiceFeatureException.java
+    + MdcPropertyLogBuilder.java
+    + MdcPropertyLogDecorationConsolidator.java
+    + ServiceMetadata.java
+
 [2025/07/24]
 - Deprecated
   + open.commons.spring.web.jacksons.decoration: {@link Jackson2ObjectMapperBuilder}를 {@link Bean}으로 제공받아 {@link ObjectMapper}를 생성하는 방식으로 변경됨에 따라 필요성이 없어짐.

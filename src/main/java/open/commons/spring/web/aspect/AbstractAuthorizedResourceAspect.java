@@ -40,6 +40,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 
+import open.commons.spring.web.authority.AuthorizedMethod;
+import open.commons.spring.web.authority.AuthorizedRequest;
+
 /**
  * 
  * @since 2025. 5. 19.
@@ -77,10 +80,40 @@ public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspect
         this.providerType = providerType;
     }
 
+    /**
+     * {@link AuthorizedMethod} 어노테이션이 설정된 메소드 <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 5. 19.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 5. 19.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("@annotation(open.commons.spring.web.authority.AuthorizedMethod)")
     public final void annotationAuthorizedMethod() {
     }
 
+    /**
+     * {@link AuthorizedRequest} 어노테이션이 설정된 메소드 <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 5. 19.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 5. 19.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("@annotation(open.commons.spring.web.authority.AuthorizedRequest)")
     public final void annotationAuthorizedRequest() {
     }
@@ -145,10 +178,40 @@ public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspect
         return BEAN_UTILS.getBean(beanName, providerType, null, true);
     }
 
+    /**
+     * {@link AuthorizedMethod} 어노테이션이 설정된 클래스. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 5. 19.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 5. 19.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("@within(open.commons.spring.web.authority.AuthorizedMethod)")
     public final void withinAuthorizedMethod() {
     }
 
+    /**
+     * {@link AuthorizedRequest} 어노테이션이 설정된 클래스. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 5. 19.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 5. 19.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("@within(open.commons.spring.web.authority.AuthorizedRequest)")
     public final void withinAuthorizedRequest() {
     }

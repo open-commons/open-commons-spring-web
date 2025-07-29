@@ -58,6 +58,9 @@ import open.commons.spring.web.utils.ClassInspector;
  */
 public class AuthorizedMetadataBuilder {
 
+    private AuthorizedMetadataBuilder() {
+    }
+
     /**
      * 진입점
      */

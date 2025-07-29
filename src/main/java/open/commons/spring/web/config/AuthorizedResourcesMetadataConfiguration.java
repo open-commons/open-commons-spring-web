@@ -91,8 +91,12 @@ public class AuthorizedResourcesMetadataConfiguration {
      *
      * @param singleAuthorizedObjectMetadata
      *            단일 데이터 유형에 대한 메타데이터 정보
+     *            <li>key: Bean 이름
+     *            <li>value: Bean 데이터
      * @param multiAuthorizedObjectMetadata
      *            여러 데이터 유형에 대한 메타데이터 정보
+     *            <li>key: Bean 이름
+     *            <li>value: Bean 데이터
      * @return
      *
      * @since 2025. 6. 17.
@@ -101,15 +105,19 @@ public class AuthorizedResourcesMetadataConfiguration {
      */
     @Bean(AuthorizedResourcesMetadata.BEAN_QUALIFIER)
     @Primary
-    IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider(@NotNull Map<String, AuthorizedObjectMetadata> singleAuthorizedObjectMetadata,
-            @NotNull Map<String, List<AuthorizedObjectMetadata>> multiAuthorizedObjectMetadata) {
+    IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider( //
+            @NotNull Map<String, AuthorizedObjectMetadata> singleAuthorizedObjectMetadata //
+            , @NotNull Map<String, List<AuthorizedObjectMetadata>> multiAuthorizedObjectMetadata //
+    ) {
         AuthorizedResourcesMetadata arm = new AuthorizedResourcesMetadata();
 
-        Collection<AuthorizedObjectMetadata> aoms = Stream
-                .of(singleAuthorizedObjectMetadata.values().stream(), multiAuthorizedObjectMetadata.values().stream().flatMap(List::stream)) //
+        Collection<AuthorizedObjectMetadata> aoms = Stream //
+                .of(singleAuthorizedObjectMetadata.values().stream() //
+                        , multiAuthorizedObjectMetadata.values().stream() //
+                                .flatMap(List::stream)) //
                 .flatMap(s -> s) //
                 .collect(Collectors.toList());
-        
+
         arm.setAuthorizedObjectMetadata(aoms);
 
         logger.info("[authorized-resources] authorized-resources-metadata={}", arm);

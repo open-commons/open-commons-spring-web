@@ -83,32 +83,6 @@ public class ProxyHeaderUtil {
     }
 
     /**
-     * 서비스의 Host 정보를 제공합니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜      | 작성자   |   내용
-     * ------------------------------------------
-     * 2025. 7. 18.     박준홍         최초 작성
-     * </pre>
-     *
-     * @param request
-     * @param header
-     * @return
-     *
-     * @since 2025. 7. 18.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    public static String getClientHost(@NotNull HttpServletRequest request, HttpRequestProxyHeader header) {
-        if (header == null) {
-            return request.getHeader("Host");
-        } else {
-            return get(() -> request.getHeader("Host"), h -> request.getHeader(h), header.getForwardedHost());
-        }
-    }
-
-    /**
      * Http Reqeust 클라이언트의 IP를 제공합니다. <br>
      * 
      * <pre>
@@ -126,11 +100,11 @@ public class ProxyHeaderUtil {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static String getClientIP(@NotNull HttpServletRequest request, HttpRequestProxyHeader header) {
+    public static String getClientRealIP(@NotNull HttpServletRequest request, HttpRequestProxyHeader header) {
         if (header == null) {
             return request.getRemoteAddr();
         } else {
-            return get(request::getRemoteAddr, h -> request.getHeader(h), header.getRealIP());
+            return get(request::getRemoteAddr, h -> request.getHeader(h), header.getRealIp());
         }
     }
 
@@ -152,11 +126,37 @@ public class ProxyHeaderUtil {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static String getClientPort(@NotNull HttpServletRequest request, HttpRequestProxyHeader header) {
+    public static String getClientRealPort(@NotNull HttpServletRequest request, HttpRequestProxyHeader header) {
         if (header == null) {
             return String.valueOf(request.getRemotePort());
         } else {
-            return get(() -> String.valueOf(request.getRemotePort()), h -> request.getHeader(h), header.getForwardedPort());
+            return get(() -> String.valueOf(request.getRemotePort()), h -> request.getHeader(h), String.valueOf(header.getForwardedPort()));
+        }
+    }
+
+    /**
+     * 서비스의 Host 정보를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 7. 18.     박준홍         최초 작성
+     * </pre>
+     *
+     * @param request
+     * @param header
+     * @return
+     *
+     * @since 2025. 7. 18.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static String getRequestedHost(@NotNull HttpServletRequest request, HttpRequestProxyHeader header) {
+        if (header == null) {
+            return request.getHeader("Host");
+        } else {
+            return get(() -> request.getHeader("Host"), h -> request.getHeader(h), header.getForwardedHost());
         }
     }
 
@@ -178,7 +178,7 @@ public class ProxyHeaderUtil {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static String getClientScheme(@NotNull HttpServletRequest request, HttpRequestProxyHeader header) {
+    public static String getRequestedScheme(@NotNull HttpServletRequest request, HttpRequestProxyHeader header) {
         if (header == null) {
             return request.getScheme();
         } else {

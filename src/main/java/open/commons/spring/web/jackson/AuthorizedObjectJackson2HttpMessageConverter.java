@@ -129,7 +129,6 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
      * @param allObjectMappers
      *            모든 {@link ObjectMapper}
      * @param authorizedResourcesMetadata
-     *            TODO
      *
      * @since 2025. 5. 26.
      * @version 0.8.0

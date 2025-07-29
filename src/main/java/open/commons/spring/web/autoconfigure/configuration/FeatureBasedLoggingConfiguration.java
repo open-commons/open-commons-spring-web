@@ -1,0 +1,74 @@
+/*
+ * Copyright 2025 Park Jun-Hong_(parkjunhong77@gmail.com)
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ *
+ * This file is generated under this project, "open-commons-spring-web".
+ *
+ * Date  : 2025. 7. 28. 오후 5:08:40
+ *
+ * Author: parkjunhong77@gmail.com
+ * 
+ */
+
+package open.commons.spring.web.autoconfigure.configuration;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+
+import open.commons.spring.web.aspect.FeatureBasedLoggingAspect;
+import open.commons.spring.web.log.IMdcPropertyLogDecorationConsolidator;
+
+/**
+ * 서비스에서 정의하는 기능(feature)별로 분리된 로그를 제공하기 위한 설정.
+ * 
+ * @since 2025. 7. 28.
+ * @version 0.8.0
+ * @author parkjunhong77@gmail.com
+ */
+public class FeatureBasedLoggingConfiguration {
+
+    private final Logger logger = LoggerFactory.getLogger(FeatureBasedLoggingConfiguration.class);
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 28.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 7. 28.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     */
+    public FeatureBasedLoggingConfiguration() {
+    }
+
+    @Bean
+    @Primary
+    FeatureBasedLoggingAspect featureBasedLoggingAspect(ApplicationContext context, IMdcPropertyLogDecorationConsolidator decorator) {
+        FeatureBasedLoggingAspect aspect = new FeatureBasedLoggingAspect(context, decorator);
+        logger.info("[feature-based-logging] apsect={}", aspect);
+        return aspect;
+    }
+}

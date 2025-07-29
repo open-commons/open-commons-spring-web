@@ -194,7 +194,6 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
      * @see AbstractAuthorizedResourceAspect#annotationAuthorizedRequest()
      * @see AbstractAuthorizedResourceAspect#withinAuthorizedRequest()
      * @see AbstractAuthorizedResourceAspect#annotationAllRequestMapping()
-     * @see AbstractAuthorizedResourceAspect#withinRequestMapping()
      * 
      * @see open.commons.spring.web.aspect.IAuthorizedResource#validateAuthorizedResource(org.aspectj.lang.ProceedingJoinPoint)
      */

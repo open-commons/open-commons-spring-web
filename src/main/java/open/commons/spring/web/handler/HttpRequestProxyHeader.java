@@ -57,7 +57,12 @@ public class HttpRequestProxyHeader {
      * 실제 클라이언트 IP<br>
      * 예) Nginx의 $remote_addr : Nginx가 받은 요청의 클라이언트 IP
      */
-    private String realIP;
+    private String realIp;
+    /**
+     * 클라이언트가 접속한 포트<br>
+     * 예) Nginx의 $remote_port : 클라이언트가 Nginx에 연결한 포트
+     */
+    private String clientPort;
     /**
      * 프록시를 거친 모든 클라이언트 IP 목록.<br>
      * 예) Nginx의 $proxy_add_x_forwarded_for : 기존 값 뒤에 $remote_addr를 추가
@@ -65,17 +70,17 @@ public class HttpRequestProxyHeader {
     private String forwardedFor;
     /**
      * 원 요청의 프로토콜 (http 또는 https)<br>
-     * 예) Nginx의 $scheme : 현재 요청 스킴
+     * 예) Nginx의 $scheme : 현재 요청 스키마 (http, https)
      */
     private String forwardedProto;
     /**
      * 클라이언트가 요청한 Host 헤더<br>
-     * 예) Nginx의 $host : 요청의 Host
+     * 예) Nginx의 $host : 요청한 Host
      */
     private String forwardedHost;
     /**
-     * 클라이언트가 접속한 포트<br>
-     * 예) Nginx의 $remote_port : 클라이언트가 Nginx에 연결한 포트
+     * 클라이언트가 요청한 Port 헤더<br>
+     * 예) Nginx의 $server_port: 요청한 port
      */
     private String forwardedPort;
 
@@ -95,6 +100,29 @@ public class HttpRequestProxyHeader {
      * @author parkjunhong77@gmail.com
      */
     public HttpRequestProxyHeader() {
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 29.		박준홍			최초 작성
+     * </pre>
+     * 
+     * @return the clientPort
+     *
+     * @since 2025. 7. 29.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #clientPort
+     */
+
+    public String getClientPort() {
+        return clientPort;
     }
 
     /**
@@ -199,17 +227,40 @@ public class HttpRequestProxyHeader {
      * 2025. 7. 18.		박준홍			최초 작성
      * </pre>
      * 
-     * @return the realIP
+     * @return the realIp
      *
      * @since 2025. 7. 18.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see #realIP
+     * @see #realIp
      */
 
-    public String getRealIP() {
-        return realIP;
+    public String getRealIp() {
+        return realIp;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 29.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param clientPort
+     *            the clientPort to set
+     *
+     * @since 2025. 7. 29.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #clientPort
+     */
+    public void setClientPort(String clientRealPort) {
+        this.clientPort = clientRealPort;
     }
 
     /**
@@ -277,8 +328,8 @@ public class HttpRequestProxyHeader {
      *
      * @see #forwardedPort
      */
-    public void setForwardedPort(@NotEmpty String forwardedPort) {
-        this.forwardedPort = forwardedPort.trim();
+    public void setForwardedPort(String forwardedPort) {
+        this.forwardedPort = forwardedPort;
     }
 
     /**
@@ -314,22 +365,22 @@ public class HttpRequestProxyHeader {
      * 2025. 7. 18.		박준홍			최초 작성
      * </pre>
      *
-     * @param realIP
-     *            the realIP to set
+     * @param realIp
+     *            the realIp to set
      *
      * @since 2025. 7. 18.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see #realIP
+     * @see #realIp
      */
-    public void setRealIP(@NotEmpty String realIP) {
-        this.realIP = realIP.trim();
+    public void setRealIp(@NotEmpty String realIP) {
+        this.realIp = realIP.trim();
     }
 
     /**
      *
-     * @since 2025. 7. 18.
+     * @since 2025. 7. 29.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -338,8 +389,10 @@ public class HttpRequestProxyHeader {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("HttpRequestProxyHeader [realIP=");
-        builder.append(realIP);
+        builder.append("HttpRequestProxyHeader [realIp=");
+        builder.append(realIp);
+        builder.append(", clientPort=");
+        builder.append(clientPort);
         builder.append(", forwardedFor=");
         builder.append(forwardedFor);
         builder.append(", forwardedProto=");

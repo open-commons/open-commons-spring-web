@@ -26,6 +26,9 @@
 
 package open.commons.spring.web.aspect;
 
+import java.lang.annotation.Annotation;
+import java.util.function.Predicate;
+
 import javax.validation.constraints.NotEmpty;
 
 import org.aspectj.lang.annotation.Pointcut;
@@ -35,6 +38,18 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import open.commons.spring.web.utils.BeanUtils;
 
@@ -77,6 +92,22 @@ public abstract class AbstractAspectPointcuts {
         this.logger = logger != null ? logger : LoggerFactory.getLogger(getClass());
     }
 
+    /**
+     * {@link DeleteMapping}, {@link GetMapping}, {@link PatchMapping}, {@link PostMapping}, {@link PutMapping},
+     * {@link RequestMapping} 어노테이션 중에 1개라도 설정된 메소드. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("(" //
             + "@annotation(org.springframework.web.bind.annotation.DeleteMapping)" //
             + " || @annotation(org.springframework.web.bind.annotation.GetMapping)" //
@@ -86,6 +117,43 @@ public abstract class AbstractAspectPointcuts {
             + " || @annotation(org.springframework.web.bind.annotation.RequestMapping)" //
             + ")")
     public final void annotationAllRequestMapping() {
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 7. 28.     박준홍         최초 작성
+     * </pre>
+     *
+     * @param <V>
+     * @param first
+     *            우선 정보 제공자
+     * @param second
+     *            차선 정보 제공자
+     * @param rule
+     *            정보 검증
+     * @return
+     *
+     * @since 2025. 7. 28.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @SuppressWarnings("unchecked")
+    protected final <A extends Annotation, V> V getAttribute(A first, A second, String attributeName, Predicate<V> rule) {
+        V v = null;
+        if (first != null) {
+            v = (V) AnnotationUtils.getValue(first, attributeName);
+        }
+        if (rule.test(v)) {
+            return v;
+        } else {
+            return (V) AnnotationUtils.getValue(second, attributeName);
+        }
     }
 
     /**
@@ -165,6 +233,21 @@ public abstract class AbstractAspectPointcuts {
         return BEAN_UTILS.findBean(beanName, beanType, beanImplType, required);
     }
 
+    /**
+     * {@link Controller}, {@link RestController} 어노테이션 중에 1개라도 설정된 클래스 <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("(" //
             + "@within(org.springframework.stereotype.Controller)" //
             + " || @within(org.springframework.web.bind.annotation.RestController)" //
@@ -172,6 +255,22 @@ public abstract class AbstractAspectPointcuts {
     public final void withinAllControllerStereotypeComponent() {
     }
 
+    /**
+     * {@link Controller}, {@link RestController}, {@link Component}, {@link Service}, {@link Repository} 어노테이션 중에 1개라도
+     * 설정된 클래스. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("(" //
             + "@within(org.springframework.stereotype.Controller)" //
             + " || @within(org.springframework.web.bind.annotation.RestController)" //
@@ -182,6 +281,21 @@ public abstract class AbstractAspectPointcuts {
     public final void withinAllStereotypeComponent() {
     }
 
+    /**
+     * {@link Component}, {@link Service}, {@link Repository} 어노테이션 중에 1개라도 설정된 클래스. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("(" //
             + " @within(org.springframework.stereotype.Component)" //
             + " || @within(org.springframework.stereotype.Service)" //
@@ -190,22 +304,97 @@ public abstract class AbstractAspectPointcuts {
     public final void withinAllStereotypeComponentExceptController() {
     }
 
+    /**
+     * {@link Component} 어노테이션이 설정된 클래스. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("@within(org.springframework.stereotype.Component)")
     public final void withinComponentStereotypeComponent() {
     }
 
+    /**
+     * {@link Repository} 어노테이션이 설정된 클래스. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("@within(org.springframework.stereotype.Repository)")
     public final void withinRepositoryStereotypeComponent() {
     }
 
+    /**
+     * {@link RequestMapping} 어노테이션이 설정된 클래스. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("@within(org.springframework.web.bind.annotation.RequestMapping)")
     public final void withinRequestMapping() {
     }
 
+    /**
+     * {@link RestController} 어노테이션이 설정된 클래스. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
     public final void withinRestControllerComponent() {
     }
 
+    /**
+     * {@link Service} 어노테이션이 설정된 클래스. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Pointcut("@within(org.springframework.stereotype.Service)")
     public final void withinServiceStereotypeComponent() {
     }

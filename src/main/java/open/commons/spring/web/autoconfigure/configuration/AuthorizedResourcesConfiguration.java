@@ -65,7 +65,7 @@ public class AuthorizedResourcesConfiguration {
 
     public static final String BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER = "open.commons.spring.web.autoconfigure.AuthorizedResourcesConfiguration#AUTHORIZED_OBJECT_MAPPER";
 
-    private static Logger logger = LoggerFactory.getLogger(AuthorizedResourcesConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthorizedResourcesConfiguration.class);
 
     public AuthorizedResourcesConfiguration() {
     }

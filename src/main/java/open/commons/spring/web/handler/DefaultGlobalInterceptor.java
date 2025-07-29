@@ -118,9 +118,9 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
                 .append(' ') //
                 .append(request.getRequestURI()) //
                 .append(' ') //
-                .append(ProxyHeaderUtil.getClientIP(request, this.proxyHeader)) //
+                .append(ProxyHeaderUtil.getClientRealIP(request, this.proxyHeader)) //
                 .append(':') //
-                .append(ProxyHeaderUtil.getClientPort(request, this.proxyHeader)) //
+                .append(ProxyHeaderUtil.getClientRealPort(request, this.proxyHeader)) //
                 .toString();
 
         String threadName = ThreadContext.get(BEAN_QUALIFIER);
