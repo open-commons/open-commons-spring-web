@@ -26,6 +26,8 @@
 
 package open.commons.spring.web.handler;
 
+import java.net.URLDecoder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -116,7 +118,7 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
         String reqUri = request.getRequestURI();
         reqUri = new StringBuffer(request.getMethod()) //
                 .append(' ') //
-                .append(request.getRequestURI()) //
+                .append(URLDecoder.decode(reqUri, "UTF-8")) //
                 .append(' ') //
                 .append(ProxyHeaderUtil.getClientRealIP(request, this.proxyHeader)) //
                 .append(':') //
