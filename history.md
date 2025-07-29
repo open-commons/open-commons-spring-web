@@ -1,12 +1,19 @@
 [2025/07/29]
 - New
-  + open.commons.spring.web.log
+  + open.commons.spring.web.log: 사용자 정의 어노테이션을 통합 기능별 로그파일 분리 지원.
     + IMdcPropertyLogDecorationConsolidator.java
     + IMdcPropertyLogDecorator.java
     + InvalidServiceFeatureException.java
     + MdcPropertyLogBuilder.java
     + MdcPropertyLogDecorationConsolidator.java
     + ServiceMetadata.java
+  + open.commons.spring.web.aspect.FeatureBasedLoggingAspect
+  + open.commons.spring.web.config.MdcPropertyLogDecorationConfiguration
+  
+- Modify
+  + nginx와 같은 Proxy 서버 전달 헤더 오류 수정
+    + open.commons.spring.web.handler.HttpRequestProxyHeader
+    + open.commons.spring.web.handler.ProxyHeaderUtil
 
 [2025/07/24]
 - Deprecated
