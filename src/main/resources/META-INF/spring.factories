@@ -4,5 +4,5 @@ open.commons.spring.web.autoconfigure.EnableOpenCommonsSpringWeb=\
   open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConfigureConfiguration,\
   open.commons.spring.web.autoconfigure.configuration.AuthorizedObjectMessageConverterConfiguration,\
   open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration,\
-  open.commons.spring.web.autoconfigure.configuration.FeatureBasedLoggingConfiguration,\
+  open.commons.spring.web.autoconfigure.configuration.LogFeatureConfiguration,\
   open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration
