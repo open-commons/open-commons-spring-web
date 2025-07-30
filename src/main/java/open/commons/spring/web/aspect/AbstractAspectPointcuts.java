@@ -135,6 +135,8 @@ public abstract class AbstractAspectPointcuts {
      *            우선 정보 제공자
      * @param second
      *            차선 정보 제공자
+     * @param attributeName
+     *            속성이름
      * @param rule
      *            정보 검증
      * @return

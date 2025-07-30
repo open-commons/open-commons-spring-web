@@ -34,7 +34,7 @@ import java.util.function.Function;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public interface IMdcPropertyLogDecorator {
+public interface IMdcLogFeatureDecorator {
 
     public Function<String, String> decorator();
 

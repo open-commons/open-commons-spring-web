@@ -314,7 +314,7 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
 
     /**
      * {@link AbstractJackson2HttpMessageConverter}가 {@link ObjectMapper}를 선택하는 메커니즘을 최대한 따르기 위해서
-     * {@link AbstractJackson2HttpMessageConverter#canWrite(Type, Class, MediaType)} 코드를 거의 그대로 차용한 메소드입니다ㅏ.<br>
+     * {@link AbstractJackson2HttpMessageConverter#canWrite(Type, Class, MediaType)} 코드를 거의 그대로 차용한 메소드입니다.<br>
      * 다른 부분은 {@link ObjectMapper}를 선택하는 부분입니다.<br>
      * <ul>
      * <li>{@link AbstractJackson2HttpMessageConverter#writeInternal(Object, Type, HttpOutputMessage)}:

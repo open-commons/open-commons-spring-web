@@ -27,13 +27,13 @@
 package open.commons.spring.web.log;
 
 /**
- * {@link ServiceMetadata#feature()}에 잘못된 값이 설정된 경우에 발생.
+ * {@link LogFeature#feature()}에 잘못된 값이 설정된 경우에 발생.
  * 
  * @since 2025. 7. 28.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class InvalidServiceFeatureException extends RuntimeException {
+public class InvalidLogFeatureException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,7 +52,7 @@ public class InvalidServiceFeatureException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public InvalidServiceFeatureException() {
+    public InvalidLogFeatureException() {
     }
 
     /**
@@ -71,7 +71,7 @@ public class InvalidServiceFeatureException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public InvalidServiceFeatureException(String message) {
+    public InvalidLogFeatureException(String message) {
         super(message);
     }
 
@@ -92,7 +92,7 @@ public class InvalidServiceFeatureException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public InvalidServiceFeatureException(String message, Throwable cause) {
+    public InvalidLogFeatureException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -115,7 +115,7 @@ public class InvalidServiceFeatureException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public InvalidServiceFeatureException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public InvalidLogFeatureException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
@@ -135,7 +135,7 @@ public class InvalidServiceFeatureException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public InvalidServiceFeatureException(Throwable cause) {
+    public InvalidLogFeatureException(Throwable cause) {
         super(cause);
     }
 

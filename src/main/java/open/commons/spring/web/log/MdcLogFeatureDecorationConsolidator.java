@@ -47,17 +47,17 @@ import open.commons.core.utils.StringUtils;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class MdcPropertyLogDecorationConsolidator implements IMdcPropertyLogDecorationConsolidator {
+public class MdcLogFeatureDecorationConsolidator implements IMdcLogFeatureDecorationConsolidator {
 
-    private final Logger logger = LoggerFactory.getLogger(MdcPropertyLogDecorationConsolidator.class);
+    private final Logger logger = LoggerFactory.getLogger(MdcLogFeatureDecorationConsolidator.class);
 
     /**
-     * <li>key: 'feature'({@link ServiceMetadata#feature()})와 'marker'({@link ServiceMetadata#marker()})의 조합
+     * <li>key: 'feature'({@link LogFeature#feature()})와 'marker'({@link LogFeature#marker()})의 조합
      * <li>value: 'marker' 값을 처리하는 함수.
      */
     private final ConcurrentSkipListMap<String, Function<String, String>> decorators = new ConcurrentSkipListMap<>();
     /** 외부 설정 */
-    private Collection<IMdcPropertyLogDecorator> decoratorConfigurations;
+    private Collection<IMdcLogFeatureDecorator> decoratorConfigurations;
     private boolean resolved = false;
     private final BiFunction<String, String, String> DECORATOR_KEY = (feature, marker) -> {
         return String.join("#", feature, StringUtils.isNullOrEmptyString(marker) ? "" : marker.toString());
@@ -78,7 +78,7 @@ public class MdcPropertyLogDecorationConsolidator implements IMdcPropertyLogDeco
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public MdcPropertyLogDecorationConsolidator() {
+    public MdcLogFeatureDecorationConsolidator() {
     }
 
     /**
@@ -87,7 +87,7 @@ public class MdcPropertyLogDecorationConsolidator implements IMdcPropertyLogDeco
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.log.IMdcPropertyLogDecorationConsolidator#decorator(java.lang.String,
+     * @see open.commons.spring.web.log.IMdcLogFeatureDecorationConsolidator#decorator(java.lang.String,
      *      java.lang.String)
      */
     @Override
@@ -95,7 +95,7 @@ public class MdcPropertyLogDecorationConsolidator implements IMdcPropertyLogDeco
     @Nonnull
     public Function<String, String> decorator(@NotBlank @Nonnull String feature, String marker) {
         Function<String, String> f = decorators.get(DECORATOR_KEY.apply(feature, marker));
-        return f != null ? f : IMdcPropertyLogDecorationConsolidator::decorate;
+        return f != null ? f : IMdcLogFeatureDecorationConsolidator::decorate;
     }
 
     @PostConstruct
@@ -120,7 +120,7 @@ public class MdcPropertyLogDecorationConsolidator implements IMdcPropertyLogDeco
         this.resolved = true;
     }
 
-    public void setMdcPropertyLogDecoratorConfigurations(Collection<IMdcPropertyLogDecorator> decoratorConfigurations) {
+    public void setMdcPropertyLogDecoratorConfigurations(Collection<IMdcLogFeatureDecorator> decoratorConfigurations) {
         this.decoratorConfigurations = decoratorConfigurations;
         this.resolved = false;
     }

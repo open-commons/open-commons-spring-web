@@ -49,7 +49,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE, ElementType.METHOD })
-public @interface ServiceMetadata {
+public @interface LogFeature {
 
     /** 'feature' 속성 이름 */
     public static final String PROP_FEATURE = "feature";
@@ -106,7 +106,7 @@ public @interface ServiceMetadata {
     /**
      * 이 어노테이션이 클래스에 설정된 경우에 로그 분리를 적용하는 범위.<br>
      * <li>{@link Target#ALL}: AOP로 접근가능한 메소드
-     * <li>{@link Target#SPECIFIED}: {@link ServiceMetadata} 어노테이션이 설정된 메소드만.
+     * <li>{@link Target#SPECIFIED}: {@link LogFeature} 어노테이션이 설정된 메소드만.
      * 
      * <pre>
      * [개정이력]
@@ -129,7 +129,7 @@ public @interface ServiceMetadata {
     public static enum Target {
         /** AOP로 접근가능한 메소드 */
         ALL,
-        /** {@link ServiceMetadata} 어노테이션이 설정된 메소드 */
+        /** {@link LogFeature} 어노테이션이 설정된 메소드 */
         SPECIFIED,
     }
 }

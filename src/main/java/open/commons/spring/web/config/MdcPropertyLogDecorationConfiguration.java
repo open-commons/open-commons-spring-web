@@ -38,10 +38,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import open.commons.spring.web.log.IMdcPropertyLogDecorationConsolidator;
-import open.commons.spring.web.log.IMdcPropertyLogDecorator;
-import open.commons.spring.web.log.MdcPropertyLogDecorationConsolidator;
-import open.commons.spring.web.log.ServiceMetadata;
+import open.commons.spring.web.log.IMdcLogFeatureDecorationConsolidator;
+import open.commons.spring.web.log.IMdcLogFeatureDecorator;
+import open.commons.spring.web.log.MdcLogFeatureDecorationConsolidator;
+import open.commons.spring.web.log.LogFeature;
 
 /**
  * 
@@ -73,7 +73,7 @@ public class MdcPropertyLogDecorationConfiguration {
     }
 
     /**
-     * 'marker'({@link ServiceMetadata#marker()}) 항목에 대한 데이터를 처리하는 함수들을 제공합니다.<br>
+     * 'marker'({@link LogFeature#marker()}) 항목에 대한 데이터를 처리하는 함수들을 제공합니다.<br>
      * 
      * <pre>
      * [개정이력]
@@ -98,13 +98,13 @@ public class MdcPropertyLogDecorationConfiguration {
      */
     @Bean
     @Primary
-    IMdcPropertyLogDecorationConsolidator mdcPropertyLogDecorationConsolidator( //
-            Map<String, IMdcPropertyLogDecorator> singleMdcPropertyLogDecorator //
-            , Map<String, List<IMdcPropertyLogDecorator>> multiMdcPropertyLogDecorator //
+    IMdcLogFeatureDecorationConsolidator mdcPropertyLogDecorationConsolidator( //
+            Map<String, IMdcLogFeatureDecorator> singleMdcPropertyLogDecorator //
+            , Map<String, List<IMdcLogFeatureDecorator>> multiMdcPropertyLogDecorator //
     ) {
-        MdcPropertyLogDecorationConsolidator consolidator = new MdcPropertyLogDecorationConsolidator();
+        MdcLogFeatureDecorationConsolidator consolidator = new MdcLogFeatureDecorationConsolidator();
 
-        Collection<IMdcPropertyLogDecorator> mplds = Stream //
+        Collection<IMdcLogFeatureDecorator> mplds = Stream //
                 .of(singleMdcPropertyLogDecorator.values().stream() //
                         , multiMdcPropertyLogDecorator.values().stream() //
                                 .flatMap(List::stream)) //

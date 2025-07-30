@@ -32,8 +32,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
-import open.commons.spring.web.aspect.FeatureBasedLoggingAspect;
-import open.commons.spring.web.log.IMdcPropertyLogDecorationConsolidator;
+import open.commons.spring.web.aspect.LogFeatureAspect;
+import open.commons.spring.web.log.IMdcLogFeatureDecorationConsolidator;
 
 /**
  * 서비스에서 정의하는 기능(feature)별로 분리된 로그를 제공하기 위한 설정.
@@ -42,9 +42,9 @@ import open.commons.spring.web.log.IMdcPropertyLogDecorationConsolidator;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class FeatureBasedLoggingConfiguration {
+public class LogFeatureConfiguration {
 
-    private final Logger logger = LoggerFactory.getLogger(FeatureBasedLoggingConfiguration.class);
+    private final Logger logger = LoggerFactory.getLogger(LogFeatureConfiguration.class);
 
     /**
      * <br>
@@ -61,13 +61,13 @@ public class FeatureBasedLoggingConfiguration {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public FeatureBasedLoggingConfiguration() {
+    public LogFeatureConfiguration() {
     }
 
     @Bean
     @Primary
-    FeatureBasedLoggingAspect featureBasedLoggingAspect(ApplicationContext context, IMdcPropertyLogDecorationConsolidator decorator) {
-        FeatureBasedLoggingAspect aspect = new FeatureBasedLoggingAspect(context, decorator);
+    LogFeatureAspect featureBasedLoggingAspect(ApplicationContext context, IMdcLogFeatureDecorationConsolidator decorator) {
+        LogFeatureAspect aspect = new LogFeatureAspect(context, decorator);
         logger.info("[feature-based-logging] apsect={}", aspect);
         return aspect;
     }

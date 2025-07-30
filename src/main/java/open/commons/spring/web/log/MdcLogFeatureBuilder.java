@@ -36,15 +36,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * {@link IMdcPropertyLogDecorator} 객체를 생성하는 "계층형 Builder"
+ * {@link IMdcLogFeatureDecorator} 객체를 생성하는 "계층형 Builder"
  * 
  * @since 2025. 7. 29.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class MdcPropertyLogBuilder {
+public class MdcLogFeatureBuilder {
 
-    private MdcPropertyLogBuilder() {
+    private MdcLogFeatureBuilder() {
     }
 
     /** 진입점 */
@@ -55,7 +55,7 @@ public class MdcPropertyLogBuilder {
     public interface Builder {
 
         /**
-         * 1개의 {@link IMdcPropertyLogDecorator}를 생성하는 빌더를 제공합니다. <br>
+         * 1개의 {@link IMdcLogFeatureDecorator}를 생성하는 빌더를 제공합니다. <br>
          * 
          * <pre>
          * [개정이력]
@@ -73,7 +73,7 @@ public class MdcPropertyLogBuilder {
         public ObjectBuilder object();
 
         /**
-         * 여러 개의 {@link IMdcPropertyLogDecorator}를 생성하는 빌더를 제공합니다. <br>
+         * 여러 개의 {@link IMdcLogFeatureDecorator}를 생성하는 빌더를 제공합니다. <br>
          * 
          * <pre>
          * [개정이력]
@@ -100,7 +100,7 @@ public class MdcPropertyLogBuilder {
          * @version 0.8.0
          * @author parkjunhong77@gmail.com
          *
-         * @see open.commons.spring.web.log.MdcPropertyLogBuilder.Builder#object()
+         * @see open.commons.spring.web.log.MdcLogFeatureBuilder.Builder#object()
          */
         @Override
         public ObjectBuilder object() {
@@ -113,7 +113,7 @@ public class MdcPropertyLogBuilder {
          * @version 0.8.0
          * @author parkjunhong77@gmail.com
          *
-         * @see open.commons.spring.web.log.MdcPropertyLogBuilder.Builder#objects()
+         * @see open.commons.spring.web.log.MdcLogFeatureBuilder.Builder#objects()
          */
         @Override
         public ObjectsBuilder objects() {
@@ -126,7 +126,7 @@ public class MdcPropertyLogBuilder {
             private Function<String, String> decorator;
 
             /**
-             * {@link IMdcPropertyLogDecorator} 객체를 생성합니다. <br>
+             * {@link IMdcLogFeatureDecorator} 객체를 생성합니다. <br>
              * 
              * <pre>
              * [개정이력]
@@ -141,8 +141,8 @@ public class MdcPropertyLogBuilder {
              * @version 0.8.0
              * @author Park, Jun-Hong parkjunhong77@gmail.com
              */
-            public IMdcPropertyLogDecorator build() {
-                return new IMdcPropertyLogDecorator() {
+            public IMdcLogFeatureDecorator build() {
+                return new IMdcLogFeatureDecorator() {
 
                     @Override
                     public Function<String, String> decorator() {
@@ -162,7 +162,7 @@ public class MdcPropertyLogBuilder {
             }
 
             /**
-             * 'marker'({@link ServiceMetadata#marker()}) 항목에 해당하는 값을 처리하는 함수를 설정합니다. <br>
+             * 'marker'({@link LogFeature#marker()}) 항목에 해당하는 값을 처리하는 함수를 설정합니다. <br>
              * 
              * <pre>
              * [개정이력]
@@ -182,7 +182,7 @@ public class MdcPropertyLogBuilder {
             }
 
             /**
-             * 'feature'({@link ServiceMetadata#feature()}) 항목에 해당하는 값을 설정합니다. <br>
+             * 'feature'({@link LogFeature#feature()}) 항목에 해당하는 값을 설정합니다. <br>
              * 
              * <pre>
              * [개정이력]
@@ -202,7 +202,7 @@ public class MdcPropertyLogBuilder {
             }
 
             /**
-             * 'marker'({@link ServiceMetadata#marker()}) 항목에 해당하는 값을 설정합니다. <br>
+             * 'marker'({@link LogFeature#marker()}) 항목에 해당하는 값을 설정합니다. <br>
              * 
              * <pre>
              * [개정이력]
@@ -233,10 +233,10 @@ public class MdcPropertyLogBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.log.MdcPropertyLogBuilder.ObjectBuilder#build()
+             * @see open.commons.spring.web.log.MdcLogFeatureBuilder.ObjectBuilder#build()
              */
             @Override
-            public IMdcPropertyLogDecorator build() {
+            public IMdcLogFeatureDecorator build() {
                 return builder.build();
             }
 
@@ -246,7 +246,7 @@ public class MdcPropertyLogBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.log.MdcPropertyLogBuilder.ObjectBuilder#decorator(java.util.function.Function)
+             * @see open.commons.spring.web.log.MdcLogFeatureBuilder.ObjectBuilder#decorator(java.util.function.Function)
              */
             @Override
             public ObjectBuilder decorator(@NotNull Function<String, String> decorator) {
@@ -260,7 +260,7 @@ public class MdcPropertyLogBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.log.MdcPropertyLogBuilder.ObjectBuilder#feature(java.lang.String)
+             * @see open.commons.spring.web.log.MdcLogFeatureBuilder.ObjectBuilder#feature(java.lang.String)
              */
             @Override
             public ObjectBuilder feature(@NotBlank String feature) {
@@ -274,7 +274,7 @@ public class MdcPropertyLogBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.log.MdcPropertyLogBuilder.ObjectBuilder#marker(java.lang.String)
+             * @see open.commons.spring.web.log.MdcLogFeatureBuilder.ObjectBuilder#marker(java.lang.String)
              */
             @Override
             public ObjectBuilder marker(@NotNull String marker) {
@@ -294,10 +294,10 @@ public class MdcPropertyLogBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.log.MdcPropertyLogBuilder.ObjectsBuilder#build()
+             * @see open.commons.spring.web.log.MdcLogFeatureBuilder.ObjectsBuilder#build()
              */
             @Override
-            public List<IMdcPropertyLogDecorator> build() {
+            public List<IMdcLogFeatureDecorator> build() {
                 return objects.stream().map(b -> b.build()).collect(Collectors.toList());
             }
 
@@ -307,7 +307,7 @@ public class MdcPropertyLogBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.log.MdcPropertyLogBuilder.ObjectsBuilder#object(java.util.function.Function)
+             * @see open.commons.spring.web.log.MdcLogFeatureBuilder.ObjectsBuilder#object(java.util.function.Function)
              */
             @Override
             public ObjectsBuilder object(@NotNull Function<ObjectBuilder, ObjectBuilder> consumer) {
@@ -322,7 +322,7 @@ public class MdcPropertyLogBuilder {
     public interface ObjectBuilder {
 
         /**
-         * {@link IMdcPropertyLogDecorator} 객체를 제공합니다. <br>
+         * {@link IMdcLogFeatureDecorator} 객체를 제공합니다. <br>
          * 
          * <pre>
          * [개정이력]
@@ -337,10 +337,10 @@ public class MdcPropertyLogBuilder {
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
-        IMdcPropertyLogDecorator build();
+        IMdcLogFeatureDecorator build();
 
         /**
-         * 'marker'({@link ServiceMetadata#marker()}) 항목에 해당하는 값을 처리하는 함수를 설정합니다. <br>
+         * 'marker'({@link LogFeature#marker()}) 항목에 해당하는 값을 처리하는 함수를 설정합니다. <br>
          * <br>
          * 
          * <pre>
@@ -360,7 +360,7 @@ public class MdcPropertyLogBuilder {
         ObjectBuilder decorator(@NotNull @Nonnull Function<String, String> decorator);
 
         /**
-         * 'feature'({@link ServiceMetadata#feature()}) 항목에 해당하는 값을 설정합니다. <br>
+         * 'feature'({@link LogFeature#feature()}) 항목에 해당하는 값을 설정합니다. <br>
          * 
          * <pre>
          * [개정이력]
@@ -379,7 +379,7 @@ public class MdcPropertyLogBuilder {
         ObjectBuilder feature(@NotBlank @Nonnull String feature);
 
         /**
-         * 'marker'({@link ServiceMetadata#marker()}) 항목에 해당하는 값을 설정합니다. <br>
+         * 'marker'({@link LogFeature#marker()}) 항목에 해당하는 값을 설정합니다. <br>
          * 
          * <pre>
          * [개정이력]
@@ -401,7 +401,7 @@ public class MdcPropertyLogBuilder {
 
     public interface ObjectsBuilder {
 
-        List<IMdcPropertyLogDecorator> build();
+        List<IMdcLogFeatureDecorator> build();
 
         ObjectsBuilder object(@NotNull @Nonnull Function<ObjectBuilder, ObjectBuilder> consumer);
 

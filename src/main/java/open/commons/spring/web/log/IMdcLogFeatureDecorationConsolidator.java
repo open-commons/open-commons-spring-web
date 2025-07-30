@@ -40,10 +40,10 @@ import open.commons.core.utils.StringUtils;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public interface IMdcPropertyLogDecorationConsolidator {
+public interface IMdcLogFeatureDecorationConsolidator {
 
     /**
-     * {@link ServiceMetadata} 정보에 맞는 함수를 제공합니다.<br>
+     * {@link LogFeature} 정보에 맞는 함수를 제공합니다.<br>
      * 
      * <pre>
      * [개정이력]
@@ -53,9 +53,9 @@ public interface IMdcPropertyLogDecorationConsolidator {
      * </pre>
      *
      * @param feature
-     *            {@link ServiceMetadata#feature()} 에 해당하는 데이터
+     *            {@link LogFeature#feature()} 에 해당하는 데이터
      * @param marker
-     *            {@link ServiceMetadata#marker()}에 해당하는 내용
+     *            {@link LogFeature#marker()}에 해당하는 내용
      * @return
      *
      * @since 2025. 7. 29.
