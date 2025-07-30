@@ -31,7 +31,6 @@ import java.lang.reflect.Method;
 import javax.annotation.Nonnull;
 import javax.validation.constraints.NotNull;
 
-import org.apache.logging.log4j.core.config.Order;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -40,6 +39,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.MDC;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
@@ -134,9 +134,6 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
             Object target = pjp.getTarget();
             Method invokedMethod = ((MethodSignature) pjp.getSignature()).getMethod();
 
-            logger.warn("target={}", target);
-            logger.warn("invokedMethod={}", invokedMethod);
-
             // #1. 타입에 설정된 정보
             LogFeature annoType = AnnotationUtils.getAnnotation(target.getClass(), LogFeature.class);
             // #2. 메소드에 설정된 정보
@@ -148,7 +145,7 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
                 // #3. 'feature' 값 검증
                 if ((feature = feature.trim()).isEmpty()) {
                     throw ExceptionUtils.newException(InvalidLogFeatureException.class, "클래스 또는 메소드중에 반드시 1개는 'feature'값이 설정되어야 합니다. type=%s, method=%s", annoType, annoMethod);
-                } else if (!feature.matches("^[a-zA-Z0-9-_]+$")) {
+                } else if (!feature.matches(LogFeature.FEATURE_REG_EX)) {
                     throw ExceptionUtils.newException(InvalidLogFeatureException.class, "설정된 'feature' 정보에 허용하지 않은 문자가 포함되어 있습니다. 허용하는 문자열=[a-zA-Z0-9-_], feature=%s", feature);
                 }
                 MDC.put(LogFeature.PROP_FEATURE, feature);

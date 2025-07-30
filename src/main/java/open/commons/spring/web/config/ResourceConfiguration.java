@@ -29,7 +29,9 @@ package open.commons.spring.web.config;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.client.HttpClient;
@@ -48,7 +50,9 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.HandlerInterceptor;
 
+import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
 import open.commons.spring.web.resources.RestTemplateRequestFactoryResource;
 import open.commons.spring.web.resources.ThreadPoolTaskExecutorConfig;
 import open.commons.spring.web.rest.RestUtils;
@@ -68,11 +72,12 @@ public class ResourceConfiguration {
     public static final String BEAN_QUALIFIER_RESTTEMPLATE_REQUEST_SOURCE = "open.commons.spring.web.config.ResourceConfiguration#BEAN_QUALIFIER_RESTTEMPLATE_REQUEST_SOURCE";
     public static final String BEAN_QUALIFIER_THREAD_POOL = "open.commons.spring.web.config.ResourceConfiguration#THREADPOOL_TASK_EXECUTOR";
     public static final String BEAN_QUALIFIER_THREAD_POOL_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#BEAN_QUALIFIER_THREAD_POOL_CONFIG";
-
-    /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 제공 서비스 */
-    public static final String BEAN_QUALIFIER_EXCETPION_HTTPSTATUS_PROPERTIES = "open.commons.spring.web.config.ResourceConfiguration#EXCETPION_HTTPSTATUS_PROPERTIES";
     /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 설정 */
-    public static final String CONFIGURATION_PROPERTIES_EXCETPION_HTTPSTATUS_BINDER_PROPERTIS = "open-commons.spring.web.exception-httpstatus-binder.properties";
+    private static final String PROPERTIES_EXCETPION_HTTPSTATUS_BINDER_PROPERTIS = "open-commons.spring.web.exception-httpstatus-binder.properties";
+    /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 제공 서비스 */
+    private static final String CONFIGURATION_EXCETPION_HTTPSTATUS_PROPERTIES = "open.commons.spring.web.config.ResourceConfiguration#EXCETPION_HTTPSTATUS_PROPERTIES";
+    /** {@link HandlerInterceptor}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 URL 패턴 설정 경로 */
+    private static final String PROPERTIES_INTERCEPTOR_IGNORE_URL_PATTERN = "open-commons.spring.interceptor-ignore-url-patterns";
 
     @SuppressWarnings("unused")
     private ApplicationContext context;
@@ -104,9 +109,9 @@ public class ResourceConfiguration {
         this.context = context;
     }
 
-    @Bean(BEAN_QUALIFIER_EXCETPION_HTTPSTATUS_PROPERTIES)
-    @ConfigurationProperties(CONFIGURATION_PROPERTIES_EXCETPION_HTTPSTATUS_BINDER_PROPERTIS)
-    public Map<String, String> configureExceptionHttpStatusProperties() {
+    @Bean(CONFIGURATION_EXCETPION_HTTPSTATUS_PROPERTIES)
+    @ConfigurationProperties(PROPERTIES_EXCETPION_HTTPSTATUS_BINDER_PROPERTIS)
+    Map<String, String> configureExceptionHttpStatusProperties() {
         return new HashMap<>();
     }
 
@@ -129,7 +134,7 @@ public class ResourceConfiguration {
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_REQUEST_SOURCE)
     @Primary
     @ConfigurationProperties("open-commons.spring.web.resttemplate.requestfactory")
-    public RestTemplateRequestFactoryResource configureRestTemplateRequestFactoryResource() {
+    RestTemplateRequestFactoryResource configureRestTemplateRequestFactoryResource() {
         return new RestTemplateRequestFactoryResource();
     }
 
@@ -152,14 +157,14 @@ public class ResourceConfiguration {
     @Bean(name = BEAN_QUALIFIER_THREAD_POOL_CONFIG)
     @Primary
     @ConfigurationProperties("open-commons.spring.async.thread-pool-task-executor")
-    public ThreadPoolTaskExecutorConfig configureThreadPoolTaskExecutorConfig() {
+    ThreadPoolTaskExecutorConfig configureThreadPoolTaskExecutorConfig() {
         return new ThreadPoolTaskExecutorConfig();
     }
 
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE)
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Primary
-    public RestTemplate createBeanRestTemplate() throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
+    RestTemplate createBeanRestTemplate() throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
         HttpClient httpClient = RestUtils.createHttpsClient(false);
         HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
 
@@ -169,7 +174,7 @@ public class ResourceConfiguration {
 
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_ALLOW_PRIVATE_CA)
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public RestTemplate createBeanRestTemplateAllowPrivateCA() throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
+    RestTemplate createBeanRestTemplateAllowPrivateCA() throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
         HttpClient httpClient = RestUtils.createHttpsClient(true);
         HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
 
@@ -200,14 +205,37 @@ public class ResourceConfiguration {
     @Bean(name = BEAN_QUALIFIER_THREAD_POOL, destroyMethod = "destroy")
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Primary
-    public ThreadPoolTaskExecutor createBeanThreadPoolTaskExecutor(@Qualifier(BEAN_QUALIFIER_THREAD_POOL_CONFIG) ThreadPoolTaskExecutorConfig taskExecConfig) {
+    ThreadPoolTaskExecutor createBeanThreadPoolTaskExecutor(@Qualifier(BEAN_QUALIFIER_THREAD_POOL_CONFIG) ThreadPoolTaskExecutorConfig taskExecConfig) {
         return createThreadPoolTaskExecutor(taskExecConfig, "async-method");
     }
 
     @Bean(ExceptionHttpStatusBinder.BEAN_QUALIFIER)
     @Primary
-    public ExceptionHttpStatusBinder exceptionHttpStatusBinder(@Qualifier(BEAN_QUALIFIER_EXCETPION_HTTPSTATUS_PROPERTIES) Map<String, String> exceptionHttpStatusProperties) {
+    ExceptionHttpStatusBinder exceptionHttpStatusBinder(@Qualifier(CONFIGURATION_EXCETPION_HTTPSTATUS_PROPERTIES) Map<String, String> exceptionHttpStatusProperties) {
         return new ExceptionHttpStatusBinder(exceptionHttpStatusProperties);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 30.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 7. 30.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean
+    @ConfigurationProperties(PROPERTIES_INTERCEPTOR_IGNORE_URL_PATTERN)
+    List<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlPatterns() {
+        return new ArrayList<>();
     }
 
     /**

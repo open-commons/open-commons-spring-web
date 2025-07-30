@@ -26,15 +26,30 @@
 
 package open.commons.spring.web.autoconfigure.configuration;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.annotation.Nonnull;
+import javax.validation.constraints.NotNull;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 import open.commons.spring.web.handler.DefaultGlobalInterceptor;
 import open.commons.spring.web.handler.HttpRequestProxyHeader;
+import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
 
 /**
  * 
@@ -44,10 +59,16 @@ import open.commons.spring.web.handler.HttpRequestProxyHeader;
  */
 public class GlobalServletConfiguration {
 
+    /** {@link HandlerInterceptor}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 URL 패턴 설정 */
+    public static final String BEAN_QUALIFIER_INTERCEPTOR_IGNORE_URL_PATTERNS = "open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration#INTERCEPTOR_IGNORE_URL_PATTERNS";
+
     /** Proxy 서버를 통해서 전달되는 실제 클라이언트의 Http 요청 정보 @ */
-    private static final String CONFIGURATION_PROPERTIES_HTTP_REQUEST_PROXY_HEADER = "open-commons.proxy-header";
+    private static final String PROPERTIES_HTTP_REQUEST_PROXY_HEADER = "open-commons.proxy-header";
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalServletConfiguration.class);
 
     /**
+     * 
      * <br>
      * 
      * <pre>
@@ -74,8 +95,41 @@ public class GlobalServletConfiguration {
 
     @Bean
     @Primary
-    @ConfigurationProperties(CONFIGURATION_PROPERTIES_HTTP_REQUEST_PROXY_HEADER)
+    @ConfigurationProperties(PROPERTIES_HTTP_REQUEST_PROXY_HEADER)
     HttpRequestProxyHeader getProxyHeader() {
         return new HttpRequestProxyHeader();
+    }
+
+    @Bean(BEAN_QUALIFIER_INTERCEPTOR_IGNORE_URL_PATTERNS)
+    @Primary
+    Set<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlPatterns( //
+            @NotNull @Nonnull Map<String, InterceptorIgnoreUrlProperties> singleConfigurations //
+            , @NotNull @Nonnull Map<String, List<InterceptorIgnoreUrlProperties>> multiConfigurations) {
+
+        List<InterceptorIgnoreUrlProperties> merged = Stream //
+                // 하나의 stream으로 병합
+                .of(singleConfigurations.values().stream() //
+                        , multiConfigurations.values().stream().flatMap(List::stream) //
+                ) //
+                .flatMap(s -> s).collect(Collectors.toList());
+
+        // 중복 검증
+        // key: FQCN 기반의 target 정보, value: 동일한 target 정보인 InterceptorIgnoreUrlProperties 객체들
+        MultiValueMap<String, InterceptorIgnoreUrlProperties> mayBeDuplicated = merged.stream() //
+                .collect(Collectors.collectingAndThen(Collectors.groupingBy(InterceptorIgnoreUrlProperties::getTarget) //
+                        , LinkedMultiValueMap::new));
+
+        mayBeDuplicated.forEach((k, v) -> {
+            if (v.size() > 1) {
+                logger.warn("{}에 대한 설정이 {}개 존재합니다. 목록은 다음과 같습니다.\n\t{}\n" //
+                        , k // FQCN 값
+                        , v.size() // 중복 데이터 개수
+                        , String.join("\n\t", v.stream().map(Object::toString).collect(Collectors.toList())) // 모든 설정
+                );
+
+            }
+        });
+
+        return merged.stream().collect(Collectors.toSet());
     }
 }

@@ -32,6 +32,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import javax.validation.constraints.Pattern;
+
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -50,13 +52,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE, ElementType.METHOD })
 public @interface LogFeature {
-
     /** 'feature' 속성 이름 */
     public static final String PROP_FEATURE = "feature";
     /** 'marker' 속성 이름 */
     public static final String PROP_MARKER = "marker";
+    
     /** 'feature' 속성 기본 값 */
     public static final String VALUE_FEATURE_NULL = "";
+    /** 'feature' 정보 정규식 */
+    public static final String FEATURE_REG_EX = "^[a-zA-Z0-9-_]+$";
 
     /**
      * 서비스 기능 <br>

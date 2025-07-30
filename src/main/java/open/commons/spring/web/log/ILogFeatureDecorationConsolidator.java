@@ -30,7 +30,6 @@ import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import open.commons.core.utils.StringUtils;
 
@@ -62,7 +61,6 @@ public interface ILogFeatureDecorationConsolidator {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    @NotNull
     @Nonnull
     public Function<String, String> decorator(@NotBlank @Nonnull String feature, String marker);
 
@@ -85,6 +83,7 @@ public interface ILogFeatureDecorationConsolidator {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
+    @Nonnull
     public static String decorate(String propertyValue) {
         return StringUtils.isNullOrEmptyString(propertyValue = sanitize(propertyValue)) //
                 ? "" //
@@ -108,6 +107,7 @@ public interface ILogFeatureDecorationConsolidator {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
+    @Nonnull
     public static String sanitize(String propertyValue) {
         return StringUtils.isNullOrEmptyString(propertyValue) ? "" : propertyValue.trim();
     }

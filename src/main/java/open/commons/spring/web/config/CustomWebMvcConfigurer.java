@@ -30,27 +30,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-//import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import open.commons.spring.web.annotation.RequestValueSupported;
+import open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration;
 import open.commons.spring.web.enums.EnumConverter;
 import open.commons.spring.web.enums.EnumConverterFactory;
 import open.commons.spring.web.enums.EnumPackages;
+import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
+import open.commons.spring.web.handler.InterceptorIgnoreValidator;
 
 /**
  * 사용자 정의 설정을 자동으로 등록해주는 클래스.
@@ -190,15 +194,44 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    // @Autowired
     private ApplicationContext context;
 
-    @Autowired
+    // @Autowired
     private EnumPackages enumPkgs;
 
+    private Set<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlConfigurations;
+
+    public CustomWebMvcConfigurer(ApplicationContext context //
+    ) {
+        this.context = context;
+    }
+
     /**
+     * {@link HandlerInterceptor}가 처리하지 않을 URL 패턴을 추가합니다. <br>
      * 
-     * <br>
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 30.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param registry
+     * @param patterns
+     *            URL 패턴
+     *
+     * @since 2025. 7. 30.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected void addExcludePatternsToInterceptor(InterceptorRegistration registry, List<String> patterns) {
+        registry.excludePathPatterns(patterns);
+        logger.info("[ADD] registry={}, exclude.path={}", registry, patterns);
+    }
+
+    /**
+     * {@link HandlerInterceptor}가 처리하지 않을 URL 패턴을 추가합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -209,14 +242,13 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      *
      * @param registry
      * @param patterns
-     *            URL 처리 예외 패턴
+     *            URL 패턴
      *
      * @since 2020. 9. 3.
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
     protected void addExcludePatternsToInterceptor(InterceptorRegistration registry, String... patterns) {
-        registry.excludePathPatterns(patterns);
-        logger.info("[ADD] exclude.path={}", Arrays.toString(patterns));
+        addExcludePatternsToInterceptor(registry, Arrays.asList(patterns));
     }
 
     /**
@@ -251,6 +283,51 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     }
 
     /**
+     * {@link HandlerInterceptor}가 처리할 URL 패턴을 추가합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 30.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param registry
+     * @param patterns
+     *            URL 패턴
+     *
+     * @since 2025. 7. 30.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected void addIncludePatternsToInterceptor(InterceptorRegistration registry, List<String> patterns) {
+        registry.addPathPatterns(patterns);
+        logger.info("[ADD] registry={}, include.path={}", registry, patterns);
+    }
+
+    /**
+     * {@link HandlerInterceptor}가 처리할 URL 패턴을 추가합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 30.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param registry
+     * @param patterns
+     *            URL 패턴
+     *
+     * @since 2025. 7. 30.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected void addIncludePatternsToInterceptor(InterceptorRegistration registry, String... patterns) {
+        addIncludePatternsToInterceptor(registry, Arrays.asList(patterns));
+    }
+
+    /**
      *
      * @since 2023. 7. 21.
      * @version _._._
@@ -264,15 +341,15 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
         // Bean 중에서 HandlerIntereceptor 를 구현한 객체를 찾아서.
         Collection<HandlerInterceptor> intcptrs = context.getBeansOfType(HandlerInterceptor.class).values();
 
-        if (intcptrs == null || intcptrs.size() < 1) {
-            registry.addInterceptor(new AsyncHandlerInterceptor() {
-            });
-            return;
-        }
-
         intcptrs.stream() //
                 .forEach(intcptr -> {
-                    registry.addInterceptor(intcptr);
+                    InterceptorRegistration intcptrReg = registry.addInterceptor(intcptr);
+                    for (InterceptorIgnoreUrlProperties p : this.interceptorIgnoreUrlConfigurations) {
+                        if (InterceptorIgnoreValidator.isAcceptable(p.getTarget(), intcptr)) {
+                            addIncludePatternsToInterceptor(intcptrReg, p.getIncludePathPatterns().stream().collect(Collectors.toList()));
+                            addExcludePatternsToInterceptor(intcptrReg, p.getExcludePathPatterns().stream().collect(Collectors.toList()));
+                        }
+                    }
                     logger.info("Register a Interceptor. {}.", intcptr);
                 });
 
@@ -319,17 +396,66 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      */
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-//        context.getBeansOfType(HttpMessageConverter.class) // Bean 중에서 HttpMessageConverter 를 구현한 객체를찾아서.
-//                .values() //
-//                .stream() //
-//                // .filter(p -> p.getClass().getAnnotation(CustomHttpMessageConverter.class) != null) // 사용자 정의
-//                // CustomHttpMessageConverter
-//                .forEach(converter -> {
-//                    converters.add(converter);
-//
-//                    logger.info("Register a HttpMessageConverter. {}.", converter);
-//                });
+        // context.getBeansOfType(HttpMessageConverter.class) // Bean 중에서 HttpMessageConverter 를 구현한 객체를찾아서.
+        // .values() //
+        // .stream() //
+        // // .filter(p -> p.getClass().getAnnotation(CustomHttpMessageConverter.class) != null) // 사용자 정의
+        // // CustomHttpMessageConverter
+        // .forEach(converter -> {
+        // converters.add(converter);
+        //
+        // logger.info("Register a HttpMessageConverter. {}.", converter);
+        // });
 
         WebMvcConfigurer.super.extendMessageConverters(converters);
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 30.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param enumPkgs
+     *            the enumPkgs to set
+     *
+     * @since 2025. 7. 30.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #enumPkgs
+     */
+    @Autowired
+    public void setEnumPkgs(EnumPackages enumPkgs) {
+        this.enumPkgs = enumPkgs;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 30.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param interceptorIgnoreUrlConfigurations
+     *            the interceptorIgnoreUrlConfigurations to set
+     *
+     * @since 2025. 7. 30.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #interceptorIgnoreUrlConfigurations
+     */
+    @Autowired
+    public void setInterceptorIgnoreUrlConfigurations(
+            @Qualifier(GlobalServletConfiguration.BEAN_QUALIFIER_INTERCEPTOR_IGNORE_URL_PATTERNS) Set<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlConfigurations) {
+        this.interceptorIgnoreUrlConfigurations = interceptorIgnoreUrlConfigurations;
     }
 }

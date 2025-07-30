@@ -117,6 +117,7 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         String reqUri = request.getRequestURI();
+
         reqUri = new StringBuffer(request.getMethod()) //
                 .append(' ') //
                 .append(URLDecoder.decode(reqUri, "UTF-8")) //

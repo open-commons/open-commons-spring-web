@@ -91,7 +91,6 @@ public class LogFeatureDecorationConsolidator implements ILogFeatureDecorationCo
      *      java.lang.String)
      */
     @Override
-    @NotNull
     @Nonnull
     public Function<String, String> decorator(@NotBlank @Nonnull String feature, String marker) {
         Function<String, String> f = decorators.get(DECORATOR_KEY.apply(feature, marker));

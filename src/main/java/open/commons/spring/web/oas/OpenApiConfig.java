@@ -100,27 +100,23 @@ public class OpenApiConfig {
     /**
      * {@link GroupedOpenApi}를 지원하기 위한 {@link Bean}<br>
      * <code>
-     * configuration properties path={@value #CONFIGURATION_PROPERTIES_GROUPED_OPEN_API}
+     * configuration properties path={@value #PROPERTIES_GROUPED_OPEN_API}
      * </code>
      * 
      * @since 0.8.0
      */
     public static final String BEAN_QUALIFIER_GROUPED_OPEN_API_PROPERTIES = "open.commons.spring.web.oas.OpenApiConfig#GROUPED_OPEN_API_PROPERTIES";
-    /**
-     * configuration properties path for {@link Info}.
-     */
-    private static final String CONFIGURATION_PROPERTIES_OPEN_API_INFO = "open-commons.springdoc.open-api.info";
-    /**
-     * configuration properties path for {@link ExternalDocumentation}.
-     */
-    private static final String CONFIGURATION_PROPERTIES_OPEN_API_EXT_DOCS = "open-commons.springdoc.open-api.external-docs";
+    /** configuration properties path for {@link Info}. */
+    private static final String PROPERTIES_OPEN_API_INFO = "open-commons.springdoc.open-api.info";
+    /** configuration properties path for {@link ExternalDocumentation}. */
+    private static final String PROPERTIES_OPEN_API_EXT_DOCS = "open-commons.springdoc.open-api.external-docs";
 
     /**
      * configuration properties path for {@link GroupedOpenApiProperties}.
      * 
      * @since 0.8.0
      */
-    private static final String CONFIGURATION_PROPERTIES_GROUPED_OPEN_API = "open-commons.springdoc.grouped-open-api";
+    private static final String PROPERTIES_GROUPED_OPEN_API = "open-commons.springdoc.grouped-open-api";
 
     private ApplicationContext context;
 
@@ -161,7 +157,7 @@ public class OpenApiConfig {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Bean
-    @ConditionalOnProperty(prefix = CONFIGURATION_PROPERTIES_OPEN_API_INFO, name = { "contact.email", "contact.name" })
+    @ConditionalOnProperty(prefix = PROPERTIES_OPEN_API_INFO, name = { "contact.email", "contact.name" })
     public OpenAPI createOpenAPIInfo() {
 
         OpenAPI api = new OpenAPI();
@@ -198,8 +194,8 @@ public class OpenApiConfig {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Bean(name = BEAN_QUALIFIER_OPEN_API_EXT_DOCS)
-    @ConditionalOnProperty(prefix = CONFIGURATION_PROPERTIES_OPEN_API_EXT_DOCS, name = "url")
-    @ConfigurationProperties(CONFIGURATION_PROPERTIES_OPEN_API_EXT_DOCS)
+    @ConditionalOnProperty(prefix = PROPERTIES_OPEN_API_EXT_DOCS, name = "url")
+    @ConfigurationProperties(PROPERTIES_OPEN_API_EXT_DOCS)
     public ExternalDocumentation getOpenAPIExternalDocumentation() {
         return new ExternalDocumentation();
     }
@@ -224,8 +220,8 @@ public class OpenApiConfig {
      * @see #getOpenAPIExternalDocumentation()
      */
     @Bean(name = BEAN_QUALIFIER_OPEN_API_INFO)
-    @ConditionalOnProperty(prefix = CONFIGURATION_PROPERTIES_OPEN_API_INFO, name = { "contact.email", "contact.name" })
-    @ConfigurationProperties(CONFIGURATION_PROPERTIES_OPEN_API_INFO)
+    @ConditionalOnProperty(prefix = PROPERTIES_OPEN_API_INFO, name = { "contact.email", "contact.name" })
+    @ConfigurationProperties(PROPERTIES_OPEN_API_INFO)
     public Info getOpenAPIInfo() {
         return new Info();
     }
@@ -248,7 +244,7 @@ public class OpenApiConfig {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Bean(BEAN_QUALIFIER_GROUPED_OPEN_API_PROPERTIES)
-    @ConfigurationProperties(CONFIGURATION_PROPERTIES_GROUPED_OPEN_API)
+    @ConfigurationProperties(PROPERTIES_GROUPED_OPEN_API)
     public Map<String, GroupedOpenApiProperties> loadGroupedOpenApiProperties() {
         return new FIFOMap<String, GroupedOpenApiProperties>();
     }

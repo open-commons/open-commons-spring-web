@@ -1,3 +1,34 @@
+[2025/07/30]
+- New
+  + open.commons.spring.web.handler: HandlerInterceptor에서 처리할 URL 패턴 기능 추가
+    + InterceptorIgnoreUrlProperties.java
+    + InterceptorIgnoreValidator.java
+    + InvalidIgnoreUrlPatternException.java
+- Modify
+  + 기능별 로그 분리 관련 클래스 이름 변경
+    + open.commons.spring.web.log: 사용자 정의 어노테이션을 통합 기능별 로그파일 분리 지원.
+      + IMdcPropertyLogDecorationConsolidator -> ILogFeatureDecorationConsolidator
+      + IMdcPropertyLogDecorator -> ILogFeatureDecorator
+      + InvalidServiceFeatureException -> InvalidLogFeatureException
+      + MdcPropertyLogBuilder -> LogFeatureBuilder
+      + MdcPropertyLogDecorationConsolidator -> LogFeatureDecorationConsolidator
+      + ServiceMetadata -> LogFeature
+    + open.commons.spring.web.aspect.FeatureBasedLoggingAspect -> LogFeatureAspect
+    + open.commons.spring.web.config.MdcPropertyLogDecorationConfiguration -> LogFeatureDecorationConfiguration
+  + HTTP 요청 Proxy 헤더 클래스 변경
+    + open.commons.spring.web.handler.HttpRequestProxyHeader: Map&lt;String, String&gt;를 상속받아 확장가능하게 개선됨.
+        + 추가되는 헤더이름은 상수화 시키는 작업을 계속적으로 추가.
+- Add
+  + open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration.interceptorIgnoreUrlPatterns(Map&lt;String, InterceptorIgnoreUrlProperties&gt;, Map&lt;String, List&lt;InterceptorIgnoreUrlProperties&gt;&gt;)
+  + open.commons.spring.web.config.CustomWebMvcConfigurer
+    + addExcludePatternsToInterceptor(InterceptorRegistration, List&lt;String&lt;)
+    + addIncludePatternsToInterceptor(InterceptorRegistration, List&lt;String&lt;)
+    + addIncludePatternsToInterceptor(InterceptorRegistration, String...)
+    + setEnumPkgs(EnumPackages)
+    + setInterceptorIgnoreUrlConfigurations(Set&lt;InterceptorIgnoreUrlProperties&lt;)
+  + open.commons.spring.web.config.ResourceConfiguration.interceptorIgnoreUrlPatterns()
+
+
 [2025/07/29]
 - New
   + open.commons.spring.web.log: 사용자 정의 어노테이션을 통합 기능별 로그파일 분리 지원.
