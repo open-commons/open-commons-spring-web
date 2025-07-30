@@ -64,7 +64,7 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
     public static final String BEAN_QUALIFIER = "open.commons.spring.web.handler.DefaultGlobalInterceptor";
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-
+    /** proxy 서버를 이용하여 제공되는 서비스인 경우 HTTP 요청 정보를 forwardig 하기 위한 헤더 */
     private HttpRequestProxyHeader proxyHeader;
 
     /**
@@ -95,8 +95,6 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
-        AsyncHandlerInterceptor.super.afterCompletion(request, response, handler, ex);
-
         String otn = ThreadContext.get(BEAN_QUALIFIER);
 
         if (otn != null) {
@@ -106,6 +104,9 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
             ThreadUtils.setThreadName(otn);
             ThreadContext.clearAll();
         }
+
+        // 추후 상위 메소드의 구현이 변경됨에 따른 영향을 최소화하기 위해서 가장 마지막에 위치시킴.
+        AsyncHandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
 
     /**

@@ -36,15 +36,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * {@link IMdcLogFeatureDecorator} 객체를 생성하는 "계층형 Builder"
+ * {@link ILogFeatureDecorator} 객체를 생성하는 "계층형 Builder"
  * 
  * @since 2025. 7. 29.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class MdcLogFeatureBuilder {
+public class LogFeatureBuilder {
 
-    private MdcLogFeatureBuilder() {
+    private LogFeatureBuilder() {
     }
 
     /** 진입점 */
@@ -55,7 +55,7 @@ public class MdcLogFeatureBuilder {
     public interface Builder {
 
         /**
-         * 1개의 {@link IMdcLogFeatureDecorator}를 생성하는 빌더를 제공합니다. <br>
+         * 1개의 {@link ILogFeatureDecorator}를 생성하는 빌더를 제공합니다. <br>
          * 
          * <pre>
          * [개정이력]
@@ -73,7 +73,7 @@ public class MdcLogFeatureBuilder {
         public ObjectBuilder object();
 
         /**
-         * 여러 개의 {@link IMdcLogFeatureDecorator}를 생성하는 빌더를 제공합니다. <br>
+         * 여러 개의 {@link ILogFeatureDecorator}를 생성하는 빌더를 제공합니다. <br>
          * 
          * <pre>
          * [개정이력]
@@ -100,7 +100,7 @@ public class MdcLogFeatureBuilder {
          * @version 0.8.0
          * @author parkjunhong77@gmail.com
          *
-         * @see open.commons.spring.web.log.MdcLogFeatureBuilder.Builder#object()
+         * @see open.commons.spring.web.log.LogFeatureBuilder.Builder#object()
          */
         @Override
         public ObjectBuilder object() {
@@ -113,7 +113,7 @@ public class MdcLogFeatureBuilder {
          * @version 0.8.0
          * @author parkjunhong77@gmail.com
          *
-         * @see open.commons.spring.web.log.MdcLogFeatureBuilder.Builder#objects()
+         * @see open.commons.spring.web.log.LogFeatureBuilder.Builder#objects()
          */
         @Override
         public ObjectsBuilder objects() {
@@ -126,7 +126,7 @@ public class MdcLogFeatureBuilder {
             private Function<String, String> decorator;
 
             /**
-             * {@link IMdcLogFeatureDecorator} 객체를 생성합니다. <br>
+             * {@link ILogFeatureDecorator} 객체를 생성합니다. <br>
              * 
              * <pre>
              * [개정이력]
@@ -141,8 +141,8 @@ public class MdcLogFeatureBuilder {
              * @version 0.8.0
              * @author Park, Jun-Hong parkjunhong77@gmail.com
              */
-            public IMdcLogFeatureDecorator build() {
-                return new IMdcLogFeatureDecorator() {
+            public ILogFeatureDecorator build() {
+                return new ILogFeatureDecorator() {
 
                     @Override
                     public Function<String, String> decorator() {
@@ -233,10 +233,10 @@ public class MdcLogFeatureBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.log.MdcLogFeatureBuilder.ObjectBuilder#build()
+             * @see open.commons.spring.web.log.LogFeatureBuilder.ObjectBuilder#build()
              */
             @Override
-            public IMdcLogFeatureDecorator build() {
+            public ILogFeatureDecorator build() {
                 return builder.build();
             }
 
@@ -246,7 +246,7 @@ public class MdcLogFeatureBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.log.MdcLogFeatureBuilder.ObjectBuilder#decorator(java.util.function.Function)
+             * @see open.commons.spring.web.log.LogFeatureBuilder.ObjectBuilder#decorator(java.util.function.Function)
              */
             @Override
             public ObjectBuilder decorator(@NotNull Function<String, String> decorator) {
@@ -260,7 +260,7 @@ public class MdcLogFeatureBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.log.MdcLogFeatureBuilder.ObjectBuilder#feature(java.lang.String)
+             * @see open.commons.spring.web.log.LogFeatureBuilder.ObjectBuilder#feature(java.lang.String)
              */
             @Override
             public ObjectBuilder feature(@NotBlank String feature) {
@@ -274,7 +274,7 @@ public class MdcLogFeatureBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.log.MdcLogFeatureBuilder.ObjectBuilder#marker(java.lang.String)
+             * @see open.commons.spring.web.log.LogFeatureBuilder.ObjectBuilder#marker(java.lang.String)
              */
             @Override
             public ObjectBuilder marker(@NotNull String marker) {
@@ -294,10 +294,10 @@ public class MdcLogFeatureBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.log.MdcLogFeatureBuilder.ObjectsBuilder#build()
+             * @see open.commons.spring.web.log.LogFeatureBuilder.ObjectsBuilder#build()
              */
             @Override
-            public List<IMdcLogFeatureDecorator> build() {
+            public List<ILogFeatureDecorator> build() {
                 return objects.stream().map(b -> b.build()).collect(Collectors.toList());
             }
 
@@ -307,7 +307,7 @@ public class MdcLogFeatureBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.log.MdcLogFeatureBuilder.ObjectsBuilder#object(java.util.function.Function)
+             * @see open.commons.spring.web.log.LogFeatureBuilder.ObjectsBuilder#object(java.util.function.Function)
              */
             @Override
             public ObjectsBuilder object(@NotNull Function<ObjectBuilder, ObjectBuilder> consumer) {
@@ -322,7 +322,7 @@ public class MdcLogFeatureBuilder {
     public interface ObjectBuilder {
 
         /**
-         * {@link IMdcLogFeatureDecorator} 객체를 제공합니다. <br>
+         * {@link ILogFeatureDecorator} 객체를 제공합니다. <br>
          * 
          * <pre>
          * [개정이력]
@@ -337,7 +337,7 @@ public class MdcLogFeatureBuilder {
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
-        IMdcLogFeatureDecorator build();
+        ILogFeatureDecorator build();
 
         /**
          * 'marker'({@link LogFeature#marker()}) 항목에 해당하는 값을 처리하는 함수를 설정합니다. <br>
@@ -401,7 +401,7 @@ public class MdcLogFeatureBuilder {
 
     public interface ObjectsBuilder {
 
-        List<IMdcLogFeatureDecorator> build();
+        List<ILogFeatureDecorator> build();
 
         ObjectsBuilder object(@NotNull @Nonnull Function<ObjectBuilder, ObjectBuilder> consumer);
 

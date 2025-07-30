@@ -40,7 +40,7 @@ import open.commons.core.utils.StringUtils;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public interface IMdcLogFeatureDecorationConsolidator {
+public interface ILogFeatureDecorationConsolidator {
 
     /**
      * {@link LogFeature} 정보에 맞는 함수를 제공합니다.<br>

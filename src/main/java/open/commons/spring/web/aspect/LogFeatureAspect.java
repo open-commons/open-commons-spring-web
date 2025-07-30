@@ -45,7 +45,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import open.commons.core.utils.ExceptionUtils;
-import open.commons.spring.web.log.IMdcLogFeatureDecorationConsolidator;
+import open.commons.spring.web.log.ILogFeatureDecorationConsolidator;
 import open.commons.spring.web.log.InvalidLogFeatureException;
 import open.commons.spring.web.log.LogFeature;
 import open.commons.spring.web.log.LogFeature.Target;
@@ -60,7 +60,7 @@ import open.commons.spring.web.log.LogFeature.Target;
 @Order(AbstractAuthorizedResourceAspect.ORDER_REQUEST + 1)
 public class LogFeatureAspect extends AbstractAspectPointcuts {
 
-    private final IMdcLogFeatureDecorationConsolidator logDecorator;
+    private final ILogFeatureDecorationConsolidator logDecorator;
 
     /**
      * <br>
@@ -79,7 +79,7 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public LogFeatureAspect(ApplicationContext context, @NotNull @Nonnull IMdcLogFeatureDecorationConsolidator logDecorator) {
+    public LogFeatureAspect(ApplicationContext context, @NotNull @Nonnull ILogFeatureDecorationConsolidator logDecorator) {
         super(context);
         this.logDecorator = logDecorator;
     }

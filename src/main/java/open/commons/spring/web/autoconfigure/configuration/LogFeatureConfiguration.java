@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
 import open.commons.spring.web.aspect.LogFeatureAspect;
-import open.commons.spring.web.log.IMdcLogFeatureDecorationConsolidator;
+import open.commons.spring.web.log.ILogFeatureDecorationConsolidator;
 
 /**
  * 서비스에서 정의하는 기능(feature)별로 분리된 로그를 제공하기 위한 설정.
@@ -66,7 +66,7 @@ public class LogFeatureConfiguration {
 
     @Bean
     @Primary
-    LogFeatureAspect featureBasedLoggingAspect(ApplicationContext context, IMdcLogFeatureDecorationConsolidator decorator) {
+    LogFeatureAspect featureBasedLoggingAspect(ApplicationContext context, ILogFeatureDecorationConsolidator decorator) {
         LogFeatureAspect aspect = new LogFeatureAspect(context, decorator);
         logger.info("[feature-based-logging] apsect={}", aspect);
         return aspect;

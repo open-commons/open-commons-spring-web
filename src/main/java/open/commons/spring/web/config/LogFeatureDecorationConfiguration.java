@@ -38,9 +38,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import open.commons.spring.web.log.IMdcLogFeatureDecorationConsolidator;
-import open.commons.spring.web.log.IMdcLogFeatureDecorator;
-import open.commons.spring.web.log.MdcLogFeatureDecorationConsolidator;
+import open.commons.spring.web.log.ILogFeatureDecorationConsolidator;
+import open.commons.spring.web.log.ILogFeatureDecorator;
+import open.commons.spring.web.log.LogFeatureDecorationConsolidator;
 import open.commons.spring.web.log.LogFeature;
 
 /**
@@ -50,9 +50,9 @@ import open.commons.spring.web.log.LogFeature;
  * @author parkjunhong77@gmail.com
  */
 @Configuration
-public class MdcPropertyLogDecorationConfiguration {
+public class LogFeatureDecorationConfiguration {
 
-    private final Logger logger = LoggerFactory.getLogger(MdcPropertyLogDecorationConfiguration.class);
+    private final Logger logger = LoggerFactory.getLogger(LogFeatureDecorationConfiguration.class);
 
     /**
      * <br>
@@ -69,7 +69,7 @@ public class MdcPropertyLogDecorationConfiguration {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public MdcPropertyLogDecorationConfiguration() {
+    public LogFeatureDecorationConfiguration() {
     }
 
     /**
@@ -98,13 +98,13 @@ public class MdcPropertyLogDecorationConfiguration {
      */
     @Bean
     @Primary
-    IMdcLogFeatureDecorationConsolidator mdcPropertyLogDecorationConsolidator( //
-            Map<String, IMdcLogFeatureDecorator> singleMdcPropertyLogDecorator //
-            , Map<String, List<IMdcLogFeatureDecorator>> multiMdcPropertyLogDecorator //
+    ILogFeatureDecorationConsolidator mdcPropertyLogDecorationConsolidator( //
+            Map<String, ILogFeatureDecorator> singleMdcPropertyLogDecorator //
+            , Map<String, List<ILogFeatureDecorator>> multiMdcPropertyLogDecorator //
     ) {
-        MdcLogFeatureDecorationConsolidator consolidator = new MdcLogFeatureDecorationConsolidator();
+        LogFeatureDecorationConsolidator consolidator = new LogFeatureDecorationConsolidator();
 
-        Collection<IMdcLogFeatureDecorator> mplds = Stream //
+        Collection<ILogFeatureDecorator> mplds = Stream //
                 .of(singleMdcPropertyLogDecorator.values().stream() //
                         , multiMdcPropertyLogDecorator.values().stream() //
                                 .flatMap(List::stream)) //

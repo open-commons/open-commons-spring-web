@@ -47,9 +47,9 @@ import open.commons.core.utils.StringUtils;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class MdcLogFeatureDecorationConsolidator implements IMdcLogFeatureDecorationConsolidator {
+public class LogFeatureDecorationConsolidator implements ILogFeatureDecorationConsolidator {
 
-    private final Logger logger = LoggerFactory.getLogger(MdcLogFeatureDecorationConsolidator.class);
+    private final Logger logger = LoggerFactory.getLogger(LogFeatureDecorationConsolidator.class);
 
     /**
      * <li>key: 'feature'({@link LogFeature#feature()})와 'marker'({@link LogFeature#marker()})의 조합
@@ -57,7 +57,7 @@ public class MdcLogFeatureDecorationConsolidator implements IMdcLogFeatureDecora
      */
     private final ConcurrentSkipListMap<String, Function<String, String>> decorators = new ConcurrentSkipListMap<>();
     /** 외부 설정 */
-    private Collection<IMdcLogFeatureDecorator> decoratorConfigurations;
+    private Collection<ILogFeatureDecorator> decoratorConfigurations;
     private boolean resolved = false;
     private final BiFunction<String, String, String> DECORATOR_KEY = (feature, marker) -> {
         return String.join("#", feature, StringUtils.isNullOrEmptyString(marker) ? "" : marker.toString());
@@ -78,7 +78,7 @@ public class MdcLogFeatureDecorationConsolidator implements IMdcLogFeatureDecora
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public MdcLogFeatureDecorationConsolidator() {
+    public LogFeatureDecorationConsolidator() {
     }
 
     /**
@@ -87,7 +87,7 @@ public class MdcLogFeatureDecorationConsolidator implements IMdcLogFeatureDecora
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.log.IMdcLogFeatureDecorationConsolidator#decorator(java.lang.String,
+     * @see open.commons.spring.web.log.ILogFeatureDecorationConsolidator#decorator(java.lang.String,
      *      java.lang.String)
      */
     @Override
@@ -95,7 +95,7 @@ public class MdcLogFeatureDecorationConsolidator implements IMdcLogFeatureDecora
     @Nonnull
     public Function<String, String> decorator(@NotBlank @Nonnull String feature, String marker) {
         Function<String, String> f = decorators.get(DECORATOR_KEY.apply(feature, marker));
-        return f != null ? f : IMdcLogFeatureDecorationConsolidator::decorate;
+        return f != null ? f : ILogFeatureDecorationConsolidator::decorate;
     }
 
     @PostConstruct
@@ -120,7 +120,7 @@ public class MdcLogFeatureDecorationConsolidator implements IMdcLogFeatureDecora
         this.resolved = true;
     }
 
-    public void setMdcPropertyLogDecoratorConfigurations(Collection<IMdcLogFeatureDecorator> decoratorConfigurations) {
+    public void setMdcPropertyLogDecoratorConfigurations(Collection<ILogFeatureDecorator> decoratorConfigurations) {
         this.decoratorConfigurations = decoratorConfigurations;
         this.resolved = false;
     }
