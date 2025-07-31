@@ -32,8 +32,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import javax.validation.constraints.Pattern;
-
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -56,9 +54,13 @@ public @interface LogFeature {
     public static final String PROP_FEATURE = "feature";
     /** 'marker' 속성 이름 */
     public static final String PROP_MARKER = "marker";
-    
+    /** 'thread' 속성 이름 */
+    public static final String PROP_THREAD = "thread";
+
     /** 'feature' 속성 기본 값 */
     public static final String VALUE_FEATURE_NULL = "";
+    /** 'thread' 속성 기본 값 */
+    public static final String VALUE_THREAD_NULL = "";
     /** 'feature' 정보 정규식 */
     public static final String FEATURE_REG_EX = "^[a-zA-Z0-9-_]+$";
 
@@ -126,6 +128,24 @@ public @interface LogFeature {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     Target target() default Target.ALL;
+
+    /**
+     * 이 어노테이션이 적용되어 실행되는 {@link Thread}의 이름을 제공. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 31.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    String thread() default VALUE_THREAD_NULL;
 
     @AliasFor("feature")
     String value() default VALUE_FEATURE_NULL;

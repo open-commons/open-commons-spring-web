@@ -31,13 +31,14 @@ import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.ThreadContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import open.commons.core.lang.IThreadLocalContext;
+import open.commons.core.lang.ThreadLocalContextService;
 import open.commons.core.utils.ThreadUtils;
 
 /**
@@ -62,10 +63,14 @@ import open.commons.core.utils.ThreadUtils;
 public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
 
     public static final String BEAN_QUALIFIER = "open.commons.spring.web.handler.DefaultGlobalInterceptor";
+    public static final String THREAD_NAME_DEFAULT = "open.commons.spring.web.handler.DefaultGlobalInterceptor#THREAD_NAME_DEFAULT";
+    public static final String THREAD_NAME_INTERCEPTED_URL = "open.commons.spring.web.handler.DefaultGlobalInterceptor#THREAD_NAME_INTERCEPTED_URL";
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     /** proxy 서버를 이용하여 제공되는 서비스인 경우 HTTP 요청 정보를 forwardig 하기 위한 헤더 */
     private HttpRequestProxyHeader proxyHeader;
+
+    private final IThreadLocalContext threadLocalContext = ThreadLocalContextService.context(DefaultGlobalInterceptor.class);
 
     /**
      * <br>
@@ -95,14 +100,14 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
-        String otn = ThreadContext.get(BEAN_QUALIFIER);
+        String otn = (String) this.threadLocalContext.get(THREAD_NAME_DEFAULT);
 
         if (otn != null) {
             String reqInfo = Thread.currentThread().getName();
             logger.trace("[Restore thread-name] {} -> {}", reqInfo, otn);
 
             ThreadUtils.setThreadName(otn);
-            ThreadContext.clearAll();
+            this.threadLocalContext.clear();
         }
 
         // 추후 상위 메소드의 구현이 변경됨에 따른 영향을 최소화하기 위해서 가장 마지막에 위치시킴.
@@ -127,10 +132,11 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
                 .append(ProxyHeaderUtil.getClientRealPort(request, this.proxyHeader)) //
                 .toString();
 
-        String threadName = ThreadContext.get(BEAN_QUALIFIER);
+        String threadName = (String) this.threadLocalContext.get(THREAD_NAME_DEFAULT);
         if (threadName == null) {
             threadName = ThreadUtils.setThreadName(reqUri);
-            ThreadContext.put(BEAN_QUALIFIER, threadName);
+            this.threadLocalContext.set(THREAD_NAME_DEFAULT, threadName);
+            this.threadLocalContext.set(THREAD_NAME_INTERCEPTED_URL, reqUri);
 
             logger.trace("[Change thread-name] {} -> {}.", threadName, reqUri);
         }

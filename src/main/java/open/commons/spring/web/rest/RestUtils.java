@@ -994,7 +994,7 @@ public class RestUtils {
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
     public static final HttpHeaders headers(MultiValueMap<String, String> headers, String... headerEntries) {
-        AssertUtils2.assertNotNulls(IllegalArgumentException.class, (Object[]) headerEntries);
+        AssertUtils2.notNulls(IllegalArgumentException.class, (Object[]) headerEntries);
 
         if (headerEntries == null) {
             return new HttpHeaders(headers);

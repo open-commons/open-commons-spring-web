@@ -1,3 +1,15 @@
+[2025/07/31]
+- 비동기 상황에서의 MDC(Mapped Diagnostic Context) 전파
+  + New
+    + open.commons.spring.web.async.AsyncConfig
+    + open.commons.spring.web.async.MdcTaskDecorator
+    + open.commons.spring.web.concurrent.DelegatingExecutorService
+  + Modify
+    + open.commons.spring.web.aspect.LogFeatureAspect
+      + handleExternalRequest(ProceedingJoinPoint): @Controller, @RestController 지원
+      + handleInternalTrigger(ProceedingJoinPoint): @Scheduled 어노테이선 지원
+
+
 [2025/07/30]
 - New
   + open.commons.spring.web.handler: HandlerInterceptor에서 처리할 URL 패턴 기능 추가

@@ -52,6 +52,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import open.commons.core.utils.StringUtils;
+import open.commons.spring.web.async.MdcTaskDecorator;
 import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
 import open.commons.spring.web.resources.RestTemplateRequestFactoryResource;
 import open.commons.spring.web.resources.ThreadPoolTaskExecutorConfig;
@@ -67,11 +69,24 @@ import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
 @Configuration
 public class ResourceConfiguration {
 
+    /**
+     * 기본 {@link RestTemplate}<br>
+     * <li>공인 인증서만 허용
+     */
     public static final String BEAN_QUALIFIER_RESTTEMPLATE = "open.commons.spring.web.config.ResourceConfiguration#RESTTEMPLATE";
+    /**
+     * 기본 {@link RestTemplate}<br>
+     * <li>'공인 + 비공인' 인증서 허용
+     */
     public static final String BEAN_QUALIFIER_RESTTEMPLATE_ALLOW_PRIVATE_CA = "open.commons.spring.web.config.ResourceConfiguration#RESTTEMPLATE_ALLOW_PRIVATE_CA";
-    public static final String BEAN_QUALIFIER_RESTTEMPLATE_REQUEST_SOURCE = "open.commons.spring.web.config.ResourceConfiguration#BEAN_QUALIFIER_RESTTEMPLATE_REQUEST_SOURCE";
+    /** 기본 {@link RestTemplate} 설정 */
+    public static final String CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE";
+
+    /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} */
     public static final String BEAN_QUALIFIER_THREAD_POOL = "open.commons.spring.web.config.ResourceConfiguration#THREADPOOL_TASK_EXECUTOR";
-    public static final String BEAN_QUALIFIER_THREAD_POOL_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#BEAN_QUALIFIER_THREAD_POOL_CONFIG";
+    /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} 설정 */
+    public static final String CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG";
+
     /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 설정 */
     private static final String PROPERTIES_EXCETPION_HTTPSTATUS_BINDER_PROPERTIS = "open-commons.spring.web.exception-httpstatus-binder.properties";
     /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 제공 서비스 */
@@ -83,11 +98,11 @@ public class ResourceConfiguration {
     private ApplicationContext context;
 
     @Autowired
-    @Qualifier(BEAN_QUALIFIER_RESTTEMPLATE_REQUEST_SOURCE)
+    @Qualifier(CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE)
     private RestTemplateRequestFactoryResource reqFactoryResource;
 
     // @Autowired
-    // @Qualifier(BEAN_QUALIFIER_THREAD_POOL_CONFIG)
+    // @Qualifier(CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG)
     // private ThreadPoolTaskExecutorConfig taskExecConfig;
 
     /**
@@ -131,7 +146,7 @@ public class ResourceConfiguration {
      * @version
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
-    @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_REQUEST_SOURCE)
+    @Bean(name = CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE)
     @Primary
     @ConfigurationProperties("open-commons.spring.web.resttemplate.requestfactory")
     RestTemplateRequestFactoryResource configureRestTemplateRequestFactoryResource() {
@@ -154,7 +169,7 @@ public class ResourceConfiguration {
      * @version 0.3.0
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
-    @Bean(name = BEAN_QUALIFIER_THREAD_POOL_CONFIG)
+    @Bean(name = CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG)
     @Primary
     @ConfigurationProperties("open-commons.spring.async.thread-pool-task-executor")
     ThreadPoolTaskExecutorConfig configureThreadPoolTaskExecutorConfig() {
@@ -205,7 +220,7 @@ public class ResourceConfiguration {
     @Bean(name = BEAN_QUALIFIER_THREAD_POOL, destroyMethod = "destroy")
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Primary
-    ThreadPoolTaskExecutor createBeanThreadPoolTaskExecutor(@Qualifier(BEAN_QUALIFIER_THREAD_POOL_CONFIG) ThreadPoolTaskExecutorConfig taskExecConfig) {
+    ThreadPoolTaskExecutor createBeanThreadPoolTaskExecutor(@Qualifier(CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig taskExecConfig) {
         return createThreadPoolTaskExecutor(taskExecConfig, "async-method");
     }
 
@@ -260,6 +275,8 @@ public class ResourceConfiguration {
     public static ThreadPoolTaskExecutor createThreadPoolTaskExecutor(ThreadPoolTaskExecutorConfig config, String defaultThreadName) {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
+        executor.setTaskDecorator(new MdcTaskDecorator());
+
         executor.setCorePoolSize(config.getCorePoolSize());
         executor.setMaxPoolSize(config.getMaxPoolSize());
         executor.setQueueCapacity(config.getQueueCapacity());
@@ -269,9 +286,9 @@ public class ResourceConfiguration {
         executor.setWaitForTasksToCompleteOnShutdown(config.isWaitForTasksToCompleteOnShutdown());
         executor.setDaemon(config.isDaemon());
         String threadPrefix = config.getThreadNamePrefix();
-        executor.setThreadNamePrefix(threadPrefix == null ? defaultThreadName : threadPrefix);
+        executor.setThreadNamePrefix(StringUtils.isNullOrEmptyString(threadPrefix) ? defaultThreadName : threadPrefix);
         String threadGroupName = config.getThreadGroupName();
-        executor.setThreadGroupName(threadGroupName == null ? "execuor" : threadGroupName);
+        executor.setThreadGroupName(StringUtils.isNullOrEmptyString(threadGroupName) ? "execuor" : threadGroupName);
         executor.setThreadPriority(config.getThreadPriority());
 
         return executor;

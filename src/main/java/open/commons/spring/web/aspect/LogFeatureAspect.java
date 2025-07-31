@@ -29,6 +29,7 @@ package open.commons.spring.web.aspect;
 import java.lang.reflect.Method;
 
 import javax.annotation.Nonnull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -40,11 +41,17 @@ import org.slf4j.MDC;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.HandlerInterceptor;
 
+import open.commons.core.lang.IThreadLocalContext;
+import open.commons.core.lang.ThreadLocalContextService;
 import open.commons.core.utils.ExceptionUtils;
+import open.commons.core.utils.StringUtils;
+import open.commons.spring.web.handler.DefaultGlobalInterceptor;
 import open.commons.spring.web.log.ILogFeatureDecorationConsolidator;
 import open.commons.spring.web.log.InvalidLogFeatureException;
 import open.commons.spring.web.log.LogFeature;
@@ -59,7 +66,14 @@ import open.commons.spring.web.log.LogFeature.Target;
 @Aspect
 @Order(AbstractAuthorizedResourceAspect.ORDER_REQUEST + 1)
 public class LogFeatureAspect extends AbstractAspectPointcuts {
-
+    /** {@link MDC}에 공유하고자 하는 Thread 이름을 위한 속성 */
+    public static final String FORWARDED_THREAD_NAME = "open.commons.spring.web.aspect.LogFeatureAspect#FORWARDED_THREAD_NAME";
+    /**
+     * {@link HandlerInterceptor}와 {@link ThreadLocal} 정보를 공유하는 객체 <br>
+     * {@link HandlerInterceptor} -> {@link LogFeatureAspect} 까지 동일한 {@link Thread} 로 연결되고 있음.
+     */
+    private static final IThreadLocalContext INTERCEPTOR_CONTEXT = ThreadLocalContextService.context(DefaultGlobalInterceptor.class);
+    /** {@link LogFeature#marker()} 값을 'pretty'하게 출력하는 정보 */
     private final ILogFeatureDecorationConsolidator logDecorator;
 
     /**
@@ -85,7 +99,7 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
     }
 
     /**
-     * {@link LogFeature}이 설정된 메소드. <br>
+     * {@link LogFeature} 어노테이션이 설정된 메소드. <br>
      * 
      * <pre>
      * [개정이력]
@@ -100,12 +114,32 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Pointcut("@annotation(open.commons.spring.web.log.LogFeature)")
-    public final void annotationServiceMetadata() {
+    public final void annotationLogFeature() {
     }
 
     /**
-     * {@link RestController}, {@link Controller}, {@link Service} 어노테이션이 선언된 클래스 중에 {@link LogFeature} 어노테이션이 클래스에
-     * 선언되었거나 메소드에 선언된 경우 <br>
+     * {@link Scheduled} 어노테이션이 설정된 메소드. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 31.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Pointcut("@annotation(org.springframework.scheduling.annotation.Scheduled)")
+    public final void annotationScheduled() {
+
+    }
+
+    /**
+     * {@link RestController}, {@link Controller} 어노테이션이 선언된 클래스 중에 {@link LogFeature} 어노테이션이 클래스에 선언되었거나 메소드에 선언된 경우
+     * <br>
      * 
      * <pre>
      * [개정이력]
@@ -123,13 +157,12 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      * 
      * @see #withinAllControllerStereotypeComponent()
-     * @see #withinServiceStereotypeComponent()
-     * @see #annotationServiceMetadata()
-     * @see #withinServiceMetadata()
+     * @see #annotationLogFeature()
+     * @see #withinLogFeature()
      */
-    @Around(" ( withinAllControllerStereotypeComponent() || withinServiceStereotypeComponent() ) " //
-            + " && ( annotationServiceMetadata() || withinServiceMetadata() ) ")
-    public Object handleServiceLog(ProceedingJoinPoint pjp) throws Throwable {
+    @Around(" withinAllControllerStereotypeComponent() " //
+            + " && ( annotationLogFeature() || withinLogFeature() ) ")
+    public final Object handleExternalRequest(ProceedingJoinPoint pjp) throws Throwable {
         try {
             Object target = pjp.getTarget();
             Method invokedMethod = ((MethodSignature) pjp.getSignature()).getMethod();
@@ -141,19 +174,15 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
 
             // 어노테이션이 메소드에 설정이 되어 있거나 클래스에 설정된 경우 대상이 '모두'인 경우
             if (annoMethod != null || annoType.target().equals(Target.ALL)) {
+                // #3. 'feature'
                 String feature = getAttribute(annoMethod, annoType, LogFeature.PROP_FEATURE, f -> f != null && !f.trim().isEmpty());
-                // #3. 'feature' 값 검증
-                if ((feature = feature.trim()).isEmpty()) {
-                    throw ExceptionUtils.newException(InvalidLogFeatureException.class, "클래스 또는 메소드중에 반드시 1개는 'feature'값이 설정되어야 합니다. type=%s, method=%s", annoType, annoMethod);
-                } else if (!feature.matches(LogFeature.FEATURE_REG_EX)) {
-                    throw ExceptionUtils.newException(InvalidLogFeatureException.class, "설정된 'feature' 정보에 허용하지 않은 문자가 포함되어 있습니다. 허용하는 문자열=[a-zA-Z0-9-_], feature=%s", feature);
-                }
-                MDC.put(LogFeature.PROP_FEATURE, feature);
-                // #4. 'marker' 설정
+                // #4. 'marker'
                 String marker = getAttribute(annoMethod, annoType, LogFeature.PROP_MARKER, m -> m != null && !m.trim().isEmpty());
-                if (!(marker = marker.trim()).isEmpty()) {
-                    MDC.put(LogFeature.PROP_MARKER, this.logDecorator.decorator(feature, marker).apply(marker));
-                }
+                // #5. 'thread'
+                // HandlerInterceptor.preHandle(...)에서 설정한 HTTP 요청 URL 기반 Thread 이름을 MDC에 추가.
+                String thread = (String) INTERCEPTOR_CONTEXT.get(DefaultGlobalInterceptor.THREAD_NAME_INTERCEPTED_URL);
+                // 'feature', 'marker' 설정
+                setLogFeature(feature, marker, thread, String.format("클래스 또는 메소드중에 반드시 1개는 'feature'값이 설정되어야 합니다. type=%s, method=%s", annoType, annoMethod));
             }
 
             return pjp.proceed();
@@ -163,7 +192,93 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
     }
 
     /**
-     * {@link LogFeature}이 설정된 클래스. <br>
+     * {@link Component} 어노테이션이 설정된 클래스의 메소드 중에 {@link Scheduled}와 {@link LogFeature}가 모두 선언된 메소드를 처리합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 31.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param pjp
+     * @return
+     * @throws Exception
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see #withinComponentStereotypeComponent()
+     * @see #annotationScheduled()
+     * @see #withinLogFeature()
+     */
+    @Around(" withinComponentStereotypeComponent() " //
+            + " && annotationScheduled() " //
+            + " && annotationLogFeature() ")
+    public final Object handleInternalTrigger(ProceedingJoinPoint pjp) throws Throwable {
+        try {
+            Method invokedMethod = ((MethodSignature) pjp.getSignature()).getMethod();
+            // #1. 메소드에 설정된 정보
+            LogFeature annoMethod = AnnotationUtils.getAnnotation(invokedMethod, LogFeature.class);
+            // 'feature'
+            String feature = annoMethod.feature();
+            // 'marker'
+            String marker = annoMethod.marker();
+            // 'thread'
+            String thread = annoMethod.thread();
+            // 'feature', 'marker' 설정
+            setLogFeature(feature, marker, thread, String.format("'feature'값이 설정되어야 합니다. annotation=%s", annoMethod));
+
+            return pjp.proceed();
+        } finally {
+            MDC.clear();
+        }
+    }
+
+    /**
+     * {@link MDC}에 'feature', 'marker' 값을 저장합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 31.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param feature
+     * @param marker
+     * @param thread
+     * @param featureNotBlankAsserMsg
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private void setLogFeature(@NotBlank @Nonnull String feature, @NotNull @Nonnull String marker, String thread, String featureNotBlankAsserMsg) {
+
+        // 'feature' 설정
+        if (LogFeature.VALUE_THREAD_NULL.equals(feature) || (feature = feature.trim()).isEmpty()) {
+            throw ExceptionUtils.newException(InvalidLogFeatureException.class, featureNotBlankAsserMsg);
+        } else if (!feature.matches(LogFeature.FEATURE_REG_EX)) {
+            throw ExceptionUtils.newException(InvalidLogFeatureException.class, "설정된 'feature' 정보에 허용하지 않은 문자가 포함되어 있습니다. 허용하는 정규식=%s, feature=%s", LogFeature.FEATURE_REG_EX,
+                    feature);
+        }
+        MDC.put(LogFeature.PROP_FEATURE, feature);
+
+        // 'marker' 설정
+        if (!(LogFeature.VALUE_FEATURE_NULL.equals(marker) || (marker = marker.trim()).isEmpty())) {
+            MDC.put(LogFeature.PROP_MARKER, this.logDecorator.decorator(feature, marker).apply(marker));
+        }
+
+        // 'thread' 설정
+        if (!(LogFeature.VALUE_THREAD_NULL.equals(thread) || StringUtils.isNullOrEmptyString(thread))) {
+            MDC.put(FORWARDED_THREAD_NAME, thread.trim());
+        }
+
+    }
+
+    /**
+     * {@link LogFeature} 어노테이션이 설정된 클래스. <br>
      * 
      * <pre>
      * [개정이력]
@@ -178,6 +293,6 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Pointcut("@within(open.commons.spring.web.log.LogFeature)")
-    public final void withinServiceMetadata() {
+    public final void withinLogFeature() {
     }
 }

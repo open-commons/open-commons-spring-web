@@ -1,0 +1,366 @@
+/*
+ * Copyright 2025 Park Jun-Hong_(parkjunhong77@gmail.com)
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ *
+ * This file is generated under this project, "open-commons-spring-web".
+ *
+ * Date  : 2025. 7. 31. 오후 5:32:17
+ *
+ * Author: parkjunhong77@gmail.com
+ * 
+ */
+
+package open.commons.spring.web.concurrent;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.AbstractExecutorService;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.RunnableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
+/**
+ * 
+ * @since 2025. 7. 31.
+ * @version 0.8.0
+ * @author parkjunhong77@gmail.com
+ */
+public final class DelegatingExecutorService extends AbstractExecutorService {
+
+    private final Logger logger = LoggerFactory.getLogger(DelegatingExecutorService.class);
+
+    /** 외부 {@link Thread}의 {@link MDC} 정보를 복사한 정보 */
+    private final Map<String, String> mdcContext;
+    /** 실제 {@link ExecutorService} 기능을 제공하는 객체 */
+    private final ExecutorService delegate;
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 31.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param delegate
+     * @param mdcContext
+     *            TODO
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     */
+    private DelegatingExecutorService(@Nonnull ExecutorService delegate, Map<String, String> mdcContext) {
+        this.delegate = delegate;
+        this.mdcContext = mdcContext;
+    }
+
+    /**
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.util.concurrent.ExecutorService#awaitTermination(long, java.util.concurrent.TimeUnit)
+     */
+    @Override
+    public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
+        return this.delegate.awaitTermination(timeout, unit);
+    }
+
+    /**
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.util.concurrent.Executor#execute(java.lang.Runnable)
+     */
+    @Override
+    public void execute(Runnable command) {
+        if (command instanceof MdcWrapped //
+                || command instanceof RunnableFuture) {
+            logger.trace("Skipping wrap for already-wrapped or FutureTask: {}", command.getClass());
+            this.delegate.execute(command);
+        } else {
+            this.delegate.execute(wrap(command));
+        }
+    }
+
+    /**
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.util.concurrent.AbstractExecutorService#invokeAny(java.util.Collection)
+     */
+    @Override
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
+        return super.invokeAny(wrap(tasks));
+    }
+
+    /**
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.util.concurrent.AbstractExecutorService#invokeAny(java.util.Collection, long,
+     *      java.util.concurrent.TimeUnit)
+     */
+    @Override
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+        return super.invokeAny(wrap(tasks), timeout, unit);
+    }
+
+    /**
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.util.concurrent.ExecutorService#isShutdown()
+     */
+    @Override
+    public boolean isShutdown() {
+        return this.delegate.isShutdown();
+    }
+
+    /**
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.util.concurrent.ExecutorService#isTerminated()
+     */
+    @Override
+    public boolean isTerminated() {
+        return this.delegate.isTerminated();
+    }
+
+    /**
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.util.concurrent.AbstractExecutorService#newTaskFor(java.util.concurrent.Callable)
+     */
+    @Override
+    protected <T> RunnableFuture<T> newTaskFor(Callable<T> callable) {
+        return new FutureTask<>(wrap(callable));
+    }
+
+    /**
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.util.concurrent.AbstractExecutorService#newTaskFor(java.lang.Runnable, java.lang.Object)
+     */
+    @Override
+    protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
+        return new FutureTask<>(wrap(runnable), value);
+    }
+
+    /**
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.util.concurrent.ExecutorService#shutdown()
+     */
+    @Override
+    public void shutdown() {
+        this.delegate.shutdown();
+    }
+
+    /**
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.util.concurrent.ExecutorService#shutdownNow()
+     */
+    @Override
+    public List<Runnable> shutdownNow() {
+        return this.delegate.shutdownNow();
+    }
+
+    /**
+     * 전달받은 {@link Callable} 객체가 {@link MDC} 정보를 사용할 수 있도록 감싼 {@link Callable} 객체를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 31.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param <T>
+     * @param callable
+     * @return
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private <T> Callable<T> wrap(Callable<T> callable) {
+        return new MdcWrappedCallable<T>(new HashMap<>(this.mdcContext)) {
+            @Override
+            public T call() throws Exception {
+                Map<String, String> previous = MDC.getCopyOfContextMap();
+                try {
+                    MDC.setContextMap(mdc);
+                    return callable.call();
+                } finally {
+                    if (previous != null) {
+                        MDC.setContextMap(previous);
+                    } else {
+                        MDC.clear();
+                    }
+                    mdc.clear();
+                }
+            }
+        };
+    }
+
+    /**
+     * 전달받은 {@link Callable} 객체가 {@link MDC} 정보를 사용할 수 있도록 감싼 {@link Callable} 객체를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 31.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param <T>
+     * @param tasks
+     * @return
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private <T> Collection<? extends Callable<T>> wrap(Collection<? extends Callable<T>> tasks) {
+        return tasks.stream().map(this::wrap).collect(Collectors.toList());
+    }
+
+    /**
+     * 전달받은 {@link Runnable} 객체가 {@link MDC} 정보를 사용할 수 있도록 감싼 {@link Runnable} 객체를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 31.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param runnable
+     * @return
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private Runnable wrap(Runnable runnable) {
+        return new MdcWrappedRunnable(new HashMap<>(this.mdcContext)) {
+            @Override
+            public void run() {
+                Map<String, String> previous = MDC.getCopyOfContextMap();
+                try {
+                    MDC.setContextMap(mdc);
+                    runnable.run();
+                } finally {
+                    if (previous != null) {
+                        MDC.setContextMap(previous);
+                    } else {
+                        MDC.clear();
+                    }
+                    mdc.clear();
+                }
+            }
+        };
+    }
+
+    /**
+     * 호출한 {@link Thread}의 {@link MDC} 정보를 복제함으로써 작업을 실행할 때 {@link MDC} 정보를 유지하는 {@link ExecutorService}를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 31.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param delegate
+     *            실제 {@link ExecutorService} 객체
+     * @return
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static ExecutorService decorate(@Nonnull ExecutorService delegate) {
+        Map<String, String> context = Optional.ofNullable(MDC.getCopyOfContextMap()).orElse(Collections.emptyMap());
+        return new DelegatingExecutorService(delegate, context);
+    }
+
+    private static abstract class MdcWrapped {
+        /** 전달받은 {@link MDC} 객체 */
+        protected final Map<String, String> mdc;
+
+        protected MdcWrapped(Map<String, String> mdc) {
+            this.mdc = mdc;
+        }
+    }
+
+    private static abstract class MdcWrappedCallable<T> extends MdcWrapped implements Callable<T> {
+        MdcWrappedCallable(Map<String, String> mdc) {
+            super(mdc);
+        }
+    }
+
+    private static abstract class MdcWrappedRunnable extends MdcWrapped implements Runnable {
+        MdcWrappedRunnable(Map<String, String> mdc) {
+            super(mdc);
+        }
+    }
+}
