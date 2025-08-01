@@ -81,7 +81,7 @@ public class AsyncConfig implements AsyncConfigurer {
     @Override
     public Executor getAsyncExecutor() {
         // (C)ontext (S)haring (T)hread
-        ThreadPoolTaskExecutor executor = ResourceConfiguration.createThreadPoolTaskExecutor(this.config, "cst-async-");
+        ThreadPoolTaskExecutor executor = ResourceConfiguration.createThreadPoolTaskExecutor(this.config, "@async");
         executor.initialize();
         return executor;
     }

@@ -4,6 +4,7 @@
     + open.commons.spring.web.async.AsyncConfig
     + open.commons.spring.web.async.MdcTaskDecorator
     + open.commons.spring.web.concurrent.DelegatingExecutorService
+    + open.commons.spring.web.concurrent.MdcWrappedJob&lt;V&gt;
   + Modify
     + open.commons.spring.web.aspect.LogFeatureAspect
       + handleExternalRequest(ProceedingJoinPoint): @Controller, @RestController 지원

@@ -33,9 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.core.task.TaskDecorator;
 
-import open.commons.core.utils.FunctionUtils;
-import open.commons.core.utils.ThreadUtils;
-import open.commons.spring.web.aspect.LogFeatureAspect;
+import open.commons.spring.web.concurrent.MdcWrappedJob;
 import open.commons.spring.web.log.LogFeature;
 
 /**
@@ -47,8 +45,20 @@ import open.commons.spring.web.log.LogFeature;
  */
 public class MdcTaskDecorator implements TaskDecorator {
 
+    private static final String DEFAULT_SYMBOL = "@async";
+
+    private final String threadNameSymbol;
+
     @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(MdcTaskDecorator.class);
+
+    public MdcTaskDecorator() {
+        this(DEFAULT_SYMBOL);
+    }
+
+    public MdcTaskDecorator(String symbol) {
+        this.threadNameSymbol = symbol;
+    }
 
     /**
      *
@@ -60,34 +70,10 @@ public class MdcTaskDecorator implements TaskDecorator {
      */
     @Override
     public Runnable decorate(Runnable runnable) {
-        final Map<String, String> contextMap = MDC.getCopyOfContextMap();
-        return () -> {
-            Map<String, String> previous = MDC.getCopyOfContextMap();
-            if (contextMap != null) {
-                MDC.setContextMap(contextMap);
-            }
-
-            String currentThreadName = null;
-            // 'LogFeatureAspect'에서 전달한 쓰레드 이름 확인
-            String intcptThreadName = MDC.get(LogFeatureAspect.FORWARDED_THREAD_NAME);
-            if (intcptThreadName != null) {
-                currentThreadName = ThreadUtils.setThreadName(intcptThreadName + "@async");
-            }
-
-            try {
-                runnable.run();
-            } finally {
-                if (previous != null) {
-                    MDC.setContextMap(previous);
-                } else {
-                    MDC.clear();
-                }
-                if (currentThreadName != null) {
-                    ThreadUtils.setThreadName(currentThreadName);
-                }
-                FunctionUtils.runIf(contextMap, () -> contextMap.clear());
-            }
-        };
+        Map<String, String> context = MDC.getCopyOfContextMap();
+        if( context != null) {
+            context.put(MdcWrappedJob.MDC_PROPERTY_THREAD_SYMBOL, threadNameSymbol);
+        }
+        return MdcWrappedJob.wrap(context, runnable);
     }
-
 }

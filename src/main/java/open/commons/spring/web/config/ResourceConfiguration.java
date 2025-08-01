@@ -52,7 +52,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.async.MdcTaskDecorator;
 import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
 import open.commons.spring.web.resources.RestTemplateRequestFactoryResource;
@@ -221,7 +220,7 @@ public class ResourceConfiguration {
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Primary
     ThreadPoolTaskExecutor createBeanThreadPoolTaskExecutor(@Qualifier(CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig taskExecConfig) {
-        return createThreadPoolTaskExecutor(taskExecConfig, "async-method");
+        return createThreadPoolTaskExecutor(taskExecConfig, "@builtin");
     }
 
     @Bean(ExceptionHttpStatusBinder.BEAN_QUALIFIER)
@@ -265,17 +264,17 @@ public class ResourceConfiguration {
      * </pre>
      *
      * @param config
-     * @param defaultThreadName
+     * @param threadNameSymbol
      * @return
      *
      * @since 2021. 8. 19.
      * @version 0.3.0
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
-    public static ThreadPoolTaskExecutor createThreadPoolTaskExecutor(ThreadPoolTaskExecutorConfig config, String defaultThreadName) {
+    public static ThreadPoolTaskExecutor createThreadPoolTaskExecutor(ThreadPoolTaskExecutorConfig config, String threadNameSymbol) {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
-        executor.setTaskDecorator(new MdcTaskDecorator());
+        executor.setTaskDecorator(new MdcTaskDecorator(threadNameSymbol));
 
         executor.setCorePoolSize(config.getCorePoolSize());
         executor.setMaxPoolSize(config.getMaxPoolSize());
@@ -285,10 +284,8 @@ public class ResourceConfiguration {
         executor.setAwaitTerminationSeconds(config.getAwaitTerminationSeconds());
         executor.setWaitForTasksToCompleteOnShutdown(config.isWaitForTasksToCompleteOnShutdown());
         executor.setDaemon(config.isDaemon());
-        String threadPrefix = config.getThreadNamePrefix();
-        executor.setThreadNamePrefix(StringUtils.isNullOrEmptyString(threadPrefix) ? defaultThreadName : threadPrefix);
-        String threadGroupName = config.getThreadGroupName();
-        executor.setThreadGroupName(StringUtils.isNullOrEmptyString(threadGroupName) ? "execuor" : threadGroupName);
+        executor.setThreadNamePrefix(config.getThreadNamePrefix());
+        executor.setThreadGroupName(config.getThreadGroupName());
         executor.setThreadPriority(config.getThreadPriority());
 
         return executor;

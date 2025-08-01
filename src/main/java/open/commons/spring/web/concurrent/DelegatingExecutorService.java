@@ -27,11 +27,8 @@
 package open.commons.spring.web.concurrent;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -40,9 +37,9 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,10 +55,11 @@ public final class DelegatingExecutorService extends AbstractExecutorService {
 
     private final Logger logger = LoggerFactory.getLogger(DelegatingExecutorService.class);
 
-    /** 외부 {@link Thread}의 {@link MDC} 정보를 복사한 정보 */
-    private final Map<String, String> mdcContext;
     /** 실제 {@link ExecutorService} 기능을 제공하는 객체 */
     private final ExecutorService delegate;
+    /** 외부 {@link Thread}의 {@link MDC} 정보를 복사한 정보 */
+    @Nullable
+    private final Map<String, String> mdcContext;
 
     /**
      * <br>
@@ -74,16 +72,20 @@ public final class DelegatingExecutorService extends AbstractExecutorService {
      * </pre>
      *
      * @param delegate
+     *            {@link ExecutorService} 기능을 제공하는 객체
      * @param mdcContext
-     *            TODO
+     *            현재 {@link Thread}의 MDC(Mapped Diagnostic Context) 정보
      *
      * @since 2025. 7. 31.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    private DelegatingExecutorService(@Nonnull ExecutorService delegate, Map<String, String> mdcContext) {
+    private DelegatingExecutorService(@Nonnull ExecutorService delegate, @Nullable Map<String, String> mdcContext) {
         this.delegate = delegate;
         this.mdcContext = mdcContext;
+        if (this.mdcContext != null) {
+            this.mdcContext.put(MdcWrappedJob.MDC_PROPERTY_THREAD_SYMBOL, "@executor");
+        }
     }
 
     /**
@@ -109,7 +111,7 @@ public final class DelegatingExecutorService extends AbstractExecutorService {
      */
     @Override
     public void execute(Runnable command) {
-        if (command instanceof MdcWrapped //
+        if (command instanceof MdcWrappedJob //
                 || command instanceof RunnableFuture) {
             logger.trace("Skipping wrap for already-wrapped or FutureTask: {}", command.getClass());
             this.delegate.execute(command);
@@ -242,23 +244,7 @@ public final class DelegatingExecutorService extends AbstractExecutorService {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     private <T> Callable<T> wrap(Callable<T> callable) {
-        return new MdcWrappedCallable<T>(new HashMap<>(this.mdcContext)) {
-            @Override
-            public T call() throws Exception {
-                Map<String, String> previous = MDC.getCopyOfContextMap();
-                try {
-                    MDC.setContextMap(mdc);
-                    return callable.call();
-                } finally {
-                    if (previous != null) {
-                        MDC.setContextMap(previous);
-                    } else {
-                        MDC.clear();
-                    }
-                    mdc.clear();
-                }
-            }
-        };
+        return MdcWrappedJob.wrap(this.mdcContext, callable);
     }
 
     /**
@@ -280,7 +266,7 @@ public final class DelegatingExecutorService extends AbstractExecutorService {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     private <T> Collection<? extends Callable<T>> wrap(Collection<? extends Callable<T>> tasks) {
-        return tasks.stream().map(this::wrap).collect(Collectors.toList());
+        return MdcWrappedJob.wrap(this.mdcContext, tasks);
     }
 
     /**
@@ -301,23 +287,7 @@ public final class DelegatingExecutorService extends AbstractExecutorService {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     private Runnable wrap(Runnable runnable) {
-        return new MdcWrappedRunnable(new HashMap<>(this.mdcContext)) {
-            @Override
-            public void run() {
-                Map<String, String> previous = MDC.getCopyOfContextMap();
-                try {
-                    MDC.setContextMap(mdc);
-                    runnable.run();
-                } finally {
-                    if (previous != null) {
-                        MDC.setContextMap(previous);
-                    } else {
-                        MDC.clear();
-                    }
-                    mdc.clear();
-                }
-            }
-        };
+        return MdcWrappedJob.wrap(this.mdcContext, runnable);
     }
 
     /**
@@ -339,28 +309,6 @@ public final class DelegatingExecutorService extends AbstractExecutorService {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public static ExecutorService decorate(@Nonnull ExecutorService delegate) {
-        Map<String, String> context = Optional.ofNullable(MDC.getCopyOfContextMap()).orElse(Collections.emptyMap());
-        return new DelegatingExecutorService(delegate, context);
-    }
-
-    private static abstract class MdcWrapped {
-        /** 전달받은 {@link MDC} 객체 */
-        protected final Map<String, String> mdc;
-
-        protected MdcWrapped(Map<String, String> mdc) {
-            this.mdc = mdc;
-        }
-    }
-
-    private static abstract class MdcWrappedCallable<T> extends MdcWrapped implements Callable<T> {
-        MdcWrappedCallable(Map<String, String> mdc) {
-            super(mdc);
-        }
-    }
-
-    private static abstract class MdcWrappedRunnable extends MdcWrapped implements Runnable {
-        MdcWrappedRunnable(Map<String, String> mdc) {
-            super(mdc);
-        }
+        return new DelegatingExecutorService(delegate, MDC.getCopyOfContextMap());
     }
 }
