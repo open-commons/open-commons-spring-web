@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Park Jun-Hong_(parkjunhong77@gmail.com)
+ * Copyright 2025 Park Jun-Hong_(parkjunhong77@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,34 +18,28 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2019. 7. 17. 오후 4:50:36
+ * Date  : 2025. 8. 3. 오후 4:00:28
  *
- * Author: Park_Jun_Hong_(parkjunhong77@gmail.com)
+ * Author: parkjunhong77@gmail.com
  * 
  */
 
 package open.commons.spring.web.resources;
 
-import javax.validation.constraints.Min;
-
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-
 /**
- * {@link ThreadPoolTaskExecutor} 설정 정보 클래스.
  * 
- * @since 2019. 7. 17.
- * @version
- * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+ * @since 2025. 8. 3.
+ * @version 0.8.0
+ * @author parkjunhong77@gmail.com
  */
-public class ThreadPoolTaskExecutorConfig {
 
-    // --- org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor --- //
-    private int corePoolSize = 1;
-    private int keepAliveSeconds = 60;
-    private int maxPoolSize = Integer.MAX_VALUE;
-    private int queueCapacity = Integer.MAX_VALUE;
-    private boolean allowCoreThreadTimeOut = false;
-    private boolean prestartAllCoreThreads = false;
+public class ThreadPoolTaskSchedulerConfig {
+
+    // -- org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler --//
+    private volatile int poolSize = 1;
+    private volatile boolean removeOnCancelPolicy;
+    private volatile boolean continueExistingPeriodicTasksAfterShutdownPolicy;
+    private volatile boolean executeExistingDelayedTasksAfterShutdownPolicy = true;
     // --------------------------------------------- //
 
     // --- org.springframework.scheduling.concurrent.ExecutorConfigurationSupport --- //
@@ -68,13 +62,15 @@ public class ThreadPoolTaskExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      *
-     * @since 2019. 7. 17.
-     * @version
+     *
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
      */
-    public ThreadPoolTaskExecutorConfig() {
+    public ThreadPoolTaskSchedulerConfig() {
     }
 
     /**
@@ -101,219 +97,162 @@ public class ThreadPoolTaskExecutorConfig {
     }
 
     /**
-     *
      * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      * 
      * @return the beanName
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #beanName
      */
+
     public String getBeanName() {
         return beanName;
     }
 
     /**
-     * Return the ThreadPoolExecutor's core pool size. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
-     * </pre>
-     * 
-     * @return the corePoolSize
-     *
-     * @since 2019. 7. 17.
-     * @version
-     * 
-     * @see #corePoolSize
-     */
-    public int getCorePoolSize() {
-        return corePoolSize;
-    }
-
-    /**
-     * Return the ThreadPoolExecutor's keep-alive seconds. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
-     * </pre>
-     * 
-     * @return the keepAliveSeconds
-     *
-     * @since 2019. 7. 17.
-     * @version
-     * 
-     * @see #keepAliveSeconds
-     */
-    public int getKeepAliveSeconds() {
-        return keepAliveSeconds;
-    }
-
-    /**
-     * Return the ThreadPoolExecutor's maximum pool size. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
-     * </pre>
-     * 
-     * @return the maxPoolSize
-     *
-     * @since 2019. 7. 17.
-     * @version
-     * 
-     * @see #maxPoolSize
-     * @see java.util.concurrent.ThreadPoolExecutor#getPoolSize()
-     */
-    public int getMaxPoolSize() {
-        return maxPoolSize;
-    }
-
-    /**
-     *
      * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      * 
-     * @return the queueCapacity
+     * @return the poolSize
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
-     * @see #queueCapacity
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #poolSize
      */
-    public int getQueueCapacity() {
-        return queueCapacity;
+
+    public int getPoolSize() {
+        return poolSize;
     }
 
     /**
-     *
      * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      * 
      * @return the threadGroupName
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #threadGroupName
      */
+
     public String getThreadGroupName() {
         return threadGroupName;
     }
 
     /**
-     *
      * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      * 
      * @return the threadNamePrefix
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #threadNamePrefix
      */
+
     public String getThreadNamePrefix() {
         return threadNamePrefix;
     }
 
     /**
-     *
      * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      * 
      * @return the threadPriority
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #threadPriority
      */
+
     public int getThreadPriority() {
         return threadPriority;
     }
 
     /**
-     *
      * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      * 
-     * @return the allowCoreThreadTimeOut
+     * @return the continueExistingPeriodicTasksAfterShutdownPolicy
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
-     * @see #allowCoreThreadTimeOut
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #continueExistingPeriodicTasksAfterShutdownPolicy
      */
-    public boolean isAllowCoreThreadTimeOut() {
-        return allowCoreThreadTimeOut;
+
+    public boolean isContinueExistingPeriodicTasksAfterShutdownPolicy() {
+        return continueExistingPeriodicTasksAfterShutdownPolicy;
     }
 
     /**
-     *
      * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      * 
      * @return the daemon
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #daemon
      */
+
     public boolean isDaemon() {
         return daemon;
     }
@@ -328,61 +267,63 @@ public class ThreadPoolTaskExecutorConfig {
      * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      * 
-     * @return the prestartAllCoreThreads
+     * @return the executeExistingDelayedTasksAfterShutdownPolicy
      *
      * @since 2025. 8. 3.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see #prestartAllCoreThreads
+     * @see #executeExistingDelayedTasksAfterShutdownPolicy
      */
 
-    public boolean isPrestartAllCoreThreads() {
-        return prestartAllCoreThreads;
+    public boolean isExecuteExistingDelayedTasksAfterShutdownPolicy() {
+        return executeExistingDelayedTasksAfterShutdownPolicy;
     }
 
     /**
-     *
      * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
+     * </pre>
+     * 
+     * @return the removeOnCancelPolicy
+     *
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #removeOnCancelPolicy
+     */
+
+    public boolean isRemoveOnCancelPolicy() {
+        return removeOnCancelPolicy;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      * 
      * @return the waitForTasksToCompleteOnShutdown
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #waitForTasksToCompleteOnShutdown
      */
+
     public boolean isWaitForTasksToCompleteOnShutdown() {
         return waitForTasksToCompleteOnShutdown;
-    }
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param allowCoreThreadTimeOut
-     *            the allowCoreThreadTimeOut to set
-     *
-     * @since 2019. 7. 17.
-     * @version
-     * 
-     * @see #allowCoreThreadTimeOut
-     */
-    public void setAllowCoreThreadTimeOut(boolean allowCoreThreadTimeOut) {
-        this.allowCoreThreadTimeOut = allowCoreThreadTimeOut;
     }
 
     /**
@@ -415,18 +356,19 @@ public class ThreadPoolTaskExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      *
      * @param awaitTerminationSeconds
      *            the awaitTerminationSeconds to set
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #awaitTerminationSeconds
      */
-    public void setAwaitTerminationSeconds(@Min(0) int awaitTerminationSeconds) {
+    public void setAwaitTerminationSeconds(int awaitTerminationSeconds) {
         this.awaitTerminationMillis = awaitTerminationSeconds * 1000L;
     }
 
@@ -437,15 +379,16 @@ public class ThreadPoolTaskExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      *
      * @param beanName
      *            the beanName to set
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #beanName
      */
     public void setBeanName(String beanName) {
@@ -459,19 +402,20 @@ public class ThreadPoolTaskExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      *
-     * @param corePoolSize
-     *            the corePoolSize to set
+     * @param continueExistingPeriodicTasksAfterShutdownPolicy
+     *            the continueExistingPeriodicTasksAfterShutdownPolicy to set
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
-     * @see #corePoolSize
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #continueExistingPeriodicTasksAfterShutdownPolicy
      */
-    public void setCorePoolSize(@Min(1) int corePoolSize) {
-        this.corePoolSize = corePoolSize;
+    public void setContinueExistingPeriodicTasksAfterShutdownPolicy(boolean continueExistingPeriodicTasksAfterShutdownPolicy) {
+        this.continueExistingPeriodicTasksAfterShutdownPolicy = continueExistingPeriodicTasksAfterShutdownPolicy;
     }
 
     /**
@@ -481,15 +425,16 @@ public class ThreadPoolTaskExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      *
      * @param daemon
      *            the daemon to set
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #daemon
      */
     public void setDaemon(boolean daemon) {
@@ -503,41 +448,20 @@ public class ThreadPoolTaskExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      *
-     * @param keepAliveSeconds
-     *            the keepAliveSeconds to set
+     * @param executeExistingDelayedTasksAfterShutdownPolicy
+     *            the executeExistingDelayedTasksAfterShutdownPolicy to set
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
-     * @see #keepAliveSeconds
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #executeExistingDelayedTasksAfterShutdownPolicy
      */
-    public void setKeepAliveSeconds(@Min(1) int keepAliveSeconds) {
-        this.keepAliveSeconds = keepAliveSeconds;
-    }
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param maxPoolSize
-     *            the maxPoolSize to set
-     *
-     * @since 2019. 7. 17.
-     * @version
-     * 
-     * @see #maxPoolSize
-     */
-    public void setMaxPoolSize(@Min(1) int maxPoolSize) {
-        this.maxPoolSize = maxPoolSize;
+    public void setExecuteExistingDelayedTasksAfterShutdownPolicy(boolean executeExistingDelayedTasksAfterShutdownPolicy) {
+        this.executeExistingDelayedTasksAfterShutdownPolicy = executeExistingDelayedTasksAfterShutdownPolicy;
     }
 
     /**
@@ -550,17 +474,17 @@ public class ThreadPoolTaskExecutorConfig {
      * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      *
-     * @param prestartAllCoreThreads
-     *            the prestartAllCoreThreads to set
+     * @param poolSize
+     *            the poolSize to set
      *
      * @since 2025. 8. 3.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see #prestartAllCoreThreads
+     * @see #poolSize
      */
-    public void setPrestartAllCoreThreads(boolean prestartAllCoreThreads) {
-        this.prestartAllCoreThreads = prestartAllCoreThreads;
+    public void setPoolSize(int poolSize) {
+        this.poolSize = poolSize;
     }
 
     /**
@@ -570,19 +494,20 @@ public class ThreadPoolTaskExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      *
-     * @param queueCapacity
-     *            the queueCapacity to set
+     * @param removeOnCancelPolicy
+     *            the removeOnCancelPolicy to set
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
-     * @see #queueCapacity
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #removeOnCancelPolicy
      */
-    public void setQueueCapacity(@Min(1) int queueCapacity) {
-        this.queueCapacity = queueCapacity;
+    public void setRemoveOnCancelPolicy(boolean removeOnCancelPolicy) {
+        this.removeOnCancelPolicy = removeOnCancelPolicy;
     }
 
     /**
@@ -592,15 +517,16 @@ public class ThreadPoolTaskExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      *
      * @param threadGroupName
      *            the threadGroupName to set
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #threadGroupName
      */
     public void setThreadGroupName(String threadGroupName) {
@@ -614,15 +540,16 @@ public class ThreadPoolTaskExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      *
      * @param threadNamePrefix
      *            the threadNamePrefix to set
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #threadNamePrefix
      */
     public void setThreadNamePrefix(String threadNamePrefix) {
@@ -636,15 +563,16 @@ public class ThreadPoolTaskExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      *
      * @param threadPriority
      *            the threadPriority to set
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #threadPriority
      */
     public void setThreadPriority(int threadPriority) {
@@ -658,15 +586,16 @@ public class ThreadPoolTaskExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 7. 17.		박준홍			최초 작성
+     * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      *
      * @param waitForTasksToCompleteOnShutdown
      *            the waitForTasksToCompleteOnShutdown to set
      *
-     * @since 2019. 7. 17.
-     * @version
-     * 
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
      * @see #waitForTasksToCompleteOnShutdown
      */
     public void setWaitForTasksToCompleteOnShutdown(boolean waitForTasksToCompleteOnShutdown) {
@@ -684,18 +613,14 @@ public class ThreadPoolTaskExecutorConfig {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("ThreadPoolTaskExecutorConfig [corePoolSize=");
-        builder.append(corePoolSize);
-        builder.append(", keepAliveSeconds=");
-        builder.append(keepAliveSeconds);
-        builder.append(", maxPoolSize=");
-        builder.append(maxPoolSize);
-        builder.append(", queueCapacity=");
-        builder.append(queueCapacity);
-        builder.append(", allowCoreThreadTimeOut=");
-        builder.append(allowCoreThreadTimeOut);
-        builder.append(", prestartAllCoreThreads=");
-        builder.append(prestartAllCoreThreads);
+        builder.append("ThreadPoolTaskSchedulerConfig [poolSize=");
+        builder.append(poolSize);
+        builder.append(", removeOnCancelPolicy=");
+        builder.append(removeOnCancelPolicy);
+        builder.append(", continueExistingPeriodicTasksAfterShutdownPolicy=");
+        builder.append(continueExistingPeriodicTasksAfterShutdownPolicy);
+        builder.append(", executeExistingDelayedTasksAfterShutdownPolicy=");
+        builder.append(executeExistingDelayedTasksAfterShutdownPolicy);
         builder.append(", awaitTerminationMillis=");
         builder.append(awaitTerminationMillis);
         builder.append(", beanName=");

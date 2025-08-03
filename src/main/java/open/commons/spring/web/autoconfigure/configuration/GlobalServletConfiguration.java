@@ -47,6 +47,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import open.commons.spring.web.config.ResourceConfiguration;
 import open.commons.spring.web.handler.DefaultGlobalInterceptor;
 import open.commons.spring.web.handler.HttpRequestProxyHeader;
 import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
@@ -63,7 +64,7 @@ public class GlobalServletConfiguration {
     public static final String BEAN_QUALIFIER_INTERCEPTOR_IGNORE_URL_PATTERNS = "open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration#INTERCEPTOR_IGNORE_URL_PATTERNS";
 
     /** Proxy 서버를 통해서 전달되는 실제 클라이언트의 Http 요청 정보 @ */
-    private static final String PROPERTIES_HTTP_REQUEST_PROXY_HEADER = "open-commons.proxy-header";
+    private static final String PROPERTIES_HTTP_REQUEST_PROXY_HEADER = ResourceConfiguration.PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".proxy-header";
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalServletConfiguration.class);
 

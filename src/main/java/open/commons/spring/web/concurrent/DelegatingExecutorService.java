@@ -45,21 +45,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
+import open.commons.core.utils.StringUtils;
+import open.commons.spring.web.mdc.MdcWrappedJob;
+
 /**
  * 
  * @since 2025. 7. 31.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public final class DelegatingExecutorService extends AbstractExecutorService {
+public class DelegatingExecutorService<S extends ExecutorService> extends AbstractExecutorService {
 
-    private final Logger logger = LoggerFactory.getLogger(DelegatingExecutorService.class);
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /** 실제 {@link ExecutorService} 기능을 제공하는 객체 */
-    private final ExecutorService delegate;
-    /** 외부 {@link Thread}의 {@link MDC} 정보를 복사한 정보 */
-    @Nullable
-    private final Map<String, String> mdcContext;
+    protected final S delegate;
+    /** {@link Thread} 이름 뒤에 붙여서 식별정보로 활용 */
+    protected final String symbol;
 
     /**
      * <br>
@@ -73,19 +75,15 @@ public final class DelegatingExecutorService extends AbstractExecutorService {
      *
      * @param delegate
      *            {@link ExecutorService} 기능을 제공하는 객체
-     * @param mdcContext
-     *            현재 {@link Thread}의 MDC(Mapped Diagnostic Context) 정보
-     *
+     * @param symbol
+     *            {@link Thread} 이름 뒤에 붙여서 식별정보로 활용
      * @since 2025. 7. 31.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    private DelegatingExecutorService(@Nonnull ExecutorService delegate, @Nullable Map<String, String> mdcContext) {
+    public DelegatingExecutorService(@Nonnull S delegate, @Nullable String symbol) {
         this.delegate = delegate;
-        this.mdcContext = mdcContext;
-        if (this.mdcContext != null) {
-            this.mdcContext.put(MdcWrappedJob.MDC_PROPERTY_THREAD_SYMBOL, "@executor");
-        }
+        this.symbol = symbol;
     }
 
     /**
@@ -118,6 +116,32 @@ public final class DelegatingExecutorService extends AbstractExecutorService {
         } else {
             this.delegate.execute(wrap(command));
         }
+    }
+
+    /**
+     * 현재 시점의 MDC 정보를 복제해서 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 2.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param symbol
+     * @return
+     *
+     * @since 2025. 8. 2.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected final Map<String, String> getCopyOfContextMap(String symbol) {
+        Map<String, String> copiedMDC = MDC.getCopyOfContextMap();
+        if (copiedMDC != null && !StringUtils.isNullOrEmptyString(symbol)) {
+            copiedMDC.put(MdcWrappedJob.MDC_PROPERTY_THREAD_SYMBOL, symbol);
+        }
+
+        return copiedMDC;
     }
 
     /**
@@ -243,8 +267,8 @@ public final class DelegatingExecutorService extends AbstractExecutorService {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private <T> Callable<T> wrap(Callable<T> callable) {
-        return MdcWrappedJob.wrap(this.mdcContext, callable);
+    protected <T> Callable<T> wrap(Callable<T> callable) {
+        return MdcWrappedJob.wrap(getCopyOfContextMap(this.symbol), callable);
     }
 
     /**
@@ -265,8 +289,8 @@ public final class DelegatingExecutorService extends AbstractExecutorService {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private <T> Collection<? extends Callable<T>> wrap(Collection<? extends Callable<T>> tasks) {
-        return MdcWrappedJob.wrap(this.mdcContext, tasks);
+    protected <T> Collection<? extends Callable<T>> wrap(Collection<? extends Callable<T>> tasks) {
+        return MdcWrappedJob.wrap(getCopyOfContextMap(this.symbol), tasks);
     }
 
     /**
@@ -286,29 +310,8 @@ public final class DelegatingExecutorService extends AbstractExecutorService {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private Runnable wrap(Runnable runnable) {
-        return MdcWrappedJob.wrap(this.mdcContext, runnable);
+    protected Runnable wrap(Runnable runnable) {
+        return MdcWrappedJob.wrap(getCopyOfContextMap(this.symbol), runnable, false);
     }
 
-    /**
-     * 호출한 {@link Thread}의 {@link MDC} 정보를 복제함으로써 작업을 실행할 때 {@link MDC} 정보를 유지하는 {@link ExecutorService}를 제공합니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 7. 31.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param delegate
-     *            실제 {@link ExecutorService} 객체
-     * @return
-     *
-     * @since 2025. 7. 31.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    public static ExecutorService decorate(@Nonnull ExecutorService delegate) {
-        return new DelegatingExecutorService(delegate, MDC.getCopyOfContextMap());
-    }
 }

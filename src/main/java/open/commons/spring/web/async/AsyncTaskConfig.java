@@ -28,13 +28,14 @@ package open.commons.spring.web.async;
 
 import java.util.concurrent.Executor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import open.commons.spring.web.config.AsyncConfiguration;
 import open.commons.spring.web.config.ResourceConfiguration;
 import open.commons.spring.web.resources.ThreadPoolTaskExecutorConfig;
 
@@ -46,7 +47,9 @@ import open.commons.spring.web.resources.ThreadPoolTaskExecutorConfig;
  * @author parkjunhong77@gmail.com
  */
 @Configuration
-public class AsyncConfig implements AsyncConfigurer {
+public class AsyncTaskConfig implements AsyncConfigurer {
+
+    private final Logger logger = LoggerFactory.getLogger(AsyncTaskConfig.class);
 
     private final ThreadPoolTaskExecutorConfig config;
 
@@ -66,7 +69,7 @@ public class AsyncConfig implements AsyncConfigurer {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AsyncConfig(@Qualifier(AsyncConfiguration.CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig config) {
+    public AsyncTaskConfig(@Qualifier(ResourceConfiguration.CONFIGURATION_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig config) {
         this.config = config;
     }
 
@@ -83,6 +86,9 @@ public class AsyncConfig implements AsyncConfigurer {
         // (C)ontext (S)haring (T)hread
         ThreadPoolTaskExecutor executor = ResourceConfiguration.createThreadPoolTaskExecutor(this.config, "@async");
         executor.initialize();
+
+        logger.info("[async-exeuctor-service] Registered! -> {}", executor);
+
         return executor;
     }
 }

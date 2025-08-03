@@ -66,6 +66,7 @@ import open.commons.spring.web.log.LogFeature.Target;
 @Aspect
 @Order(AbstractAuthorizedResourceAspect.ORDER_REQUEST + 1)
 public class LogFeatureAspect extends AbstractAspectPointcuts {
+
     /** {@link MDC}에 공유하고자 하는 Thread 이름을 위한 속성 */
     public static final String FORWARDED_THREAD_NAME = "open.commons.spring.web.aspect.LogFeatureAspect#FORWARDED_THREAD_NAME";
     /**
@@ -180,8 +181,14 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
                 String marker = getAttribute(annoMethod, annoType, LogFeature.PROP_MARKER, m -> m != null && !m.trim().isEmpty());
                 // #5. 'thread'
                 // HandlerInterceptor.preHandle(...)에서 설정한 HTTP 요청 URL 기반 Thread 이름을 MDC에 추가.
-                String thread = (String) INTERCEPTOR_CONTEXT.get(DefaultGlobalInterceptor.THREAD_NAME_INTERCEPTED_URL);
+                String intcptorThreadName = (String) INTERCEPTOR_CONTEXT.get(DefaultGlobalInterceptor.THREAD_NAME_INTERCEPTED_URL);
+                String annoThread = getAttribute(annoMethod, annoType, LogFeature.PROP_THREAD, m -> m != null && !m.trim().isEmpty());
+                String thread = StringUtils.isNullOrEmptyString(intcptorThreadName) //
+                        ? annoThread.trim() //
+                        : intcptorThreadName.trim();
                 // 'feature', 'marker' 설정
+                logger.trace("[log-aspected] feature={}, marker={}, thread={}", feature, marker, thread);
+
                 setLogFeature(feature, marker, thread, String.format("클래스 또는 메소드중에 반드시 1개는 'feature'값이 설정되어야 합니다. type=%s, method=%s", annoType, annoMethod));
             }
 
@@ -228,6 +235,8 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
             // 'thread'
             String thread = annoMethod.thread();
             // 'feature', 'marker' 설정
+            logger.trace("[log-aspected] feature={}, marker={}, thread={}", feature, marker, thread);
+
             setLogFeature(feature, marker, thread, String.format("'feature'값이 설정되어야 합니다. annotation=%s", annoMethod));
 
             return pjp.proceed();
@@ -274,7 +283,6 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
         if (!(LogFeature.VALUE_THREAD_NULL.equals(thread) || StringUtils.isNullOrEmptyString(thread))) {
             MDC.put(FORWARDED_THREAD_NAME, thread.trim());
         }
-
     }
 
     /**

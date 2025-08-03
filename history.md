@@ -1,3 +1,11 @@
+[2025/08/03]
+- @Scheduled 어노테이션 설정 메소드 및 수동 Executor/ExecutorService 지원
+  + New
+    + open.commons.spring.web.concurrent 패키지
+    + open.commons.spring.web.resources
+     + open.commons.spring.web.resources.ScheduledThreadPoolExecutorConfig
+     + open.commons.spring.web.resources.ThreadPoolTaskSchedulerConfig
+
 [2025/07/31]
 - 비동기 상황에서의 MDC(Mapped Diagnostic Context) 전파
   + New

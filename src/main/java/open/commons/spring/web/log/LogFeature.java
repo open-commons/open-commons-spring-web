@@ -34,9 +34,9 @@ import java.lang.annotation.Target;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.Controller;
 
 /**
  * {@link RestController}/{@link Controller}, {@link Service}, {@link Component}에서 제공하는 기능을 구분하여 별도의 로그파일 저장하기 위한 정보를

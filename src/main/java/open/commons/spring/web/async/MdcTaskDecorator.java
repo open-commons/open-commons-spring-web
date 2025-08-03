@@ -33,8 +33,8 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.core.task.TaskDecorator;
 
-import open.commons.spring.web.concurrent.MdcWrappedJob;
 import open.commons.spring.web.log.LogFeature;
+import open.commons.spring.web.mdc.MdcWrappedJob;
 
 /**
  * {@link LogFeature}에 따라 로그파일을 분기되는 작업에 {@link MDC}를 전달하는 클래스.
@@ -74,6 +74,6 @@ public class MdcTaskDecorator implements TaskDecorator {
         if( context != null) {
             context.put(MdcWrappedJob.MDC_PROPERTY_THREAD_SYMBOL, threadNameSymbol);
         }
-        return MdcWrappedJob.wrap(context, runnable);
+        return MdcWrappedJob.wrap(context, runnable, false);
     }
 }

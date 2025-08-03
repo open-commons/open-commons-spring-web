@@ -33,29 +33,42 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
+import javax.annotation.Nonnull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.apache.http.client.HttpClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.bind.Bindable;
+import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import open.commons.spring.web.async.MdcTaskDecorator;
 import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
 import open.commons.spring.web.resources.RestTemplateRequestFactoryResource;
+import open.commons.spring.web.resources.ScheduledThreadPoolExecutorConfig;
 import open.commons.spring.web.resources.ThreadPoolTaskExecutorConfig;
+import open.commons.spring.web.resources.ThreadPoolTaskSchedulerConfig;
 import open.commons.spring.web.rest.RestUtils;
 import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
 
@@ -67,6 +80,8 @@ import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
  */
 @Configuration
 public class ResourceConfiguration {
+
+    public static final String PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH = "open-commons.spring.web";
 
     /**
      * 기본 {@link RestTemplate}<br>
@@ -80,29 +95,51 @@ public class ResourceConfiguration {
     public static final String BEAN_QUALIFIER_RESTTEMPLATE_ALLOW_PRIVATE_CA = "open.commons.spring.web.config.ResourceConfiguration#RESTTEMPLATE_ALLOW_PRIVATE_CA";
     /** 기본 {@link RestTemplate} 설정 */
     public static final String CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE";
+    /** 기본 {@link RestTemplate} 설정 경로 */
+    private static final String PROPERTIES_RESTTEMPLATE_REQUEST_SOURCE = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".resttemplate.requestfactory";
 
     /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} */
-    public static final String BEAN_QUALIFIER_THREAD_POOL = "open.commons.spring.web.config.ResourceConfiguration#THREADPOOL_TASK_EXECUTOR";
+    public static final String BEAN_QUALIFIER_BUILTIN_THREAD_POOL_TASK_EXECUTOR = "open.commons.spring.web.config.ResourceConfiguration#DEFAULT_THREADPOOL_TASK_EXECUTOR";
     /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} 설정 */
-    public static final String CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG";
+    public static final String CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG";
+    /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} 설정 경로 */
+    private static final String PROPERTIES_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".concurrent.thread-pool-task-executor";
+    /**
+     * {@link ThreadPoolTaskExecutor} 설정 경로<br>
+     * 
+     * @deprecated 경로가 변경됨. {@link #PROPERTIES_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG}를 사용할 것.
+     */
+    private static final String PROPERTIES_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".async.thread-pool-task-executor";
+
+    /** 기본적으로 제공되는 {@link ThreadPoolTaskScheduler} */
+    public static final String BEAN_QUALIFIER_BUILTIN_THREAD_POOL_TASK_SCHEDULER = "open.commons.spring.web.config.ResourceConfiguration#DEFAULT_THREAD_POOL_TASK_SCHEDULER";
+    /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} 설정 */
+    public static final String CONFIGURATION_BUILTIN_THREAD_POOL_TASK_SCHEDULER_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_BUILTIN_THREAD_POOL_TASK_SCHEDULER_CONFIG";
+    /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} 설정 경로 */
+    private static final String PROPERTIES_BUILTIN_THREAD_POOL_TASK_SCHEDULER_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".concurrent.thread-pool-task-scheduler";
+
+    /** 기본적으로 제공되는 {@link ScheduledThreadPoolExecutor} */
+    public static final String BEAN_QUALIFIER_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR = "open.commons.spring.web.config.ResourceConfiguration#DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR";
+    /** 기본적으로 제공되는 {@link ScheduledThreadPoolExecutor} */
+    public static final String CONFIGURATION_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG";
+    /** 기본적으로 제공되는 {@link ScheduledThreadPoolExecutor} */
+    private static final String PROPERTIES_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH
+            + ".concurrent.scheduled-thread-pool-executor";
 
     /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 설정 */
     private static final String PROPERTIES_EXCETPION_HTTPSTATUS_BINDER_PROPERTIS = "open-commons.spring.web.exception-httpstatus-binder.properties";
     /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 제공 서비스 */
-    private static final String CONFIGURATION_EXCETPION_HTTPSTATUS_PROPERTIES = "open.commons.spring.web.config.ResourceConfiguration#EXCETPION_HTTPSTATUS_PROPERTIES";
+    public static final String CONFIGURATION_EXCETPION_HTTPSTATUS_PROPERTIES = "open.commons.spring.web.config.ResourceConfiguration#EXCETPION_HTTPSTATUS_PROPERTIES";
     /** {@link HandlerInterceptor}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 URL 패턴 설정 경로 */
-    private static final String PROPERTIES_INTERCEPTOR_IGNORE_URL_PATTERN = "open-commons.spring.interceptor-ignore-url-patterns";
+    private static final String PROPERTIES_INTERCEPTOR_IGNORE_URL_PATTERN = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".interceptor-ignore-url-patterns";
+
+    /** {@link Async} 어노테이션이 적용된 메소드가 실행될 때 기본값으로 사용되는 {@link Executor} 설정값 */
+    public static final String CONFIGURATION_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG";
 
     @SuppressWarnings("unused")
     private ApplicationContext context;
 
-    @Autowired
-    @Qualifier(CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE)
-    private RestTemplateRequestFactoryResource reqFactoryResource;
-
-    // @Autowired
-    // @Qualifier(CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG)
-    // private ThreadPoolTaskExecutorConfig taskExecConfig;
+    private final Environment environment;
 
     /**
      * <br>
@@ -115,18 +152,246 @@ public class ResourceConfiguration {
      * </pre>
      * 
      * @param context
+     * @param env
+     *            TODO
      *
      * @since 2019. 6. 27.
      * @version
      */
-    public ResourceConfiguration(ApplicationContext context) {
+    public ResourceConfiguration(ApplicationContext context, Environment environment) {
         this.context = context;
+        this.environment = environment;
+    }
+
+    /**
+     * 주어진 경로에 해당하는 정보를 객체에 적용합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 1.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param prefix
+     *            데이터 경로
+     * @param target
+     *            객체
+     *
+     * @since 2025. 8. 1.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private void bind(@NotBlank @Nonnull String prefix, @NotNull @Nonnull ThreadPoolTaskExecutorConfig target) {
+        Binder binder = Binder.get(this.environment);
+        binder.bind(prefix, Bindable.ofInstance(target));
+    }
+
+    /**
+     * {@link ScheduledThreadPoolExecutor}를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 1.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param config
+     * @return
+     *
+     * @since 2025. 8. 1.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = BEAN_QUALIFIER_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR)
+    @Primary
+    ScheduledThreadPoolExecutor builtinScheduledThreadPoolExecutor(
+            @Qualifier(CONFIGURATION_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG) ScheduledThreadPoolExecutorConfig config) {
+        return createScheduledThreadPoolExecutor(config);
+    }
+
+    /**
+     * {@link ScheduledThreadPoolExecutor} 설정정보를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 1.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 8. 1.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = CONFIGURATION_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG)
+    @ConfigurationProperties(PROPERTIES_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG)
+    @Primary
+    ScheduledThreadPoolExecutorConfig builtinScheduledThreadPoolExecutorConfig() {
+        return new ScheduledThreadPoolExecutorConfig();
+    }
+
+    /**
+     * {@link ThreadPoolTaskExecutor} 제공한다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2020. 1. 20.		박준홍			최초 작성
+     * 2025. 5. 28.     박준홍         명시적으로 {@link ThreadPoolTaskExecutorConfig} 파라미터로 전달
+     * </pre>
+     * 
+     * @param taskExecConfig
+     *            ThreadPool 실행 설정
+     *
+     * @return
+     *
+     * @since 2020. 1. 20.
+     * @version 0.3.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     */
+    @Bean(name = BEAN_QUALIFIER_BUILTIN_THREAD_POOL_TASK_EXECUTOR, destroyMethod = "destroy")
+    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @Primary
+    ThreadPoolTaskExecutor builtinThreadPoolTaskExecutor(@Qualifier(CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig taskExecConfig) {
+        return createThreadPoolTaskExecutor(taskExecConfig, "@builtin");
+    }
+
+    /**
+     * {@link ThreadPoolTaskExecutor} 설정정보를 제공한다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2019. 6. 27.		박준홍			최초 작성
+     * 2025. 8. 1.      박준홍         설정경로 변경으로 기존 경로를 호환하는 구조로 변경. (추후 하나의 경로로 정리할 예정)
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2019. 6. 27.
+     * @version 0.3.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     */
+    @Bean(name = CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG)
+    @Primary
+    // @ConfigurationProperties(PROPERTIES_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG)
+    ThreadPoolTaskExecutorConfig builtinThreadPoolTaskExecutorConfig() {
+        ThreadPoolTaskExecutorConfig config = new ThreadPoolTaskExecutorConfig();
+
+        if (hasPrefix(PROPERTIES_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG + ".corePoolSize")) {
+            bind(PROPERTIES_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG, config);
+        } else if (hasPrefix(PROPERTIES_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG + ".corePoolSize")) {
+            bind(PROPERTIES_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG, config);
+        }
+
+        return config;
+    }
+
+    /**
+     * {@link ThreadPoolTaskScheduler}를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 3.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param config
+     * @return
+     *
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = BEAN_QUALIFIER_BUILTIN_THREAD_POOL_TASK_SCHEDULER)
+    @Primary
+    ThreadPoolTaskScheduler builtinThreadPoolTaskScheduler(@Qualifier(CONFIGURATION_BUILTIN_THREAD_POOL_TASK_SCHEDULER_CONFIG) ThreadPoolTaskSchedulerConfig config) {
+        return createThreadPoolTaskScheduler(config);
+    }
+
+    /**
+     * {@link ThreadPoolTaskScheduler} 설정 정보를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 3.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = CONFIGURATION_BUILTIN_THREAD_POOL_TASK_SCHEDULER_CONFIG)
+    @Primary
+    @ConfigurationProperties(PROPERTIES_BUILTIN_THREAD_POOL_TASK_SCHEDULER_CONFIG)
+    ThreadPoolTaskSchedulerConfig builtinThreadPoolTaskSchedulerConfig() {
+        return new ThreadPoolTaskSchedulerConfig();
     }
 
     @Bean(CONFIGURATION_EXCETPION_HTTPSTATUS_PROPERTIES)
     @ConfigurationProperties(PROPERTIES_EXCETPION_HTTPSTATUS_BINDER_PROPERTIS)
     Map<String, String> configureExceptionHttpStatusProperties() {
         return new HashMap<>();
+    }
+
+    /**
+     * {@link Async} 어노테이션이 적용된 메소드가 실행될 때 기본값으로 사용되는 {@link Executor} 설정값을 제공합니다. 단,
+     * {@link #CONFIGURATION_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG} 이름을 갖는 {@link Bean} 이 생성되는 경우 실행되지 않습니다.
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 7. 31.     박준홍         최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(CONFIGURATION_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG)
+    @ConditionalOnMissingBean(name = { CONFIGURATION_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG })
+    ThreadPoolTaskExecutorConfig defaultAsyncThreadPoolTaskExecutorConfig() {
+        ThreadPoolTaskExecutorConfig config = new ThreadPoolTaskExecutorConfig();
+        config.setDaemon(true);
+        return config;
+    }
+
+    @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE)
+    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @Primary
+    RestTemplate defaultRestTemplate(@Qualifier(CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
+            throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
+        HttpClient httpClient = RestUtils.createHttpsClient(false);
+        HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
+
+        RestTemplate tpl = new RestTemplate(reqFactory);
+        return tpl;
+    }
+
+    @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_ALLOW_PRIVATE_CA)
+    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    RestTemplate defaultRestTemplateAllowPrivateCA(@Qualifier(CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
+            throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
+        HttpClient httpClient = RestUtils.createHttpsClient(true);
+        HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
+
+        RestTemplate tpl = new RestTemplate(reqFactory);
+        return tpl;
     }
 
     /**
@@ -147,86 +412,37 @@ public class ResourceConfiguration {
      */
     @Bean(name = CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE)
     @Primary
-    @ConfigurationProperties("open-commons.spring.web.resttemplate.requestfactory")
-    RestTemplateRequestFactoryResource configureRestTemplateRequestFactoryResource() {
+    @ConfigurationProperties(PROPERTIES_RESTTEMPLATE_REQUEST_SOURCE)
+    RestTemplateRequestFactoryResource defaultRestTemplateRequestFactoryResource() {
         return new RestTemplateRequestFactoryResource();
-    }
-
-    /**
-     * ThreadPool 설정정보를 제공한다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2019. 6. 27.		박준홍			최초 작성
-     * </pre>
-     *
-     * @return
-     *
-     * @since 2019. 6. 27.
-     * @version 0.3.0
-     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
-     */
-    @Bean(name = CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG)
-    @Primary
-    @ConfigurationProperties("open-commons.spring.async.thread-pool-task-executor")
-    ThreadPoolTaskExecutorConfig configureThreadPoolTaskExecutorConfig() {
-        return new ThreadPoolTaskExecutorConfig();
-    }
-
-    @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE)
-    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    @Primary
-    RestTemplate createBeanRestTemplate() throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
-        HttpClient httpClient = RestUtils.createHttpsClient(false);
-        HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
-
-        RestTemplate tpl = new RestTemplate(reqFactory);
-        return tpl;
-    }
-
-    @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_ALLOW_PRIVATE_CA)
-    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    RestTemplate createBeanRestTemplateAllowPrivateCA() throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
-        HttpClient httpClient = RestUtils.createHttpsClient(true);
-        HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
-
-        RestTemplate tpl = new RestTemplate(reqFactory);
-        return tpl;
-    }
-
-    /**
-     * ThreadPool을 제공한다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2020. 1. 20.		박준홍			최초 작성
-     * 2025. 5. 28.     박준홍         명시적으로 {@link ThreadPoolTaskExecutorConfig} 파라미터로 전달
-     * </pre>
-     * 
-     * @param taskExecConfig
-     *            ThreadPool 실행 설정
-     *
-     * @return
-     *
-     * @since 2020. 1. 20.
-     * @version 0.3.0
-     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
-     */
-    @Bean(name = BEAN_QUALIFIER_THREAD_POOL, destroyMethod = "destroy")
-    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    @Primary
-    ThreadPoolTaskExecutor createBeanThreadPoolTaskExecutor(@Qualifier(CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig taskExecConfig) {
-        return createThreadPoolTaskExecutor(taskExecConfig, "@builtin");
     }
 
     @Bean(ExceptionHttpStatusBinder.BEAN_QUALIFIER)
     @Primary
     ExceptionHttpStatusBinder exceptionHttpStatusBinder(@Qualifier(CONFIGURATION_EXCETPION_HTTPSTATUS_PROPERTIES) Map<String, String> exceptionHttpStatusProperties) {
         return new ExceptionHttpStatusBinder(exceptionHttpStatusProperties);
+    }
+
+    /**
+     * 주어진 값에 해댱하는 정보가 있는지 여부를 제공합니다. <br>
+     * 객체 형태의 경로가 아니라 속성(leaf) 형태의 경로이어야 합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 1.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param prefix
+     * @return
+     *
+     * @since 2025. 8. 1.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private boolean hasPrefix(String prefix) {
+        return environment.getProperty(prefix) != null;
     }
 
     /**
@@ -253,8 +469,39 @@ public class ResourceConfiguration {
     }
 
     /**
+     * 전달받은 설정값이 적용한 {@link ScheduledThreadPoolExecutor} 객체를 제공합니다. <br>
      * 
-     * <br>
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 1.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param config
+     * @return
+     *
+     * @since 2025. 8. 1.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static ScheduledThreadPoolExecutor createScheduledThreadPoolExecutor(ScheduledThreadPoolExecutorConfig config) {
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(config.getCorePoolSize());
+
+        // ThreadPoolExecutor
+        executor.setMaximumPoolSize(config.getMaximumPoolSize());
+        executor.setKeepAliveTime(config.getKeepAliveTime(), config.getTimeUnit());
+        executor.allowCoreThreadTimeOut(config.isAllowCoreThreadTimeOut());
+        // ScheduledThreadPoolExecutor
+        executor.setContinueExistingPeriodicTasksAfterShutdownPolicy(config.isContinueExistingPeriodicTasksAfterShutdown());
+        executor.setExecuteExistingDelayedTasksAfterShutdownPolicy(config.isExecuteExistingDelayedTasksAfterShutdown());
+        executor.setRemoveOnCancelPolicy(config.isRemoveOnCancel());
+
+        return executor;
+    }
+
+    /**
+     * 전달받은 설정값을 적용한 {@link ThreadPoolTaskExecutor} 객체를 제공합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -271,29 +518,79 @@ public class ResourceConfiguration {
      * @version 0.3.0
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
-    public static ThreadPoolTaskExecutor createThreadPoolTaskExecutor(ThreadPoolTaskExecutorConfig config, String threadNameSymbol) {
+    public static ThreadPoolTaskExecutor createThreadPoolTaskExecutor(@Nonnull ThreadPoolTaskExecutorConfig config, String threadNameSymbol) {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
-        executor.setTaskDecorator(new MdcTaskDecorator(threadNameSymbol));
-
+        // --- org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor --- //
         executor.setCorePoolSize(config.getCorePoolSize());
+        executor.setKeepAliveSeconds(config.getKeepAliveSeconds());
         executor.setMaxPoolSize(config.getMaxPoolSize());
         executor.setQueueCapacity(config.getQueueCapacity());
-        executor.setKeepAliveSeconds(config.getKeepAliveSeconds());
         executor.setAllowCoreThreadTimeOut(config.isAllowCoreThreadTimeOut());
-        executor.setAwaitTerminationSeconds(config.getAwaitTerminationSeconds());
+        executor.setPrestartAllCoreThreads(config.isPrestartAllCoreThreads());
+        // Runnable 에 대한 decoration 적용.
+        executor.setTaskDecorator(new MdcTaskDecorator(threadNameSymbol));
+        // -------------------------------------------------- //
+        // --- org.springframework.scheduling.concurrent.ExecutorConfigurationSupport --- //
+        executor.setAwaitTerminationMillis(config.getAwaitTerminationMillis());
         executor.setWaitForTasksToCompleteOnShutdown(config.isWaitForTasksToCompleteOnShutdown());
+        executor.setAwaitTerminationMillis(config.getAwaitTerminationMillis());
+        // -------------------------------------------------- //
+        // --- org.springframework.util.CustomizableThreadCreator --- //
         executor.setDaemon(config.isDaemon());
         executor.setThreadNamePrefix(config.getThreadNamePrefix());
         executor.setThreadGroupName(config.getThreadGroupName());
         executor.setThreadPriority(config.getThreadPriority());
+        // -------------------------------------------------- //
 
         return executor;
     }
 
     /**
+     * 전달받을 설정값을 적용한 {@link ThreadPoolTaskScheduler} 객체를 제공합니다. <br>
      * 
-     * <br>
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 3.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param config
+     * @return
+     *
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static ThreadPoolTaskScheduler createThreadPoolTaskScheduler(@Nonnull ThreadPoolTaskSchedulerConfig config) {
+        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+
+        // -- org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler --//
+        scheduler.setPoolSize(config.getPoolSize());
+        scheduler.setRemoveOnCancelPolicy(config.isRemoveOnCancelPolicy());
+        scheduler.setContinueExistingPeriodicTasksAfterShutdownPolicy(config.isContinueExistingPeriodicTasksAfterShutdownPolicy());
+        scheduler.setExecuteExistingDelayedTasksAfterShutdownPolicy(config.isExecuteExistingDelayedTasksAfterShutdownPolicy());
+        // --------------------------------------------- //
+
+        // --- org.springframework.scheduling.concurrent.ExecutorConfigurationSupport --- //
+        scheduler.setAwaitTerminationMillis(config.getAwaitTerminationMillis());
+        scheduler.setWaitForTasksToCompleteOnShutdown(config.isWaitForTasksToCompleteOnShutdown());
+        scheduler.setAwaitTerminationMillis(config.getAwaitTerminationMillis());
+        // ---------------------------------------------------------- //
+
+        // --- org.springframework.util.CustomizableThreadCreator --- //
+        scheduler.setDaemon(config.isDaemon());
+        scheduler.setThreadGroupName(config.getThreadGroupName());
+        scheduler.setThreadNamePrefix(config.getThreadNamePrefix());
+        scheduler.setThreadPriority(config.getThreadPriority());
+        // -------------------------------------------------- //
+
+        return scheduler;
+    }
+
+    /**
+     * 전달받은 설정이 적용된 {@link HttpComponentsClientHttpRequestFactory} 객체를 제공합니다. <br>
      * 
      * <pre>
      * [개정이력]

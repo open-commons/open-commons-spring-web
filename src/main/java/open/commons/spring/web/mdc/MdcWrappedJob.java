@@ -24,13 +24,14 @@
  * 
  */
 
-package open.commons.spring.web.concurrent;
+package open.commons.spring.web.mdc;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -39,10 +40,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.scheduling.TaskScheduler;
 
 import open.commons.core.function.ExceptionableSupplier;
 import open.commons.core.utils.FunctionUtils;
+import open.commons.core.utils.StringUtils;
 import open.commons.core.utils.ThreadUtils;
 import open.commons.spring.web.aspect.LogFeatureAspect;
 
@@ -53,10 +58,14 @@ import open.commons.spring.web.aspect.LogFeatureAspect;
  * @author parkjunhong77@gmail.com
  */
 public abstract class MdcWrappedJob<V> {
+
     /** {@link Thread} 이름 뒤에 붙여서 사용될 {@link MDC}내의 속성이름. */
     public static final String MDC_PROPERTY_THREAD_SYMBOL = String.join("::", "symbol", UUID.randomUUID().toString());
     /** {@link #MDC_PROPERTY_THREAD_SYMBOL} 기본값 */
     private static final String SYMBOL = "@mdc-wrapped";
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     /** {@link #MDC_PROPERTY_THREAD_SYMBOL} 값 */
     private String forwardedThreadSymbol;
 
@@ -67,6 +76,12 @@ public abstract class MdcWrappedJob<V> {
     private Map<String, String> runtimeMDC;
     /** 동작하는 시점 {@link Thread} 이름 */
     private String runtimeThreadName;
+
+    /**
+     * {@link TaskScheduler} 또는 {@link ScheduledExecutorService} 에 의해서 실행되는지 여부<br>
+     * {@link Runnable}를 반복적으로 생성하지 않기 때문에, 전달받은 {@link MDC} 복제 데이터를 유지해야 함.
+     */
+    private boolean byScheduler;
 
     /**
      * 
@@ -81,20 +96,24 @@ public abstract class MdcWrappedJob<V> {
      *
      * @param mdc
      *            작업이 수행될 때 공유할 {@link MDC} 정보
+     * @param byScheduler
+     *            TODO
      *
      * @since 2025. 8. 1.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    protected MdcWrappedJob(@Nullable Map<String, String> mdc) {
+    protected MdcWrappedJob(@Nullable Map<String, String> mdc, boolean byScheduler) {
         this.forwardedMDC = mdc;
         if (this.forwardedMDC != null) {
             FunctionUtils.runIf(this.forwardedMDC.get(MDC_PROPERTY_THREAD_SYMBOL) //
-                    , (Predicate<String>) v -> v != null //
-                    , (Consumer<String>) v -> this.forwardedThreadSymbol = v //
+                    , (Predicate<String>) v -> StringUtils.isNullOrEmptyString(v) //
                     , (Consumer<String>) v -> this.forwardedThreadSymbol = SYMBOL //
+                    , (Consumer<String>) v -> this.forwardedThreadSymbol = v.trim()//
             );
         }
+
+        this.byScheduler = byScheduler;
     }
 
     protected final void afterExecute() {
@@ -106,7 +125,7 @@ public abstract class MdcWrappedJob<V> {
         } else {
             MDC.clear();
         }
-        if (this.forwardedMDC != null) {
+        if (this.forwardedMDC != null && !this.byScheduler) {
             forwardedMDC.clear();
         }
     }
@@ -140,14 +159,43 @@ public abstract class MdcWrappedJob<V> {
         this.runtimeMDC = MDC.getCopyOfContextMap();
         // MDC 변경
         if (this.forwardedMDC != null) {
+            logger.trace("[mdc-wrapped-job] updated MDC. -> {}", this.forwardedMDC);
             MDC.setContextMap(this.forwardedMDC);
         }
 
         // 외부에서 전달한 Thread쓰레드 이름 확인
         String intcptThreadName = MDC.get(LogFeatureAspect.FORWARDED_THREAD_NAME);
-        if (intcptThreadName != null) {
+        if (StringUtils.isNullOrEmptyString(intcptThreadName)) {
+            this.runtimeThreadName = ThreadUtils.setThreadName(Thread.currentThread().getName() + this.forwardedThreadSymbol);
+        } else {
             this.runtimeThreadName = ThreadUtils.setThreadName(intcptThreadName + forwardedThreadSymbol);
         }
+    }
+
+    /**
+     * 현재 {@link Thread} {@link MDC} 정보를 복제하고, {@link #MDC_PROPERTY_THREAD_SYMBOL} 값을 추가하여 반환합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 3.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param symbol
+     * @return
+     *
+     * @since 2025. 8. 3.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static final Map<String, String> getCopyOfContextMap(String symbol) {
+        Map<String, String> copiedMDC = MDC.getCopyOfContextMap();
+        if (copiedMDC != null && !StringUtils.isNullOrEmptyString(symbol)) {
+            copiedMDC.put(MdcWrappedJob.MDC_PROPERTY_THREAD_SYMBOL, symbol);
+        }
+
+        return copiedMDC;
     }
 
     /**
@@ -215,15 +263,16 @@ public abstract class MdcWrappedJob<V> {
      *            작업이 수행될 때 공유할 {@link MDC} 정보
      * @param runnable
      *            작업 객체
-     *
+     * @param byScheduler
+     *            {@link TaskScheduler} 또는 {@link ScheduledExecutorService}에 의해서 실행되는지 여부
      * @return
      *
      * @since 2025. 7. 31.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static Runnable wrap(Map<String, String> context, Runnable runnable) {
-        return new MdcWrappedRunnable(context != null ? new HashMap<>(context) : null, runnable);
+    public static Runnable wrap(Map<String, String> context, Runnable runnable, boolean byScheduler) {
+        return new MdcWrappedRunnable(context != null ? new HashMap<>(context) : null, runnable, byScheduler);
     }
 
     private static class MdcWrappedCallable<V> extends MdcWrappedJob<V> implements Callable<V> {
@@ -244,13 +293,12 @@ public abstract class MdcWrappedJob<V> {
          *            작업이 수행될 때 공유할 {@link MDC} 정보
          * @param callable
          *            작업 객체
-         *
          * @since 2025. 8. 1.
          * @version 0.8.0
          * @author parkjunhong77@gmail.com
          */
         MdcWrappedCallable(Map<String, String> mdc, @NotNull @Nonnull Callable<V> callable) {
-            super(mdc);
+            super(mdc, false);
             this.callable = callable;
         }
 
@@ -287,13 +335,14 @@ public abstract class MdcWrappedJob<V> {
          *            작업이 수행될 때 공유할 {@link MDC} 정보
          * @param runnable
          *            작업 객체
-         *
+         * @param byScheduler
+         *            {@link TaskScheduler} 또는 {@link ScheduledExecutorService}에 의해서 실행되는지 여부
          * @since 2025. 8. 1.
          * @version 0.8.0
          * @author parkjunhong77@gmail.com
          */
-        public MdcWrappedRunnable(@Nullable Map<String, String> mdc, @Nonnull Runnable runnable) {
-            super(mdc);
+        public MdcWrappedRunnable(@Nullable Map<String, String> mdc, @Nonnull Runnable runnable, boolean byScheduler) {
+            super(mdc, byScheduler);
             this.runnable = runnable;
         }
 

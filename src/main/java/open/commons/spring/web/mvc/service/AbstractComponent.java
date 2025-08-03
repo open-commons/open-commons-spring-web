@@ -68,7 +68,7 @@ public class AbstractComponent {
 
     /** ThreadPool Executor */
     @Autowired
-    @Qualifier(ResourceConfiguration.BEAN_QUALIFIER_THREAD_POOL)
+    @Qualifier(ResourceConfiguration.BEAN_QUALIFIER_BUILTIN_THREAD_POOL_TASK_EXECUTOR)
     protected ThreadPoolTaskExecutor threadpool;
 
     /** 공통 설정 정보 */
