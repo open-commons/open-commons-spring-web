@@ -154,7 +154,7 @@ public class GlobalServletConfiguration {
     InterceptorIgnoreUrlProperties swaggerInterceptorIgnoreUrlPatterns() {
         InterceptorIgnoreUrlProperties prop = new InterceptorIgnoreUrlProperties();
         prop.setTarget(DefaultGlobalInterceptor.class.getName());
-        prop.setExcludePathPatterns(Stream.of("index.html", "static/**", "api-docs/**", "swagger/**", "swagger-ui/**").collect(Collectors.toSet()));
+        prop.setExcludePathPatterns(Stream.of("/index.html", "/static/**", "/api-docs/**", "/swagger/**", "/swagger-ui/**").collect(Collectors.toSet()));
 
         return prop;
     }
