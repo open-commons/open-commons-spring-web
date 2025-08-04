@@ -26,8 +26,6 @@
 
 package open.commons.spring.web.concurrent;
 
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -65,7 +63,7 @@ public class ScheduledTaskConfig implements SchedulingConfigurer {
      * </pre>
      * 
      * @param config
-     *            {@link ScheduledThreadPoolExecutor} 객체에 사용할 설정 정보
+     *            {@link ThreadPoolTaskScheduler} 객체에 사용할 설정 정보
      *
      * @since 2025. 8. 1.
      * @version 0.8.0

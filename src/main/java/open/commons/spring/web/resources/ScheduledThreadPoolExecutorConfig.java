@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class ScheduledThreadPoolExecutorConfig {
+public class ScheduledThreadPoolExecutorConfig implements Cloneable {
 
     // -- java.util.concurrent.ThreadPoolExecutor -- //
     /**
@@ -114,6 +114,19 @@ public class ScheduledThreadPoolExecutorConfig {
      * @author parkjunhong77@gmail.com
      */
     public ScheduledThreadPoolExecutorConfig() {
+    }
+
+    /**
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.lang.Object#clone()
+     */
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     /**
@@ -514,5 +527,4 @@ public class ScheduledThreadPoolExecutorConfig {
         builder.append("]");
         return builder.toString();
     }
-
 }

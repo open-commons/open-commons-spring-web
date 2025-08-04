@@ -37,7 +37,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * @version
  * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
  */
-public class ThreadPoolTaskExecutorConfig {
+public class ThreadPoolTaskExecutorConfig implements Cloneable {
 
     // --- org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor --- //
     private int corePoolSize = 1;
@@ -75,6 +75,19 @@ public class ThreadPoolTaskExecutorConfig {
      * @version
      */
     public ThreadPoolTaskExecutorConfig() {
+    }
+
+    /**
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.lang.Object#clone()
+     */
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     /**
@@ -713,5 +726,4 @@ public class ThreadPoolTaskExecutorConfig {
         builder.append("]");
         return builder.toString();
     }
-
 }

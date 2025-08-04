@@ -130,15 +130,6 @@ public abstract class MdcWrappedJob<V> {
         }
     }
 
-    protected V execute(ExceptionableSupplier<V> job) throws Exception {
-        try {
-            postExecute();
-            return job.get();
-        } finally {
-            afterExecute();
-        }
-    }
-
     /**
      * 동작하는 시점 {@link Thread}의 {@link MDC} 정보를 백업하고, 외부 {@link MDC} 정보를 현재 {@link MDC} 정보로 설정합니다. <br>
      * 
@@ -154,7 +145,7 @@ public abstract class MdcWrappedJob<V> {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    protected final void postExecute() {
+    protected final void beforeExecute() {
         // 동작하는 시점의 Thread MDC 백업
         this.runtimeMDC = MDC.getCopyOfContextMap();
         // MDC 변경
@@ -169,6 +160,15 @@ public abstract class MdcWrappedJob<V> {
             this.runtimeThreadName = ThreadUtils.setThreadName(Thread.currentThread().getName() + this.forwardedThreadSymbol);
         } else {
             this.runtimeThreadName = ThreadUtils.setThreadName(intcptThreadName + forwardedThreadSymbol);
+        }
+    }
+
+    protected V execute(ExceptionableSupplier<V> job) throws Exception {
+        try {
+            beforeExecute();
+            return job.get();
+        } finally {
+            afterExecute();
         }
     }
 

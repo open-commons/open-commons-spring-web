@@ -29,6 +29,7 @@ package open.commons.spring.web.aspect;
 import java.lang.reflect.Method;
 
 import javax.annotation.Nonnull;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -41,6 +42,7 @@ import org.slf4j.MDC;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.auditing.config.AuditingHandlerBeanDefinitionParser;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -51,6 +53,7 @@ import open.commons.core.lang.IThreadLocalContext;
 import open.commons.core.lang.ThreadLocalContextService;
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.core.utils.StringUtils;
+import open.commons.core.utils.ThreadUtils;
 import open.commons.spring.web.handler.DefaultGlobalInterceptor;
 import open.commons.spring.web.log.ILogFeatureDecorationConsolidator;
 import open.commons.spring.web.log.InvalidLogFeatureException;
@@ -139,8 +142,8 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
     }
 
     /**
-     * {@link RestController}, {@link Controller} 어노테이션이 선언된 클래스 중에 {@link LogFeature} 어노테이션이 클래스에 선언되었거나 메소드에 선언된 경우
-     * <br>
+     * {@link HandlerInterceptor} 이후에 실행되는 {@link RestController}, {@link Controller} 어노테이션이 선언된 클래스 중에
+     * {@link LogFeature} 어노테이션이 클래스에 선언되었거나 메소드에 선언된 경우에 대해서 처리합니다.<br>
      * 
      * <pre>
      * [개정이력]
@@ -163,7 +166,7 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
      */
     @Around(" withinAllControllerStereotypeComponent() " //
             + " && ( annotationLogFeature() || withinLogFeature() ) ")
-    public final Object handleExternalRequest(ProceedingJoinPoint pjp) throws Throwable {
+    public final Object handleAfterHandlerInterceptor(ProceedingJoinPoint pjp) throws Throwable {
         try {
             Object target = pjp.getTarget();
             Method invokedMethod = ((MethodSignature) pjp.getSignature()).getMethod();
@@ -195,6 +198,68 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
             return pjp.proceed();
         } finally {
             MDC.clear();
+        }
+    }
+
+    /**
+     * {@link HandlerInterceptor} 이전에 실행되는 {@link Component} 어노테이션이 선언된 클래스 중에 {@link LogFeature} 어노테이션이 클래스에 선언되었거나
+     * 메소드에 선언된 경우에 대해서 처리합니다.<br>
+     * {@link #handleAfterHandlerInterceptor(ProceedingJoinPoint)}는 {@link HttpServletRequest} 정보를 이용하여 생성된
+     * {@link Thread} 이름을 전파받지만, {@link AuditingHandlerBeanDefinitionParser}는 그렇지 못하기 때문에, {@link LogFeature#thread()}
+     * 값을 이용하여 현재 {@link Thread} 이름을 관리합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param pjp
+     * @return
+     * @throws Throwable
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Around(" withinComponentStereotypeComponent() " //
+            + " && ( annotationLogFeature() || withinLogFeature() ) ")
+    public final Object handleBeforeHandlerInterceptor(ProceedingJoinPoint pjp) throws Throwable {
+        String otn = null;
+        try {
+            Object target = pjp.getTarget();
+            Method invokedMethod = ((MethodSignature) pjp.getSignature()).getMethod();
+
+            // #1. 타입에 설정된 정보
+            LogFeature annoType = AnnotationUtils.getAnnotation(target.getClass(), LogFeature.class);
+            // #2. 메소드에 설정된 정보
+            LogFeature annoMethod = AnnotationUtils.getAnnotation(invokedMethod, LogFeature.class);
+
+            // 어노테이션이 메소드에 설정이 되어 있거나 클래스에 설정된 경우 대상이 '모두'인 경우
+            if (annoMethod != null || annoType.target().equals(Target.ALL)) {
+                // #3. 'feature'
+                String feature = getAttribute(annoMethod, annoType, LogFeature.PROP_FEATURE, f -> f != null && !f.trim().isEmpty());
+                // #4. 'marker'
+                String marker = getAttribute(annoMethod, annoType, LogFeature.PROP_MARKER, m -> m != null && !m.trim().isEmpty());
+                // #5. 'thread'
+                String thread = getAttribute(annoMethod, annoType, LogFeature.PROP_THREAD, m -> m != null && !m.trim().isEmpty());
+                // 'feature', 'marker' 설정
+                logger.trace("[log-aspected] feature={}, marker={}, thread={}", feature, marker, thread);
+
+                setLogFeature(feature, marker, thread, String.format("클래스 또는 메소드중에 반드시 1개는 'feature'값이 설정되어야 합니다. type=%s, method=%s", annoType, annoMethod));
+
+                if (!(LogFeature.VALUE_THREAD_NULL.equals(thread) || StringUtils.isNullOrEmptyString(thread))) {
+                    otn = ThreadUtils.setThreadName(thread.trim());
+                }
+            }
+
+            return pjp.proceed();
+        } finally {
+            MDC.clear();
+            if (otn != null) {
+                ThreadUtils.setThreadName(otn);
+            }
         }
     }
 

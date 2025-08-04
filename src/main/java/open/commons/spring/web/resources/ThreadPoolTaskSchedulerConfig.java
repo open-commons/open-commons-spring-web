@@ -33,7 +33,7 @@ package open.commons.spring.web.resources;
  * @author parkjunhong77@gmail.com
  */
 
-public class ThreadPoolTaskSchedulerConfig {
+public class ThreadPoolTaskSchedulerConfig implements Cloneable {
 
     // -- org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler --//
     private volatile int poolSize = 1;
@@ -71,6 +71,19 @@ public class ThreadPoolTaskSchedulerConfig {
      * @author parkjunhong77@gmail.com
      */
     public ThreadPoolTaskSchedulerConfig() {
+    }
+
+    /**
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.lang.Object#clone()
+     */
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     /**

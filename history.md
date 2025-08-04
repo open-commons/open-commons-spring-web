@@ -1,3 +1,14 @@
+[2025/08/04]
+- Add
+  + open.commons.spring.web.aspect.LogFeatureAspect
+    + handleBeforeHandlerInterceptor(ProceedingJoinPoint): HandlerInterceptor 이전에 실행되는 메소드에 대한 처리
+  + open.commons.spring.web.config.ResourceConfiguration: java.util.Executor 구현체에 대한 '기본제공'과 '내부사용' 설정을 분리.
+- Modify
+  + 복제 메소드 추가
+    + open.commons.spring.web.resources.ScheduledThreadPoolExecutorConfig
+    + open.commons.spring.web.resources.ThreadPoolTaskExecutorConfig
+    + open.commons.spring.web.resources.ThreadPoolTaskSchedulerConfig
+
 [2025/08/03]
 - @Scheduled 어노테이션 설정 메소드 및 수동 Executor/ExecutorService 지원
   + New
