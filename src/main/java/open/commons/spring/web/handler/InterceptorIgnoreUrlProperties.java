@@ -35,9 +35,13 @@ import javax.annotation.Nonnull;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import open.commons.core.utils.ExceptionUtils;
+import open.commons.spring.web.servlet.InvalidAntPathUrlPatternException;
+import open.commons.spring.web.utils.PathUtils;
 
 /**
  * {@link Set} 형태의 데이터에 대해서 특정 목적에 맞는 타입을 지정하기 위한 클래스.
@@ -47,6 +51,8 @@ import open.commons.core.utils.ExceptionUtils;
  * @author parkjunhong77@gmail.com
  */
 public class InterceptorIgnoreUrlProperties {
+
+    private final Logger logger = LoggerFactory.getLogger(InterceptorIgnoreUrlProperties.class);
 
     /**
      * {@link HandlerInterceptor}를 구현한 클래스 또는 확인할 경로<br>
@@ -65,6 +71,38 @@ public class InterceptorIgnoreUrlProperties {
     private Set<String> excludePathPatterns = new HashSet<>();
 
     public InterceptorIgnoreUrlProperties() {
+    }
+
+    public void addExcludePathPattern(String excludePathPattern) {
+        if (PathUtils.isValidAntPath(excludePathPattern)) {
+            this.excludePathPatterns.add(excludePathPattern);
+        } else {
+            logger.warn("{}, target={}, exclude.invalid={}", InvalidAntPathUrlPatternException.class.getName(), this.target, excludePathPattern);
+        }
+    }
+
+    public void addExcludePathPatterns(@NotNull @Nonnull Set<String> excludePathPatterns) {
+        if (PathUtils.isValidAntPath(excludePathPatterns)) {
+            this.excludePathPatterns.addAll(excludePathPatterns);
+        } else {
+            logger.warn("{}, target={}, exclude.invalid={}", InvalidAntPathUrlPatternException.class.getName(), this.target, excludePathPatterns.toString());
+        }
+    }
+
+    public void addIncludePathPattern(String includePathPattern) {
+        if (PathUtils.isValidAntPath(includePathPattern)) {
+            this.includePathPatterns.add(includePathPattern);
+        } else {
+            logger.warn("{}, target={}, include.invalid={}", InvalidAntPathUrlPatternException.class.getName(), this.target, includePathPattern);
+        }
+    }
+
+    public void addIncludePathPatterns(@NotNull @Nonnull Set<String> includePathPatterns) {
+        if (PathUtils.isValidAntPath(includePathPatterns)) {
+            this.includePathPatterns.addAll(includePathPatterns);
+        } else {
+            logger.warn("{}, target={}, include.invalid={}", InvalidAntPathUrlPatternException.class.getName(), this.target, includePathPatterns.toArray());
+        }
     }
 
     /**
@@ -189,10 +227,10 @@ public class InterceptorIgnoreUrlProperties {
      * @see #excludePathPatterns
      */
     public void setExcludePathPatterns(@NotNull @Nonnull Set<String> excludePathPatterns) {
-        if (!InterceptorIgnoreValidator.isValidAntPath(excludePathPatterns)) {
-            throw ExceptionUtils.newException(InvalidIgnoreUrlPatternException.class, "target=%s, exclude.invalid=%s", this.target, excludePathPatterns.toString());
+        if (!PathUtils.isValidAntPath(excludePathPatterns)) {
+            throw ExceptionUtils.newException(InvalidAntPathUrlPatternException.class, "target=%s, exclude.invalid=%s", this.target, excludePathPatterns.toString());
         }
-        this.excludePathPatterns.addAll(excludePathPatterns);
+        this.excludePathPatterns = excludePathPatterns;
     }
 
     /**
@@ -215,10 +253,10 @@ public class InterceptorIgnoreUrlProperties {
      * @see #includePathPatterns
      */
     public void setIncludePathPatterns(@NotNull @Nonnull Set<String> includePathPatterns) {
-        if (!InterceptorIgnoreValidator.isValidAntPath(includePathPatterns)) {
-            throw ExceptionUtils.newException(InvalidIgnoreUrlPatternException.class, "target=%s, include.invalid=%s", this.target, includePathPatterns.toString());
+        if (!PathUtils.isValidAntPath(includePathPatterns)) {
+            throw ExceptionUtils.newException(InvalidAntPathUrlPatternException.class, "target=%s, include.invalid=%s", this.target, includePathPatterns.toString());
         }
-        this.includePathPatterns.addAll(includePathPatterns);
+        this.includePathPatterns = includePathPatterns;
     }
 
     /**
@@ -242,7 +280,7 @@ public class InterceptorIgnoreUrlProperties {
      */
     public void setTarget(@NotBlank @Nonnull String target) {
         if (!InterceptorIgnoreValidator.isValidTarget(target)) {
-            throw ExceptionUtils.newException(InvalidIgnoreUrlPatternException.class, "target.invalid=%s", target);
+            throw ExceptionUtils.newException(InvalidAntPathUrlPatternException.class, "target.invalid=%s", target);
         }
         this.target = "*".equals(target) ? ".*" : target;
     }

@@ -62,6 +62,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import open.commons.spring.web.async.MdcTaskDecorator;
@@ -72,6 +73,7 @@ import open.commons.spring.web.resources.ThreadPoolTaskExecutorConfig;
 import open.commons.spring.web.resources.ThreadPoolTaskSchedulerConfig;
 import open.commons.spring.web.rest.RestUtils;
 import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
+import open.commons.spring.web.servlet.filter.AntPathRequest;
 
 /**
  * 
@@ -121,6 +123,9 @@ public class ResourceConfiguration {
     public static final String CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG";
     // -------------------------------------------------------------------------- //
 
+    /** {@link Async} 어노테이션이 적용된 메소드가 실행될 때 기본값으로 사용되는 {@link Executor} 설정값 */
+    public static final String CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC = "open.commons.spring.web.config.ResourceConfiguration#BUILTIN_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG";
+
     // --- org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler --- //
     /** 기본적으로 제공되는 {@link ThreadPoolTaskScheduler} */
     public static final String BEAN_QUALIFIER_DEFAULT_THREAD_POOL_TASK_SCHEDULER = "open.commons.spring.web.config.ResourceConfiguration#DEFAULT_THREAD_POOL_TASK_SCHEDULER";
@@ -150,10 +155,10 @@ public class ResourceConfiguration {
     public static final String CONFIGURATION_EXCETPION_HTTPSTATUS_PROPERTIES = "open.commons.spring.web.config.ResourceConfiguration#EXCETPION_HTTPSTATUS_PROPERTIES";
 
     /** {@link HandlerInterceptor}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 URL 패턴 설정 경로 */
-    private static final String PROPERTIES_INTERCEPTOR_IGNORE_URL_PATTERN = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".interceptor-ignore-url-patterns";
+    private static final String PROPERTIES_INTERCEPTOR_IGNORE_URL_PATTERNS = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".interceptor-ignore-url-patterns";
 
-    /** {@link Async} 어노테이션이 적용된 메소드가 실행될 때 기본값으로 사용되는 {@link Executor} 설정값 */
-    public static final String CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC = "open.commons.spring.web.config.ResourceConfiguration#BUILTIN_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG";
+    /** {@link OncePerRequestFilter}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 {@link AntPathRequest} 패턴 설정 경로 */
+    private static final String PROPERTIES_ONCE_PER_REQUEST_SHOULD_NOT_FILTERS = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".once-per-request-should-not-filters";
 
     @SuppressWarnings("unused")
     private ApplicationContext context;
@@ -545,8 +550,7 @@ public class ResourceConfiguration {
     }
 
     /**
-     * 
-     * <br>
+     * {@link HandlerInterceptor}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 URL 패턴 설정 경로
      * 
      * <pre>
      * [개정이력]
@@ -562,8 +566,30 @@ public class ResourceConfiguration {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Bean
-    @ConfigurationProperties(PROPERTIES_INTERCEPTOR_IGNORE_URL_PATTERN)
+    @ConfigurationProperties(PROPERTIES_INTERCEPTOR_IGNORE_URL_PATTERNS)
     List<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlPatterns() {
+        return new ArrayList<>();
+    }
+
+    /**
+     * {@link OncePerRequestFilter}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 {@link AntPathRequest} 패턴 설정 경로<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean
+    @ConfigurationProperties(PROPERTIES_ONCE_PER_REQUEST_SHOULD_NOT_FILTERS)
+    List<AntPathRequest> oncePerRequestShouldNotFilters() {
         return new ArrayList<>();
     }
 

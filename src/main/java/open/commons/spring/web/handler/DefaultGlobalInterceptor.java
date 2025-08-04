@@ -26,20 +26,17 @@
 
 package open.commons.spring.web.handler;
 
-import java.net.URLDecoder;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import open.commons.core.lang.IThreadLocalContext;
 import open.commons.core.lang.ThreadLocalContextService;
-import open.commons.core.utils.ThreadUtils;
+import open.commons.spring.web.servlet.filter.RequestThreadNameFilter;
 
 /**
  * Http 요청 정보를 {@link Thread} 이름으로 적용하고 응답완료시 기존 {@link Thread}이름으로 반환하는 기능을 제공.<br>
@@ -53,7 +50,8 @@ import open.commons.core.utils.ThreadUtils;
  *      날짜      | 작성자		         	   |	내용
  * ------------------------------------------
  * 2020. 1. 17.     박준홍                         최초 작성
- * 2025. 6. 23.     박준홍(jhpark@ymtech.co.kr)    {@link #postHandle(HttpServletRequest, HttpServletResponse, Object, ModelAndView)}을 제거하고 {@link #afterCompletion(HttpServletRequest, HttpServletResponse, Object, Exception)}로 변경. 
+ * 2025. 6. 23.     박준홍(jhpark@ymtech.co.kr)    {@link #postHandle(HttpServletRequest, HttpServletResponse, Object, ModelAndView)}을 제거하고 {@link #afterCompletion(HttpServletRequest, HttpServletResponse, Object, Exception)}로 변경.
+ * 2025. 8. 4.      박준홍(jhpark@ymtech.co.kr)    URL 기반 {@link Thread} 이름 설정 기능이 {@link RequestThreadNameFilter}로 이관되면서 기존 기능 제거됨. 추후 제거될 수 있음.
  * </pre>
  * 
  * @since 2020. 1. 17.
@@ -63,13 +61,10 @@ import open.commons.core.utils.ThreadUtils;
 public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
 
     public static final String BEAN_QUALIFIER = "open.commons.spring.web.handler.DefaultGlobalInterceptor";
-    public static final String THREAD_NAME_DEFAULT = "open.commons.spring.web.handler.DefaultGlobalInterceptor#THREAD_NAME_DEFAULT";
-    public static final String THREAD_NAME_INTERCEPTED_URL = "open.commons.spring.web.handler.DefaultGlobalInterceptor#THREAD_NAME_INTERCEPTED_URL";
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    /** proxy 서버를 이용하여 제공되는 서비스인 경우 HTTP 요청 정보를 forwardig 하기 위한 헤더 */
-    private HttpRequestProxyHeader proxyHeader;
 
+    @SuppressWarnings("unused")
     private final IThreadLocalContext threadLocalContext = ThreadLocalContextService.context(DefaultGlobalInterceptor.class);
 
     /**
@@ -99,17 +94,6 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-
-        String otn = (String) this.threadLocalContext.get(THREAD_NAME_DEFAULT);
-
-        if (otn != null) {
-            String reqInfo = Thread.currentThread().getName();
-            logger.trace("[Restore thread-name] {} -> {}", reqInfo, otn);
-
-            ThreadUtils.setThreadName(otn);
-            this.threadLocalContext.clear();
-        }
-
         // 추후 상위 메소드의 구현이 변경됨에 따른 영향을 최소화하기 위해서 가장 마지막에 위치시킴.
         AsyncHandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
@@ -120,52 +104,7 @@ public class DefaultGlobalInterceptor implements AsyncHandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-        String reqUri = request.getRequestURI();
-
-        reqUri = new StringBuffer(request.getMethod()) //
-                .append(' ') //
-                .append(URLDecoder.decode(reqUri, "UTF-8")) //
-                .append(' ') //
-                .append(ProxyHeaderUtil.getClientRealIP(request, this.proxyHeader)) //
-                .append(':') //
-                .append(ProxyHeaderUtil.getClientRealPort(request, this.proxyHeader)) //
-                .toString();
-
-        String threadName = (String) this.threadLocalContext.get(THREAD_NAME_DEFAULT);
-        if (threadName == null) {
-            threadName = ThreadUtils.setThreadName(reqUri);
-            this.threadLocalContext.set(THREAD_NAME_DEFAULT, threadName);
-            this.threadLocalContext.set(THREAD_NAME_INTERCEPTED_URL, reqUri);
-
-            logger.trace("[Change thread-name] {} -> {}.", threadName, reqUri);
-        }
-
         return true;
-    }
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 7. 18.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param proxyHeader
-     *            the proxyHeader to set
-     *
-     * @since 2025. 7. 18.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see #proxyHeader
-     */
-    @Autowired
-    public void setProxyHeader(HttpRequestProxyHeader proxyHeader) {
-        this.proxyHeader = proxyHeader;
     }
 
 }

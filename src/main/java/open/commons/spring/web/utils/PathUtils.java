@@ -18,62 +18,34 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 7. 30. 오후 2:07:22
+ * Date  : 2025. 8. 4. 오후 4:41:53
  *
  * Author: parkjunhong77@gmail.com
  * 
  */
 
-package open.commons.spring.web.handler;
+package open.commons.spring.web.utils;
 
 import java.util.Collection;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import javax.annotation.Nonnull;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.servlet.HandlerInterceptor;
-
-import open.commons.spring.web.utils.PathUtils;
 
 /**
  * 
- * @since 2025. 7. 30.
+ * @since 2025. 8. 4.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class InterceptorIgnoreValidator {
+public class PathUtils {
 
-    @SuppressWarnings("unused")
-    private static final Logger logger = LoggerFactory.getLogger(InterceptorIgnoreValidator.class);
+    private static final Logger logger = LoggerFactory.getLogger(PathUtils.class);
 
-    private InterceptorIgnoreValidator() {
-    }
-
-    /**
-     * 설정에 대응하는 실제 빈 존재 여부 확인 <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 7. 30.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param target
-     *            FQCN 기반의 클래스 또는 경로 정보
-     * @param interceptor
-     *            {@link HandlerInterceptor} Bean 객체
-     *
-     * @since 2025. 7. 30.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    public static boolean isAcceptable(@NotBlank @Nonnull String target, @NotNull @Nonnull HandlerInterceptor interceptor) {
-        return Pattern.matches(target.replace(".", "\\.").replace("*", ".*"), interceptor.getClass().getName());
+    private PathUtils() {
     }
 
     /**
@@ -81,20 +53,47 @@ public class InterceptorIgnoreValidator {
      * 
      * <pre>
      * [개정이력]
-     *      날짜    	| 작성자	|	내용
+     *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 7. 30.		박준홍			최초 작성
+     * 2025. 8. 4.     박준홍         최초 작성
      * </pre>
      *
      * @param patterns
      * @return
      *
-     * @since 2025. 7. 30.
+     * @since 2025. 8. 4.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public static boolean isValidAntPath(@Nonnull Collection<String> patterns) {
-        return PathUtils.isValidAntPath(patterns);
+        for (String pattern : patterns) {
+            if (!isValidAntPath(pattern)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * pattern (URL) AntPath 유효성 검증 <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 8. 4.     박준홍         최초 작성
+     * </pre>
+     *
+     * @param pattern
+     *            URL 패턴
+     * @return
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static boolean isValidAntPath(@Nonnull String pattern) {
+        return pattern != null && pattern.startsWith("/");
     }
 
     /**
@@ -102,20 +101,27 @@ public class InterceptorIgnoreValidator {
      * 
      * <pre>
      * [개정이력]
-     *      날짜    	| 작성자	|	내용
+     *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 7. 30.		박준홍			최초 작성
+     * 2025. 8. 4.     박준홍         최초 작성
      * </pre>
      *
-     * @param target
+     * @param fqcn
      *            FQCN 기반의 클래스 또는 경로 정보
      * @return
      *
-     * @since 2025. 7. 30.
+     * @since 2025. 8. 4.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static boolean isValidTarget(@Nonnull String target) {
-        return PathUtils.isValidFqcn(target);
+    public static boolean isValidFqcn(@Nonnull String fqcn) {
+        try {
+            Pattern.compile(fqcn.replace(".", "\\.").replace("*", ".*"));
+            return true;
+        } catch (PatternSyntaxException ex) {
+            logger.warn("올바르지 않은 FQCN 패턴입니다. fqcn={}", fqcn);
+            return false;
+        }
     }
+
 }

@@ -1,4 +1,21 @@
 [2025/08/04]
+- HttpServletRequest 기반 Thread 이름 설정 기능 변경에 따른 클래스 변경
+  + New
+    + open.commons.spring.web.servlet.filter.AntPathRequest: Request 패턴 
+    + open.commons.spring.web.servlet.filter.RequestThreadNameFilter: 기능 이관 클래스
+    + open.commons.spring.web.utils.PathUtils: open.commons.spring.web.handler.InterceptorIgnoreValidator에서 공통 기능 이관해 옴.
+  + Add
+    + open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration.defaultRequestThreadNameFilter()
+    + open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration.oncePerRequestShouldNotFilters(Map&lt;String, AntPathRequest&gt;, Map&lt;String, List&lt;AntPathRequest&gt;&gt;)
+    + open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration.staticOncePerRequestShouldNotFilters()
+    + open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration.swaggerOncePerRequestShouldNotFilters()
+    + open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration.threadNamingFilter(RequestThreadNameFilter)
+  + Modify
+    + open.commons.spring.web.handler.InterceptorIgnoreValidator: Path 관련 기능은 open.commons.spring.web.utils.PathUtils 으로 이관함.
+    + open.commons.spring.web.aspect.LogFeatureAspect: Thread 이름 관련된 기능을 open.commons.spring.web.servlet.filter.RequestThreadNameFilter와 공유함.
+
+
+[2025/08/04]
 - Add
   + open.commons.spring.web.aspect.LogFeatureAspect
     + handleBeforeHandlerInterceptor(ProceedingJoinPoint): HandlerInterceptor 이전에 실행되는 메소드에 대한 처리

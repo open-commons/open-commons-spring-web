@@ -26,6 +26,7 @@
 
 package open.commons.spring.web.autoconfigure.configuration;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,24 +34,31 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import open.commons.spring.web.config.ResourceConfiguration;
 import open.commons.spring.web.handler.DefaultGlobalInterceptor;
 import open.commons.spring.web.handler.HttpRequestProxyHeader;
 import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
+import open.commons.spring.web.servlet.filter.AntPathRequest;
+import open.commons.spring.web.servlet.filter.RequestThreadNameFilter;
 
 /**
  * 
@@ -62,6 +70,8 @@ public class GlobalServletConfiguration {
 
     /** {@link HandlerInterceptor}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 URL 패턴 설정 */
     public static final String BEAN_QUALIFIER_INTERCEPTOR_IGNORE_URL_PATTERNS = "open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration#INTERCEPTOR_IGNORE_URL_PATTERNS";
+    /** {@link OncePerRequestFilter}에서 제외시킬 {@link HttpServletRequest} 패턴 */
+    public static final String BEAN_QUALIFIER_REQUEST_FILTER_SHOULD_NOT_PATTERNS = "open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration#REQUEST_FILTER_SHOULD_NOT_PATTERNS";
 
     /** Proxy 서버를 통해서 전달되는 실제 클라이언트의 Http 요청 정보 @ */
     private static final String PROPERTIES_HTTP_REQUEST_PROXY_HEADER = ResourceConfiguration.PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".proxy-header";
@@ -92,6 +102,13 @@ public class GlobalServletConfiguration {
     @Order(Ordered.LOWEST_PRECEDENCE)
     DefaultGlobalInterceptor defaultGlobalInterceptor() {
         return new DefaultGlobalInterceptor();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    RequestThreadNameFilter defaultRequestThreadNameFilter() {
+        return new RequestThreadNameFilter();
     }
 
     @Bean
@@ -131,7 +148,55 @@ public class GlobalServletConfiguration {
             }
         });
 
-        return merged.stream().collect(Collectors.toSet());
+        Map<String, InterceptorIgnoreUrlProperties> nego = new HashMap<>();
+        InterceptorIgnoreUrlProperties o = null;
+        for (InterceptorIgnoreUrlProperties p : merged) {
+            o = nego.get(p.getTarget());
+            if (o != null) {
+                o.addExcludePathPatterns(p.getExcludePathPatterns());
+                o.addIncludePathPatterns(p.getIncludePathPatterns());
+            } else {
+                nego.put(p.getTarget(), p);
+            }
+        }
+
+        return nego.values().stream().collect(Collectors.toSet());
+    }
+
+    @Bean(BEAN_QUALIFIER_REQUEST_FILTER_SHOULD_NOT_PATTERNS)
+    @Primary
+    List<AntPathRequest> oncePerRequestShouldNotFilters( //
+            @NotNull @Nonnull Map<String, AntPathRequest> single//
+            , @NotNull @Nonnull Map<String, List<AntPathRequest>> multi) {
+        return Stream //
+                .of(single.values().stream() //
+                        , multi.values().stream().flatMap(List::stream) //
+                ) //
+                .flatMap(s -> s).collect(Collectors.toList());
+    }
+
+    /**
+     * SpringBoot 기반 서비스의 정적 자원 기본 경로인 "/static/**"을 예외 목록에 추가합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean
+    AntPathRequest staticOncePerRequestShouldNotFilters() {
+        AntPathRequest pattern = new AntPathRequest();
+        pattern.setHttpMethod(HttpMethod.GET);
+        pattern.setPattern("/static/**)");
+        return pattern;
     }
 
     /**
@@ -151,11 +216,39 @@ public class GlobalServletConfiguration {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Bean
-    InterceptorIgnoreUrlProperties swaggerInterceptorIgnoreUrlPatterns() {
-        InterceptorIgnoreUrlProperties prop = new InterceptorIgnoreUrlProperties();
-        prop.setTarget(DefaultGlobalInterceptor.class.getName());
-        prop.setExcludePathPatterns(Stream.of("/index.html", "/static/**", "/api-docs/**", "/swagger/**", "/swagger-ui/**").collect(Collectors.toSet()));
+    List<AntPathRequest> swaggerOncePerRequestShouldNotFilters() {
+        return Stream //
+                .of( //
+                        new AntPathRequest("/api-docs/**") //
+                        , new AntPathRequest("/swagger/**", HttpMethod.GET)//
+                        , new AntPathRequest("/swagger-ui/**", HttpMethod.GET) //
+                )//
+                .collect(Collectors.toList());
+    }
 
-        return prop;
+    /**
+     * {@link SecurityFilterChain} 보다 앞에 위치시켜, 보안검증 이전의 {@link HttpServletRequest}에 대해서도 감지를 합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param filter
+     * @return
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean
+    FilterRegistrationBean<RequestThreadNameFilter> threadNamingFilter(RequestThreadNameFilter filter) {
+        FilterRegistrationBean<RequestThreadNameFilter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(filter);
+        registration.setOrder(Ordered.HIGHEST_PRECEDENCE); // 우선순위 최상단
+        registration.addUrlPatterns("/*");
+        return registration;
     }
 }

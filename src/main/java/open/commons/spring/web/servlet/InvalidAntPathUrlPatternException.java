@@ -24,7 +24,9 @@
  * 
  */
 
-package open.commons.spring.web.handler;
+package open.commons.spring.web.servlet;
+
+import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
 
 /**
  * {@link InterceptorIgnoreUrlProperties} 정보가 올바르지 않을 때 발생
@@ -33,7 +35,9 @@ package open.commons.spring.web.handler;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class InvalidIgnoreUrlPatternException extends RuntimeException {
+public class InvalidAntPathUrlPatternException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * <br>
@@ -50,7 +54,7 @@ public class InvalidIgnoreUrlPatternException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public InvalidIgnoreUrlPatternException() {
+    public InvalidAntPathUrlPatternException() {
     }
 
     /**
@@ -69,7 +73,7 @@ public class InvalidIgnoreUrlPatternException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public InvalidIgnoreUrlPatternException(String message) {
+    public InvalidAntPathUrlPatternException(String message) {
         super(message);
     }
 
@@ -90,7 +94,7 @@ public class InvalidIgnoreUrlPatternException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public InvalidIgnoreUrlPatternException(String message, Throwable cause) {
+    public InvalidAntPathUrlPatternException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -113,7 +117,7 @@ public class InvalidIgnoreUrlPatternException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public InvalidIgnoreUrlPatternException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public InvalidAntPathUrlPatternException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
@@ -133,7 +137,7 @@ public class InvalidIgnoreUrlPatternException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public InvalidIgnoreUrlPatternException(Throwable cause) {
+    public InvalidAntPathUrlPatternException(Throwable cause) {
         super(cause);
     }
 }
