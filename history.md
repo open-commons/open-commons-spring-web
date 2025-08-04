@@ -14,7 +14,6 @@
     + open.commons.spring.web.handler.InterceptorIgnoreValidator: Path 관련 기능은 open.commons.spring.web.utils.PathUtils 으로 이관함.
     + open.commons.spring.web.aspect.LogFeatureAspect: Thread 이름 관련된 기능을 open.commons.spring.web.servlet.filter.RequestThreadNameFilter와 공유함.
 
-
 [2025/08/04]
 - Add
   + open.commons.spring.web.aspect.LogFeatureAspect
