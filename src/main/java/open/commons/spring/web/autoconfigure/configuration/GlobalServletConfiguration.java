@@ -133,4 +133,29 @@ public class GlobalServletConfiguration {
 
         return merged.stream().collect(Collectors.toSet());
     }
+
+    /**
+     * swagger 리소스 경로 제외 추가. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean
+    InterceptorIgnoreUrlProperties swaggerInterceptorIgnoreUrlPatterns() {
+        InterceptorIgnoreUrlProperties prop = new InterceptorIgnoreUrlProperties();
+        prop.setTarget(DefaultGlobalInterceptor.class.getName());
+        prop.setExcludePathPatterns(Stream.of("index.html", "static/**", "api-docs/**", "swagger/**", "swagger-ui/**").collect(Collectors.toSet()));
+
+        return prop;
+    }
 }
