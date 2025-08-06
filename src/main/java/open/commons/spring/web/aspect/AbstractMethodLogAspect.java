@@ -310,6 +310,7 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public void afterController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        defaultAfterController(logger, pjp);
     }
 
     /**
@@ -331,6 +332,7 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public void afterRepository(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        defaultAfterRepository(logger, pjp);
     }
 
     /**
@@ -352,6 +354,7 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public void afterService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        defaultAfterService(logger, pjp);
     }
 
     /**
@@ -373,6 +376,7 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public void beforeController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        defaultBeforeController(logger, pjp);
     }
 
     /**
@@ -394,6 +398,7 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public void beforeRepository(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        defaultBeforeRepository(logger, pjp);
     }
 
     /**
@@ -415,6 +420,7 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public void beforeService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        defaultBeforeService(logger, pjp);
     }
 
     protected final void defaultAfterController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
