@@ -1,3 +1,13 @@
+[2025/08/06]
+- New
+  + open.commons.spring.web.concurrent.DelegatingTaskExecutor<S extends AsyncListenableTaskExecutor>: ThreadPoolTaskExecutor 기반
+- Modify
+  + open.commons.spring.web.mdc.MdcWrappedJob&lt;V&gt;: 동일 Executor에서 다중 작업이 실행될 때 TaskNumber 동적 적용.
+- Add
+  + open.commons.spring.web.concurrent.DelegatingExecutorSupportor: TaskExecutor 제공 메소드 추가
+    + taskExecutor(AsyncListenableTaskExecutor)
+    + taskExecutor(AsyncListenableTaskExecutor, String)
+
 [2025/08/04]
 - HttpServletRequest 기반 Thread 이름 설정 기능 변경에 따른 클래스 변경
   + New

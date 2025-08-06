@@ -29,6 +29,10 @@ package open.commons.spring.web.concurrent;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
+import javax.annotation.Nonnull;
+
+import org.springframework.core.task.AsyncListenableTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.TaskScheduler;
 
 /**
@@ -63,7 +67,7 @@ public class DelegatingExecutorSupportor {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public static ExecutorService executorService(ExecutorService delegate) {
-        return new DelegatingExecutorService<ExecutorService>(delegate, "@executor");
+        return executorService(delegate, "@executor");
     }
 
     /**
@@ -87,7 +91,7 @@ public class DelegatingExecutorSupportor {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static ExecutorService executorService(ExecutorService delegate, String threadSymbol) {
+    public static ExecutorService executorService(ExecutorService delegate, @Nonnull String threadSymbol) {
         return new DelegatingExecutorService<ExecutorService>(delegate, threadSymbol);
     }
 
@@ -111,7 +115,7 @@ public class DelegatingExecutorSupportor {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public static ScheduledExecutorService scheduledExecutorService(ScheduledExecutorService delegate) {
-        return new DelegatingScheduledExecutorService(delegate, "@scheduled");
+        return scheduledExecutorService(delegate, "@scheduled");
     }
 
     /**
@@ -135,8 +139,56 @@ public class DelegatingExecutorSupportor {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static ScheduledExecutorService scheduledExecutorService(ScheduledExecutorService delegate, String threadSymbol) {
+    public static ScheduledExecutorService scheduledExecutorService(ScheduledExecutorService delegate, @Nonnull String threadSymbol) {
         return new DelegatingScheduledExecutorService(delegate, threadSymbol);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 6.		박준홍			최초 작성
+     * </pre>
+     *
+     * {@link TaskExecutor} 기능을 제공하는 객체.
+     * 
+     * @return
+     *
+     * @since 2025. 8. 6.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static AsyncListenableTaskExecutor taskExecutor(AsyncListenableTaskExecutor delegate) {
+        return taskExecutor(delegate, "@task");
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 6.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param delegate
+     *            {@link TaskExecutor} 기능을 제공하는 객체.
+     * @param threadSymbol
+     *            {@link Thread} 이름 뒤에 붙여서 식별정보로 활용
+     * @return
+     *
+     * @since 2025. 8. 6.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static AsyncListenableTaskExecutor taskExecutor(AsyncListenableTaskExecutor delegate, @Nonnull String threadSymbol) {
+        return new DelegatingTaskExecutor<AsyncListenableTaskExecutor>(delegate, threadSymbol);
     }
 
     /**
@@ -158,8 +210,8 @@ public class DelegatingExecutorSupportor {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static TaskScheduler taskScheduler(TaskScheduler delegate) {
-        return new DelegatingTaskScheduler<TaskScheduler>(delegate, "@scheduled");
+    public static <S extends TaskScheduler & AsyncListenableTaskExecutor> TaskScheduler taskScheduler(S delegate) {
+        return taskScheduler(delegate, "@scheduled");
     }
 
     /**
@@ -183,7 +235,8 @@ public class DelegatingExecutorSupportor {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static TaskScheduler taskScheduler(TaskScheduler delegate, String threadSymbol) {
-        return new DelegatingTaskScheduler<TaskScheduler>(delegate, threadSymbol);
+    public static <S extends TaskScheduler & AsyncListenableTaskExecutor> TaskScheduler taskScheduler(S delegate, @Nonnull String threadSymbol) {
+        return new DelegatingTaskScheduler<S>(delegate, threadSymbol);
     }
+
 }

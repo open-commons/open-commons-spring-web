@@ -282,13 +282,15 @@ public class ResourceConfiguration {
      * @since 2025. 7. 31.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * @throws CloneNotSupportedException
      */
     @Bean(CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC)
     @ConditionalOnMissingBean(name = { CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC })
-    ThreadPoolTaskExecutorConfig builtinThreadPoolTaskExecutorConfigOnAsync() {
-        ThreadPoolTaskExecutorConfig config = new ThreadPoolTaskExecutorConfig();
-        config.setDaemon(true);
-        return config;
+    ThreadPoolTaskExecutorConfig builtinThreadPoolTaskExecutorConfigOnAsync(
+            @Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig config) throws CloneNotSupportedException {
+        ThreadPoolTaskExecutorConfig asyncConfig = (ThreadPoolTaskExecutorConfig) config.clone();
+        asyncConfig.setDaemon(true);
+        return asyncConfig;
     }
 
     /**

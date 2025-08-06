@@ -58,6 +58,8 @@ import open.commons.spring.web.log.LogFeature;
 import open.commons.spring.web.log.LogFeature.Target;
 import open.commons.spring.web.servlet.filter.RequestThreadNameFilter;
 
+import io.micrometer.core.lang.Nullable;
+
 /**
  * 
  * @since 2025. 7. 28.
@@ -265,7 +267,7 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private void setLogFeature(@NotBlank @Nonnull String feature, @NotNull @Nonnull String marker, String thread, String featureNotBlankAsserMsg) {
+    private void setLogFeature(@NotBlank @Nonnull String feature, @Nullable String marker, String thread, String featureNotBlankAsserMsg) {
 
         // 'feature' 설정
         if (LogFeature.VALUE_THREAD_NULL.equals(feature) || (feature = feature.trim()).isEmpty()) {
@@ -277,8 +279,8 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
         MDC.put(LogFeature.PROP_FEATURE, feature);
 
         // 'marker' 설정
-        if (!(LogFeature.VALUE_FEATURE_NULL.equals(marker) || (marker = marker.trim()).isEmpty())) {
-            MDC.put(LogFeature.PROP_MARKER, this.logDecorator.decorator(feature, marker).apply(marker));
+        if (!(LogFeature.VALUE_FEATURE_NULL.equals(marker) || StringUtils.isNullOrEmptyString(marker))) {
+            MDC.put(LogFeature.PROP_MARKER, this.logDecorator.decorator(feature, marker.trim()).apply(marker.trim()));
         }
 
         // 'thread' 설정

@@ -34,10 +34,9 @@ import java.util.concurrent.ScheduledFuture;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.support.ScheduledMethodRunnable;
@@ -53,14 +52,7 @@ import open.commons.spring.web.mdc.MdcWrappedJob;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class DelegatingTaskScheduler<S extends TaskScheduler> implements TaskScheduler {
-
-    protected final Logger logger = LoggerFactory.getLogger(DelegatingTaskScheduler.class);
-
-    /** {@link TaskScheduler} 기능을 제공하는 객체. */
-    protected final S delegate;
-    /** {@link Thread} 이름 뒤에 붙여서 식별정보로 활용 */
-    protected final String symbol;
+public class DelegatingTaskScheduler<S extends TaskScheduler & AsyncListenableTaskExecutor> extends DelegatingTaskExecutor<S> implements TaskScheduler {
 
     /**
      * <br>
@@ -83,8 +75,7 @@ public class DelegatingTaskScheduler<S extends TaskScheduler> implements TaskSch
      * @author parkjunhong77@gmail.com
      */
     public DelegatingTaskScheduler(@Nonnull S delegate, @Nullable String symbol) {
-        this.delegate = delegate;
-        this.symbol = symbol;
+        super(delegate, symbol);
     }
 
     /**

@@ -29,9 +29,13 @@ package open.commons.spring.web.mdc;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -74,8 +78,12 @@ public abstract class MdcWrappedJob<V> {
     protected final Map<String, String> forwardedMDC;
     /** 동작하는 시점 {@link Thread} {@link MDC} 정보 */
     private Map<String, String> runtimeMDC;
+    /** 작업을 수행시키는 Executor 시점 {@link Thread} 이름 */
+    private String executorThreadName;
     /** 동작하는 시점 {@link Thread} 이름 */
-    private String runtimeThreadName;
+    private String runtimeThreadNumberSelector;
+    /** 동작하는 시점 {@link Thread} 번호 */
+    private int runtimeTaskNumber = Integer.MIN_VALUE;
 
     /**
      * {@link TaskScheduler} 또는 {@link ScheduledExecutorService} 에 의해서 실행되는지 여부<br>
@@ -117,9 +125,11 @@ public abstract class MdcWrappedJob<V> {
     }
 
     protected final void afterExecute() {
-        if (this.runtimeThreadName != null) {
-            ThreadUtils.setThreadName(this.runtimeThreadName);
+        if (this.runtimeTaskNumber != Integer.MIN_VALUE) {
+            TaskNumberManager.release(this.runtimeThreadNumberSelector, this.runtimeTaskNumber);
         }
+
+        ThreadUtils.setThreadName(this.executorThreadName);
         if (this.runtimeMDC != null) {
             MDC.setContextMap(this.runtimeMDC);
         } else {
@@ -155,11 +165,18 @@ public abstract class MdcWrappedJob<V> {
         }
 
         // 외부에서 전달한 Thread쓰레드 이름 확인
+        this.executorThreadName = Thread.currentThread().getName();
         String intcptThreadName = MDC.get(LogFeatureAspect.FORWARDED_THREAD_NAME);
         if (StringUtils.isNullOrEmptyString(intcptThreadName)) {
-            this.runtimeThreadName = ThreadUtils.setThreadName(Thread.currentThread().getName() + this.forwardedThreadSymbol);
+            ThreadUtils.setThreadName(executorThreadName + this.forwardedThreadSymbol);
         } else {
-            this.runtimeThreadName = ThreadUtils.setThreadName(intcptThreadName + forwardedThreadSymbol);
+            this.runtimeTaskNumber = TaskNumberManager.acquire(runtimeThreadNumberSelector = byScheduler ? intcptThreadName : this.executorThreadName);
+            ThreadUtils.setThreadName(intcptThreadName //
+                    + (runtimeTaskNumber != -1 ? "-" + runtimeTaskNumber : "") // 번호가 '0'인 경우 붙이지 않음.
+                    + forwardedThreadSymbol);
+            // if (this.runtimeTaskNumber == -1) {
+            // this.runtimeTaskNumber = 1;
+            // }
         }
     }
 
@@ -364,6 +381,50 @@ public abstract class MdcWrappedJob<V> {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    public static class TaskNumberManager {
+
+        private static final ConcurrentMap<String, NumberPool> POOLS = new ConcurrentHashMap<>();
+
+        // 번호 발급: 재활용된 번호가 있으면 그 중 최소값, 없으면 새 번호
+        public static int acquire(String key) {
+            NumberPool pool = POOLS.computeIfAbsent(key, k -> new NumberPool());
+
+            synchronized (pool) {
+                pool.activated.incrementAndGet();// 활성화된 개수 증가
+                if (!pool.recycled.isEmpty()) {
+                    int i = pool.recycled.poll(); // 가장 작은 반환된 번호 재사용
+                    return pool.activated.intValue() < 2 ? -1 : i;
+                } else {
+                    int i = pool.counter.incrementAndGet();
+                    return i == 1 ? -1 : i;
+                }
+            }
+        }
+
+        // 번호 반환: 재사용을 위해 recycled 목록에 추가
+        public static void release(String key, int number) {
+            NumberPool pool = POOLS.get(key);
+            if (pool == null) {
+                return; // 없는 key는 무시
+            }
+
+            synchronized (pool) {
+                if (number == -1) {
+                    number = 1;
+                }
+                pool.recycled.offer(number); // 반환된 번호 저장
+                pool.activated.decrementAndGet(); // 활성화된 개수 감수
+            }
+        }
+
+        // 내부 구조
+        private static class NumberPool {
+            private final AtomicInteger counter = new AtomicInteger(0);
+            private final PriorityQueue<Integer> recycled = new PriorityQueue<>();
+            private final AtomicInteger activated = new AtomicInteger(0);
         }
     }
 }
