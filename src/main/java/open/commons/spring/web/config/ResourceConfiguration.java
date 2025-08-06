@@ -337,6 +337,7 @@ public class ResourceConfiguration {
 
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_ALLOW_PRIVATE_CA)
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @Primary
     RestTemplate defaultRestTemplateAllowPrivateCA(@Qualifier(CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
             throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
         HttpClient httpClient = RestUtils.createHttpsClient(true);
@@ -363,7 +364,6 @@ public class ResourceConfiguration {
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
     @Bean(name = CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE)
-    @Primary
     @ConfigurationProperties(PROPERTIES_RESTTEMPLATE_REQUEST_SOURCE)
     RestTemplateRequestFactoryResource defaultRestTemplateRequestFactoryResource() {
         return new RestTemplateRequestFactoryResource();
@@ -411,7 +411,6 @@ public class ResourceConfiguration {
      */
     @Bean(name = CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG)
     @ConfigurationProperties(PROPERTIES_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG)
-    @Primary
     ScheduledThreadPoolExecutorConfig defaultScheduledThreadPoolExecutorConfig() {
         return new ScheduledThreadPoolExecutorConfig();
     }
@@ -461,7 +460,6 @@ public class ResourceConfiguration {
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      */
     @Bean(name = CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG)
-    @Primary
     // @ConfigurationProperties(PROPERTIES_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG)
     ThreadPoolTaskExecutorConfig defaultThreadPoolTaskExecutorConfig() {
         ThreadPoolTaskExecutorConfig config = new ThreadPoolTaskExecutorConfig();
@@ -515,7 +513,6 @@ public class ResourceConfiguration {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Bean(name = CONFIGURATION_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG)
-    @Primary
     @ConfigurationProperties(PROPERTIES_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG)
     ThreadPoolTaskSchedulerConfig defaultThreadPoolTaskSchedulerConfig() {
         return new ThreadPoolTaskSchedulerConfig();
