@@ -174,9 +174,6 @@ public abstract class MdcWrappedJob<V> {
             ThreadUtils.setThreadName(intcptThreadName //
                     + (runtimeTaskNumber != -1 ? "-" + runtimeTaskNumber : "") // 번호가 '0'인 경우 붙이지 않음.
                     + forwardedThreadSymbol);
-            // if (this.runtimeTaskNumber == -1) {
-            // this.runtimeTaskNumber = 1;
-            // }
         }
     }
 

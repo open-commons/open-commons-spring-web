@@ -26,6 +26,7 @@
 
 package open.commons.spring.web.concurrent;
 
+import java.lang.annotation.Annotation;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -176,6 +177,10 @@ public class DelegatingTaskScheduler<S extends TaskScheduler & AsyncListenableTa
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     protected Runnable wrap(Runnable runnable) {
+        if (!isAnnotatedByLogFeature(runnable, LogFeature.class)) {
+            return runnable;
+        }
+
         String tn = findSpecifiedThreadName(runnable);
         Map<String, String> executorMDC = MdcWrappedJob.getCopyOfContextMap(symbol);
         if (executorMDC == null) {
@@ -201,6 +206,17 @@ public class DelegatingTaskScheduler<S extends TaskScheduler & AsyncListenableTa
             }
         } else {
             return null;
+        }
+    }
+
+    protected static <A extends Annotation> boolean isAnnotatedByLogFeature(@Nonnull Runnable runnable, @Nonnull Class<A> annotation) {
+        // ScheduledMethodRunnable
+        if (runnable instanceof ScheduledMethodRunnable) {
+            ScheduledMethodRunnable r = (ScheduledMethodRunnable) runnable;
+            A anno = AnnotationUtils.findAnnotation(r.getMethod(), annotation);
+            return anno != null;
+        } else {
+            return false;
         }
     }
 
