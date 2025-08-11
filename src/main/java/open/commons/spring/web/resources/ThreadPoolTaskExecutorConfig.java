@@ -26,7 +26,9 @@
 
 package open.commons.spring.web.resources;
 
+import javax.annotation.Nonnull;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -37,7 +39,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * @version
  * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
  */
-public class ThreadPoolTaskExecutorConfig implements Cloneable {
+public class ThreadPoolTaskExecutorConfig {
 
     // --- org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor --- //
     private int corePoolSize = 1;
@@ -61,6 +63,9 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
     private int threadPriority = Thread.NORM_PRIORITY;
     // -------------------------------------------------- //
 
+    /** 외부 설정 여부 */
+    private boolean initialized = false;
+
     /**
      * <br>
      * 
@@ -78,16 +83,36 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
     }
 
     /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 11.		박준홍			최초 작성
+     * </pre>
      *
-     * @since 2025. 8. 4.
+     * @param config
+     *
+     * @since 2025. 8. 11.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
-     *
-     * @see java.lang.Object#clone()
      */
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public ThreadPoolTaskExecutorConfig(@NotNull @Nonnull ThreadPoolTaskExecutorConfig config) {
+        this.corePoolSize = config.corePoolSize;
+        this.keepAliveSeconds = config.keepAliveSeconds;
+        this.maxPoolSize = config.maxPoolSize;
+        this.queueCapacity = config.queueCapacity;
+        this.allowCoreThreadTimeOut = config.allowCoreThreadTimeOut;
+        this.prestartAllCoreThreads = config.prestartAllCoreThreads;
+        this.awaitTerminationMillis = config.awaitTerminationMillis;
+        this.beanName = config.beanName;
+        this.waitForTasksToCompleteOnShutdown = config.waitForTasksToCompleteOnShutdown;
+        this.daemon = config.daemon;
+        this.threadGroupName = config.threadGroupName;
+        this.threadNamePrefix = config.threadNamePrefix;
+        this.threadPriority = config.threadPriority;
     }
 
     /**
@@ -338,6 +363,29 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
+     * 2025. 8. 11.		박준홍			최초 작성
+     * </pre>
+     * 
+     * @return the initialized
+     *
+     * @since 2025. 8. 11.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #initialized
+     */
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
      * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      * 
@@ -396,6 +444,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setAllowCoreThreadTimeOut(boolean allowCoreThreadTimeOut) {
         this.allowCoreThreadTimeOut = allowCoreThreadTimeOut;
+
+        this.initialized = true;
     }
 
     /**
@@ -419,6 +469,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setAwaitTerminationMillis(long awaitTerminationMillis) {
         this.awaitTerminationMillis = awaitTerminationMillis;
+
+        this.initialized = true;
     }
 
     /**
@@ -441,6 +493,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setAwaitTerminationSeconds(@Min(0) int awaitTerminationSeconds) {
         this.awaitTerminationMillis = awaitTerminationSeconds * 1000L;
+
+        this.initialized = true;
     }
 
     /**
@@ -463,6 +517,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setBeanName(String beanName) {
         this.beanName = beanName;
+
+        this.initialized = true;
     }
 
     /**
@@ -485,6 +541,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setCorePoolSize(@Min(1) int corePoolSize) {
         this.corePoolSize = corePoolSize;
+
+        this.initialized = true;
     }
 
     /**
@@ -507,6 +565,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setDaemon(boolean daemon) {
         this.daemon = daemon;
+
+        this.initialized = true;
     }
 
     /**
@@ -529,6 +589,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setKeepAliveSeconds(@Min(1) int keepAliveSeconds) {
         this.keepAliveSeconds = keepAliveSeconds;
+
+        this.initialized = true;
     }
 
     /**
@@ -551,6 +613,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setMaxPoolSize(@Min(1) int maxPoolSize) {
         this.maxPoolSize = maxPoolSize;
+
+        this.initialized = true;
     }
 
     /**
@@ -574,6 +638,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setPrestartAllCoreThreads(boolean prestartAllCoreThreads) {
         this.prestartAllCoreThreads = prestartAllCoreThreads;
+
+        this.initialized = true;
     }
 
     /**
@@ -596,6 +662,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setQueueCapacity(@Min(1) int queueCapacity) {
         this.queueCapacity = queueCapacity;
+
+        this.initialized = true;
     }
 
     /**
@@ -618,6 +686,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setThreadGroupName(String threadGroupName) {
         this.threadGroupName = threadGroupName;
+
+        this.initialized = true;
     }
 
     /**
@@ -640,6 +710,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setThreadNamePrefix(String threadNamePrefix) {
         this.threadNamePrefix = threadNamePrefix;
+
+        this.initialized = true;
     }
 
     /**
@@ -662,6 +734,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setThreadPriority(int threadPriority) {
         this.threadPriority = threadPriority;
+
+        this.initialized = true;
     }
 
     /**
@@ -684,6 +758,8 @@ public class ThreadPoolTaskExecutorConfig implements Cloneable {
      */
     public void setWaitForTasksToCompleteOnShutdown(boolean waitForTasksToCompleteOnShutdown) {
         this.waitForTasksToCompleteOnShutdown = waitForTasksToCompleteOnShutdown;
+
+        this.initialized = true;
     }
 
     /**

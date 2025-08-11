@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 import javax.validation.constraints.NotBlank;
@@ -55,7 +56,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -98,9 +98,9 @@ public class ResourceConfiguration {
      */
     public static final String BEAN_QUALIFIER_RESTTEMPLATE_ALLOW_PRIVATE_CA = "open.commons.spring.web.config.ResourceConfiguration#RESTTEMPLATE_ALLOW_PRIVATE_CA";
     /** 기본 {@link RestTemplate} 설정 */
-    public static final String CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE";
+    public static final String CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE";
     /** 기본 {@link RestTemplate} 설정 경로 */
-    private static final String PROPERTIES_RESTTEMPLATE_REQUEST_SOURCE = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".resttemplate.requestfactory";
+    public static final String PROPERTIES_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE = ResourceConfiguration.PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".resttemplate.requestfactory";
     // --------------------------------------------------------- //
 
     // Duplicate @ConfigurationProperties definition for prefix
@@ -109,59 +109,59 @@ public class ResourceConfiguration {
     /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} */
     public static final String BEAN_QUALIFIER_DEFAULT_THREAD_POOL_TASK_EXECUTOR = "open.commons.spring.web.config.ResourceConfiguration#DEFAULT_THREADPOOL_TASK_EXECUTOR";
     /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} 설정 */
-    private static final String CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG";
+    public static final String CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG";
     /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} 설정 경로 */
-    private static final String PROPERTIES_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".concurrent.thread-pool-task-executor";
+    public static final String PROPERTIES_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".concurrent.thread-pool-task-executor";
     /**
      * {@link ThreadPoolTaskExecutor} 설정 경로<br>
      * 
      * @deprecated 경로가 변경에 따라 사용되지 않음.{@link #PROPERTIES_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG}를 사용할 것.<br>
      *             <font color="red">다음 배포시 삭제될 예정.</font>
      */
-    private static final String PROPERTIES_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".async.thread-pool-task-executor";
+    public static final String PROPERTIES_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".async.thread-pool-task-executor";
     /** 내부적으로 사용되는 {@link ThreadPoolTaskExecutor} 설정 */
-    public static final String CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG";
+    public static final String CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_MDC = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_MDC";
     // -------------------------------------------------------------------------- //
 
     /** {@link Async} 어노테이션이 적용된 메소드가 실행될 때 기본값으로 사용되는 {@link Executor} 설정값 */
-    public static final String CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC = "open.commons.spring.web.config.ResourceConfiguration#BUILTIN_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG";
+    public static final String CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC = "open.commons.spring.web.config.ResourceConfiguration#BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC";
 
     // --- org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler --- //
     /** 기본적으로 제공되는 {@link ThreadPoolTaskScheduler} */
     public static final String BEAN_QUALIFIER_DEFAULT_THREAD_POOL_TASK_SCHEDULER = "open.commons.spring.web.config.ResourceConfiguration#DEFAULT_THREAD_POOL_TASK_SCHEDULER";
     /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} 설정 */
-    private static final String CONFIGURATION_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG";
+    public static final String CONFIGURATION_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG";
     /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} 설정 경로 */
-    private static final String PROPERTIES_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".concurrent.thread-pool-task-scheduler";
+    public static final String PROPERTIES_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".concurrent.thread-pool-task-scheduler";
     /** 내부적으로 사용되는 {@link ThreadPoolTaskExecutor} 설정 */
-    public static final String CONFIGURATION_BUILTIN_THREAD_POOL_TASK_SCHEDULER_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_BUILTIN_THREAD_POOL_TASK_SCHEDULER_CONFIG";
+    public static final String CONFIGURATION_THREAD_POOL_TASK_SCHEDULER_CONFIG_ON_MDC = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_THREAD_POOL_TASK_SCHEDULER_CONFIG_ON_MDC";
     // -------------------------------------------------------------------------- //
 
     // --- java.util.concurrent.ScheduledThreadPoolExecutor --- //
     /** 기본적으로 제공되는 {@link ScheduledThreadPoolExecutor} */
     public static final String BEAN_QUALIFIER_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR = "open.commons.spring.web.config.ResourceConfiguration#DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR";
     /** 기본적으로 제공되는 {@link ScheduledThreadPoolExecutor} */
-    private static final String CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG";
+    public static final String CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG";
     /** 기본적으로 제공되는 {@link ScheduledThreadPoolExecutor} */
-    private static final String PROPERTIES_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH
+    public static final String PROPERTIES_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH
             + ".concurrent.scheduled-thread-pool-executor";
     /** 내부적으로 사용되는 {@link ScheduledThreadPoolExecutor} */
-    public static final String CONFIGURATION_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG";
+    public static final String CONFIGURATION_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC";
     // -------------------------------------------------------------------------- //
 
-    /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 설정 */
-    private static final String PROPERTIES_EXCETPION_HTTPSTATUS_BINDER_PROPERTIS = "open-commons.spring.web.exception-httpstatus-binder.properties";
     /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 제공 서비스 */
-    public static final String CONFIGURATION_EXCETPION_HTTPSTATUS_PROPERTIES = "open.commons.spring.web.config.ResourceConfiguration#EXCETPION_HTTPSTATUS_PROPERTIES";
+    public static final String CONFIGURATION_DEFAULT_EXCETPION_HTTPSTATUS_PROPERTIES = "open.commons.spring.web.config.ResourceConfiguration#EXCETPION_HTTPSTATUS_PROPERTIES";
+    /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 설정 경로 */
+    public static final String PROPERTIES_DEFAULT_EXCETPION_HTTPSTATUS_PROPERTIES = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".exception-httpstatus-binder.properties";
 
     /** {@link HandlerInterceptor}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 URL 패턴 설정 경로 */
-    private static final String PROPERTIES_INTERCEPTOR_IGNORE_URL_PATTERNS = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".interceptor-ignore-url-patterns";
+    public static final String PROPERTIES_DEFAULT_INTERCEPTOR_IGNORE_URL_PATTERNS = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".interceptor-ignore-url-patterns";
 
     /** {@link OncePerRequestFilter}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 {@link AntPathRequest} 패턴 설정 경로 */
-    private static final String PROPERTIES_ONCE_PER_REQUEST_SHOULD_NOT_FILTERS = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".once-per-request-should-not-filters";
+    public static final String PROPERTIES_DEFAULT_ONCE_PER_REQUEST_SHOULD_NOT_FILTERS = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".once-per-request-should-not-filters";
 
     @SuppressWarnings("unused")
-    private ApplicationContext context;
+    private final ApplicationContext context;
 
     private final Environment environment;
 
@@ -187,148 +187,16 @@ public class ResourceConfiguration {
         this.environment = environment;
     }
 
-    /**
-     * 주어진 경로에 해당하는 정보를 객체에 적용합니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param prefix
-     *            데이터 경로
-     * @param target
-     *            객체
-     *
-     * @since 2025. 8. 1.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    private void bind(@NotBlank @Nonnull String prefix, @NotNull @Nonnull ThreadPoolTaskExecutorConfig target) {
-        Binder binder = Binder.get(this.environment);
-        binder.bind(prefix, Bindable.ofInstance(target));
-    }
-
-    /**
-     * 내부적인 용도로 사용되는 {@link ScheduledThreadPoolExecutor} 설정값을 제공합니다.<br>
-     * 단, {@link #CONFIGURATION_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG} 이름을 갖는 설정({@link Bean}) 이 생성되는 경우 실행되지
-     * 않습니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param config
-     * @return
-     * @throws CloneNotSupportedException
-     *
-     * @since 2025. 8. 4.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    @Bean(name = CONFIGURATION_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG)
-    @ConditionalOnMissingBean(name = { CONFIGURATION_BUILTIN_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG })
-    ScheduledThreadPoolExecutorConfig builtinScheduledThreadPoolExecutorConfig(
-            @Qualifier(CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG) ScheduledThreadPoolExecutorConfig config) throws CloneNotSupportedException {
-        return (ScheduledThreadPoolExecutorConfig) config.clone();
-    }
-
-    /**
-     * 내부적인 용도로 사용되는 {@link ThreadPoolTaskExecutor} 설정값을 제공합니다.<br>
-     * 단, {@link #CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG} 이름을 갖는 설정({@link Bean}) 이 생성되는 경우 실행되지 않습니다.
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param config
-     * @return
-     * @throws CloneNotSupportedException
-     *
-     * @since 2025. 8. 4.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    @Bean(name = CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG)
-    @ConditionalOnMissingBean(name = { CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG })
-    ThreadPoolTaskExecutorConfig builtinThreadPoolTaskExecutorConfig(@Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig config)
-            throws CloneNotSupportedException {
-        return (ThreadPoolTaskExecutorConfig) config.clone();
-    }
-
-    /**
-     * {@link Async} 어노테이션이 적용된 메소드를 실행하는 내부 {@link ThreadPoolTaskExecutor} 설정값을 제공합니다.<br>
-     * 단, {@link #CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC} 이름을 갖는 설정({@link Bean}) 이 생성되는 경우
-     * 실행되지 않습니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜      | 작성자   |   내용
-     * ------------------------------------------
-     * 2025. 7. 31.     박준홍         최초 작성
-     * </pre>
-     *
-     * @return
-     *
-     * @since 2025. 7. 31.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     * @throws CloneNotSupportedException
-     */
-    @Bean(CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC)
-    @ConditionalOnMissingBean(name = { CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC })
-    ThreadPoolTaskExecutorConfig builtinThreadPoolTaskExecutorConfigOnAsync(
-            @Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig config) throws CloneNotSupportedException {
-        ThreadPoolTaskExecutorConfig asyncConfig = (ThreadPoolTaskExecutorConfig) config.clone();
-        asyncConfig.setDaemon(true);
-        return asyncConfig;
-    }
-
-    /**
-     * {@link Scheduled} 어노테이션이 적용된 메소드를 실행하는 내부 {@link ThreadPoolTaskScheduler}의 설정값을 제공합니다.<br>
-     * 단, {@link #CONFIGURATION_BUILTIN_THREAD_POOL_TASK_SCHEDULER_CONFIG} 이름을 갖는 설정(@Bean)이 생성되는 경우 실행되지 않습니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param config
-     * @return
-     * @throws CloneNotSupportedException
-     *
-     * @since 2025. 8. 4.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    @Bean(name = CONFIGURATION_BUILTIN_THREAD_POOL_TASK_SCHEDULER_CONFIG)
-    @ConditionalOnMissingBean(name = { CONFIGURATION_BUILTIN_THREAD_POOL_TASK_SCHEDULER_CONFIG })
-    ThreadPoolTaskSchedulerConfig builtinThreadPoolTaskSchedulerConfig(@Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG) ThreadPoolTaskSchedulerConfig config)
-            throws CloneNotSupportedException {
-        return (ThreadPoolTaskSchedulerConfig) config.clone();
-    }
-
-    @Bean(CONFIGURATION_EXCETPION_HTTPSTATUS_PROPERTIES)
-    @ConfigurationProperties(PROPERTIES_EXCETPION_HTTPSTATUS_BINDER_PROPERTIS)
-    Map<String, String> configureExceptionHttpStatusProperties() {
-        return new HashMap<>();
+    @Bean(name = ExceptionHttpStatusBinder.BEAN_QUALIFIER)
+    @Primary
+    ExceptionHttpStatusBinder beanExceptionHttpStatusBinder(@Qualifier(CONFIGURATION_DEFAULT_EXCETPION_HTTPSTATUS_PROPERTIES) Map<String, String> exceptionHttpStatusProperties) {
+        return new ExceptionHttpStatusBinder(exceptionHttpStatusProperties);
     }
 
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE)
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Primary
-    RestTemplate defaultRestTemplate(@Qualifier(CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
+    RestTemplate beanRestTemplate(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
             throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
         HttpClient httpClient = RestUtils.createHttpsClient(false);
         HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
@@ -340,35 +208,13 @@ public class ResourceConfiguration {
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_ALLOW_PRIVATE_CA)
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Primary
-    RestTemplate defaultRestTemplateAllowPrivateCA(@Qualifier(CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
+    RestTemplate beanRestTemplateAllowPrivateCA(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
             throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
         HttpClient httpClient = RestUtils.createHttpsClient(true);
         HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
 
         RestTemplate tpl = new RestTemplate(reqFactory);
         return tpl;
-    }
-
-    /**
-     * {@link RestTemplate}에 사용되는 {@link ClientHttpRequestFactory} 설정 정보를 제공한다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2019. 6. 27.		박준홍			최초 작성
-     * </pre>
-     *
-     * @return
-     *
-     * @since 2019. 6. 27.
-     * @version
-     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
-     */
-    @Bean(name = CONFIGURATION_RESTTEMPLATE_REQUEST_SOURCE)
-    @ConfigurationProperties(PROPERTIES_RESTTEMPLATE_REQUEST_SOURCE)
-    RestTemplateRequestFactoryResource defaultRestTemplateRequestFactoryResource() {
-        return new RestTemplateRequestFactoryResource();
     }
 
     /**
@@ -390,31 +236,8 @@ public class ResourceConfiguration {
      */
     @Bean(name = BEAN_QUALIFIER_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR)
     @Primary
-    ScheduledThreadPoolExecutor defaultScheduledThreadPoolExecutor(
-            @Qualifier(CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG) ScheduledThreadPoolExecutorConfig config) {
+    ScheduledThreadPoolExecutor beanScheduledThreadPoolExecutor(@Qualifier(CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG) ScheduledThreadPoolExecutorConfig config) {
         return createScheduledThreadPoolExecutor(config);
-    }
-
-    /**
-     * {@link ScheduledThreadPoolExecutor} 설정정보를 제공합니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
-     * </pre>
-     *
-     * @return
-     *
-     * @since 2025. 8. 1.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    @Bean(name = CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG)
-    @ConfigurationProperties(PROPERTIES_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG)
-    ScheduledThreadPoolExecutorConfig defaultScheduledThreadPoolExecutorConfig() {
-        return new ScheduledThreadPoolExecutorConfig();
     }
 
     /**
@@ -440,39 +263,8 @@ public class ResourceConfiguration {
     @Bean(name = BEAN_QUALIFIER_DEFAULT_THREAD_POOL_TASK_EXECUTOR, destroyMethod = "destroy")
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Primary
-    ThreadPoolTaskExecutor defaultThreadPoolTaskExecutor(@Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig taskExecConfig) {
+    ThreadPoolTaskExecutor beanThreadPoolTaskExecutor(@Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig taskExecConfig) {
         return createThreadPoolTaskExecutor(taskExecConfig, "@builtin");
-    }
-
-    /**
-     * {@link ThreadPoolTaskExecutor} 설정정보를 제공한다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2019. 6. 27.		박준홍			최초 작성
-     * 2025. 8. 1.      박준홍         설정경로 변경으로 기존 경로를 호환하는 구조로 변경. (추후 하나의 경로로 정리할 예정)
-     * </pre>
-     *
-     * @return
-     *
-     * @since 2019. 6. 27.
-     * @version 0.3.0
-     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
-     */
-    @Bean(name = CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG)
-    // @ConfigurationProperties(PROPERTIES_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG)
-    ThreadPoolTaskExecutorConfig defaultThreadPoolTaskExecutorConfig() {
-        ThreadPoolTaskExecutorConfig config = new ThreadPoolTaskExecutorConfig();
-
-        if (hasPrefix(PROPERTIES_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG + ".corePoolSize")) {
-            bind(PROPERTIES_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG, config);
-        } else if (hasPrefix(PROPERTIES_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG + ".corePoolSize")) {
-            bind(PROPERTIES_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG, config);
-        }
-
-        return config;
     }
 
     /**
@@ -494,8 +286,203 @@ public class ResourceConfiguration {
      */
     @Bean(name = BEAN_QUALIFIER_DEFAULT_THREAD_POOL_TASK_SCHEDULER)
     @Primary
-    ThreadPoolTaskScheduler defaultThreadPoolTaskScheduler(@Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG) ThreadPoolTaskSchedulerConfig config) {
+    ThreadPoolTaskScheduler beanThreadPoolTaskScheduler(@Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG) ThreadPoolTaskSchedulerConfig config) {
         return createThreadPoolTaskScheduler(config);
+    }
+
+    /**
+     * 주어진 경로에 해당하는 정보를 객체에 적용합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 1.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param prefix
+     *            데이터 경로
+     * @param target
+     *            객체
+     *
+     * @since 2025. 8. 1.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    <T> T bind(@NotBlank @Nonnull String prefix, @NotNull @Nonnull T target) {
+        Binder binder = Binder.get(this.environment);
+        return binder.bind(prefix, Bindable.ofInstance(target)).get();
+    }
+
+    @Bean(name = CONFIGURATION_DEFAULT_EXCETPION_HTTPSTATUS_PROPERTIES)
+    @ConfigurationProperties(prefix = PROPERTIES_DEFAULT_EXCETPION_HTTPSTATUS_PROPERTIES)
+    Map<String, String> configExceptionHttpStatusProperties() {
+        Map<String, String> prop = new HashMap<>();
+
+        prop.put("java.lang.UnsupportedOperationException", "INTERNAL_SERVER_ERROR");
+        prop.put("javax.validation.ConstraintViolationException", "BAD_REQUEST");
+
+        return prop;
+    }
+
+    @Bean(name = CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE)
+    @ConfigurationProperties(prefix = PROPERTIES_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE)
+    RestTemplateRequestFactoryResource configRestTemplateRequestFactoryResource() {
+        RestTemplateRequestFactoryResource config = new RestTemplateRequestFactoryResource();
+        config.setBufferRequestBody(true);
+        config.setConnectionRequestTimeout(30000);
+        config.setConnectionTimeout(30000);
+        config.setReadTimeout(300000);
+
+        return config;
+    }
+
+    /**
+     * {@link ScheduledThreadPoolExecutor} 설정정보를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 1.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 8. 1.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG)
+    @ConfigurationProperties(prefix = PROPERTIES_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG)
+    ScheduledThreadPoolExecutorConfig configScheduledThreadPoolExecutorConfig() {
+        ScheduledThreadPoolExecutorConfig config = new ScheduledThreadPoolExecutorConfig();
+
+        config.setCorePoolSize(8);
+        config.setMaximumPoolSize(1024);
+        config.setKeepAliveTime(60);
+        config.setTimeUnit(TimeUnit.SECONDS);
+        config.setAllowCoreThreadTimeOut(false);
+        config.setContinueExistingPeriodicTasksAfterShutdown(false);
+        config.setExecuteExistingDelayedTasksAfterShutdown(true);
+        config.setRemoveOnCancel(false);
+
+        return config;
+    }
+
+    /**
+     * 내부적인 용도로 사용되는 {@link ScheduledThreadPoolExecutor} 설정값을 제공합니다.<br>
+     * 단, {@link #CONFIGURATION_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC} 이름을 갖는 설정({@link Bean}) 이 생성되는 경우 실행되지
+     * 않습니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param config
+     * @return
+     * 
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = CONFIGURATION_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC)
+    @ConditionalOnMissingBean(name = { CONFIGURATION_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC })
+    ScheduledThreadPoolExecutorConfig configScheduledThreadPoolExecutorConfigOnMDC(
+            @Qualifier(CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG) ScheduledThreadPoolExecutorConfig config) {
+        return new ScheduledThreadPoolExecutorConfig(config);
+    }
+
+    /**
+     * {@link ThreadPoolTaskExecutor} 설정정보를 제공한다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2019. 6. 27.     박준홍         최초 작성
+     * 2025. 8. 1.      박준홍         설정경로 변경으로 기존 경로를 호환하는 구조로 변경. (추후 하나의 경로로 정리할 예정)
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2019. 6. 27.
+     * @version 0.3.0
+     * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
+     */
+    @Bean(name = CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG)
+    @ConfigurationProperties(prefix = PROPERTIES_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG)
+    ThreadPoolTaskExecutorConfig configThreadPoolTaskExecutorConfig() {
+        ThreadPoolTaskExecutorConfig config = new ThreadPoolTaskExecutorConfig();
+
+        config.setCorePoolSize(8);
+        config.setKeepAliveSeconds(60);
+        config.setMaxPoolSize(1024);
+        config.setQueueCapacity(5000);
+        config.setAllowCoreThreadTimeOut(false);
+        config.setPrestartAllCoreThreads(false);
+        config.setAwaitTerminationMillis(0);
+        config.setWaitForTasksToCompleteOnShutdown(false);
+        config.setDaemon(true);
+        config.setThreadGroupName("task-executor");
+        config.setThreadNamePrefix("default-executor-pool-");
+        config.setThreadPriority(Thread.NORM_PRIORITY);
+
+        return config;
+    }
+
+    /**
+     * {@link Async} 어노테이션이 적용된 메소드를 실행하는 내부 {@link ThreadPoolTaskExecutor} 설정값을 제공합니다.<br>
+     * 단, {@link #CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC} 이름을 갖는 설정({@link Bean}) 이 생성되는 경우 실행되지 않습니다.
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 7. 31.     박준홍         최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 7. 31.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com @
+     */
+    @Bean(name = CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC)
+    @ConditionalOnMissingBean(name = { CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC })
+    ThreadPoolTaskExecutorConfig configThreadPoolTaskExecutorConfigOnAsync(@Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig config) {
+        ThreadPoolTaskExecutorConfig asyncConfig = new ThreadPoolTaskExecutorConfig(config);
+        asyncConfig.setDaemon(true);
+        return asyncConfig;
+    }
+
+    /**
+     * 내부적인 용도로 사용되는 {@link ThreadPoolTaskExecutor} 설정값을 제공합니다.<br>
+     * 단, {@link #CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_MDC} 이름을 갖는 설정({@link Bean}) 이 생성되는 경우 실행되지 않습니다.
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param config
+     * @return
+     * 
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_MDC)
+    @ConditionalOnMissingBean(name = { CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_MDC })
+    ThreadPoolTaskExecutorConfig configThreadPoolTaskExecutorConfigOnMDC(@Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG) ThreadPoolTaskExecutorConfig config) {
+        return new ThreadPoolTaskExecutorConfig(config);
     }
 
     /**
@@ -515,15 +502,54 @@ public class ResourceConfiguration {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Bean(name = CONFIGURATION_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG)
-    @ConfigurationProperties(PROPERTIES_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG)
-    ThreadPoolTaskSchedulerConfig defaultThreadPoolTaskSchedulerConfig() {
-        return new ThreadPoolTaskSchedulerConfig();
+    @ConfigurationProperties(prefix = PROPERTIES_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG)
+    ThreadPoolTaskSchedulerConfig configThreadPoolTaskSchedulerConfig() {
+        ThreadPoolTaskSchedulerConfig config = new ThreadPoolTaskSchedulerConfig();
+
+        // -- org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler --//
+        config.setPoolSize(8);
+        config.setRemoveOnCancelPolicy(false);
+        config.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
+        config.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);
+        // --------------------------------------------- //
+
+        // --- org.springframework.scheduling.concurrent.ExecutorConfigurationSupport --- //
+        config.setAwaitTerminationSeconds(0);
+        config.setWaitForTasksToCompleteOnShutdown(false);
+        // ---------------------------------------------------------- //
+
+        // --- org.springframework.util.CustomizableThreadCreator --- //
+        config.setDaemon(true);
+        config.setThreadNamePrefix("default-scheduler-pool-");
+        config.setThreadPriority(Thread.NORM_PRIORITY);
+        // -------------------------------------------------- //
+
+        return config;
     }
 
-    @Bean(ExceptionHttpStatusBinder.BEAN_QUALIFIER)
-    @Primary
-    ExceptionHttpStatusBinder exceptionHttpStatusBinder(@Qualifier(CONFIGURATION_EXCETPION_HTTPSTATUS_PROPERTIES) Map<String, String> exceptionHttpStatusProperties) {
-        return new ExceptionHttpStatusBinder(exceptionHttpStatusProperties);
+    /**
+     * {@link Scheduled} 어노테이션이 적용된 메소드를 실행하는 내부 {@link ThreadPoolTaskScheduler}의 설정값을 제공합니다.<br>
+     * 단, {@link #CONFIGURATION_THREAD_POOL_TASK_SCHEDULER_CONFIG_ON_MDC} 이름을 갖는 설정(@Bean)이 생성되는 경우 실행되지 않습니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param config
+     * @return
+     * 
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = CONFIGURATION_THREAD_POOL_TASK_SCHEDULER_CONFIG_ON_MDC)
+    @ConditionalOnMissingBean(name = { CONFIGURATION_THREAD_POOL_TASK_SCHEDULER_CONFIG_ON_MDC })
+    ThreadPoolTaskSchedulerConfig configThreadPoolTaskSchedulerConfigOnMDC(
+            @Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_TASK_SCHEDULER_CONFIG) ThreadPoolTaskSchedulerConfig config) {
+        return new ThreadPoolTaskSchedulerConfig(config);
     }
 
     /**
@@ -544,7 +570,7 @@ public class ResourceConfiguration {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private boolean hasPrefix(String prefix) {
+    boolean hasPrefix(String prefix) {
         return environment.getProperty(prefix) != null;
     }
 
@@ -565,7 +591,7 @@ public class ResourceConfiguration {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Bean
-    @ConfigurationProperties(PROPERTIES_INTERCEPTOR_IGNORE_URL_PATTERNS)
+    @ConfigurationProperties(prefix = PROPERTIES_DEFAULT_INTERCEPTOR_IGNORE_URL_PATTERNS)
     List<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlPatterns() {
         return new ArrayList<>();
     }
@@ -587,7 +613,7 @@ public class ResourceConfiguration {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Bean
-    @ConfigurationProperties(PROPERTIES_ONCE_PER_REQUEST_SHOULD_NOT_FILTERS)
+    @ConfigurationProperties(prefix = PROPERTIES_DEFAULT_ONCE_PER_REQUEST_SHOULD_NOT_FILTERS)
     List<AntPathRequest> oncePerRequestShouldNotFilters() {
         return new ArrayList<>();
     }

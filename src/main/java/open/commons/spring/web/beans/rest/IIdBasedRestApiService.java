@@ -27,6 +27,7 @@
 package open.commons.spring.web.beans.rest;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import javax.validation.constraints.NotEmpty;
@@ -74,7 +75,7 @@ public interface IIdBasedRestApiService {
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, Class<RES> responseType) {
-        return execute(id, null, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, null, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -104,7 +105,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, null, responseType, null, null, null, onSuccess, CallbackOn.error());
+        return execute(id, null, null, responseType, null, null, null, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -137,7 +138,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, null, responseType, null, null, null, onSuccess, onError);
+        return execute(id, null, null, responseType, null, null, null, onSuccess, onError);
     }
 
     /**
@@ -596,7 +597,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
-        return execute(id, null, responseType, null, query, null, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, null, responseType, null, query, null, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -629,7 +630,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, null, responseType, null, query, null, onSuccess, CallbackOn.error());
+        return execute(id, null, null, responseType, null, query, null, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -665,7 +666,7 @@ public interface IIdBasedRestApiService {
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, null, responseType, null, query, null, onSuccess, onError);
+        return execute(id, null, null, responseType, null, query, null, onSuccess, onError);
     }
 
     /**
@@ -697,7 +698,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return execute(id, null, responseType, null, query, fragment, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, null, responseType, null, query, fragment, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -732,7 +733,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, null, responseType, null, query, fragment, onSuccess, CallbackOn.error());
+        return execute(id, null, null, responseType, null, query, fragment, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -770,7 +771,7 @@ public interface IIdBasedRestApiService {
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, null, responseType, null, query, fragment, onSuccess, onError);
+        return execute(id, null, null, responseType, null, query, fragment, onSuccess, onError);
     }
 
     /**
@@ -800,7 +801,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable String fragment) {
-        return execute(id, null, responseType, null, null, fragment, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, null, responseType, null, null, fragment, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -833,7 +834,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, null, responseType, null, null, fragment, onSuccess, CallbackOn.error());
+        return execute(id, null, null, responseType, null, null, fragment, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -869,7 +870,3959 @@ public interface IIdBasedRestApiService {
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, null, responseType, null, null, fragment, onSuccess, onError);
+        return execute(id, null, null, responseType, null, null, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType) {
+        return execute(id, pathVariables, null, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, null, null, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, null, null, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.// ,
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers) {
+        return execute(id, pathVariables, null, responseType, headers, null, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, headers, null, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, headers, null, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return execute(id, pathVariables, null, responseType, headers, query, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, headers, query, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, headers, query, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return execute(id, pathVariables, null, responseType, headers, query, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, headers, query, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, headers, query, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable String fragment) {
+        return execute(id, pathVariables, null, responseType, headers, null, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, headers, null, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, headers, null, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return execute(id, pathVariables, null, responseType, null, query, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, null, query, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, null, query, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return execute(id, pathVariables, null, responseType, null, query, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, null, query, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, null, query, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable String fragment) {
+        return execute(id, pathVariables, null, responseType, null, null, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, null, null, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, null, null, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType) {
+        return execute(id, pathVariables, null, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, null, null, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, null, null, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers) {
+        return execute(id, pathVariables, null, responseType, headers, null, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, headers, null, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, headers, null, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return execute(id, pathVariables, null, responseType, headers, query, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, headers, query, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, headers, query, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return execute(id, pathVariables, null, responseType, headers, query, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, headers, query, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, headers, query, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable String fragment) {
+        return execute(id, pathVariables, null, responseType, headers, null, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, headers, null, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, headers, null, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return execute(id, pathVariables, null, responseType, null, query, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, null, query, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, null, query, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return execute(id, pathVariables, null, responseType, null, query, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, null, query, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, null, query, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable String fragment) {
+        return execute(id, pathVariables, null, responseType, null, null, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, null, responseType, null, null, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, null, responseType, null, null, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, Class<RES> responseType) {
+        return execute(id, pathVariables, requestBody, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, null, null, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, null, null, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers) {
+        return execute(id, pathVariables, requestBody, responseType, headers, null, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, headers, null, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, headers, null, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return execute(id, pathVariables, requestBody, responseType, headers, query, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, headers, query, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, headers, query, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return execute(id, pathVariables, requestBody, responseType, headers, query, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, headers, query, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param <RET>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError);
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers, @Nullable String fragment) {
+        return execute(id, pathVariables, requestBody, responseType, headers, null, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, headers, null, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, headers, null, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return execute(id, pathVariables, requestBody, responseType, null, query, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, null, query, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, null, query, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return execute(id, pathVariables, requestBody, responseType, null, query, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, null, query, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, null, query, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable String fragment) {
+        return execute(id, pathVariables, requestBody, responseType, null, null, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, null, null, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, null, null, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType) {
+        return execute(id, pathVariables, requestBody, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, null, null, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, null, null, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers) {
+        return execute(id, pathVariables, requestBody, responseType, headers, null, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, headers, null, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, headers, null, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return execute(id, pathVariables, requestBody, responseType, headers, query, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, headers, query, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, headers, query, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return execute(id, pathVariables, requestBody, responseType, headers, query, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, headers, query, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param <RET>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError);
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers, @Nullable String fragment) {
+        return execute(id, pathVariables, requestBody, responseType, headers, null, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, headers, null, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, headers, null, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return execute(id, pathVariables, requestBody, responseType, null, query, null, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, null, query, null, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, null, query, null, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return execute(id, pathVariables, requestBody, responseType, null, query, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, null, query, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, null, query, fragment, onSuccess, onError);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable String fragment) {
+        return execute(id, pathVariables, requestBody, responseType, null, null, fragment, CallbackOn.success(null), CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
+        return execute(id, pathVariables, requestBody, responseType, null, null, fragment, onSuccess, CallbackOn.error());
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, pathVariables, requestBody, responseType, null, null, fragment, onSuccess, onError);
     }
 
     /**
@@ -902,7 +4855,7 @@ public interface IIdBasedRestApiService {
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType) {
-        return execute(id, null, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, null, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -938,7 +4891,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, null, responseType, null, null, null, onSuccess, CallbackOn.error());
+        return execute(id, null, null, responseType, null, null, null, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -977,7 +4930,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, null, responseType, null, null, null, onSuccess, onError);
+        return execute(id, null, null, responseType, null, null, null, onSuccess, onError);
     }
 
     /**
@@ -1514,7 +5467,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
-        return execute(id, null, responseType, null, query, null, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, null, responseType, null, query, null, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -1553,7 +5506,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, null, responseType, null, query, null, onSuccess, CallbackOn.error());
+        return execute(id, null, null, responseType, null, query, null, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -1595,7 +5548,7 @@ public interface IIdBasedRestApiService {
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, null, responseType, null, query, null, onSuccess, onError);
+        return execute(id, null, null, responseType, null, query, null, onSuccess, onError);
     }
 
     /**
@@ -1633,7 +5586,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return execute(id, null, responseType, null, query, fragment, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, null, responseType, null, query, fragment, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -1674,7 +5627,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, null, responseType, null, query, fragment, onSuccess, CallbackOn.error());
+        return execute(id, null, null, responseType, null, query, fragment, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -1718,7 +5671,7 @@ public interface IIdBasedRestApiService {
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, null, responseType, null, query, fragment, onSuccess, onError);
+        return execute(id, null, null, responseType, null, query, fragment, onSuccess, onError);
     }
 
     /**
@@ -1754,7 +5707,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment) {
-        return execute(id, null, responseType, null, null, fragment, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, null, responseType, null, null, fragment, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -1793,7 +5746,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, null, responseType, null, null, fragment, onSuccess, CallbackOn.error());
+        return execute(id, null, null, responseType, null, null, fragment, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -1835,7 +5788,7 @@ public interface IIdBasedRestApiService {
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, null, responseType, null, null, fragment, onSuccess, onError);
+        return execute(id, null, null, responseType, null, null, fragment, onSuccess, onError);
     }
 
     /**
@@ -1865,7 +5818,7 @@ public interface IIdBasedRestApiService {
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, Class<RES> responseType) {
-        return execute(id, requestBody, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -1898,7 +5851,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, null, null, null, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, null, null, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -1934,7 +5887,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, null, null, null, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, null, null, null, onSuccess, onError);
     }
 
     /**
@@ -1967,7 +5920,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers) {
-        return execute(id, requestBody, responseType, headers, null, null, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, null, null, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -2003,7 +5956,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, headers, null, null, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, null, null, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -2042,7 +5995,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, headers, null, null, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, headers, null, null, onSuccess, onError);
     }
 
     /**
@@ -2078,7 +6031,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query) {
-        return execute(id, requestBody, responseType, headers, query, null, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, query, null, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -2117,7 +6070,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, headers, query, null, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, query, null, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -2159,7 +6112,7 @@ public interface IIdBasedRestApiService {
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, headers, query, null, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, headers, query, null, onSuccess, onError);
     }
 
     /**
@@ -2197,7 +6150,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return execute(id, requestBody, responseType, headers, query, fragment, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, query, fragment, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -2238,7 +6191,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, headers, query, fragment, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, query, fragment, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -2278,11 +6231,13 @@ public interface IIdBasedRestApiService {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , @NotNull Function<Exception, Result<RET>> onError);
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, null, requestBody, responseType, headers, query, fragment, onSuccess, onError);
+    }
 
     /**
      * 
@@ -2316,7 +6271,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment) {
-        return execute(id, requestBody, responseType, headers, null, fragment, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, null, fragment, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -2354,7 +6309,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, headers, null, fragment, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, null, fragment, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -2395,7 +6350,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, headers, null, fragment, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, headers, null, fragment, onSuccess, onError);
     }
 
     /**
@@ -2430,8 +6385,11 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
-        return execute(id, requestBody, responseType, null, query, null, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, query, null, CallbackOn.success(null), CallbackOn.error());
     }
+
+    // ==========================================================================================================================================
+    // //
 
     /**
      * 
@@ -2468,7 +6426,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, null, query, null, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, query, null, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -2509,7 +6467,7 @@ public interface IIdBasedRestApiService {
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, null, query, null, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, null, query, null, onSuccess, onError);
     }
 
     /**
@@ -2546,7 +6504,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return execute(id, requestBody, responseType, null, query, fragment, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, query, fragment, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -2586,7 +6544,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, null, query, fragment, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, query, fragment, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -2629,7 +6587,7 @@ public interface IIdBasedRestApiService {
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, null, query, fragment, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, null, query, fragment, onSuccess, onError);
     }
 
     /**
@@ -2662,7 +6620,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment) {
-        return execute(id, requestBody, responseType, null, null, fragment, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, null, fragment, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -2698,7 +6656,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, null, null, fragment, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, null, fragment, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -2737,7 +6695,7 @@ public interface IIdBasedRestApiService {
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, null, null, fragment, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, null, null, fragment, onSuccess, onError);
     }
 
     /**
@@ -2773,7 +6731,7 @@ public interface IIdBasedRestApiService {
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType) {
-        return execute(id, requestBody, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -2812,7 +6770,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, null, null, null, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, null, null, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -2854,7 +6812,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, null, null, null, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, null, null, null, onSuccess, onError);
     }
 
     /**
@@ -2893,7 +6851,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers) {
-        return execute(id, requestBody, responseType, headers, null, null, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, null, null, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -2935,7 +6893,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, headers, null, null, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, null, null, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -2980,7 +6938,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, headers, null, null, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, headers, null, null, onSuccess, onError);
     }
 
     /**
@@ -3022,7 +6980,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query) {
-        return execute(id, requestBody, responseType, headers, query, null, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, query, null, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -3067,7 +7025,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, headers, query, null, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, query, null, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -3115,7 +7073,7 @@ public interface IIdBasedRestApiService {
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, headers, query, null, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, headers, query, null, onSuccess, onError);
     }
 
     /**
@@ -3159,7 +7117,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return execute(id, requestBody, responseType, headers, query, fragment, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, query, fragment, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -3206,7 +7164,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, headers, query, fragment, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, query, fragment, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -3252,11 +7210,13 @@ public interface IIdBasedRestApiService {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
+    default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , @NotNull Function<Exception, Result<RET>> onError);
+            , @NotNull Function<Exception, Result<RET>> onError) {
+        return execute(id, null, requestBody, responseType, headers, query, fragment, onSuccess, onError);
+    }
 
     /**
      * 
@@ -3296,7 +7256,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment) {
-        return execute(id, requestBody, responseType, headers, null, fragment, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, null, fragment, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -3340,7 +7300,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, headers, null, fragment, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, headers, null, fragment, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -3387,7 +7347,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, headers, null, fragment, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, headers, null, fragment, onSuccess, onError);
     }
 
     /**
@@ -3428,7 +7388,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
-        return execute(id, requestBody, responseType, null, query, null, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, query, null, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -3472,7 +7432,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, null, query, null, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, query, null, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -3519,7 +7479,7 @@ public interface IIdBasedRestApiService {
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, null, query, null, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, null, query, null, onSuccess, onError);
     }
 
     /**
@@ -3562,7 +7522,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return execute(id, requestBody, responseType, null, query, fragment, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, query, fragment, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -3608,7 +7568,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, null, query, fragment, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, query, fragment, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -3657,7 +7617,7 @@ public interface IIdBasedRestApiService {
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, null, query, fragment, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, null, query, fragment, onSuccess, onError);
     }
 
     /**
@@ -3696,7 +7656,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment) {
-        return execute(id, requestBody, responseType, null, null, fragment, CallbackOn.success(null), CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, null, fragment, CallbackOn.success(null), CallbackOn.error());
     }
 
     /**
@@ -3738,7 +7698,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
-        return execute(id, requestBody, responseType, null, null, fragment, onSuccess, CallbackOn.error());
+        return execute(id, null, requestBody, responseType, null, null, fragment, onSuccess, CallbackOn.error());
     }
 
     /**
@@ -3783,7 +7743,7 @@ public interface IIdBasedRestApiService {
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError) {
-        return execute(id, requestBody, responseType, null, null, fragment, onSuccess, onError);
+        return execute(id, null, requestBody, responseType, null, null, fragment, onSuccess, onError);
     }
 
     /**
@@ -3810,7 +7770,7 @@ public interface IIdBasedRestApiService {
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, Class<RES> responseType) {
-        return executeAsRaw(id, null, responseType, null, null, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, null, null, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -3840,7 +7800,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, null, null, null, onSuccess);
+        return executeAsRaw(id, null, null, responseType, null, null, null, onSuccess);
     }
 
     /**
@@ -3870,7 +7830,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers) {
-        return executeAsRaw(id, null, responseType, headers, null, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, headers, null, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -3903,7 +7863,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, headers, null, null, onSuccess);
+        return executeAsRaw(id, null, null, responseType, headers, null, null, onSuccess);
     }
 
     /**
@@ -3936,7 +7896,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query) {
-        return executeAsRaw(id, null, responseType, headers, query, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, headers, query, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -3972,7 +7932,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, headers, query, null, onSuccess);
+        return executeAsRaw(id, null, null, responseType, headers, query, null, onSuccess);
     }
 
     /**
@@ -4007,7 +7967,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return executeAsRaw(id, null, responseType, headers, query, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, headers, query, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4045,7 +8005,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, headers, query, fragment, onSuccess);
+        return executeAsRaw(id, null, null, responseType, headers, query, fragment, onSuccess);
     }
 
     /**
@@ -4078,7 +8038,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable String fragment) {
-        return executeAsRaw(id, null, responseType, headers, null, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, headers, null, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4114,7 +8074,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, headers, null, fragment, onSuccess);
+        return executeAsRaw(id, null, null, responseType, headers, null, fragment, onSuccess);
     }
 
     /**
@@ -4144,7 +8104,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
-        return executeAsRaw(id, null, responseType, null, query, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, null, query, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4177,7 +8137,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, null, query, null, onSuccess);
+        return executeAsRaw(id, null, null, responseType, null, query, null, onSuccess);
     }
 
     /**
@@ -4209,7 +8169,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return executeAsRaw(id, null, responseType, null, query, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, null, query, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4244,7 +8204,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, null, query, fragment, onSuccess);
+        return executeAsRaw(id, null, null, responseType, null, query, fragment, onSuccess);
     }
 
     /**
@@ -4274,7 +8234,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable String fragment) {
-        return executeAsRaw(id, null, responseType, null, null, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, null, null, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4307,7 +8267,2547 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, null, null, fragment, onSuccess);
+        return executeAsRaw(id, null, null, responseType, null, null, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, null, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, null, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.// ,
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, null, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, null, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, query, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, query, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, query, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, query, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, null, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, null, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, query, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, query, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, query, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, query, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, null, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, null, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, null, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, null, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, null, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, null, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, query, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, query, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, query, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, query, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, null, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, headers, null, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, query, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, query, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, query, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, query, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, null, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, null, responseType, null, null, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, Class<RES> responseType) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, null, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, null, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, null, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, null, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, query, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, query, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, query, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param <RET>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    public <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+    );
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers, @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, null, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable HttpHeaders headers, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, null, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, query, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, query, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, query, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, query, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, null, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 단일 데이터일 경우 사용
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, null, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, null, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, null, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, null, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, null, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, query, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, query, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, query, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param <RET>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    public <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+    );
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers, @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, null, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param headers
+     *            요청 헤더 정보.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable HttpHeaders headers, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, headers, null, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, query, null, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, query, null, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, query, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param query
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param headers
+     *            요청 헤더 정보.
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, query, fragment, onSuccess);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable String fragment) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, null, fragment, CallbackOn.successAsRaw(null));
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     * @param <RES>
+     * @param id
+     *            연동 API 식별정보
+     * @param pathVariables
+     *            URL 경로에 설정된 변수에 대한 값
+     * @param requestBody
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @return
+     *
+     * @since 2025. 8. 8..
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType //
+            , @Nullable String fragment //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        return executeAsRaw(id, pathVariables, requestBody, responseType, null, null, fragment, onSuccess);
     }
 
     /**
@@ -4340,7 +10840,7 @@ public interface IIdBasedRestApiService {
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType) {
-        return executeAsRaw(id, null, responseType, null, null, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, null, null, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4376,7 +10876,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, null, null, null, onSuccess);
+        return executeAsRaw(id, null, null, responseType, null, null, null, onSuccess);
     }
 
     /**
@@ -4412,7 +10912,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers) {
-        return executeAsRaw(id, null, responseType, headers, null, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, headers, null, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4451,7 +10951,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, headers, null, null, onSuccess);
+        return executeAsRaw(id, null, null, responseType, headers, null, null, onSuccess);
     }
 
     /**
@@ -4490,7 +10990,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query) {
-        return executeAsRaw(id, null, responseType, headers, query, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, headers, query, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4532,7 +11032,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, headers, query, null, onSuccess);
+        return executeAsRaw(id, null, null, responseType, headers, query, null, onSuccess);
     }
 
     /**
@@ -4573,7 +11073,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return executeAsRaw(id, null, responseType, headers, query, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, headers, query, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4617,7 +11117,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, headers, query, fragment, onSuccess);
+        return executeAsRaw(id, null, null, responseType, headers, query, fragment, onSuccess);
     }
 
     /**
@@ -4656,7 +11156,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable String fragment) {
-        return executeAsRaw(id, null, responseType, headers, null, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, headers, null, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4698,7 +11198,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, headers, null, fragment, onSuccess);
+        return executeAsRaw(id, null, null, responseType, headers, null, fragment, onSuccess);
     }
 
     /**
@@ -4734,7 +11234,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
-        return executeAsRaw(id, null, responseType, null, query, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, null, query, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4773,7 +11273,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, null, query, null, onSuccess);
+        return executeAsRaw(id, null, null, responseType, null, query, null, onSuccess);
     }
 
     /**
@@ -4811,7 +11311,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return executeAsRaw(id, null, responseType, null, query, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, null, query, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4852,7 +11352,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, null, query, fragment, onSuccess);
+        return executeAsRaw(id, null, null, responseType, null, query, fragment, onSuccess);
     }
 
     /**
@@ -4888,7 +11388,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment) {
-        return executeAsRaw(id, null, responseType, null, null, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, null, responseType, null, null, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4927,7 +11427,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, null, responseType, null, null, fragment, onSuccess);
+        return executeAsRaw(id, null, null, responseType, null, null, fragment, onSuccess);
     }
 
     /**
@@ -4957,7 +11457,7 @@ public interface IIdBasedRestApiService {
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, Class<RES> responseType) {
-        return executeAsRaw(id, requestBody, responseType, null, null, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, null, null, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -4990,7 +11490,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, null, null, null, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, null, null, null, onSuccess);
     }
 
     /**
@@ -5023,7 +11523,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers) {
-        return executeAsRaw(id, requestBody, responseType, headers, null, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, headers, null, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -5059,7 +11559,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, headers, null, null, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, headers, null, null, onSuccess);
     }
 
     /**
@@ -5095,7 +11595,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query) {
-        return executeAsRaw(id, requestBody, responseType, headers, query, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, headers, query, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -5134,7 +11634,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, headers, query, null, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, headers, query, null, onSuccess);
     }
 
     /**
@@ -5172,7 +11672,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return executeAsRaw(id, requestBody, responseType, headers, query, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, headers, query, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -5210,11 +11710,13 @@ public interface IIdBasedRestApiService {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    public <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-    );
+    ) {
+        return executeAsRaw(id, null, requestBody, responseType, headers, query, fragment, onSuccess);
+    }
 
     /**
      * 
@@ -5248,7 +11750,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment) {
-        return executeAsRaw(id, requestBody, responseType, headers, null, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, headers, null, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -5286,7 +11788,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, headers, null, fragment, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, headers, null, fragment, onSuccess);
     }
 
     /**
@@ -5321,7 +11823,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
-        return executeAsRaw(id, requestBody, responseType, null, query, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, null, query, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -5359,7 +11861,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, null, query, null, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, null, query, null, onSuccess);
     }
 
     /**
@@ -5396,7 +11898,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return executeAsRaw(id, requestBody, responseType, null, query, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, null, query, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -5436,7 +11938,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, null, query, fragment, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, null, query, fragment, onSuccess);
     }
 
     /**
@@ -5469,7 +11971,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment) {
-        return executeAsRaw(id, requestBody, responseType, null, null, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, null, null, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -5505,7 +12007,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, null, null, fragment, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, null, null, fragment, onSuccess);
     }
 
     /**
@@ -5541,7 +12043,7 @@ public interface IIdBasedRestApiService {
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType) {
-        return executeAsRaw(id, requestBody, responseType, null, null, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, null, null, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -5580,7 +12082,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, null, null, null, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, null, null, null, onSuccess);
     }
 
     /**
@@ -5619,7 +12121,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers) {
-        return executeAsRaw(id, requestBody, responseType, headers, null, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, headers, null, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -5661,7 +12163,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, headers, null, null, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, headers, null, null, onSuccess);
     }
 
     /**
@@ -5703,7 +12205,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query) {
-        return executeAsRaw(id, requestBody, responseType, headers, query, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, headers, query, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -5748,7 +12250,7 @@ public interface IIdBasedRestApiService {
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, headers, query, null, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, headers, query, null, onSuccess);
     }
 
     /**
@@ -5792,7 +12294,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return executeAsRaw(id, requestBody, responseType, headers, query, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, headers, query, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -5836,11 +12338,13 @@ public interface IIdBasedRestApiService {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    public <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
+    default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-    );
+    ) {
+        return executeAsRaw(id, null, requestBody, responseType, headers, query, fragment, onSuccess);
+    }
 
     /**
      * 
@@ -5880,7 +12384,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment) {
-        return executeAsRaw(id, requestBody, responseType, headers, null, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, headers, null, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -5924,7 +12428,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, headers, null, fragment, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, headers, null, fragment, onSuccess);
     }
 
     /**
@@ -5965,7 +12469,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
-        return executeAsRaw(id, requestBody, responseType, null, query, null, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, null, query, null, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -6009,7 +12513,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, null, query, null, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, null, query, null, onSuccess);
     }
 
     /**
@@ -6052,7 +12556,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
-        return executeAsRaw(id, requestBody, responseType, null, query, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, null, query, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -6098,7 +12602,7 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, null, query, fragment, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, null, query, fragment, onSuccess);
     }
 
     /**
@@ -6137,7 +12641,7 @@ public interface IIdBasedRestApiService {
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment) {
-        return executeAsRaw(id, requestBody, responseType, null, null, fragment, CallbackOn.successAsRaw(null));
+        return executeAsRaw(id, null, requestBody, responseType, null, null, fragment, CallbackOn.successAsRaw(null));
     }
 
     /**
@@ -6179,6 +12683,6 @@ public interface IIdBasedRestApiService {
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-        return executeAsRaw(id, requestBody, responseType, null, null, fragment, onSuccess);
+        return executeAsRaw(id, null, requestBody, responseType, null, null, fragment, onSuccess);
     }
 }

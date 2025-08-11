@@ -71,7 +71,7 @@ public class AuthorizedObjectMessageConverterConfiguration {
     public AuthorizedObjectMessageConverterConfiguration() {
     }
 
-    @Bean(AuthorizedObjectJackson2HttpMessageConverter.BEAN_QUALIFIER)
+    @Bean(name = AuthorizedObjectJackson2HttpMessageConverter.BEAN_QUALIFIER)
     @ConditionalOnBean({ ObjectMapper.class, IAuthorizedResourcesMetadata.class })
     AuthorizedObjectJackson2HttpMessageConverter authorizedObjectMessageConverter(@NotNull Map<String, ObjectMapper> allObjectMappers,
             @NotNull IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider) {

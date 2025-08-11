@@ -69,7 +69,7 @@ public class ScheduledTaskConfig implements SchedulingConfigurer {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public ScheduledTaskConfig(@Qualifier(ResourceConfiguration.CONFIGURATION_BUILTIN_THREAD_POOL_TASK_SCHEDULER_CONFIG) ThreadPoolTaskSchedulerConfig config) {
+    public ScheduledTaskConfig(@Qualifier(ResourceConfiguration.CONFIGURATION_THREAD_POOL_TASK_SCHEDULER_CONFIG_ON_MDC) ThreadPoolTaskSchedulerConfig config) {
         this.config = config;
     }
 

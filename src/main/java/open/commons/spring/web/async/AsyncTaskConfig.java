@@ -69,7 +69,7 @@ public class AsyncTaskConfig implements AsyncConfigurer {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AsyncTaskConfig(@Qualifier(ResourceConfiguration.CONFIGURATION_BUILTIN_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC) ThreadPoolTaskExecutorConfig config) {
+    public AsyncTaskConfig(@Qualifier(ResourceConfiguration.CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_ASYNC) ThreadPoolTaskExecutorConfig config) {
         this.config = config;
     }
 

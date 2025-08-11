@@ -38,7 +38,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.AntPathMatcher;
@@ -46,8 +48,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.annotation.RequestValueSupported;
 import open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration;
 import open.commons.spring.web.enums.EnumConverter;
@@ -189,22 +193,38 @@ import open.commons.spring.web.handler.InterceptorIgnoreValidator;
  */
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
-    /** Prefix of configurations in appliation.yml(or .properteis, or ...) */
+    /**
+     * Prefix of configurations in appliation.yml(or .properteis, or ...)<br>
+     * 
+     * @deprecated {@link #setEnumPkgs(EnumPackages)} 메소드 내부에서 {@link AutoConfigurationPackages}를 이용해서 BasePackage 정보를
+     *             추출해서 사용함.<br>
+     *             <font color="RED">추후 삭제됨.</font>
+     * 
+     */
     public static final String APPLICATION_PROPERTIES_PREFIX = "open-commons.spring.web.factory.enum";
+
+    private static final String SPRING_MVC_STATIC_PATH_PATTERN = "spring.mvc.static-path-pattern";
+
+    private static final String SPRING_WEB_RESOURCES_STATIC_LOCATIONS = "spring.web.resources.static-locations";
+    private static final String[] DEFAULTS = { "classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/" };
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    // @Autowired
-    private ApplicationContext context;
-
-    // @Autowired
-    private EnumPackages enumPkgs;
-
+    private final ApplicationContext context;
+    private final Environment environment;
     private Set<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlConfigurations;
 
-    public CustomWebMvcConfigurer(ApplicationContext context //
-    ) {
+    /**
+     * @deprecated {@link #setEnumPkgs(EnumPackages)} 메소드 내부에서 {@link AutoConfigurationPackages}를 이용해서 BasePackage 정보를
+     *             추출해서 사용함.<br>
+     *             <font color="RED">추후 삭제됨.</font>
+     */
+    @SuppressWarnings("unused")
+    private EnumPackages enumPkgs;
+
+    public CustomWebMvcConfigurer(ApplicationContext context, Environment env) {
         this.context = context;
+        this.environment = env;
     }
 
     /**
@@ -227,7 +247,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      */
     protected void addExcludePatternsToInterceptor(InterceptorRegistration registry, List<String> patterns) {
         registry.excludePathPatterns(patterns);
-        logger.info("[ADD] registry={}, exclude.path={}", registry, patterns);
+        logger.info("[interceptor-excluded-pattern] registery={}, include.path={}", registry, patterns);
     }
 
     /**
@@ -258,11 +278,13 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
 
+        List<String> basePackages = AutoConfigurationPackages.get(this.context);
+
         List<String> pkgs = new ArrayList<>();
         // default package.
         pkgs.add("open.commons");
         // 사용자 정의 package
-        pkgs.addAll(enumPkgs.getPackages());
+        pkgs.addAll(basePackages);
 
         EnumConverterFactory factory = new EnumConverterFactory();
         pkgs.stream() //
@@ -275,7 +297,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
                                 EnumConverter c = new EnumConverter<>(type);
                                 factory.register(type, c);
 
-                                logger.info("Register a Converter {}.", c);
+                                logger.info("[enum-converter] converter={}.", c);
                             });
                 });
 
@@ -302,7 +324,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      */
     protected void addIncludePatternsToInterceptor(InterceptorRegistration registry, List<String> patterns) {
         registry.addPathPatterns(patterns);
-        logger.info("[ADD] registry={}, include.path={}", registry, patterns);
+        logger.info("[interceptor-included-pattern] registery={}, include.path={}", registry, patterns);
     }
 
     /**
@@ -338,6 +360,8 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
+        WebMvcConfigurer.super.addInterceptors(registry);
+
         // Bean 중에서 HandlerIntereceptor 를 구현한 객체를 찾아서.
         Collection<HandlerInterceptor> intcptrs = context.getBeansOfType(HandlerInterceptor.class).values();
 
@@ -345,15 +369,14 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
                 .forEach(intcptr -> {
                     InterceptorRegistration intcptrReg = registry.addInterceptor(intcptr);
                     for (InterceptorIgnoreUrlProperties p : this.interceptorIgnoreUrlConfigurations) {
-                        if (InterceptorIgnoreValidator.isAcceptable(p.getTarget(), intcptr)) {
+                        if (InterceptorIgnoreValidator.isAvailable(p, intcptr)) {
                             addIncludePatternsToInterceptor(intcptrReg, p.getIncludePathPatterns().stream().collect(Collectors.toList()));
                             addExcludePatternsToInterceptor(intcptrReg, p.getExcludePathPatterns().stream().collect(Collectors.toList()));
                         }
                     }
-                    logger.info("Register a Interceptor. {}.", intcptr);
+                    logger.info("[handler-interceptor] interceptor={}", intcptr);
                 });
 
-        WebMvcConfigurer.super.addInterceptors(registry);
     }
 
     /**
@@ -364,6 +387,36 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+        WebMvcConfigurer.super.addResourceHandlers(registry);
+
+        addStaticResourceHandlers(registry);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 11.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param registry
+     * @param handlers
+     *            Resource Handler, {@link AntPathMatcher}
+     * @param locations
+     *            Resource Locations, {@link AntPathMatcher}
+     *
+     * @since 2025. 8. 11.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected void addResourceHandlers(ResourceHandlerRegistry registry, String handler, String[] locations) {
+        registry.addResourceHandler(handler).addResourceLocations(locations);
+        logger.info("[resource-handler-registry] resource.handler={}, resource.locations={}", handler, Arrays.toString(locations));
     }
 
     /**
@@ -388,7 +441,46 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      */
     protected void addResourceHandlers(ResourceHandlerRegistry registry, String[] handlers, String[] locations) {
         registry.addResourceHandler(handlers).addResourceLocations(locations);
-        logger.info("[ADD] resource.handler={}, resource.locations={}", Arrays.toString(handlers), Arrays.toString(locations));
+        logger.info("[resource-handler-registry] resource.handler={}, resource.locations={}", Arrays.toString(handlers), Arrays.toString(locations));
+    }
+
+    /**
+     * 서비스 설정에 기반하여 '정적 자원 경로'를 설정합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 11.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param registry
+     *
+     * @since 2025. 8. 11.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected void addStaticResourceHandlers(ResourceHandlerRegistry registry) {
+        String springMvcStaticPathPattern = this.environment.getProperty(SPRING_MVC_STATIC_PATH_PATTERN, "/static/**");
+        if (new AntPathMatcher().isPattern(springMvcStaticPathPattern)) {
+            String handler = springMvcStaticPathPattern;
+            String[] locations = resolveSpringWebResourceStaticLocations(this.environment);
+            addResourceHandlers(registry, handler, locations);
+        }
+    }
+
+    /**
+     *
+     * @since 2025. 8. 11.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addViewControllers(org.springframework.web.servlet.config.annotation.ViewControllerRegistry)
+     */
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+
+        WebMvcConfigurer.super.addViewControllers(registry);
     }
 
     /**
@@ -396,6 +488,9 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      */
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+
+        WebMvcConfigurer.super.extendMessageConverters(converters);
+
         // context.getBeansOfType(HttpMessageConverter.class) // Bean 중에서 HttpMessageConverter 를 구현한 객체를찾아서.
         // .values() //
         // .stream() //
@@ -407,7 +502,6 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
         // logger.info("Register a HttpMessageConverter. {}.", converter);
         // });
 
-        WebMvcConfigurer.super.extendMessageConverters(converters);
     }
 
     /**
@@ -428,6 +522,10 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * @author parkjunhong77@gmail.com
      *
      * @see #enumPkgs
+     * 
+     * @deprecated {@link #setEnumPkgs(EnumPackages)} 메소드 내부에서 {@link AutoConfigurationPackages}를 이용해서 BasePackage 정보를
+     *             추출해서 사용함.<br>
+     *             <font color="RED">추후 삭제됨.</font>
      */
     @Autowired
     public void setEnumPkgs(EnumPackages enumPkgs) {
@@ -455,7 +553,20 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      */
     @Autowired
     public void setInterceptorIgnoreUrlConfigurations(
-            @Qualifier(GlobalServletConfiguration.BEAN_QUALIFIER_INTERCEPTOR_IGNORE_URL_PATTERNS) Set<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlConfigurations) {
+            @Qualifier(GlobalServletConfiguration.BEAN_QUALIFIER_PRIMARY_INTERCEPTOR_IGNORE_URL_PATTERNS) Set<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlConfigurations) {
         this.interceptorIgnoreUrlConfigurations = interceptorIgnoreUrlConfigurations;
+    }
+
+    private static String[] resolveSpringWebResourceStaticLocations(Environment env) {
+        String raw = env.getProperty(SPRING_WEB_RESOURCES_STATIC_LOCATIONS);
+        if (StringUtils.isNullOrEmptyString(raw)) {
+            return DEFAULTS;
+        }
+
+        String[] parts = StringUtils.split(raw, ",", true);
+        for (int i = 0; i < parts.length; i++) {
+            parts[i] = parts[i].trim();
+        }
+        return parts;
     }
 }

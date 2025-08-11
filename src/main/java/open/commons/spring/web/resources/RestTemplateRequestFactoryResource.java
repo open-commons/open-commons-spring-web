@@ -49,6 +49,9 @@ public class RestTemplateRequestFactoryResource {
 
     private int readTimeout;
 
+    /** 외부 설정 여부 */
+    private boolean initialized = false;
+
     /**
      * <br>
      * 
@@ -158,6 +161,29 @@ public class RestTemplateRequestFactoryResource {
      * 
      * <pre>
      * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 11.		박준홍			최초 작성
+     * </pre>
+     * 
+     * @return the initialized
+     *
+     * @since 2025. 8. 11.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #initialized
+     */
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2019. 6. 27.     박준홍         최초 작성
@@ -175,6 +201,8 @@ public class RestTemplateRequestFactoryResource {
      */
     public void setBufferRequestBody(boolean bufferRequestBody) {
         this.bufferRequestBody = bufferRequestBody;
+
+        this.initialized = true;
     }
 
     /**
@@ -198,6 +226,8 @@ public class RestTemplateRequestFactoryResource {
      */
     public void setConnectionRequestTimeout(@Min(0) int connectionRequestTimeout) {
         this.connectionRequestTimeout = connectionRequestTimeout;
+
+        this.initialized = true;
     }
 
     /**
@@ -221,6 +251,8 @@ public class RestTemplateRequestFactoryResource {
      */
     public void setConnectionTimeout(@Min(0) int connctionTimeout) {
         this.connectionTimeout = connctionTimeout;
+
+        this.initialized = true;
     }
 
     /**
@@ -244,6 +276,8 @@ public class RestTemplateRequestFactoryResource {
      */
     public void setReadTimeout(@Min(0) int readTimeout) {
         this.readTimeout = readTimeout;
+
+        this.initialized = true;
     }
 
     /**

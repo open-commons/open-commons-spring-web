@@ -103,7 +103,7 @@ public class AuthorizedResourcesMetadataConfiguration {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    @Bean(AuthorizedResourcesMetadata.BEAN_QUALIFIER)
+    @Bean(name = AuthorizedResourcesMetadata.BEAN_QUALIFIER)
     @Primary
     IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider( //
             @NotNull Map<String, AuthorizedObjectMetadata> singleAuthorizedObjectMetadata //

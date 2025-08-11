@@ -37,6 +37,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import open.commons.core.utils.ExceptionUtils;
+import open.commons.spring.web.exception.IllegalBeanNameFqnResolveException;
+import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties.Scheme;
 import open.commons.spring.web.utils.PathUtils;
 
 /**
@@ -63,7 +66,7 @@ public class InterceptorIgnoreValidator {
      * 2025. 7. 30.		박준홍			최초 작성
      * </pre>
      *
-     * @param target
+     * @param fqcn
      *            FQCN 기반의 클래스 또는 경로 정보
      * @param interceptor
      *            {@link HandlerInterceptor} Bean 객체
@@ -72,8 +75,43 @@ public class InterceptorIgnoreValidator {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static boolean isAcceptable(@NotBlank @Nonnull String target, @NotNull @Nonnull HandlerInterceptor interceptor) {
-        return Pattern.matches(target.replace(".", "\\.").replace("*", ".*"), interceptor.getClass().getName());
+    public static boolean isAcceptable(@NotBlank @Nonnull String fqcn, @NotNull @Nonnull HandlerInterceptor interceptor) {
+        return Pattern.matches(fqcn.replace(".", "\\.").replace("*", ".*"), interceptor.getClass().getName());
+    }
+
+    /**
+     * {@link HandlerInterceptor} 객체가 설정에 부합하는지 여부를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 7.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param prop
+     * @param interceptor
+     * @return
+     *
+     * @since 2025. 8. 7.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static boolean isAvailable(@Nonnull InterceptorIgnoreUrlProperties prop, @Nonnull HandlerInterceptor interceptor) {
+        try {
+            switch (prop.getScheme()) {
+                case Class:
+                    return Class.forName(prop.getFqcn()).equals(interceptor.getClass());
+                case Instance:
+                    return Class.forName(prop.getFqcn()).isInstance(interceptor.getClass());
+                case Package:
+                    return isAcceptable(prop.getFqcn(), interceptor);
+                default:
+                    throw ExceptionUtils.newException(UnsupportedOperationException.class, "지원하지 않는 'scheme'(%s) 입니다. 지원목록=%s", prop.getScheme(), Scheme.values());
+            }
+        } catch (ClassNotFoundException e) {
+            throw ExceptionUtils.newException(IllegalBeanNameFqnResolveException.class, e, "'{}'에 해당하는 클래스 정보가 없습니다.", prop.getFqcn());
+        }
     }
 
     /**
@@ -107,7 +145,7 @@ public class InterceptorIgnoreValidator {
      * 2025. 7. 30.		박준홍			최초 작성
      * </pre>
      *
-     * @param target
+     * @param fqcn
      *            FQCN 기반의 클래스 또는 경로 정보
      * @return
      *
@@ -115,7 +153,7 @@ public class InterceptorIgnoreValidator {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static boolean isValidTarget(@Nonnull String target) {
-        return PathUtils.isValidFqcn(target);
+    public static boolean isValidFqcn(@Nonnull String fqcn) {
+        return PathUtils.isValidFqcn(fqcn);
     }
 }

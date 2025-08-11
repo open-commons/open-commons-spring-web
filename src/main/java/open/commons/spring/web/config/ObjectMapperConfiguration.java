@@ -51,7 +51,7 @@ public class ObjectMapperConfiguration {
 
     private final Logger logger = LoggerFactory.getLogger(ObjectMapperConfiguration.class);
 
-    @Bean(BEAN_QUALIFIER_DEFAULT_OBJECT_MAPPER)
+    @Bean(name = BEAN_QUALIFIER_DEFAULT_OBJECT_MAPPER)
     @Primary
     ObjectMapper objectMapper(@NotNull @Nonnull Jackson2ObjectMapperBuilder objectMapperBuilder) {
         ObjectMapper mapper = objectMapperBuilder.build();

@@ -199,7 +199,7 @@ public class ExceptionHttpStatusBinder {
         }
 
         this.mappings.forEach((c, s) -> {
-            logger.info("예외클래스: {}, HttpStatus: {}", c, s);
+            logger.info("[managed-exceptioned-http-status] exception={}, http-status={}", c, s);
         });
     }
 }

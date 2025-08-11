@@ -144,7 +144,7 @@ public class RequestThreadNameFilter extends OncePerRequestFilter {
      * @see #ignoredUrl
      */
     @Autowired
-    public void setIgnoredUrl(@Qualifier(GlobalServletConfiguration.BEAN_QUALIFIER_REQUEST_FILTER_SHOULD_NOT_PATTERNS) List<AntPathRequest> ignoredUrl) {
+    public void setIgnoredUrl(@Qualifier(GlobalServletConfiguration.BEAN_QUALIFIER_PRIMARY_ONCE_PER_REQUEST_SHOULD_NOT_PATTERNS) List<AntPathRequest> ignoredUrl) {
         if (ignoredUrl != null) {
             this.ignoredUrl = ignoredUrl;
         }

@@ -26,6 +26,9 @@
 
 package open.commons.spring.web.resources;
 
+import javax.annotation.Nonnull;
+import javax.validation.constraints.NotNull;
+
 /**
  * 
  * @since 2025. 8. 3.
@@ -33,7 +36,7 @@ package open.commons.spring.web.resources;
  * @author parkjunhong77@gmail.com
  */
 
-public class ThreadPoolTaskSchedulerConfig implements Cloneable {
+public class ThreadPoolTaskSchedulerConfig {
 
     // -- org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler --//
     private volatile int poolSize = 1;
@@ -55,6 +58,9 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
     private int threadPriority = Thread.NORM_PRIORITY;
     // -------------------------------------------------- //
 
+    /** 외부 설정 여부 */
+    private boolean initialized = false;
+
     /**
      * <br>
      * 
@@ -74,16 +80,36 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
     }
 
     /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 11.		박준홍			최초 작성
+     * </pre>
      *
-     * @since 2025. 8. 4.
+     * @param config
+     *
+     * @since 2025. 8. 11.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
-     *
-     * @see java.lang.Object#clone()
      */
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public ThreadPoolTaskSchedulerConfig(@NotNull @Nonnull ThreadPoolTaskSchedulerConfig config) {
+        this.poolSize = config.poolSize;
+        this.removeOnCancelPolicy = config.removeOnCancelPolicy;
+        this.continueExistingPeriodicTasksAfterShutdownPolicy = config.continueExistingPeriodicTasksAfterShutdownPolicy;
+        this.executeExistingDelayedTasksAfterShutdownPolicy = config.executeExistingDelayedTasksAfterShutdownPolicy;
+        this.awaitTerminationMillis = config.awaitTerminationMillis;
+        this.beanName = config.beanName;
+        this.waitForTasksToCompleteOnShutdown = config.waitForTasksToCompleteOnShutdown;
+        this.daemon = config.daemon;
+        this.threadGroupName = config.threadGroupName;
+        this.threadNamePrefix = config.threadNamePrefix;
+        this.threadPriority = config.threadPriority;
+        this.initialized = config.initialized;
+
     }
 
     /**
@@ -300,6 +326,29 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
+     * 2025. 8. 8.		박준홍			최초 작성
+     * </pre>
+     * 
+     * @return the initialized
+     *
+     * @since 2025. 8. 8.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #initialized
+     */
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
      * 2025. 8. 3.		박준홍			최초 작성
      * </pre>
      * 
@@ -360,6 +409,8 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      */
     public void setAwaitTerminationMillis(long awaitTerminationMillis) {
         this.awaitTerminationMillis = awaitTerminationMillis;
+
+        this.initialized = true;
     }
 
     /**
@@ -383,6 +434,8 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      */
     public void setAwaitTerminationSeconds(int awaitTerminationSeconds) {
         this.awaitTerminationMillis = awaitTerminationSeconds * 1000L;
+
+        this.initialized = true;
     }
 
     /**
@@ -406,6 +459,8 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      */
     public void setBeanName(String beanName) {
         this.beanName = beanName;
+
+        this.initialized = true;
     }
 
     /**
@@ -429,6 +484,8 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      */
     public void setContinueExistingPeriodicTasksAfterShutdownPolicy(boolean continueExistingPeriodicTasksAfterShutdownPolicy) {
         this.continueExistingPeriodicTasksAfterShutdownPolicy = continueExistingPeriodicTasksAfterShutdownPolicy;
+
+        this.initialized = true;
     }
 
     /**
@@ -452,6 +509,8 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      */
     public void setDaemon(boolean daemon) {
         this.daemon = daemon;
+
+        this.initialized = true;
     }
 
     /**
@@ -475,6 +534,8 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      */
     public void setExecuteExistingDelayedTasksAfterShutdownPolicy(boolean executeExistingDelayedTasksAfterShutdownPolicy) {
         this.executeExistingDelayedTasksAfterShutdownPolicy = executeExistingDelayedTasksAfterShutdownPolicy;
+
+        this.initialized = true;
     }
 
     /**
@@ -498,6 +559,8 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      */
     public void setPoolSize(int poolSize) {
         this.poolSize = poolSize;
+
+        this.initialized = true;
     }
 
     /**
@@ -521,6 +584,8 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      */
     public void setRemoveOnCancelPolicy(boolean removeOnCancelPolicy) {
         this.removeOnCancelPolicy = removeOnCancelPolicy;
+
+        this.initialized = true;
     }
 
     /**
@@ -544,6 +609,8 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      */
     public void setThreadGroupName(String threadGroupName) {
         this.threadGroupName = threadGroupName;
+
+        this.initialized = true;
     }
 
     /**
@@ -567,6 +634,8 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      */
     public void setThreadNamePrefix(String threadNamePrefix) {
         this.threadNamePrefix = threadNamePrefix;
+
+        this.initialized = true;
     }
 
     /**
@@ -590,6 +659,8 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      */
     public void setThreadPriority(int threadPriority) {
         this.threadPriority = threadPriority;
+
+        this.initialized = true;
     }
 
     /**
@@ -613,6 +684,8 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
      */
     public void setWaitForTasksToCompleteOnShutdown(boolean waitForTasksToCompleteOnShutdown) {
         this.waitForTasksToCompleteOnShutdown = waitForTasksToCompleteOnShutdown;
+
+        this.initialized = true;
     }
 
     /**
@@ -651,5 +724,4 @@ public class ThreadPoolTaskSchedulerConfig implements Cloneable {
         builder.append("]");
         return builder.toString();
     }
-
 }

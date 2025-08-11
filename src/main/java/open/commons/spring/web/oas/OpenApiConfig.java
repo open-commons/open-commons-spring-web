@@ -172,7 +172,7 @@ public class OpenApiConfig {
             api.setExternalDocs(extDoc);
         }
 
-        logger.trace("[Registered] Open API: {}", api);
+        logger.trace("[open-api] open-api={}", api);
 
         return api;
     }
@@ -337,7 +337,7 @@ public class OpenApiConfig {
                 .build();
 
         if (!StringUtils.isNullOrEmptyString(name)) {
-            logger.info("'{}' 를 위한 Grouped Open API가 생성되었습니다.", name);
+            logger.info("[grouped-open-api] name={}, api={}", name, api);
         }
 
         return api;

@@ -30,6 +30,9 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Nonnull;
+import javax.validation.constraints.NotNull;
+
 /**
  * {@link ThreadPoolExecutor} 설정 정보 클래스.
  * 
@@ -37,7 +40,7 @@ import java.util.concurrent.TimeUnit;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class ScheduledThreadPoolExecutorConfig implements Cloneable {
+public class ScheduledThreadPoolExecutorConfig {
 
     // -- java.util.concurrent.ThreadPoolExecutor -- //
     /**
@@ -98,6 +101,9 @@ public class ScheduledThreadPoolExecutorConfig implements Cloneable {
     private boolean removeOnCancel = false;
     // --------------------------------------------- //
 
+    /** 외부 설정 여부 */
+    private boolean initialized = false;
+
     /**
      * <br>
      * 
@@ -117,16 +123,31 @@ public class ScheduledThreadPoolExecutorConfig implements Cloneable {
     }
 
     /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 11.		박준홍			최초 작성
+     * </pre>
      *
-     * @since 2025. 8. 4.
+     * @param config
+     *
+     * @since 2025. 8. 11.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
-     *
-     * @see java.lang.Object#clone()
      */
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public ScheduledThreadPoolExecutorConfig(@NotNull @Nonnull ScheduledThreadPoolExecutorConfig config) {
+        this.corePoolSize = config.corePoolSize;
+        this.maximumPoolSize = config.maximumPoolSize;
+        this.keepAliveTime = config.keepAliveTime;
+        this.timeUnit = config.timeUnit;
+        this.allowCoreThreadTimeOut = config.allowCoreThreadTimeOut;
+        this.continueExistingPeriodicTasksAfterShutdown = config.continueExistingPeriodicTasksAfterShutdown;
+        this.executeExistingDelayedTasksAfterShutdown = config.executeExistingDelayedTasksAfterShutdown;
+        this.removeOnCancel = config.removeOnCancel;
     }
 
     /**
@@ -297,6 +318,29 @@ public class ScheduledThreadPoolExecutorConfig implements Cloneable {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
+     * 2025. 8. 11.		박준홍			최초 작성
+     * </pre>
+     * 
+     * @return the initialized
+     *
+     * @since 2025. 8. 11.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #initialized
+     */
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
      * 2025. 8. 1.		박준홍			최초 작성
      * </pre>
      * 
@@ -334,6 +378,8 @@ public class ScheduledThreadPoolExecutorConfig implements Cloneable {
      */
     public void setAllowCoreThreadTimeOut(boolean allowCoreThreadTimeOut) {
         this.allowCoreThreadTimeOut = allowCoreThreadTimeOut;
+
+        this.initialized = true;
     }
 
     /**
@@ -357,6 +403,8 @@ public class ScheduledThreadPoolExecutorConfig implements Cloneable {
      */
     public void setContinueExistingPeriodicTasksAfterShutdown(boolean continueExistingPeriodicTasksAfterShutdown) {
         this.continueExistingPeriodicTasksAfterShutdown = continueExistingPeriodicTasksAfterShutdown;
+
+        this.initialized = true;
     }
 
     /**
@@ -380,6 +428,8 @@ public class ScheduledThreadPoolExecutorConfig implements Cloneable {
      */
     public void setCorePoolSize(int corePoolSize) {
         this.corePoolSize = corePoolSize;
+
+        this.initialized = true;
     }
 
     /**
@@ -403,6 +453,8 @@ public class ScheduledThreadPoolExecutorConfig implements Cloneable {
      */
     public void setExecuteExistingDelayedTasksAfterShutdown(boolean executeExistingDelayedTasksAfterShutdown) {
         this.executeExistingDelayedTasksAfterShutdown = executeExistingDelayedTasksAfterShutdown;
+
+        this.initialized = true;
     }
 
     /**
@@ -426,6 +478,8 @@ public class ScheduledThreadPoolExecutorConfig implements Cloneable {
      */
     public void setKeepAliveTime(long keepAliveTime) {
         this.keepAliveTime = keepAliveTime;
+
+        this.initialized = true;
     }
 
     /**
@@ -449,6 +503,8 @@ public class ScheduledThreadPoolExecutorConfig implements Cloneable {
      */
     public void setMaximumPoolSize(int maximumPoolSize) {
         this.maximumPoolSize = maximumPoolSize;
+
+        this.initialized = true;
     }
 
     /**
@@ -472,6 +528,8 @@ public class ScheduledThreadPoolExecutorConfig implements Cloneable {
      */
     public void setRemoveOnCancel(boolean removeOnCancel) {
         this.removeOnCancel = removeOnCancel;
+
+        this.initialized = true;
     }
 
     /**
@@ -495,6 +553,8 @@ public class ScheduledThreadPoolExecutorConfig implements Cloneable {
      */
     public void setTimeUnit(TimeUnit unit) {
         this.timeUnit = unit;
+
+        this.initialized = true;
     }
 
     /**

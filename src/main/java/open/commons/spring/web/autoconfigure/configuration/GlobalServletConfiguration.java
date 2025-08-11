@@ -26,10 +26,12 @@
 
 package open.commons.spring.web.autoconfigure.configuration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,12 +42,13 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.util.LinkedMultiValueMap;
@@ -53,6 +56,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import open.commons.core.utils.FunctionUtils;
 import open.commons.spring.web.config.ResourceConfiguration;
 import open.commons.spring.web.handler.DefaultGlobalInterceptor;
 import open.commons.spring.web.handler.HttpRequestProxyHeader;
@@ -68,15 +72,29 @@ import open.commons.spring.web.servlet.filter.RequestThreadNameFilter;
  */
 public class GlobalServletConfiguration {
 
-    /** {@link HandlerInterceptor}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 URL 패턴 설정 */
-    public static final String BEAN_QUALIFIER_INTERCEPTOR_IGNORE_URL_PATTERNS = "open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration#INTERCEPTOR_IGNORE_URL_PATTERNS";
-    /** {@link OncePerRequestFilter}에서 제외시킬 {@link HttpServletRequest} 패턴 */
-    public static final String BEAN_QUALIFIER_REQUEST_FILTER_SHOULD_NOT_PATTERNS = "open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration#REQUEST_FILTER_SHOULD_NOT_PATTERNS";
+    /** {@link HandlerInterceptor}에서 URL 기반으로 처리 대상에서 제외하는 URL 패턴 설정 */
+    public static final String BEAN_QUALIFIER_PRIMARY_INTERCEPTOR_IGNORE_URL_PATTERNS = "open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration#INTERCEPTOR_IGNORE_URL_PATTERNS";
+    /** {@link HandlerInterceptor}에서 URL 기반으로 처리 대상에서 제외하는 URL 패턴 기본 설정 */
+    public static final String CONFIGURATION_BUILTIN_INTERCEPTOR_IGNORE_URL_PATTERNS = "open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration#CONFIGURATION_BUILTIN_INTERCEPTOR_IGNORE_URL_PATTERNS";
+    /** {@link HandlerInterceptor}에서 URL 기반으로 처리 대상에서 제외하는 URL 패턴 설정 기본 경로 */
+    public static final String PROPERTIES_INTERCEPTOR_IGNORE_URL_PATTERNS = ResourceConfiguration.PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".interceptor-ignore-url-patterns";
 
-    /** Proxy 서버를 통해서 전달되는 실제 클라이언트의 Http 요청 정보 @ */
-    private static final String PROPERTIES_HTTP_REQUEST_PROXY_HEADER = ResourceConfiguration.PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".proxy-header";
+    /** {@link OncePerRequestFilter}에서 제외시킬 {@link HttpServletRequest} 패턴 */
+    public static final String BEAN_QUALIFIER_PRIMARY_ONCE_PER_REQUEST_SHOULD_NOT_PATTERNS = "open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration#REQUEST_FILTER_SHOULD_NOT_PATTERNS";
+
+    /** Proxy 서버를 통해서 전달되는 실제 클라이언트의 Http 요청 정보 */
+    public static final String BEAN_QUALIFIER_PRIMARY_HTTP_REQUEST_PROXY_HEADER = "open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration#PRIMAY_HTTP_REQUEST_PROXY_HEADER";
+    /** Proxy 서버를 통해서 전달되는 실제 클라이언트의 Http 요청 정보 설정 */
+    public static final String CONFIGURATION_BUILTIN_HTTP_REQUEST_PROXY_HEADER = "open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration#CONFIGURATION_BUILTIN_HTTP_REQUEST_PROXY_HEADER";
+    /** Proxy 서버를 통해서 전달되는 실제 클라이언트의 Http 요청 정보 경로 */
+    public static final String PROPERTIES_HTTP_REQUEST_PROXY_HEADER = ResourceConfiguration.PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".proxy-header";
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalServletConfiguration.class);
+
+    @SuppressWarnings("unused")
+    private final ApplicationContext context;
+    @SuppressWarnings("unused")
+    private final Environment environment;
 
     /**
      * 
@@ -89,38 +107,107 @@ public class GlobalServletConfiguration {
      * 2025. 6. 5.		박준홍			최초 작성
      * </pre>
      *
+     * @param context
+     * @param environment
      *
      * @since 2025. 6. 5.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public GlobalServletConfiguration() {
+    public GlobalServletConfiguration(ApplicationContext context, Environment environment) {
+        this.context = context;
+        this.environment = environment;
     }
 
-    @Bean(DefaultGlobalInterceptor.BEAN_QUALIFIER)
+    @Bean(name = DefaultGlobalInterceptor.BEAN_QUALIFIER)
     @ConditionalOnMissingBean
     @Order(Ordered.LOWEST_PRECEDENCE)
-    DefaultGlobalInterceptor defaultGlobalInterceptor() {
+    DefaultGlobalInterceptor beanDefaultGlobalInterceptor() {
         return new DefaultGlobalInterceptor();
     }
 
     @Bean
     @ConditionalOnMissingBean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    RequestThreadNameFilter defaultRequestThreadNameFilter() {
+    RequestThreadNameFilter beanDefaultRequestThreadNameFilter() {
         return new RequestThreadNameFilter();
     }
 
+    /**
+     * {@link SecurityFilterChain} 보다 앞에 위치시켜, 보안검증 이전의 {@link HttpServletRequest}에 대해서도 감지를 합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param filter
+     * @return
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @Bean
-    @Primary
-    @ConfigurationProperties(PROPERTIES_HTTP_REQUEST_PROXY_HEADER)
-    HttpRequestProxyHeader getProxyHeader() {
-        return new HttpRequestProxyHeader();
+    FilterRegistrationBean<RequestThreadNameFilter> beanFilterRegistrationThreadNamingFilter(RequestThreadNameFilter filter) {
+        FilterRegistrationBean<RequestThreadNameFilter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(filter);
+        registration.setOrder(Ordered.HIGHEST_PRECEDENCE); // 우선순위 최상단
+        registration.addUrlPatterns("/*");
+        return registration;
     }
 
-    @Bean(BEAN_QUALIFIER_INTERCEPTOR_IGNORE_URL_PATTERNS)
+    /**
+     * 통합 {@link HttpRequestProxyHeader} 정보를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 7.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param headers
+     * @return
+     *
+     * @since 2025. 8. 7.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = BEAN_QUALIFIER_PRIMARY_HTTP_REQUEST_PROXY_HEADER)
     @Primary
-    Set<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlPatterns( //
+    HttpRequestProxyHeader beanPrimaryForwardedProxyHeader(@Nonnull Map<String, HttpRequestProxyHeader> headers) {
+
+        // #0. 내부 설정값을 마지막에 적용하기 위해 추출
+        HttpRequestProxyHeader builtin = headers.remove(CONFIGURATION_BUILTIN_HTTP_REQUEST_PROXY_HEADER);
+
+        // #1. 통합
+        final BiConsumer<HttpRequestProxyHeader, HttpRequestProxyHeader> aggregator = (aggr, data) -> {
+            // #2. 내부 설정값 통합
+            data.forEach((k, v) -> {
+                String o = aggr.put(k, v);
+                if (o != null) {
+                    logger.info("[http-request-proxy-header] Updated! key={}, value={} <- {}", k, v, o);
+                }
+            });
+        };
+
+        HttpRequestProxyHeader merged = new HttpRequestProxyHeader();
+        headers.values().forEach(hd -> {
+            aggregator.accept(merged, hd);
+        });
+
+        // #2. 내부 설정값 통합
+        aggregator.accept(merged, builtin);
+
+        return merged;
+    }
+
+    @Bean(name = BEAN_QUALIFIER_PRIMARY_INTERCEPTOR_IGNORE_URL_PATTERNS)
+    @Primary
+    Set<InterceptorIgnoreUrlProperties> beanPrimaryInterceptorIgnoreUrlPatterns( //
             @NotNull @Nonnull Map<String, InterceptorIgnoreUrlProperties> singleConfigurations //
             , @NotNull @Nonnull Map<String, List<InterceptorIgnoreUrlProperties>> multiConfigurations) {
 
@@ -139,7 +226,7 @@ public class GlobalServletConfiguration {
 
         mayBeDuplicated.forEach((k, v) -> {
             if (v.size() > 1) {
-                logger.warn("{}에 대한 설정이 {}개 존재합니다. 목록은 다음과 같습니다.\n\t{}\n" //
+                logger.debug("{}에 대한 설정이 {}개 존재합니다. 목록은 다음과 같습니다.\n\t{}\n" //
                         , k // FQCN 값
                         , v.size() // 중복 데이터 개수
                         , String.join("\n\t", v.stream().map(Object::toString).collect(Collectors.toList())) // 모든 설정
@@ -163,9 +250,9 @@ public class GlobalServletConfiguration {
         return nego.values().stream().collect(Collectors.toSet());
     }
 
-    @Bean(BEAN_QUALIFIER_REQUEST_FILTER_SHOULD_NOT_PATTERNS)
+    @Bean(name = BEAN_QUALIFIER_PRIMARY_ONCE_PER_REQUEST_SHOULD_NOT_PATTERNS)
     @Primary
-    List<AntPathRequest> oncePerRequestShouldNotFilters( //
+    List<AntPathRequest> beanPrimaryOncePerRequestShouldNotFilters( //
             @NotNull @Nonnull Map<String, AntPathRequest> single//
             , @NotNull @Nonnull Map<String, List<AntPathRequest>> multi) {
         return Stream //
@@ -176,79 +263,144 @@ public class GlobalServletConfiguration {
     }
 
     /**
-     * SpringBoot 기반 서비스의 정적 자원 기본 경로인 "/static/**"을 예외 목록에 추가합니다. <br>
+     * 시스템 <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 7. 18.		박준홍			최초 작성
+     * 2025. 8. 7.      박준홍         기본적으로 지원하는 헤더를 내부 코드로 강제화 시킴.
+     *                                  - real-ip: X-Real-IP
+     *                                  - client-port: X-Client-Port
+     *                                  - forwarded-for: X-Forwarded-For
+     *                                  - forwarded-proto: X-Forwarded-Proto
+     *                                  - forwarded-host: X-Forwarded-Host
+     *                                  - forwarded-port: X-Forwarded-Port
      * </pre>
      *
      * @return
      *
-     * @since 2025. 8. 4.
+     * @since 2025. 8. 7.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    @Bean
-    AntPathRequest staticOncePerRequestShouldNotFilters() {
-        AntPathRequest pattern = new AntPathRequest();
-        pattern.setHttpMethod(HttpMethod.GET);
-        pattern.setPattern("/static/**)");
-        return pattern;
+    @Bean(name = CONFIGURATION_BUILTIN_HTTP_REQUEST_PROXY_HEADER)
+    HttpRequestProxyHeader configBuiltinForwardedProxyHeader() {
+
+        HttpRequestProxyHeader header = new HttpRequestProxyHeader();
+
+        header.put(HttpRequestProxyHeader.HEADER_REAL_IP, "X-Real-IP");
+        header.put(HttpRequestProxyHeader.HEADER_CLIENT_PORT, "X-Client-Port");
+        header.put(HttpRequestProxyHeader.HEADER_FORWARDED_FOR, "X-Forwarded-For");
+        header.put(HttpRequestProxyHeader.HEADER_FORWARDED_PROTO, "X-Forwarded-Proto");
+        header.put(HttpRequestProxyHeader.HEADER_FORWARDED_HOST, "X-Forwarded-Host");
+        header.put(HttpRequestProxyHeader.HEADER_FORWARDED_PORT, "X-Forwarded-Port");
+
+        return header;
     }
 
     /**
-     * swagger 리소스 경로 제외 추가. <br>
+     * Spring 및 Swagger 관련 예외 목록 추가<br>
+     * 
+     * <p>
+     * Spring
+     * <li>${spring.mvc.statis-path-pattern}: /static/**
+     * </p>
+     * <p>
+     * Swagger
+     * <li>${springdoc.api-docs.path}: /api-docs => AntPath 패턴으로 변환 ("/**" 추가)
+     * <li>/swagger/**
+     * <li>/swagger-ui/**
+     * </p>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 7.		박준홍			최초 작성
      * </pre>
      *
      * @return
      *
-     * @since 2025. 8. 4.
+     * @since 2025. 8. 7.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Bean
-    List<AntPathRequest> swaggerOncePerRequestShouldNotFilters() {
-        return Stream //
-                .of( //
-                        new AntPathRequest("/api-docs/**") //
-                        , new AntPathRequest("/swagger/**", HttpMethod.GET)//
-                        , new AntPathRequest("/swagger-ui/**", HttpMethod.GET) //
-                )//
-                .collect(Collectors.toList());
+    InterceptorIgnoreUrlProperties configBuiltinInterceptorIgnoreUrlProperties() {
+
+        InterceptorIgnoreUrlProperties prop = new InterceptorIgnoreUrlProperties();
+        prop.setTarget("open.commons.spring.web.handler.*");
+
+        // 웹서비스 개발시 정적 자원 경로: ${spring.mvc.static-path-pattern}
+        FunctionUtils.runIf(this.environment.getProperty("spring.mvc.static-path-pattern"), v -> prop.addExcludePathPattern(v));
+
+        // --> begin: Swagger API
+        // Swager Doc. API 경로: ${springdoc.api-docs.path}
+        FunctionUtils.runIf(this.environment.getProperty("springdoc.api-docs.path"), v -> {
+            if (v.endsWith("/**")) {
+                prop.addExcludePathPattern(v);
+            } else {
+                prop.addExcludePathPattern(String.join("", v, "/**"));
+            }
+        });
+        // Swagger 웹 페이지 자원 경로
+        prop.addExcludePathPattern("/swagger/**") //
+                .addExcludePathPattern("/swagger-ui/**") //
+        ;
+
+        return prop;
     }
 
     /**
-     * {@link SecurityFilterChain} 보다 앞에 위치시켜, 보안검증 이전의 {@link HttpServletRequest}에 대해서도 감지를 합니다. <br>
+     * Spring 및 Swagger 관련 예외 목록 추가<br>
+     * 
+     * <p>
+     * Spring
+     * <li>${spring.mvc.statis-path-pattern}: /static/**
+     * </p>
+     * <p>
+     * Swagger
+     * <li>${springdoc.api-docs.path}: /api-docs => AntPath 패턴으로 변환 ("/**" 추가)
+     * <li>/swagger/**
+     * <li>/swagger-ui/**
+     * </p>
+     * 
+     * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 8.		박준홍			최초 작성
      * </pre>
      *
-     * @param filter
      * @return
      *
-     * @since 2025. 8. 4.
+     * @since 2025. 8. 8.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Bean
-    FilterRegistrationBean<RequestThreadNameFilter> threadNamingFilter(RequestThreadNameFilter filter) {
-        FilterRegistrationBean<RequestThreadNameFilter> registration = new FilterRegistrationBean<>();
-        registration.setFilter(filter);
-        registration.setOrder(Ordered.HIGHEST_PRECEDENCE); // 우선순위 최상단
-        registration.addUrlPatterns("/*");
-        return registration;
+    List<AntPathRequest> configBuiltinOncePerRequestShouldNotFilters() {
+
+        List<AntPathRequest> paths = new ArrayList<>();
+
+        // 웹서비스 개발시 정적 자원 경로: ${spring.mvc.static-path-pattern}
+        FunctionUtils.runIf(this.environment.getProperty("spring.mvc.static-path-pattern"), v -> paths.add(new AntPathRequest(v)));
+        // --> begin: Swagger API
+        // Swager Doc. API 경로: ${springdoc.api-docs.path}
+        FunctionUtils.runIf(this.environment.getProperty("springdoc.api-docs.path"), v -> {
+            if (v.endsWith("/**")) {
+                paths.add(new AntPathRequest(v));
+            } else {
+                paths.add(new AntPathRequest(String.join("", v, "/**")));
+            }
+        });
+        paths.add(new AntPathRequest("/swagger/**", HttpMethod.GET));
+        paths.add(new AntPathRequest("/swagger-ui/**", HttpMethod.GET));
+
+        return paths;
     }
 }

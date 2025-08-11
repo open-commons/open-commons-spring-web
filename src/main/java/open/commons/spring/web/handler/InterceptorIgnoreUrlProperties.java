@@ -30,6 +30,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 import javax.validation.constraints.NotBlank;
@@ -52,13 +54,52 @@ import open.commons.spring.web.utils.PathUtils;
  */
 public class InterceptorIgnoreUrlProperties {
 
+    public static final String SCHEME_PACKAGE = "package";
+    public static final String SCHEME_CLASS = "class";
+    public static final String SCHEME_INSTANCE = "instance";
+    /**
+     * <pre>
+     *  
+     * | group    | description                  | case  |
+     * | -------- | ---------------------------- | ----- |
+     * | group(1) | `"package"`                  | #1    |
+     * | group(2) | `com.example`                | #1    |
+     * | group(3) | `"class"` or `"instance"`    | #2    |
+     * | group(4) | `com.example`                | #2    |
+     * | group(5) | `MyClass` or `MyClass$Inner` | #2    |
+     * | group(6) | no scheme -> `com.example`   | #3    |
+     * </pre>
+     */
+    private static final Pattern PATTERN = Pattern //
+            .compile("^(?:" //
+                    // CASE 1: package:<fqcn>.*
+                    + "(?i)(" + SCHEME_PACKAGE + "):([a-zA-Z_][\\w]*(?:\\.[a-zA-Z_][\\w]*)*)\\.\\*" //
+                    + "|"
+                    // CASE 2: class|instance:<fqcn>.<ClassName>
+                    + "(?i)(" + SCHEME_CLASS + "|" + SCHEME_INSTANCE + "):([a-zA-Z_][\\w]*(?:\\.[a-zA-Z_][\\w]*)*)\\.([$_a-zA-Z][\\w$]*)" //
+                    + "|"
+                    // CASE 3: no scheme, just <fqcn>.*
+                    + "([a-zA-Z_][\\w]*(?:\\.[a-zA-Z_][\\w]*)*)\\.\\*" //
+                    + ")$" //
+            );
+
     private final Logger logger = LoggerFactory.getLogger(InterceptorIgnoreUrlProperties.class);
 
+    /**
+     * {@link #fqcn} 정보 유형.
+     *
+     * <p>
+     * <li>pakcage: FQCN 경로 하위에 있는 경우, 단 "*"은 모두 허용.
+     * <li>class: FQCN 클래스와 정확히 일치하는 경우.
+     * <li>instance: FQCN 클래스의 하위 클래스인 경우.
+     * </p>
+     */
+    private Scheme scheme;
     /**
      * {@link HandlerInterceptor}를 구현한 클래스 또는 확인할 경로<br>
      * 표현: FQCN 기반 Java 정규식
      */
-    private String target;
+    private String fqcn;
     /**
      * {@link HandlerInterceptor}에서 처리할 URL<br>
      * 설정하지 않는 경우 모든 URL을 처리하게 됨.
@@ -73,41 +114,117 @@ public class InterceptorIgnoreUrlProperties {
     public InterceptorIgnoreUrlProperties() {
     }
 
-    public void addExcludePathPattern(String excludePathPattern) {
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param excludePathPattern
+     *            처리 대상에서 제외시킬 URL 패턴 (AntPathPattern)
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public InterceptorIgnoreUrlProperties addExcludePathPattern(String excludePathPattern) {
         if (PathUtils.isValidAntPath(excludePathPattern)) {
             this.excludePathPatterns.add(excludePathPattern);
         } else {
-            logger.warn("{}, target={}, exclude.invalid={}", InvalidAntPathUrlPatternException.class.getName(), this.target, excludePathPattern);
+            logger.warn("{}, fqcn={}, exclude.invalid={}", InvalidAntPathUrlPatternException.class.getName(), this.fqcn, excludePathPattern);
         }
+        return this;
     }
 
-    public void addExcludePathPatterns(@NotNull @Nonnull Set<String> excludePathPatterns) {
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param excludePathPatterns
+     *            처리 대상에서 제외시킬 URL 패턴 (AntPathPattern)
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public InterceptorIgnoreUrlProperties addExcludePathPatterns(@NotNull @Nonnull Set<String> excludePathPatterns) {
         if (PathUtils.isValidAntPath(excludePathPatterns)) {
             this.excludePathPatterns.addAll(excludePathPatterns);
         } else {
-            logger.warn("{}, target={}, exclude.invalid={}", InvalidAntPathUrlPatternException.class.getName(), this.target, excludePathPatterns.toString());
+            logger.warn("{}, fqcn={}, exclude.invalid={}", InvalidAntPathUrlPatternException.class.getName(), this.fqcn, excludePathPatterns.toString());
         }
+        return this;
     }
 
-    public void addIncludePathPattern(String includePathPattern) {
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param includePathPattern
+     *            처리 대상에 포함시킬 URL 패턴 (AntPathPattern)
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public InterceptorIgnoreUrlProperties addIncludePathPattern(String includePathPattern) {
         if (PathUtils.isValidAntPath(includePathPattern)) {
             this.includePathPatterns.add(includePathPattern);
         } else {
-            logger.warn("{}, target={}, include.invalid={}", InvalidAntPathUrlPatternException.class.getName(), this.target, includePathPattern);
+            logger.warn("{}, fqcn={}, include.invalid={}", InvalidAntPathUrlPatternException.class.getName(), this.fqcn, includePathPattern);
         }
+        return this;
     }
 
-    public void addIncludePathPatterns(@NotNull @Nonnull Set<String> includePathPatterns) {
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 4.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param includePathPatterns
+     *            처리 대상에 포함시킬 URL 패턴 (AntPathPattern)
+     *
+     * @since 2025. 8. 4.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public InterceptorIgnoreUrlProperties addIncludePathPatterns(@NotNull @Nonnull Set<String> includePathPatterns) {
         if (PathUtils.isValidAntPath(includePathPatterns)) {
             this.includePathPatterns.addAll(includePathPatterns);
         } else {
-            logger.warn("{}, target={}, include.invalid={}", InvalidAntPathUrlPatternException.class.getName(), this.target, includePathPatterns.toArray());
+            logger.warn("{}, fqcn={}, include.invalid={}", InvalidAntPathUrlPatternException.class.getName(), this.fqcn, includePathPatterns.toArray());
         }
+        return this;
     }
 
     /**
      *
-     * @since 2025. 7. 30.
+     * @since 2025. 8. 7.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -122,7 +239,7 @@ public class InterceptorIgnoreUrlProperties {
         if (getClass() != obj.getClass())
             return false;
         InterceptorIgnoreUrlProperties other = (InterceptorIgnoreUrlProperties) obj;
-        return Objects.equals(target, other.target);
+        return scheme == other.scheme && Objects.equals(fqcn, other.fqcn);
     }
 
     /**
@@ -158,6 +275,29 @@ public class InterceptorIgnoreUrlProperties {
      * 2025. 7. 30.		박준홍			최초 작성
      * </pre>
      * 
+     * @return the fqcn
+     *
+     * @since 2025. 7. 30.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #fqcn
+     */
+
+    public String getFqcn() {
+        return fqcn;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 7. 30.		박준홍			최초 작성
+     * </pre>
+     * 
      * @return the includePathPatterns
      *
      * @since 2025. 7. 30.
@@ -178,33 +318,40 @@ public class InterceptorIgnoreUrlProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 30.		박준홍			최초 작성
+     * 2025. 8. 7.		박준홍			최초 작성
      * </pre>
      * 
-     * @return the target
+     * @return the scheme
      *
-     * @since 2025. 7. 30.
+     * @since 2025. 8. 7.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see #target
+     * @see #scheme
      */
 
-    public String getTarget() {
-        return target;
+    public Scheme getScheme() {
+        return scheme;
     }
 
     /**
+     * {@link #scheme}와 {@link #fqcn} 정보를 병합하여 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 7.		박준홍			최초 작성
+     * </pre>
      *
-     * @since 2025. 7. 30.
+     * @return
+     *
+     * @since 2025. 8. 7.
      * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see java.lang.Object#hashCode()
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    @Override
-    public int hashCode() {
-        return Objects.hash(target);
+    public String getTarget() {
+        return String.join(":", this.scheme.get(), this.fqcn);
     }
 
     /**
@@ -218,7 +365,7 @@ public class InterceptorIgnoreUrlProperties {
      * </pre>
      *
      * @param excludePathPatterns
-     *            the excludePathPatterns to set
+     *            처리 대상에서 제외시킬 URL 패턴 (AntPathPattern)
      *
      * @since 2025. 7. 30.
      * @version 0.8.0
@@ -226,11 +373,13 @@ public class InterceptorIgnoreUrlProperties {
      *
      * @see #excludePathPatterns
      */
-    public void setExcludePathPatterns(@NotNull @Nonnull Set<String> excludePathPatterns) {
+    public InterceptorIgnoreUrlProperties setExcludePathPatterns(@NotNull @Nonnull Set<String> excludePathPatterns) {
         if (!PathUtils.isValidAntPath(excludePathPatterns)) {
-            throw ExceptionUtils.newException(InvalidAntPathUrlPatternException.class, "target=%s, exclude.invalid=%s", this.target, excludePathPatterns.toString());
+            throw ExceptionUtils.newException(InvalidAntPathUrlPatternException.class, "fqcn=%s, exclude.invalid=%s", this.fqcn, excludePathPatterns.toString());
         }
         this.excludePathPatterns = excludePathPatterns;
+
+        return this;
     }
 
     /**
@@ -244,7 +393,7 @@ public class InterceptorIgnoreUrlProperties {
      * </pre>
      *
      * @param includePathPatterns
-     *            the includePathPatterns to set
+     *            처리 대상에 포함시킬 URL 패턴 (AntPathPattern)
      *
      * @since 2025. 7. 30.
      * @version 0.8.0
@@ -252,11 +401,13 @@ public class InterceptorIgnoreUrlProperties {
      *
      * @see #includePathPatterns
      */
-    public void setIncludePathPatterns(@NotNull @Nonnull Set<String> includePathPatterns) {
+    public InterceptorIgnoreUrlProperties setIncludePathPatterns(@NotNull @Nonnull Set<String> includePathPatterns) {
         if (!PathUtils.isValidAntPath(includePathPatterns)) {
-            throw ExceptionUtils.newException(InvalidAntPathUrlPatternException.class, "target=%s, include.invalid=%s", this.target, includePathPatterns.toString());
+            throw ExceptionUtils.newException(InvalidAntPathUrlPatternException.class, "fqcn=%s, include.invalid=%s", this.fqcn, includePathPatterns.toString());
         }
         this.includePathPatterns = includePathPatterns;
+
+        return this;
     }
 
     /**
@@ -269,25 +420,57 @@ public class InterceptorIgnoreUrlProperties {
      * 2025. 7. 30.		박준홍			최초 작성
      * </pre>
      *
-     * @param target
-     *            the target to set
+     * @param fqcn
+     *            the fqcn to set
      *
      * @since 2025. 7. 30.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see #target
+     * @see #fqcn
      */
-    public void setTarget(@NotBlank @Nonnull String target) {
-        if (!InterceptorIgnoreValidator.isValidTarget(target)) {
-            throw ExceptionUtils.newException(InvalidAntPathUrlPatternException.class, "target.invalid=%s", target);
+    public InterceptorIgnoreUrlProperties setTarget(@NotBlank @Nonnull String target) {
+
+        if ("*".equals(target) || "package:*".equalsIgnoreCase(target)) {
+            this.scheme = Scheme.Package;
+            this.fqcn = ".*";
+        } else {
+            Matcher m = PATTERN.matcher(target);
+            if (m.matches()) {
+                /**
+                 * <pre>
+                 * | group    | description                  | case  |
+                 * | -------- | ---------------------------- | ----- |
+                 * | group(1) | `"package"`                  | #1    |
+                 * | group(2) | `com.example`                | #1    |
+                 * | group(3) | `"class"` or `"instance"`    | #2    |
+                 * | group(4) | `com.example`                | #2    |
+                 * | group(5) | `MyClass` or `MyClass$Inner` | #2    |
+                 * | group(6) | no scheme -> `com.example`   | #3    |
+                 * </pre>
+                 */
+                if (m.group(1) != null) {
+                    this.scheme = Scheme.Package;
+                    this.fqcn = m.group(2) + ".*";
+                } else if (m.group(3) != null) {
+                    this.scheme = Scheme.get(m.group(3).toLowerCase());
+                    this.fqcn = m.group(4) + "." + m.group(5); // class_name
+                } else if (m.group(6) != null) {
+                    this.scheme = Scheme.Package;
+                    this.fqcn = m.group(6) + ".*";
+                }
+            } else {
+                throw ExceptionUtils.newException(InvalidAntPathUrlPatternException.class, "fqcn.invalid=%s", target);
+            }
         }
-        this.target = "*".equals(target) ? ".*" : target;
+
+        logger.info("[interceptor-ignored-url-property]) scheme={}, fqcn={}", this.scheme, this.fqcn);
+        return this;
     }
 
     /**
      *
-     * @since 2025. 7. 30.
+     * @since 2025. 8. 7.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -296,13 +479,43 @@ public class InterceptorIgnoreUrlProperties {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("InterceptorIgnoreUrlProperties [target=");
-        builder.append(target);
+        builder.append("InterceptorIgnoreUrlProperties [scheme=");
+        builder.append(scheme);
+        builder.append(", fqcn=");
+        builder.append(fqcn);
         builder.append(", includePathPatterns=");
         builder.append(includePathPatterns);
         builder.append(", excludePathPatterns=");
         builder.append(excludePathPatterns);
         builder.append("]");
         return builder.toString();
+    }
+
+    public static enum Scheme {
+        Package(SCHEME_PACKAGE), //
+        Class(SCHEME_CLASS), //
+        Instance(SCHEME_INSTANCE), //
+        ;
+
+        private final String scheme;
+
+        private Scheme(String s) {
+            this.scheme = s;
+        }
+
+        public String get() {
+            return this.scheme;
+        }
+
+        public static Scheme get(String scheme) {
+
+            for (Scheme s : values()) {
+                if (s.scheme.equals(scheme)) {
+                    return s;
+                }
+            }
+
+            throw ExceptionUtils.newException(IllegalArgumentException.class, "'%s'에 해당하는 %s이 존재하지 않습니다.", scheme, Scheme.class.getName());
+        }
     }
 }

@@ -79,8 +79,8 @@ public class AuthorizedResourcesConfiguration {
         return aspect;
     }
 
-    @Bean(BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER)
-    @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
+    @Bean(name = BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER)
+    @ConditionalOnBean({ IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
     ObjectMapper authorizedObjectMapper(ApplicationContext context //
             , @NotNull @Nonnull IAuthorizedResourcesMetadata authorizedResourcesMetadata //
             , @NotNull @Nonnull Jackson2ObjectMapperBuilder objectMapperBuilder) {
@@ -106,7 +106,7 @@ public class AuthorizedResourcesConfiguration {
     }
 
     @Bean
-    @ConditionalOnBean(value = { IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
+    @ConditionalOnBean({ IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
     @Order(Integer.MAX_VALUE)
     AuthorizedResourceFilter authorizedResourceFilter(ApplicationContext context) {
         IAuthorizedResourceAuthenticationPause auth = null;

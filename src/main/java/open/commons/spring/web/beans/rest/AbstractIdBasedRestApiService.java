@@ -47,6 +47,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import open.commons.core.Result;
+import open.commons.core.text.NamedTemplate;
+import open.commons.core.utils.MapUtils;
 import open.commons.spring.web.exception.RequiredQueryNotFoundException;
 import open.commons.spring.web.rest.service.AbstractRestApiClient;
 
@@ -69,6 +71,7 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
      * 2025. 7. 3.		박준홍			최초 작성
+     * 2025. 8. 8.      박준홍         abstract 메소드를 <code>Map<String, String> pathVariable</code> 파라미터가 추가된 것으로 변경
      * </pre>
      *
      * @param restTemplate
@@ -84,7 +87,7 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
         this.apiInfo.putAll(restApis.stream().collect(Collectors.toMap(api -> api.getId(), api -> api)));
     }
 
-    private RestEndpoint createRestEndpoint(String id, MultiValueMap<String, String> headers, MultiValueMap<String, Object> queries) {
+    private RestEndpoint createRestEndpoint(String id, Map<String, String> pathVariables, MultiValueMap<String, String> headers, MultiValueMap<String, Object> queries) {
         IdBasedRestApiDecl api = this.apiInfo.get(id);
         if (api == null) {
             logger.warn("'{}'에 해당하는 REST API 정보가 없습니다.", id);
@@ -92,7 +95,13 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
         }
 
         HttpMethod method = api.getMethod();
-        String path = api.getPath();
+        String path = null;
+        if (MapUtils.isNullOrEmpty(pathVariables)) {
+            path = api.getPath();
+        } else {
+            path = NamedTemplate.format(api.getPath(), pathVariables.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+        }
+
         // #1. 헤더 병합
         final HttpHeaders staticHeaders = new HttpHeaders(api.getHeaders());
         if (headers != null) {
@@ -127,50 +136,20 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
 
     /**
      *
-     * @since 2025. 7. 3.
+     * @since 2025. 8. 8.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.beans.rest.IIdBasedRestApiService#execute(java.lang.String, java.lang.Object,
-     *      java.lang.Class, org.springframework.http.HttpHeaders, org.springframework.util.MultiValueMap,
-     *      java.lang.String, java.util.function.Function, java.util.function.Function)
-     */
-    @Override
-    public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
-            , @Nullable HttpHeaders headers //
-            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
-            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , @NotNull Function<Exception, Result<RET>> onError) {
-
-        RestEndpoint api = createRestEndpoint(id, headers, query);
-
-        if (api == null) {
-            String errMsg = String.format("REST API('%s') 연동을 실패하였습니다. 원인=REST API가 존재하지 않습니다.", id);
-            return Result.error(errMsg);
-        }
-
-        return execute(api.method, api.path, api.queries, api.headers, requestBody, responseType, onSuccess, onError, getRetryCount());
-    }
-
-    /**
-     *
-     * @since 2025. 7. 3.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see open.commons.spring.web.beans.rest.IIdBasedRestApiService#execute(java.lang.String, java.lang.Object,
-     *      org.springframework.core.ParameterizedTypeReference, org.springframework.http.HttpHeaders,
+     * @see open.commons.spring.web.beans.rest.IIdBasedRestApiService#execute(java.lang.String, java.util.Map,
+     *      java.lang.Object, java.lang.Class, org.springframework.http.HttpHeaders,
      *      org.springframework.util.MultiValueMap, java.lang.String, java.util.function.Function,
      *      java.util.function.Function)
      */
     @Override
-    public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
-            , @Nullable HttpHeaders headers //
-            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
-            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , @NotNull Function<Exception, Result<RET>> onError) {
-
-        RestEndpoint api = createRestEndpoint(id, headers, query);
+    public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, REQ requestBody, @NotNull Class<RES> responseType,
+            HttpHeaders headers, MultiValueMap<String, Object> query, String fragment, @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess,
+            @NotNull Function<Exception, Result<RET>> onError) {
+        RestEndpoint api = createRestEndpoint(id, pathVariables, headers, query);
 
         if (api == null) {
             String errMsg = String.format("REST API('%s') 연동을 실패하였습니다. 원인=REST API가 존재하지 않습니다.", id);
@@ -182,21 +161,43 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
 
     /**
      *
-     * @since 2025. 7. 14.
+     * @since 2025. 8. 8.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.beans.rest.IIdBasedRestApiService#executeAsRaw(java.lang.String, java.lang.Object,
-     *      java.lang.Class, org.springframework.http.HttpHeaders, org.springframework.util.MultiValueMap,
-     *      java.lang.String, java.util.function.Function)
+     * @see open.commons.spring.web.beans.rest.IIdBasedRestApiService#execute(java.lang.String, java.util.Map,
+     *      java.lang.Object, org.springframework.core.ParameterizedTypeReference, org.springframework.http.HttpHeaders,
+     *      org.springframework.util.MultiValueMap, java.lang.String, java.util.function.Function,
+     *      java.util.function.Function)
      */
     @Override
-    public <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
-            , @Nullable HttpHeaders headers //
-            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
-            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+    public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType, HttpHeaders headers, MultiValueMap<String, Object> query, String fragment,
+            @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess, @NotNull Function<Exception, Result<RET>> onError) {
+        RestEndpoint api = createRestEndpoint(id, pathVariables, headers, query);
 
-        RestEndpoint api = createRestEndpoint(id, headers, query);
+        if (api == null) {
+            String errMsg = String.format("REST API('%s') 연동을 실패하였습니다. 원인=REST API가 존재하지 않습니다.", id);
+            return Result.error(errMsg);
+        }
+
+        return execute(api.method, api.path, api.queries, api.headers, requestBody, responseType, onSuccess, onError, getRetryCount());
+    }
+
+    /**
+     *
+     * @since 2025. 8. 8.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see open.commons.spring.web.beans.rest.IIdBasedRestApiService#executeAsRaw(java.lang.String, java.util.Map,
+     *      java.lang.Object, java.lang.Class, org.springframework.http.HttpHeaders,
+     *      org.springframework.util.MultiValueMap, java.lang.String, java.util.function.Function)
+     */
+    @Override
+    public <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, REQ requestBody, @NotNull Class<RES> responseType,
+            HttpHeaders headers, MultiValueMap<String, Object> query, String fragment, @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        RestEndpoint api = createRestEndpoint(id, pathVariables, headers, query);
 
         if (api == null) {
             String errMsg = String.format("REST API('%s') 연동을 실패하였습니다. 원인=REST API가 존재하지 않습니다.", id);
@@ -208,21 +209,19 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
 
     /**
      *
-     * @since 2025. 7. 14.
+     * @since 2025. 8. 8.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.beans.rest.IIdBasedRestApiService#executeAsRaw(java.lang.String, java.lang.Object,
-     *      org.springframework.core.ParameterizedTypeReference, org.springframework.http.HttpHeaders,
+     * @see open.commons.spring.web.beans.rest.IIdBasedRestApiService#executeAsRaw(java.lang.String, java.util.Map,
+     *      java.lang.Object, org.springframework.core.ParameterizedTypeReference, org.springframework.http.HttpHeaders,
      *      org.springframework.util.MultiValueMap, java.lang.String, java.util.function.Function)
      */
     @Override
-    public <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
-            , @Nullable HttpHeaders headers //
-            , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
-            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
-
-        RestEndpoint api = createRestEndpoint(id, headers, query);
+    public <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, REQ requestBody,
+            @NotNull ParameterizedTypeReference<RES> responseType, HttpHeaders headers, MultiValueMap<String, Object> query, String fragment,
+            @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
+        RestEndpoint api = createRestEndpoint(id, pathVariables, headers, query);
 
         if (api == null) {
             String errMsg = String.format("REST API('%s') 연동을 실패하였습니다. 원인=REST API가 존재하지 않습니다.", id);
