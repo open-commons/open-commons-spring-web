@@ -212,6 +212,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
     private final ApplicationContext context;
     private final Environment environment;
+
     private Set<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlConfigurations;
 
     /**
