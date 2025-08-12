@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Park Jun-Hong_(parkjunhong77@gmail.com)
+ * Copyright 2019 Park Jun-Hong (parkjunhong77@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -203,9 +203,11 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      */
     public static final String APPLICATION_PROPERTIES_PREFIX = "open-commons.spring.web.factory.enum";
 
+    /** 정적 자원 경로 alias 패턴 */
     private static final String SPRING_MVC_STATIC_PATH_PATTERN = "spring.mvc.static-path-pattern";
-
+    /** 정적 자원 실제 경로 */
     private static final String SPRING_WEB_RESOURCES_STATIC_LOCATIONS = "spring.web.resources.static-locations";
+    /** 기본 정적 자원 실제 경로 */
     private static final String[] DEFAULTS = { "classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/" };
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -213,6 +215,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     private final ApplicationContext context;
     private final Environment environment;
 
+    /** {@link HandlerInterceptor}에서 처리하지 않을 URL 패턴 설정 */
     private Set<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlConfigurations;
 
     /**
@@ -534,7 +537,8 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     }
 
     /**
-     * <br>
+     * {@link HandlerInterceptor}에서 처리하지 않을 URL 패턴 설정을 등록합니다. <br>
+     * {@link InterceptorRegistration#excludePathPatterns(String...)}에 사용될 정보입니다.
      * 
      * <pre>
      * [개정이력]
