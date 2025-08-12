@@ -29,6 +29,7 @@ package open.commons.spring.web.aspect;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -125,6 +126,8 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
     private final boolean handleIfOriginatedFromController;
     /** {@link MDC} 에 {@link LogFeature#PROP_FEATURE} 값이 존재하는 경우 해당 값에 따라서 로그 분기 적용 여부 */
     private final boolean enableLogRouting;
+    /** 들여쓰기 적용 여부 */
+    private final boolean enableIndentation;
 
     /**
      * <br>
@@ -143,7 +146,7 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      * @author parkjunhong77@gmail.com
      */
     public AbstractMethodCallChainLogAspect(ApplicationContext context) {
-        this(context, false, false, false, false, true);
+        this(context, false, false, false, false, true, true);
     }
 
     /**
@@ -165,7 +168,7 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      * @author parkjunhong77@gmail.com
      */
     public AbstractMethodCallChainLogAspect(ApplicationContext context, boolean disableRepository) {
-        this(context, false, false, disableRepository, false, true);
+        this(context, false, false, disableRepository, false, true, true);
     }
 
     /**
@@ -188,7 +191,7 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      * @author parkjunhong77@gmail.com
      */
     public AbstractMethodCallChainLogAspect(ApplicationContext context, boolean disableRepository, boolean handleIfOriginatedFromController) {
-        this(context, false, false, disableRepository, handleIfOriginatedFromController, true);
+        this(context, false, false, disableRepository, handleIfOriginatedFromController, true, true);
     }
 
     /**
@@ -215,7 +218,38 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      * @author parkjunhong77@gmail.com
      */
     public AbstractMethodCallChainLogAspect(ApplicationContext context, boolean disableRepository, boolean handleIfOriginatedFromController, boolean enableLogRouting) {
-        this(context, false, false, disableRepository, handleIfOriginatedFromController, enableLogRouting);
+        this(context, false, false, disableRepository, handleIfOriginatedFromController, enableLogRouting, true);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 12.		박준홍			최초 작성
+     * </pre>
+     *
+     * * @param context
+     * 
+     * @param disableRepository
+     *            {@link Repository} 설정 클래스 AOP 미적용 여부
+     * @param handleIfOriginatedFromController
+     *            메소드 호출이 {@link Controller}에서부터 시작된 경우에만 AOP 적용 여부
+     * @param enableLogRouting
+     *            {@link MDC} 에 {@link LogFeature#PROP_FEATURE} 값이 존재하는 경우 해당 값에 따라서 로그 분기 적용 여부
+     * @param enableIndentation
+     *            들여쓰기 적용 여부
+     *
+     * @since 2025. 8. 12.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     */
+    public AbstractMethodCallChainLogAspect(ApplicationContext context, boolean disableRepository, boolean handleIfOriginatedFromController, boolean enableLogRouting,
+            boolean enableIndentation) {
+        this(context, false, false, disableRepository, handleIfOriginatedFromController, enableLogRouting, enableIndentation);
     }
 
     /**
@@ -239,18 +273,21 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      *            메소드 호출이 {@link Controller}에서부터 시작된 경우에만 AOP 적용 여부
      * @param enableLogRouting
      *            {@link MDC} 에 {@link LogFeature#PROP_FEATURE} 값이 존재하는 경우 해당 값에 따라서 로그 분기 적용 여부
+     * @param enableIndentation
+     *            들여쓰기 적용 여부
      * @since 2025. 6. 23.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
     public AbstractMethodCallChainLogAspect(ApplicationContext context, boolean disableController, boolean disableService, boolean disableRepository,
-            boolean handleIfOriginatedFromController, boolean enableLogRouting) {
+            boolean handleIfOriginatedFromController, boolean enableLogRouting, boolean enableIndentation) {
         super(context);
         this.disableController = disableController;
         this.disableService = disableService;
         this.disableRepository = disableRepository;
         this.handleIfOriginatedFromController = handleIfOriginatedFromController;
         this.enableLogRouting = enableLogRouting;
+        this.enableIndentation = enableIndentation;
     }
 
     /**
@@ -415,6 +452,19 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
         logger.log(msg);
     }
 
+    protected String getClassName(JoinPoint joinPoint) {
+        return joinPoint.getTarget().getClass().getSimpleName();
+    }
+
+    protected final String getPackage(JoinPoint joinPoint) {
+        String[] pkg = joinPoint.getTarget().getClass().getName().split("\\.");
+        if (pkg.length < 2) {
+            return "";
+        } else {
+            return String.join(".", ArrayUtils.copyOf(pkg, pkg.length - 1));
+        }
+    }
+
     protected String getShortPackage(Class<?> clazz) {
         String[] pkg = clazz.getName().split("\\.");
         if (pkg.length < 2) {
@@ -428,6 +478,14 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
         pkg[i] = "";
 
         return String.join(".", pkg);
+    }
+
+    protected String getShortPackage(JoinPoint joinPoint) {
+        return getShortPackage(joinPoint.getTarget().getClass());
+    }
+
+    protected final String getShortSignature(JoinPoint joinPoint) {
+        return joinPoint.getSignature().toShortString();
     }
 
     /**
@@ -460,23 +518,12 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
         final String holder = HOLDER_GEN.get();
         try {
             // 메소드 실행 전
-            ThrowableRunner bc = () -> beforeController(logger(MethodLogContext.getBeforeIncrement(holder, Controller.class)), pjp);
-            if (this.enableLogRouting) {
-                wrap(bc);
-            } else {
-                bc.run();
-            }
-
+            beforeController(logger(MethodLogContext.getBeforeIncrement(holder, Controller.class)), pjp);
             // 메소드 실행
             return pjp.proceed();
         } finally {
             // 메소드실행 후
-            ThrowableRunner ac = () -> afterController(logger(MethodLogContext.getAfterDecrement(holder)), pjp);
-            if (this.enableLogRouting) {
-                wrap(ac);
-            } else {
-                ac.run();
-            }
+            afterController(logger(MethodLogContext.getAfterDecrement(holder)), pjp);
 
             MethodLogContext.clear(holder);
         }
@@ -515,23 +562,13 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
 
         final String holder = HOLDER_GEN.get();
         try {
-            ThrowableRunner br = () -> beforeRepository(logger(MethodLogContext.getBeforeIncrement(holder, Service.class)), pjp);
             // 메소드 실행 전
-            if (this.enableLogRouting) {
-                wrap(br);
-            } else {
-                br.run();
-            }
+            beforeRepository(logger(MethodLogContext.getBeforeIncrement(holder, Service.class)), pjp);
             // 메소드 실행
             return pjp.proceed();
         } finally {
             // 메소드실행 후
-            ThrowableRunner ar = () -> afterRepository(logger(MethodLogContext.getAfterDecrement(holder)), pjp);
-            if (this.enableLogRouting) {
-                wrap(ar);
-            } else {
-                ar.run();
-            }
+            afterRepository(logger(MethodLogContext.getAfterDecrement(holder)), pjp);
 
             MethodLogContext.clear(holder);
         }
@@ -572,22 +609,12 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
         final String holder = HOLDER_GEN.get();
         try {
             // 메소드 실행 전
-            ThrowableRunner bs = () -> beforeService(logger(MethodLogContext.getBeforeIncrement(holder, Repository.class)), pjp);
-            if (this.enableLogRouting) {
-                wrap(bs);
-            } else {
-                bs.run();
-            }
+            beforeService(logger(MethodLogContext.getBeforeIncrement(holder, Repository.class)), pjp);
             // 메소드 실행
             return pjp.proceed();
         } finally {
             // 메소드실행 후
-            ThrowableRunner as = () -> afterService(logger(MethodLogContext.getAfterDecrement(holder)), pjp);
-            if (this.enableLogRouting) {
-                wrap(as);
-            } else {
-                as.run();
-            }
+            afterService(logger(MethodLogContext.getAfterDecrement(holder)), pjp);
 
             MethodLogContext.clear(holder);
         }
@@ -611,7 +638,7 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     private final String indent(int indent) {
-        return StringUtils.nTimesString(indentString(), indent);
+        return this.enableIndentation ? StringUtils.nTimesString(indentString(), indent) : "";
     }
 
     /**
@@ -718,7 +745,10 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
                 format = "{}{}";
                 arguments = ArrayUtils.prepend(arguments, indentStr);
             }
-            this.logger.info(format, arguments);
+
+            // this.logger.info(format, arguments);
+            wrap(this.logger::info, format, arguments);
+
         };
         return new Log(logger);
     }
@@ -756,6 +786,19 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      */
     public abstract void pointcutRootPackage();
 
+    private void wrap(BiConsumer<String, Object[]> f, String format, Object[] args) {
+        Map<String, String> currentMDC = MDC.getCopyOfContextMap();
+
+        String feature = this.enableLogRouting ? MDC.get(LogFeature.PROP_FEATURE) : null;
+        String callchainfeature = StringUtils.isNullOrEmptyString(feature) ? loadCallChainFeature() : String.join("-", feature, loadCallChainFeature());
+        MDC.put(LogFeature.PROP_FEATURE, callchainfeature);
+        f.accept(format, args);
+
+        if (currentMDC != null) {
+            MDC.setContextMap(currentMDC);
+        }
+    }
+
     /**
      * 현재 {@link Thread}의 {@link MDC} 내의 {@link LogFeature#PROP_FEATURE} 값에 메소드 'Call-Chain' 로그를 세분화 합니다. <br>
      * 
@@ -776,7 +819,7 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
     private void wrap(ThrowableRunner f) throws Throwable {
         Map<String, String> currentMDC = MDC.getCopyOfContextMap();
 
-        String feature = MDC.get(LogFeature.PROP_FEATURE);
+        String feature = this.enableLogRouting ? MDC.get(LogFeature.PROP_FEATURE) : null;
         String callchainfeature = StringUtils.isNullOrEmptyString(feature) ? loadCallChainFeature() : String.join("-", feature, loadCallChainFeature());
         MDC.put(LogFeature.PROP_FEATURE, callchainfeature);
         f.run();
