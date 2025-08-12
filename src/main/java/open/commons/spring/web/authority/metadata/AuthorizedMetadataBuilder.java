@@ -359,7 +359,6 @@ public class AuthorizedMetadataBuilder {
                 return abmBuilder.build();
             }
 
-            @SuppressWarnings("unused")
             @Override
             public ObjectBuilder field(Function<FieldBuilder, FieldBuilder> consumer) {
                 FieldBuilderImpl builder = new FieldBuilderImpl();
