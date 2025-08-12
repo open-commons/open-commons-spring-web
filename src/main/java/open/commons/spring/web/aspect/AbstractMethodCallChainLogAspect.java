@@ -27,6 +27,7 @@
 package open.commons.spring.web.aspect;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -36,14 +37,17 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
+import org.slf4j.MDC;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
+import open.commons.core.function.ThrowableRunner;
 import open.commons.core.utils.ArrayUtils;
 import open.commons.core.utils.StringUtils;
+import open.commons.spring.web.log.LogFeature;
 import open.commons.spring.web.thread.MethodLogContext;
 
 /**
@@ -106,7 +110,7 @@ import open.commons.spring.web.thread.MethodLogContext;
  * @see Repository
  * 
  */
-public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
+public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPointcuts {
 
     /** Aspect 시점 holder key 생성자 */
     private static final Supplier<String> HOLDER_GEN = () -> UUID.randomUUID().toString();
@@ -117,9 +121,10 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
     private final boolean disableService;
     /** {@link Repository} 설정 클래스 AOP 미적용 여부 */
     private final boolean disableRepository;
-
     /** 메소드 호출이 {@link Controller}에서부터 시작된 경우에만 AOP 적용 여부 */
     private final boolean handleIfOriginatedFromController;
+    /** {@link MDC} 에 {@link LogFeature#PROP_FEATURE} 값이 존재하는 경우 해당 값에 따라서 로그 분기 적용 여부 */
+    private final boolean enableLogRouting;
 
     /**
      * <br>
@@ -137,8 +142,8 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AbstractMethodLogAspect(ApplicationContext context) {
-        this(context, null, false, false, false, false);
+    public AbstractMethodCallChainLogAspect(ApplicationContext context) {
+        this(context, false, false, false, false, true);
     }
 
     /**
@@ -159,8 +164,8 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AbstractMethodLogAspect(ApplicationContext context, boolean disableRepository) {
-        this(context, null, false, false, disableRepository, false);
+    public AbstractMethodCallChainLogAspect(ApplicationContext context, boolean disableRepository) {
+        this(context, false, false, disableRepository, false, true);
     }
 
     /**
@@ -171,6 +176,30 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
      * 2025. 6. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param context
+     * @param disableRepository
+     *            {@link Repository} 설정 클래스 AOP 미적용 여부
+     * @param handleIfOriginatedFromController
+     *            메소드 호출이 {@link Controller}에서부터 시작된 경우에만 AOP 적용 여부
+     * @since 2025. 6. 23.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     */
+    public AbstractMethodCallChainLogAspect(ApplicationContext context, boolean disableRepository, boolean handleIfOriginatedFromController) {
+        this(context, false, false, disableRepository, handleIfOriginatedFromController, true);
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 12.		박준홍			최초 작성
      * </pre>
      *
      * @param context
@@ -178,84 +207,15 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      *            {@link Repository} 설정 클래스 AOP 미적용 여부
      * @param handleIfOriginatedFromController
      *            메소드 호출이 {@link Controller}에서부터 시작된 경우에만 AOP 적용 여부
-     * @since 2025. 6. 23.
+     * @param enableLogRouting
+     *            {@link MDC} 에 {@link LogFeature#PROP_FEATURE} 값이 존재하는 경우 해당 값에 따라서 로그 분기 적용 여부
+     *
+     * @since 2025. 8. 12.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AbstractMethodLogAspect(ApplicationContext context, boolean disableRepository, boolean handleIfOriginatedFromController) {
-        this(context, null, false, false, disableRepository, handleIfOriginatedFromController);
-    }
-
-    /**
-     * 
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param context
-     * @param logger
-     *
-     * @since 2025. 6. 23.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     */
-    public AbstractMethodLogAspect(ApplicationContext context, Logger logger) {
-        this(context, logger, false, false, false, false);
-    }
-
-    /**
-     * 
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param context
-     * @param logger
-     * @param disableRepository
-     *            {@link Repository} 설정 클래스 AOP 미적용 여부
-     *
-     * @since 2025. 6. 23.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     */
-    public AbstractMethodLogAspect(ApplicationContext context, Logger logger, boolean disableRepository) {
-        this(context, logger, false, false, disableRepository, false);
-    }
-
-    /**
-     * 
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param context
-     * @param logger
-     * @param disableRepository
-     *            {@link Repository} 설정 클래스 AOP 미적용 여부
-     * @param handleIfOriginatedFromController
-     *            메소드 호출이 {@link Controller}에서부터 시작된 경우에만 AOP 적용 여부
-     *
-     * @since 2025. 6. 23.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     */
-    public AbstractMethodLogAspect(ApplicationContext context, Logger logger, boolean disableRepository, boolean handleIfOriginatedFromController) {
-        this(context, logger, false, false, disableRepository, handleIfOriginatedFromController);
+    public AbstractMethodCallChainLogAspect(ApplicationContext context, boolean disableRepository, boolean handleIfOriginatedFromController, boolean enableLogRouting) {
+        this(context, false, false, disableRepository, handleIfOriginatedFromController, enableLogRouting);
     }
 
     /**
@@ -269,7 +229,6 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * </pre>
      *
      * @param context
-     * @param logger
      * @param disableController
      *            {@link Controller} 설정 클래스 AOP 미적용 여부
      * @param disableService
@@ -278,17 +237,20 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      *            {@link Repository} 설정 클래스 AOP 미적용 여부
      * @param handleIfOriginatedFromController
      *            메소드 호출이 {@link Controller}에서부터 시작된 경우에만 AOP 적용 여부
+     * @param enableLogRouting
+     *            {@link MDC} 에 {@link LogFeature#PROP_FEATURE} 값이 존재하는 경우 해당 값에 따라서 로그 분기 적용 여부
      * @since 2025. 6. 23.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AbstractMethodLogAspect(ApplicationContext context, Logger logger, boolean disableController, boolean disableService, boolean disableRepository,
-            boolean handleIfOriginatedFromController) {
-        super(context, logger);
+    public AbstractMethodCallChainLogAspect(ApplicationContext context, boolean disableController, boolean disableService, boolean disableRepository,
+            boolean handleIfOriginatedFromController, boolean enableLogRouting) {
+        super(context);
         this.disableController = disableController;
         this.disableService = disableService;
         this.disableRepository = disableRepository;
         this.handleIfOriginatedFromController = handleIfOriginatedFromController;
+        this.enableLogRouting = enableLogRouting;
     }
 
     /**
@@ -496,16 +458,25 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
         }
 
         final String holder = HOLDER_GEN.get();
-        int indent = MethodLogContext.getBeforeIncrement(holder, Controller.class);
         try {
             // 메소드 실행 전
-            beforeController(logger(indent), pjp);
+            ThrowableRunner bc = () -> beforeController(logger(MethodLogContext.getBeforeIncrement(holder, Controller.class)), pjp);
+            if (this.enableLogRouting) {
+                wrap(bc);
+            } else {
+                bc.run();
+            }
+
             // 메소드 실행
             return pjp.proceed();
         } finally {
-            indent = MethodLogContext.getAfterDecrement(holder);
             // 메소드실행 후
-            afterController(logger(indent), pjp);
+            ThrowableRunner ac = () -> afterController(logger(MethodLogContext.getAfterDecrement(holder)), pjp);
+            if (this.enableLogRouting) {
+                wrap(ac);
+            } else {
+                ac.run();
+            }
 
             MethodLogContext.clear(holder);
         }
@@ -543,16 +514,24 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
         }
 
         final String holder = HOLDER_GEN.get();
-        int indent = MethodLogContext.getBeforeIncrement(holder, Service.class);
         try {
+            ThrowableRunner br = () -> beforeRepository(logger(MethodLogContext.getBeforeIncrement(holder, Service.class)), pjp);
             // 메소드 실행 전
-            beforeRepository(logger(indent), pjp);
+            if (this.enableLogRouting) {
+                wrap(br);
+            } else {
+                br.run();
+            }
             // 메소드 실행
             return pjp.proceed();
         } finally {
-            indent = MethodLogContext.getAfterDecrement(holder);
             // 메소드실행 후
-            afterRepository(logger(indent), pjp);
+            ThrowableRunner ar = () -> afterRepository(logger(MethodLogContext.getAfterDecrement(holder)), pjp);
+            if (this.enableLogRouting) {
+                wrap(ar);
+            } else {
+                ar.run();
+            }
 
             MethodLogContext.clear(holder);
         }
@@ -591,16 +570,24 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
         }
 
         final String holder = HOLDER_GEN.get();
-        int indent = MethodLogContext.getBeforeIncrement(holder, Repository.class);
         try {
             // 메소드 실행 전
-            beforeService(logger(indent), pjp);
+            ThrowableRunner bs = () -> beforeService(logger(MethodLogContext.getBeforeIncrement(holder, Repository.class)), pjp);
+            if (this.enableLogRouting) {
+                wrap(bs);
+            } else {
+                bs.run();
+            }
             // 메소드 실행
             return pjp.proceed();
         } finally {
-            indent = MethodLogContext.getAfterDecrement(holder);
             // 메소드실행 후
-            afterService(logger(indent), pjp);
+            ThrowableRunner as = () -> afterService(logger(MethodLogContext.getAfterDecrement(holder)), pjp);
+            if (this.enableLogRouting) {
+                wrap(as);
+            } else {
+                as.run();
+            }
 
             MethodLogContext.clear(holder);
         }
@@ -645,6 +632,26 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      */
     protected String indentString() {
         return "  ";
+    }
+
+    /**
+     * 메소드 'Call-Chain'로그를 출력할 경우 해당 분기 이름을 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 12.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 8. 12.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected String loadCallChainFeature() {
+        return "callchain";
     }
 
     /**
@@ -723,7 +730,7 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * <pre>
      * &#64;Component
      * &#64;Aspect
-     * public class AspectConfig extends AbstractMethodLogAspect {
+     * public class AspectConfig extends AbstractMethodCallChainLogAspect {
      *     public AspectConfig(@NotNull ApplicationContext context) {
      *         super(context);
      *     }
@@ -748,6 +755,36 @@ public abstract class AbstractMethodLogAspect extends AbstractAspectPointcuts {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public abstract void pointcutRootPackage();
+
+    /**
+     * 현재 {@link Thread}의 {@link MDC} 내의 {@link LogFeature#PROP_FEATURE} 값에 메소드 'Call-Chain' 로그를 세분화 합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 12.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param f
+     * @throws Throwable
+     *
+     * @since 2025. 8. 12.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private void wrap(ThrowableRunner f) throws Throwable {
+        Map<String, String> currentMDC = MDC.getCopyOfContextMap();
+
+        String feature = MDC.get(LogFeature.PROP_FEATURE);
+        String callchainfeature = StringUtils.isNullOrEmptyString(feature) ? loadCallChainFeature() : String.join("-", feature, loadCallChainFeature());
+        MDC.put(LogFeature.PROP_FEATURE, callchainfeature);
+        f.run();
+
+        if (currentMDC != null) {
+            MDC.setContextMap(currentMDC);
+        }
+    }
 
     protected class Log {
         private final Consumer<Object[]> logger;

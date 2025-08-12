@@ -63,7 +63,7 @@ import open.commons.spring.web.utils.BeanUtils;
  */
 public abstract class AbstractAspectPointcuts {
 
-    protected final Logger logger;
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
     protected final ApplicationContext context;
     protected final BeanUtils BEAN_UTILS;
 
@@ -83,13 +83,8 @@ public abstract class AbstractAspectPointcuts {
      * @author parkjunhong77@gmail.com
      */
     public AbstractAspectPointcuts(ApplicationContext context) {
-        this(context, null);
-    }
-
-    public AbstractAspectPointcuts(ApplicationContext context, Logger logger) {
         this.context = context;
         this.BEAN_UTILS = BeanUtils.context(context);
-        this.logger = logger != null ? logger : LoggerFactory.getLogger(getClass());
     }
 
     /**
