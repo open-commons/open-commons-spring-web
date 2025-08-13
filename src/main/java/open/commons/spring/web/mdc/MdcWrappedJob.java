@@ -168,12 +168,12 @@ public abstract class MdcWrappedJob<V> {
         this.executorThreadName = Thread.currentThread().getName();
         String intcptThreadName = MDC.get(LogFeatureAspect.FORWARDED_THREAD_NAME);
         if (StringUtils.isNullOrEmptyString(intcptThreadName)) {
-            ThreadUtils.setThreadName(executorThreadName + this.forwardedThreadSymbol);
+            ThreadUtils.setThreadName(executorThreadName + "@" + this.forwardedThreadSymbol);
         } else {
             this.runtimeTaskNumber = TaskNumberManager.acquire(runtimeThreadNumberSelector = byScheduler ? intcptThreadName : this.executorThreadName);
             ThreadUtils.setThreadName(intcptThreadName //
                     + (runtimeTaskNumber != -1 ? "-" + runtimeTaskNumber : "") // 번호가 '0'인 경우 붙이지 않음.
-                    + forwardedThreadSymbol);
+                    + "@" + forwardedThreadSymbol);
         }
     }
 

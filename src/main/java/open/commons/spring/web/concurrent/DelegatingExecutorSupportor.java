@@ -67,7 +67,7 @@ public class DelegatingExecutorSupportor {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public static ExecutorService executorService(ExecutorService delegate) {
-        return executorService(delegate, "@executor");
+        return executorService(delegate, "executor");
     }
 
     /**
@@ -115,7 +115,7 @@ public class DelegatingExecutorSupportor {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public static ScheduledExecutorService scheduledExecutorService(ScheduledExecutorService delegate) {
-        return scheduledExecutorService(delegate, "@scheduled");
+        return scheduledExecutorService(delegate, "scheduled");
     }
 
     /**
@@ -163,7 +163,7 @@ public class DelegatingExecutorSupportor {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public static AsyncListenableTaskExecutor taskExecutor(AsyncListenableTaskExecutor delegate) {
-        return taskExecutor(delegate, "@task");
+        return taskExecutor(delegate, "executor");
     }
 
     /**
@@ -211,7 +211,7 @@ public class DelegatingExecutorSupportor {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public static <S extends TaskScheduler & AsyncListenableTaskExecutor> TaskScheduler taskScheduler(S delegate) {
-        return taskScheduler(delegate, "@scheduled");
+        return taskScheduler(delegate, "scheduled");
     }
 
     /**
