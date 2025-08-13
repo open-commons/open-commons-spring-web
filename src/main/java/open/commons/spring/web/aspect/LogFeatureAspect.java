@@ -71,7 +71,7 @@ import io.micrometer.core.lang.Nullable;
 public class LogFeatureAspect extends AbstractAspectPointcuts {
 
     /** {@link MDC}에 공유하고자 하는 Thread 이름을 위한 속성 */
-    public static final String FORWARDED_THREAD_NAME = "open.commons.spring.web.aspect.LogFeatureAspect#FORWARDED_THREAD_NAME";
+    public static final String FORWARDED_THREAD_NAME = RequestThreadNameFilter.THREAD_NAME_INTERCEPTED_URL;
     /**
      * {@link OncePerRequestFilter}와 {@link ThreadLocal} 정보를 공유하는 객체 <br>
      * {@link OncePerRequestFilter} -> {@link LogFeatureAspect} 까지 동일한 {@link Thread} 로 연결되고 있음.

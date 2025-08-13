@@ -223,5 +223,4 @@ public class DelegatingTaskExecutor<S extends AsyncListenableTaskExecutor> imple
     protected Runnable wrap(Runnable runnable) {
         return MdcWrappedJob.wrap(getCopyOfContextMap(this.symbol), runnable, false);
     }
-
 }

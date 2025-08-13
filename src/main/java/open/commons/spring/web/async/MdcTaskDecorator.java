@@ -27,6 +27,7 @@
 package open.commons.spring.web.async;
 
 import java.util.Map;
+import java.util.concurrent.FutureTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,6 @@ public class MdcTaskDecorator implements TaskDecorator {
 
     private final String threadNameSymbol;
 
-    @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(MdcTaskDecorator.class);
 
     public MdcTaskDecorator() {
@@ -70,8 +70,15 @@ public class MdcTaskDecorator implements TaskDecorator {
      */
     @Override
     public Runnable decorate(Runnable runnable) {
+        if (runnable instanceof MdcWrappedJob //
+                || runnable instanceof FutureTask //
+        ) {
+            logger.trace("[mdc-decorator] Skipping wrap for already-wrapped or FutureTask: {}", runnable.getClass());
+            return runnable;
+        }
+
         Map<String, String> context = MDC.getCopyOfContextMap();
-        if( context != null) {
+        if (context != null) {
             context.put(MdcWrappedJob.MDC_PROPERTY_THREAD_SYMBOL, threadNameSymbol);
         }
         return MdcWrappedJob.wrap(context, runnable, false);

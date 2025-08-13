@@ -38,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -111,6 +112,7 @@ public class RequestThreadNameFilter extends OncePerRequestFilter {
         final String threadName = ThreadUtils.setThreadName(reqUri);
         this.threadLocalContext.set(THREAD_NAME_DEFAULT, threadName);
         this.threadLocalContext.set(THREAD_NAME_INTERCEPTED_URL, reqUri);
+        MDC.put(THREAD_NAME_INTERCEPTED_URL, reqUri);
 
         try {
             filterChain.doFilter(request, response);
@@ -121,6 +123,8 @@ public class RequestThreadNameFilter extends OncePerRequestFilter {
                 ThreadUtils.setThreadName(otn);
                 this.threadLocalContext.clear();
             }
+            
+            MDC.clear();
         }
     }
 
