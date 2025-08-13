@@ -106,8 +106,6 @@ public class ResourceConfiguration {
     public static final String PROPERTIES_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE = ResourceConfiguration.PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".resttemplate.requestfactory";
     // --------------------------------------------------------- //
 
-    // Duplicate @ConfigurationProperties definition for prefix
-    // 'open-commons.spring.web.concurrent.scheduled-thread-pool-executor'
     // --- org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor --- //
     /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} */
     public static final String BEAN_QUALIFIER_DEFAULT_THREAD_POOL_TASK_EXECUTOR = "open.commons.spring.web.config.ResourceConfiguration#DEFAULT_THREADPOOL_TASK_EXECUTOR";
@@ -115,6 +113,8 @@ public class ResourceConfiguration {
     public static final String CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG";
     /** 기본적으로 제공되는 {@link ThreadPoolTaskExecutor} 설정 경로 */
     public static final String PROPERTIES_DEFAULT_THREAD_POOL_TASK_EXECUTOR_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".concurrent.thread-pool-task-executor";
+    /** 내부적으로 사용되는 {@link ThreadPoolTaskExecutor} 설정 */
+    public static final String CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_MDC = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_MDC";
     /**
      * {@link ThreadPoolTaskExecutor} 설정 경로<br>
      * 
@@ -122,8 +122,6 @@ public class ResourceConfiguration {
      *             <font color="red">다음 배포시 삭제될 예정.</font>
      */
     public static final String PROPERTIES_DEFAULT_ASYNC_THREAD_POOL_TASK_EXECUTOR_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".async.thread-pool-task-executor";
-    /** 내부적으로 사용되는 {@link ThreadPoolTaskExecutor} 설정 */
-    public static final String CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_MDC = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_THREAD_POOL_TASK_EXECUTOR_CONFIG_ON_MDC";
     // -------------------------------------------------------------------------- //
 
     /** {@link Async} 어노테이션이 적용된 메소드가 실행될 때 기본값으로 사용되는 {@link Executor} 설정값 */
