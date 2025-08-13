@@ -1,3 +1,16 @@
+[2025/08/13]
+- New
+  + open.commons.spring.web.resources.ThreadPoolExecutorConfig
+- Add
+  + open.commons.spring.web.config.ResourceConfiguration
+    + BEAN_QUALIFIER_DEFAULT_THREAD_POOL_EXECUTOR
+    + CONFIGURATION_DEFAULT_THREAD_POOL_EXECUTOR_CONFIG
+    + PROPERTIES_DEFAULT_THREAD_POOL_EXECUTOR_CONFIG
+    + CONFIGURATION_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC
+    + beanThreadPoolExecutor(ThreadPoolExecutorConfig)
+    + configThreadPoolExecutorConfig()
+    + configThreadPoolExecutorConfigOnMDC(ThreadPoolExecutorConfig)
+
 [2025/08/06]
 - New
   + open.commons.spring.web.concurrent.DelegatingTaskExecutor<S extends AsyncListenableTaskExecutor>: ThreadPoolTaskExecutor 기반

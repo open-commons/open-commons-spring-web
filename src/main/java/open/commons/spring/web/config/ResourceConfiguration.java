@@ -35,6 +35,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
@@ -69,6 +71,7 @@ import open.commons.spring.web.async.MdcTaskDecorator;
 import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
 import open.commons.spring.web.resources.RestTemplateRequestFactoryResource;
 import open.commons.spring.web.resources.ScheduledThreadPoolExecutorConfig;
+import open.commons.spring.web.resources.ThreadPoolExecutorConfig;
 import open.commons.spring.web.resources.ThreadPoolTaskExecutorConfig;
 import open.commons.spring.web.resources.ThreadPoolTaskSchedulerConfig;
 import open.commons.spring.web.rest.RestUtils;
@@ -147,6 +150,17 @@ public class ResourceConfiguration {
             + ".concurrent.scheduled-thread-pool-executor";
     /** 내부적으로 사용되는 {@link ScheduledThreadPoolExecutor} */
     public static final String CONFIGURATION_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC";
+    // -------------------------------------------------------------------------- //
+
+    // --- java.util.concurrent.ThreadPoolExecutor --- //
+    /** 기본적으로 제공되는 {@link ThreadPoolExecutor} */
+    public static final String BEAN_QUALIFIER_DEFAULT_THREAD_POOL_EXECUTOR = "open.commons.spring.web.config.ResourceConfiguration#DEFAULT_THREAD_POOL_EXECUTOR";
+    /** 기본적으로 제공되는 {@link ThreadPoolExecutor} */
+    public static final String CONFIGURATION_DEFAULT_THREAD_POOL_EXECUTOR_CONFIG = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_DEFAULT_THREAD_POOL_EXECUTOR_CONFIG";
+    /** 기본적으로 제공되는 {@link ThreadPoolExecutor} */
+    public static final String PROPERTIES_DEFAULT_THREAD_POOL_EXECUTOR_CONFIG = PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH + ".concurrent.thread-pool-executor";
+    /** 내부적으로 사용되는 {@link ThreadPoolExecutor} */
+    public static final String CONFIGURATION_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC";
     // -------------------------------------------------------------------------- //
 
     /** {@link Throwable} 과 그에 따르는 {@link HttpStatus} 매핑 제공 서비스 */
@@ -237,6 +251,29 @@ public class ResourceConfiguration {
     @Primary
     ScheduledThreadPoolExecutor beanScheduledThreadPoolExecutor(@Qualifier(CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG) ScheduledThreadPoolExecutorConfig config) {
         return createScheduledThreadPoolExecutor(config);
+    }
+
+    /**
+     * {@link ThreadPoolExecutorConfig}를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param config
+     * @return
+     *
+     * @since 2025. 8. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = BEAN_QUALIFIER_DEFAULT_THREAD_POOL_EXECUTOR)
+    @Primary
+    ThreadPoolExecutor beanThreadPoolExecutor(@Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_EXECUTOR_CONFIG) ThreadPoolExecutorConfig config) {
+        return createThreadPoolExecutor(config);
     }
 
     /**
@@ -393,6 +430,58 @@ public class ResourceConfiguration {
     ScheduledThreadPoolExecutorConfig configScheduledThreadPoolExecutorConfigOnMDC(
             @Qualifier(CONFIGURATION_DEFAULT_SCHEDULED_THREAD_POOL_EXECUTOR_CONFIG) ScheduledThreadPoolExecutorConfig config) {
         return new ScheduledThreadPoolExecutorConfig(config);
+    }
+
+    /**
+     * {@link ThreadPoolExecutor} 설정정보를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 8. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = CONFIGURATION_DEFAULT_THREAD_POOL_EXECUTOR_CONFIG)
+    @ConfigurationProperties(prefix = PROPERTIES_DEFAULT_THREAD_POOL_EXECUTOR_CONFIG)
+    ThreadPoolExecutorConfig configThreadPoolExecutorConfig() {
+        ThreadPoolExecutorConfig config = new ThreadPoolExecutorConfig();
+        config.setCorePoolSize(8);
+        config.setMaximumPoolSize(1024);
+        config.setKeepAliveTime(60);
+        config.setTimeUnit(TimeUnit.SECONDS);
+
+        return config;
+    }
+
+    /**
+     * 내부적인 용도로 사용되는 {@link ThreadPoolExecutor} 설정값을 제공합니다.<br>
+     * 단, {@link #CONFIGURATION_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC} 이름을 갖는 설정({@link Bean}) 이 생성되는 경우 실행되지 않습니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 8. 13      박준홍         최초 작성
+     * </pre>
+     *
+     * @param config
+     * @return
+     * 
+     * @since 2025. 8. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = CONFIGURATION_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC)
+    @ConditionalOnMissingBean(name = { CONFIGURATION_THREAD_POOL_EXECUTOR_CONFIG_ON_MDC })
+    ThreadPoolExecutorConfig configThreadPoolExecutorConfigOnMDC(@Qualifier(CONFIGURATION_DEFAULT_THREAD_POOL_EXECUTOR_CONFIG) ThreadPoolExecutorConfig config) {
+        return new ThreadPoolExecutorConfig(config);
     }
 
     /**
@@ -618,7 +707,7 @@ public class ResourceConfiguration {
     }
 
     /**
-     * 전달받은 설정값이 적용한 {@link ScheduledThreadPoolExecutor} 객체를 제공합니다. <br>
+     * 전달받은 설정값을 적용한 {@link ScheduledThreadPoolExecutor} 객체를 제공합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -645,6 +734,37 @@ public class ResourceConfiguration {
         executor.setContinueExistingPeriodicTasksAfterShutdownPolicy(config.isContinueExistingPeriodicTasksAfterShutdown());
         executor.setExecuteExistingDelayedTasksAfterShutdownPolicy(config.isExecuteExistingDelayedTasksAfterShutdown());
         executor.setRemoveOnCancelPolicy(config.isRemoveOnCancel());
+
+        return executor;
+    }
+
+    /**
+     * 전달받은 설정값을 적용한 {@link ThreadPoolExecutor} 객체를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param config
+     * @return
+     *
+     * @since 2025. 8. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static ThreadPoolExecutor createThreadPoolExecutor(ThreadPoolExecutorConfig config) {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor( //
+                config.getCorePoolSize() //
+                , config.getMaximumPoolSize() //
+                , config.getKeepAliveTime() //
+                , config.getTimeUnit() //
+                , new SynchronousQueue<>() //
+        );
+
+        executor.allowCoreThreadTimeOut(config.isAllowCoreThreadTimeOut());
 
         return executor;
     }

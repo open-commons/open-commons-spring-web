@@ -18,7 +18,7 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 8. 1. 오후 4:38:45
+ * Date  : 2025. 8. 13. 오후 12:35:24
  *
  * Author: parkjunhong77@gmail.com
  * 
@@ -26,21 +26,16 @@
 
 package open.commons.spring.web.resources;
 
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Nonnull;
-import javax.validation.constraints.NotNull;
-
 /**
- * {@link ThreadPoolExecutor} 설정 정보 클래스.
  * 
- * @since 2025. 8. 1.
+ * @since 2025. 8. 13.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class ScheduledThreadPoolExecutorConfig {
+public class ThreadPoolExecutorConfig {
 
     // -- java.util.concurrent.ThreadPoolExecutor -- //
     /**
@@ -79,27 +74,6 @@ public class ScheduledThreadPoolExecutorConfig {
     private boolean allowCoreThreadTimeOut;
     // --------------------------------------------- //
 
-    // -- java.util.concurrent.ScheduledThreadPoolExecutor -- //
-    /**
-     * if {@code true}, continue after shutdown, else don't
-     * 
-     * @see ScheduledThreadPoolExecutor#setContinueExistingPeriodicTasksAfterShutdownPolicy(boolean)
-     */
-    private boolean continueExistingPeriodicTasksAfterShutdown;
-    /**
-     * if {@code true}, execute after shutdown, else don't
-     * 
-     * @see ScheduledThreadPoolExecutor#setExecuteExistingDelayedTasksAfterShutdownPolicy(boolean)
-     */
-    private boolean executeExistingDelayedTasksAfterShutdown = true;
-    /**
-     * if {@code true}, remove on cancellation, else don't
-     * 
-     * @see ScheduledThreadPoolExecutor#setRemoveOnCancelPolicy(boolean)
-     */
-    private boolean removeOnCancel = false;
-    // --------------------------------------------- //
-
     /** 외부 설정 여부 */
     private boolean initialized = false;
 
@@ -110,15 +84,15 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      *
      *
-     * @since 2025. 8. 1.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public ScheduledThreadPoolExecutorConfig() {
+    public ThreadPoolExecutorConfig() {
     }
 
     /**
@@ -129,24 +103,21 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 11.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      *
      * @param config
      *
-     * @since 2025. 8. 11.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public ScheduledThreadPoolExecutorConfig(@NotNull @Nonnull ScheduledThreadPoolExecutorConfig config) {
+    public ThreadPoolExecutorConfig(ThreadPoolExecutorConfig config) {
         this.corePoolSize = config.corePoolSize;
         this.maximumPoolSize = config.maximumPoolSize;
         this.keepAliveTime = config.keepAliveTime;
         this.timeUnit = config.timeUnit;
         this.allowCoreThreadTimeOut = config.allowCoreThreadTimeOut;
-        this.continueExistingPeriodicTasksAfterShutdown = config.continueExistingPeriodicTasksAfterShutdown;
-        this.executeExistingDelayedTasksAfterShutdown = config.executeExistingDelayedTasksAfterShutdown;
-        this.removeOnCancel = config.removeOnCancel;
     }
 
     /**
@@ -156,12 +127,12 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      * 
      * @return the corePoolSize
      *
-     * @since 2025. 8. 1.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -179,12 +150,12 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      * 
      * @return the keepAliveTime
      *
-     * @since 2025. 8. 1.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -202,12 +173,12 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      * 
      * @return the maximumPoolSize
      *
-     * @since 2025. 8. 1.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -225,12 +196,12 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      * 
      * @return the timeUnit
      *
-     * @since 2025. 8. 1.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -248,12 +219,12 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      * 
      * @return the allowCoreThreadTimeOut
      *
-     * @since 2025. 8. 1.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -271,58 +242,12 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
-     * </pre>
-     * 
-     * @return the continueExistingPeriodicTasksAfterShutdown
-     *
-     * @since 2025. 8. 1.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see #continueExistingPeriodicTasksAfterShutdown
-     */
-
-    public boolean isContinueExistingPeriodicTasksAfterShutdown() {
-        return continueExistingPeriodicTasksAfterShutdown;
-    }
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
-     * </pre>
-     * 
-     * @return the executeExistingDelayedTasksAfterShutdown
-     *
-     * @since 2025. 8. 1.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see #executeExistingDelayedTasksAfterShutdown
-     */
-
-    public boolean isExecuteExistingDelayedTasksAfterShutdown() {
-        return executeExistingDelayedTasksAfterShutdown;
-    }
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 11.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      * 
      * @return the initialized
      *
-     * @since 2025. 8. 11.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -340,36 +265,13 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
-     * </pre>
-     * 
-     * @return the removeOnCancel
-     *
-     * @since 2025. 8. 1.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see #removeOnCancel
-     */
-
-    public boolean isRemoveOnCancel() {
-        return removeOnCancel;
-    }
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      *
      * @param allowCoreThreadTimeOut
      *            the allowCoreThreadTimeOut to set
      *
-     * @since 2025. 8. 1.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -388,38 +290,13 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param continueExistingPeriodicTasksAfterShutdown
-     *            the continueExistingPeriodicTasksAfterShutdown to set
-     *
-     * @since 2025. 8. 1.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see #continueExistingPeriodicTasksAfterShutdown
-     */
-    public void setContinueExistingPeriodicTasksAfterShutdown(boolean continueExistingPeriodicTasksAfterShutdown) {
-        this.continueExistingPeriodicTasksAfterShutdown = continueExistingPeriodicTasksAfterShutdown;
-
-        this.initialized = true;
-    }
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      *
      * @param corePoolSize
      *            the corePoolSize to set
      *
-     * @since 2025. 8. 1.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -438,38 +315,13 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param executeExistingDelayedTasksAfterShutdown
-     *            the executeExistingDelayedTasksAfterShutdown to set
-     *
-     * @since 2025. 8. 1.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see #executeExistingDelayedTasksAfterShutdown
-     */
-    public void setExecuteExistingDelayedTasksAfterShutdown(boolean executeExistingDelayedTasksAfterShutdown) {
-        this.executeExistingDelayedTasksAfterShutdown = executeExistingDelayedTasksAfterShutdown;
-
-        this.initialized = true;
-    }
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      *
      * @param keepAliveTime
      *            the keepAliveTime to set
      *
-     * @since 2025. 8. 1.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -488,13 +340,13 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      *
      * @param maximumPoolSize
      *            the maximumPoolSize to set
      *
-     * @since 2025. 8. 1.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -513,52 +365,27 @@ public class ScheduledThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param removeOnCancel
-     *            the removeOnCancel to set
-     *
-     * @since 2025. 8. 1.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see #removeOnCancel
-     */
-    public void setRemoveOnCancel(boolean removeOnCancel) {
-        this.removeOnCancel = removeOnCancel;
-
-        this.initialized = true;
-    }
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 13.		박준홍			최초 작성
      * </pre>
      *
      * @param timeUnit
      *            the timeUnit to set
      *
-     * @since 2025. 8. 1.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
      * @see #timeUnit
      */
-    public void setTimeUnit(TimeUnit unit) {
-        this.timeUnit = unit;
+    public void setTimeUnit(TimeUnit timeUnit) {
+        this.timeUnit = timeUnit;
 
         this.initialized = true;
     }
 
     /**
      *
-     * @since 2025. 8. 1.
+     * @since 2025. 8. 13.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -567,7 +394,7 @@ public class ScheduledThreadPoolExecutorConfig {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("ScheduledThreadPoolExecutorConfig [corePoolSize=");
+        builder.append("ThreadPoolExecutorConfig [corePoolSize=");
         builder.append(corePoolSize);
         builder.append(", maximumPoolSize=");
         builder.append(maximumPoolSize);
@@ -577,13 +404,8 @@ public class ScheduledThreadPoolExecutorConfig {
         builder.append(timeUnit);
         builder.append(", allowCoreThreadTimeOut=");
         builder.append(allowCoreThreadTimeOut);
-        builder.append(", continueExistingPeriodicTasksAfterShutdown=");
-        builder.append(continueExistingPeriodicTasksAfterShutdown);
-        builder.append(", executeExistingDelayedTasksAfterShutdown=");
-        builder.append(executeExistingDelayedTasksAfterShutdown);
-        builder.append(", removeOnCancel=");
-        builder.append(removeOnCancel);
         builder.append("]");
         return builder.toString();
     }
+
 }
