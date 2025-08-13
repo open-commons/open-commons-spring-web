@@ -31,6 +31,7 @@ import org.slf4j.MDC;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import open.commons.core.lang.IThreadLocalContext;
 import open.commons.core.lang.ThreadLocalContextService;
@@ -45,10 +46,13 @@ import open.commons.spring.web.log.LogFeature;
  */
 public abstract class MethodExecutionElapsedTimeAspect extends AbstractMethodCallChainLogAspect {
 
+    /** {@link Controller} 적용 클래스 */
     protected static final String ELAPSED_TIME_CONTROLLER = "elapsed_time.controller";
-
+    /** {@link Service} 적용 클래스 */
     protected static final String ELAPSED_TIME_SERVICE = "elapsed_time.service";
+    /** {@link Repository} 적용 클래스 */
     protected static final String ELAPSED_TIME_REPOSITORY = "elapsed_time.repository";
+
     protected final IThreadLocalContext CONTEXT = ThreadLocalContextService.context(getClass());
 
     /**
