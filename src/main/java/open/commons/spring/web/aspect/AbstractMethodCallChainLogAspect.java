@@ -45,7 +45,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
-import open.commons.core.function.ThrowableRunner;
 import open.commons.core.utils.ArrayUtils;
 import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.log.LogFeature;
@@ -563,7 +562,7 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
         final String holder = HOLDER_GEN.get();
         try {
             // 메소드 실행 전
-            beforeRepository(logger(MethodLogContext.getBeforeIncrement(holder, Service.class)), pjp);
+            beforeRepository(logger(MethodLogContext.getBeforeIncrement(holder, Repository.class)), pjp);
             // 메소드 실행
             return pjp.proceed();
         } finally {
@@ -609,7 +608,7 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
         final String holder = HOLDER_GEN.get();
         try {
             // 메소드 실행 전
-            beforeService(logger(MethodLogContext.getBeforeIncrement(holder, Repository.class)), pjp);
+            beforeService(logger(MethodLogContext.getBeforeIncrement(holder, Service.class)), pjp);
             // 메소드 실행
             return pjp.proceed();
         } finally {
@@ -793,36 +792,6 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
         String callchainfeature = StringUtils.isNullOrEmptyString(feature) ? loadCallChainFeature() : String.join("-", feature, loadCallChainFeature());
         MDC.put(LogFeature.PROP_FEATURE, callchainfeature);
         f.accept(format, args);
-
-        if (currentMDC != null) {
-            MDC.setContextMap(currentMDC);
-        }
-    }
-
-    /**
-     * 현재 {@link Thread}의 {@link MDC} 내의 {@link LogFeature#PROP_FEATURE} 값에 메소드 'Call-Chain' 로그를 세분화 합니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 12.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param f
-     * @throws Throwable
-     *
-     * @since 2025. 8. 12.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    private void wrap(ThrowableRunner f) throws Throwable {
-        Map<String, String> currentMDC = MDC.getCopyOfContextMap();
-
-        String feature = this.enableLogRouting ? MDC.get(LogFeature.PROP_FEATURE) : null;
-        String callchainfeature = StringUtils.isNullOrEmptyString(feature) ? loadCallChainFeature() : String.join("-", feature, loadCallChainFeature());
-        MDC.put(LogFeature.PROP_FEATURE, callchainfeature);
-        f.run();
 
         if (currentMDC != null) {
             MDC.setContextMap(currentMDC);
