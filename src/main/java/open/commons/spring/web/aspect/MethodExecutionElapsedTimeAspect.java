@@ -179,11 +179,10 @@ public abstract class MethodExecutionElapsedTimeAspect extends AbstractMethodCal
     }
 
     public void after(String contextKey, Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        StopWatch watch = (StopWatch) CONTEXT.get(contextKey);
+        StopWatch watch = (StopWatch) CONTEXT.remove(contextKey);
         watch.stop();
 
         logger.log("[{}] elapsed={}", getShortSignature(pjp), watch.getAsPretty());
-
     }
 
     /**
@@ -192,12 +191,12 @@ public abstract class MethodExecutionElapsedTimeAspect extends AbstractMethodCal
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect#afterController(open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect.Log,
-     *      org.aspectj.lang.ProceedingJoinPoint)
+     * @see open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect#afterController(String,
+     *      open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect.Log, org.aspectj.lang.ProceedingJoinPoint)
      */
     @Override
-    public void afterController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        after(ELAPSED_TIME_CONTROLLER, logger, pjp);
+    public void afterController(String aspectSign, Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        after(String.join("@", ELAPSED_TIME_CONTROLLER, aspectSign), logger, pjp);
     }
 
     /**
@@ -206,12 +205,12 @@ public abstract class MethodExecutionElapsedTimeAspect extends AbstractMethodCal
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect#afterRepository(open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect.Log,
-     *      org.aspectj.lang.ProceedingJoinPoint)
+     * @see open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect#afterRepository(String,
+     *      open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect.Log, org.aspectj.lang.ProceedingJoinPoint)
      */
     @Override
-    public void afterRepository(Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        after(ELAPSED_TIME_REPOSITORY, logger, pjp);
+    public void afterRepository(String aspectSign, Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        after(String.join("@", ELAPSED_TIME_REPOSITORY, aspectSign), logger, pjp);
     }
 
     /**
@@ -220,12 +219,12 @@ public abstract class MethodExecutionElapsedTimeAspect extends AbstractMethodCal
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect#afterService(open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect.Log,
-     *      org.aspectj.lang.ProceedingJoinPoint)
+     * @see open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect#afterService(String,
+     *      open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect.Log, org.aspectj.lang.ProceedingJoinPoint)
      */
     @Override
-    public void afterService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        after(ELAPSED_TIME_SERVICE, logger, pjp);
+    public void afterService(String aspectSign, Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        after(String.join("@", ELAPSED_TIME_SERVICE, aspectSign), logger, pjp);
     }
 
     public void before(String contextKey, Log logger, ProceedingJoinPoint pjp) throws Throwable {
@@ -242,12 +241,12 @@ public abstract class MethodExecutionElapsedTimeAspect extends AbstractMethodCal
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect#beforeController(open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect.Log,
-     *      org.aspectj.lang.ProceedingJoinPoint)
+     * @see open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect#beforeController(String,
+     *      open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect.Log, org.aspectj.lang.ProceedingJoinPoint)
      */
     @Override
-    public void beforeController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        before(ELAPSED_TIME_CONTROLLER, logger, pjp);
+    public void beforeController(String aspectSign, Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        before(String.join("@", ELAPSED_TIME_CONTROLLER, aspectSign), logger, pjp);
     }
 
     /**
@@ -256,12 +255,12 @@ public abstract class MethodExecutionElapsedTimeAspect extends AbstractMethodCal
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect#beforeRepository(open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect.Log,
-     *      org.aspectj.lang.ProceedingJoinPoint)
+     * @see open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect#beforeRepository(String,
+     *      open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect.Log, org.aspectj.lang.ProceedingJoinPoint)
      */
     @Override
-    public void beforeRepository(Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        before(ELAPSED_TIME_REPOSITORY, logger, pjp);
+    public void beforeRepository(String aspectSign, Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        before(String.join("@", ELAPSED_TIME_REPOSITORY, aspectSign), logger, pjp);
     }
 
     /**
@@ -270,11 +269,11 @@ public abstract class MethodExecutionElapsedTimeAspect extends AbstractMethodCal
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect#beforeService(open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect.Log,
-     *      org.aspectj.lang.ProceedingJoinPoint)
+     * @see open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect#beforeService(String,
+     *      open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect.Log, org.aspectj.lang.ProceedingJoinPoint)
      */
     @Override
-    public void beforeService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
-        before(ELAPSED_TIME_SERVICE, logger, pjp);
+    public void beforeService(String aspectSign, Log logger, ProceedingJoinPoint pjp) throws Throwable {
+        before(String.join("@", ELAPSED_TIME_SERVICE, aspectSign), logger, pjp);
     }
 }

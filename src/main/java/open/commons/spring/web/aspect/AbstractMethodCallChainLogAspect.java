@@ -298,16 +298,19 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      * ------------------------------------------
      * 2025. 6. 23.		박준홍			최초 작성
      * </pre>
-     *
+     * 
+     * @param aspectSign
+     *            AOP가 적용되어 Aspect에 기반하여 메소드 호출을 잡은 위치의 식별정보
      * @param logger
      * @param pjp
+     *
      * @throws Throwable
      *
      * @since 2025. 6. 23.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public void afterController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+    public void afterController(String aspectSign, Log logger, ProceedingJoinPoint pjp) throws Throwable {
         defaultAfterController(logger, pjp);
     }
 
@@ -320,16 +323,19 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      * ------------------------------------------
      * 2025. 6. 23.		박준홍			최초 작성
      * </pre>
-     *
+     * 
+     * @param aspectSign
+     *            AOP가 적용되어 Aspect에 기반하여 메소드 호출을 잡은 위치의 식별정보
      * @param logger
      * @param pjp
+     *
      * @throws Throwable
      *
      * @since 2025. 6. 23.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public void afterRepository(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+    public void afterRepository(String aspectSign, Log logger, ProceedingJoinPoint pjp) throws Throwable {
         defaultAfterRepository(logger, pjp);
     }
 
@@ -342,16 +348,19 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      * ------------------------------------------
      * 2025. 6. 23.		박준홍			최초 작성
      * </pre>
-     *
+     * 
+     * @param aspectSign
+     *            AOP가 적용되어 Aspect에 기반하여 메소드 호출을 잡은 위치의 식별정보
      * @param logger
      * @param pjp
+     *
      * @throws Throwable
      *
      * @since 2025. 6. 23.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public void afterService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+    public void afterService(String aspectSign, Log logger, ProceedingJoinPoint pjp) throws Throwable {
         defaultAfterService(logger, pjp);
     }
 
@@ -364,16 +373,19 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      * ------------------------------------------
      * 2025. 6. 23.		박준홍			최초 작성
      * </pre>
-     *
+     * 
+     * @param aspectSign
+     *            AOP가 적용되어 Aspect에 기반하여 메소드 호출을 잡은 위치의 식별정보
      * @param logger
      * @param pjp
+     *
      * @throws Throwable
      *
      * @since 2025. 6. 23.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public void beforeController(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+    public void beforeController(String aspectSign, Log logger, ProceedingJoinPoint pjp) throws Throwable {
         defaultBeforeController(logger, pjp);
     }
 
@@ -386,16 +398,19 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      * ------------------------------------------
      * 2025. 6. 23.		박준홍			최초 작성
      * </pre>
-     *
+     * 
+     * @param aspectSign
+     *            AOP가 적용되어 Aspect에 기반하여 메소드 호출을 잡은 위치의 식별정보
      * @param logger
      * @param pjp
+     *
      * @throws Throwable
      *
      * @since 2025. 6. 23.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public void beforeRepository(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+    public void beforeRepository(String aspectSign, Log logger, ProceedingJoinPoint pjp) throws Throwable {
         defaultBeforeRepository(logger, pjp);
     }
 
@@ -408,16 +423,19 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      * ------------------------------------------
      * 2025. 6. 23.		박준홍			최초 작성
      * </pre>
-     *
+     * 
+     * @param aspectSign
+     *            AOP가 적용되어 Aspect에 기반하여 메소드 호출을 잡은 위치의 식별정보
      * @param logger
      * @param pjp
+     *
      * @throws Throwable
      *
      * @since 2025. 6. 23.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public void beforeService(Log logger, ProceedingJoinPoint pjp) throws Throwable {
+    public void beforeService(String aspectSign, Log logger, ProceedingJoinPoint pjp) throws Throwable {
         defaultBeforeService(logger, pjp);
     }
 
@@ -514,17 +532,20 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
             return pjp.proceed();
         }
 
+        String aspectSign = UUID.randomUUID().toString();
         final String holder = HOLDER_GEN.get();
         try {
             // 메소드 실행 전
-            beforeController(logger(MethodLogContext.getBeforeIncrement(holder, Controller.class)), pjp);
+            beforeController(aspectSign, logger(MethodLogContext.getBeforeIncrement(holder, Controller.class)), pjp);
             // 메소드 실행
             return pjp.proceed();
         } finally {
             // 메소드실행 후
-            afterController(logger(MethodLogContext.getAfterDecrement(holder)), pjp);
-
-            MethodLogContext.clear(holder);
+            try {
+                afterController(aspectSign, logger(MethodLogContext.getAfterDecrement(holder)), pjp);
+            } finally {
+                MethodLogContext.clear(holder);
+            }
         }
     }
 
@@ -559,17 +580,20 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
             return pjp.proceed();
         }
 
+        String aspectSign = UUID.randomUUID().toString();
         final String holder = HOLDER_GEN.get();
         try {
             // 메소드 실행 전
-            beforeRepository(logger(MethodLogContext.getBeforeIncrement(holder, Repository.class)), pjp);
+            beforeRepository(aspectSign, logger(MethodLogContext.getBeforeIncrement(holder, Repository.class)), pjp);
             // 메소드 실행
             return pjp.proceed();
         } finally {
             // 메소드실행 후
-            afterRepository(logger(MethodLogContext.getAfterDecrement(holder)), pjp);
-
-            MethodLogContext.clear(holder);
+            try {
+                afterRepository(aspectSign, logger(MethodLogContext.getAfterDecrement(holder)), pjp);
+            } finally {
+                MethodLogContext.clear(holder);
+            }
         }
     }
 
@@ -596,6 +620,7 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
      */
     @Around("pointcutRootPackage() && withinServiceStereotypeComponent()")
     public Object handleServicve(ProceedingJoinPoint pjp) throws Throwable {
+
         if (this.disableService) {
             return pjp.proceed();
         }
@@ -605,17 +630,20 @@ public abstract class AbstractMethodCallChainLogAspect extends AbstractAspectPoi
             return pjp.proceed();
         }
 
+        String aspectSign = UUID.randomUUID().toString();
         final String holder = HOLDER_GEN.get();
         try {
             // 메소드 실행 전
-            beforeService(logger(MethodLogContext.getBeforeIncrement(holder, Service.class)), pjp);
+            beforeService(aspectSign, logger(MethodLogContext.getBeforeIncrement(holder, Service.class)), pjp);
             // 메소드 실행
             return pjp.proceed();
         } finally {
             // 메소드실행 후
-            afterService(logger(MethodLogContext.getAfterDecrement(holder)), pjp);
-
-            MethodLogContext.clear(holder);
+            try {
+                afterService(aspectSign, logger(MethodLogContext.getAfterDecrement(holder)), pjp);
+            } finally {
+                MethodLogContext.clear(holder);
+            }
         }
     }
 

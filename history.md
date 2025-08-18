@@ -1,3 +1,23 @@
+[2025/08/18]
+- Bugfix
+  + open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect: 동일한 유형 server -> server -> server 와 같은 호출구조인 경우 'context key'가 중복사용되는 오류 수정
+    + afterController(String, Log, ProceedingJoinPoint)
+    + afterRepository(String, Log, ProceedingJoinPoint)
+    + afterService(String, Log, ProceedingJoinPoint)
+    + beforeController(String, Log, ProceedingJoinPoint)
+    + beforeRepository(String, Log, ProceedingJoinPoint)
+    + beforeService(String, Log, ProceedingJoinPoint)
+    
+- Modify
+  + open.commons.spring.web.aspect.AbstractMethodCallChainLogAspect: 아래 메소드에 "AOP가 적용되어 Aspect에 기반하여 메소드 호출을 잡은 위치의 식별정보" 를 추가 (첫번째 파라미터)
+    + afterController(String, Log, ProceedingJoinPoint)
+    + afterRepository(String, Log, ProceedingJoinPoint)
+    + afterService(String, Log, ProceedingJoinPoint)
+    + beforeController(String, Log, ProceedingJoinPoint)
+    + beforeRepository(String, Log, ProceedingJoinPoint)
+    + beforeService(String, Log, ProceedingJoinPoint)
+  + open.commons.spring.web.servlet.filter.RequestThreadNameFilter.doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain): 요청 URL 기반으로 Thread 이름을 결정할 때 'context-path' 정보 제거
+
 [2025/08/13]
 - New
   + open.commons.spring.web.resources.ThreadPoolExecutorConfig
