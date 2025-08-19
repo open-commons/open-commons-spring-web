@@ -27,8 +27,6 @@
 package open.commons.spring.web.servlet.filter;
 
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,22 +99,12 @@ public class RequestThreadNameFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        // 1) 원본 URI (컨텍스트 포함)
-        String rawUri = URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8.name());
-
-        // 2) 컨텍스트(/ng-erp) 제거 → 앱 내 경로
-        String ctx = request.getContextPath(); // "/ng-erp" 또는 ""
-        String pathWithinApp = rawUri;
-        if (ctx != null && !ctx.isEmpty() && rawUri.startsWith(ctx)) {
-            pathWithinApp = rawUri.substring(ctx.length());
-            if (pathWithinApp.isEmpty()) {
-                pathWithinApp = "/"; // 안전
-            }
-        }
-
+        // #1. Servlet 경로 (Context Path 제외)
+        String servletPath = request.getServletPath();
+        // #2. remote host, remote port 정보 추가
         String reqUri = new StringBuffer(request.getMethod()) //
                 .append(' ') //
-                .append(pathWithinApp) //
+                .append(servletPath) //
                 .append(' ') //
                 .append(ProxyHeaderUtil.getClientRealIP(request, this.proxyHeader)) //
                 .append(':') //
