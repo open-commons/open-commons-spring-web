@@ -661,7 +661,7 @@ public class ResourceConfiguration {
     }
 
     /**
-     * {@link HandlerInterceptor}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 URL 패턴 설정 경로
+     * {@link HandlerInterceptor}에서 URL 기반으로 작업하는 경우, 대상에서 제외하는 URL 패턴 설정 경로
      * 
      * <pre>
      * [개정이력]
@@ -683,7 +683,7 @@ public class ResourceConfiguration {
     }
 
     /**
-     * {@link OncePerRequestFilter}에서 URL 기반으로 {@link Thread} 이름을 설정하는 대상에서 제외하는 {@link AntPathRequest} 패턴 설정 경로<br>
+     * {@link OncePerRequestFilter}에서 URL 기반으로 작업하는 경우, 대상에서 제외하는 {@link AntPathRequest} 패턴 설정 경로<br>
      * 
      * <pre>
      * [개정이력]

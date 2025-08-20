@@ -147,7 +147,9 @@ public class IdBasedRestApiDecl {
      */
     @NotNull
     public MultiValueMap<String, String> getHeaders() {
-        return new LinkedMultiValueMap<>(this.headers);
+        LinkedMultiValueMap<String, String> h = new LinkedMultiValueMap<>();
+        this.headers.forEach((k, v) -> h.addAll(k, v));
+        return h;
     }
 
     /**

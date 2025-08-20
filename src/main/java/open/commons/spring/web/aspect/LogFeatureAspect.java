@@ -56,7 +56,9 @@ import open.commons.spring.web.log.ILogFeatureDecorationConsolidator;
 import open.commons.spring.web.log.InvalidLogFeatureException;
 import open.commons.spring.web.log.LogFeature;
 import open.commons.spring.web.log.LogFeature.Target;
+import open.commons.spring.web.servlet.filter.RequestHeaderFilter;
 import open.commons.spring.web.servlet.filter.RequestThreadNameFilter;
+import open.commons.spring.web.servlet.filter.header.SharedHeadersBuiltinProvider;
 
 import io.micrometer.core.lang.Nullable;
 
@@ -76,7 +78,9 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
      * {@link OncePerRequestFilter}와 {@link ThreadLocal} 정보를 공유하는 객체 <br>
      * {@link OncePerRequestFilter} -> {@link LogFeatureAspect} 까지 동일한 {@link Thread} 로 연결되고 있음.
      */
-    private static final IThreadLocalContext REQUEST_THREAD_NAME_FILTER = ThreadLocalContextService.context(RequestThreadNameFilter.class);
+    private static final IThreadLocalContext REQUEST_THREAD_NAME_FILTER_CONTEXT = ThreadLocalContextService.context(RequestThreadNameFilter.class);
+    /** Request 헤더의 정보를 공유하는 컨텍스트 */
+    private static final IThreadLocalContext REQUEST_HEADER_FILTER_CONTEXT = ThreadLocalContextService.context(RequestHeaderFilter.class);
     /** {@link LogFeature#marker()} 값을 'pretty'하게 출력하는 정보 */
     private final ILogFeatureDecorationConsolidator logDecorator;
 
@@ -180,12 +184,15 @@ public class LogFeatureAspect extends AbstractAspectPointcuts {
             // 어노테이션이 메소드에 설정이 되어 있거나 클래스에 설정된 경우 대상이 '모두'인 경우
             if (annoMethod != null || annoType.target().equals(Target.ALL)) {
                 // #3. 'feature'
-                String feature = getAttribute(annoMethod, annoType, LogFeature.PROP_FEATURE, f -> f != null && !f.trim().isEmpty());
+                String requestFeature = (String) REQUEST_HEADER_FILTER_CONTEXT.get(SharedHeadersBuiltinProvider.X_LOG_FEATURE);
+                String feature = requestFeature != null // Http 요청시 LogFeature 설정이 있었는지 확인
+                        ? requestFeature //
+                        : getAttribute(annoMethod, annoType, LogFeature.PROP_FEATURE, f -> f != null && !f.trim().isEmpty());
                 // #4. 'marker'
                 String marker = getAttribute(annoMethod, annoType, LogFeature.PROP_MARKER, m -> m != null && !m.trim().isEmpty());
                 // #5. 'thread'
                 // HandlerInterceptor.preHandle(...)에서 설정한 HTTP 요청 URL 기반 Thread 이름을 MDC에 추가.
-                String intcptorThreadName = (String) REQUEST_THREAD_NAME_FILTER.get(RequestThreadNameFilter.THREAD_NAME_INTERCEPTED_URL);
+                String intcptorThreadName = (String) REQUEST_THREAD_NAME_FILTER_CONTEXT.get(RequestThreadNameFilter.THREAD_NAME_INTERCEPTED_URL);
                 String annoThread = getAttribute(annoMethod, annoType, LogFeature.PROP_THREAD, m -> m != null && !m.trim().isEmpty());
                 String thread = StringUtils.isNullOrEmptyString(intcptorThreadName) //
                         ? annoThread.trim() //

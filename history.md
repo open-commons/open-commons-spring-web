@@ -1,3 +1,26 @@
+[2025/08/20]
+- Bugfix
+  + open.commons.spring.web.beans.rest.IdBasedRestApiDecl.getHeaders()
+    : header 정보 Map을 직접 전달함으로써 호출이 반복되는 경우 헤더가 중복적용되여 Header Max Length 오류 발생 
+  + open.commons.spring.web.handler.InterceptorIgnoreUrlProperties: 'unmodifiable set' 으로 제공하여 데이터 처리시 오류 발생
+    + getExcludePathPatterns()
+    + getIncludePathPatterns()
+- New
+  + open.commons.spring.web.servlet.filter: OncePerRequestFilter 추상 클래스 추가
+    + AbstractOncePerRequestFilter.java
+    + RequestHeaderFilter.java
+  + open.commons.spring.web.servlet.filter.header: 헤더 정보 공유 지원
+    + DefaultSharedHeader.java
+    + SharedHeader.java
+    + SharedHeadersBuiltinProvider.java
+- Modify
+  + open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration
+    + Header 정보 공유 기능
+      + beanDefaultRequestHeaderFilter()
+      + beanPrimarySharedHeaders(Map&lt;String, SharedHeader&gt;, Map&lt;String, List&lt;SharedHeader&gt;&gt;)
+      + configBuiltinSharedHeaders()
+  + open.commons.spring.web.aspect.LogFeatureAspect.handleExternalRequest(ProceedingJoinPoint): SharedHeader 공유 적용.
+
 [2025/08/18]
 - Bugfix
   + open.commons.spring.web.aspect.MethodExecutionElapsedTimeAspect: 동일한 유형 server -> server -> server 와 같은 호출구조인 경우 'context key'가 중복사용되는 오류 수정

@@ -41,6 +41,7 @@ import open.commons.spring.web.authority.metadata.AuthorizedObjectMetadata;
  */
 public class AuthorizedResourceContext {
 
+    /** Http 요청시 일시적으로 '권한기반 자원 제어'를 해제하는 요청 정보 헤더 */
     public static final String DISABLE_AUTHORIZED_RESOURCES = "X-Disable-Authorized-Resources";
 
     private static final IThreadLocalContext CONTEXT = ThreadLocalContextService.context(AuthorizedResourceContext.class);

@@ -26,7 +26,6 @@
 
 package open.commons.spring.web.handler;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -260,9 +259,8 @@ public class InterceptorIgnoreUrlProperties {
      *
      * @see #excludePathPatterns
      */
-
     public Set<String> getExcludePathPatterns() {
-        return Collections.unmodifiableSet(this.excludePathPatterns);
+        return new HashSet<>(this.excludePathPatterns);
     }
 
     /**
@@ -283,7 +281,6 @@ public class InterceptorIgnoreUrlProperties {
      *
      * @see #fqcn
      */
-
     public String getFqcn() {
         return fqcn;
     }
@@ -306,9 +303,8 @@ public class InterceptorIgnoreUrlProperties {
      *
      * @see #includePathPatterns
      */
-
     public Set<String> getIncludePathPatterns() {
-        return Collections.unmodifiableSet(this.includePathPatterns);
+        return new HashSet<>(this.includePathPatterns);
     }
 
     /**

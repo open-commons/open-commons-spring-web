@@ -60,7 +60,7 @@ public class ProxyHeaderUtil {
      *            {@link HttpServletRequest}에서 값을 제공하는 함수
      * @param header
      *            {@link HttpRequestProxyHeader} 설정값을 이용하여 {@link HttpServletRequest}의 헤더의 값을 제공하는 함수.
-     * @param headerName
+     * @param header
      *            {@link HttpRequestProxyHeader} 설정값
      * @return
      *

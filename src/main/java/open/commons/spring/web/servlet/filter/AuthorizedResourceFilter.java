@@ -105,8 +105,11 @@ public class AuthorizedResourceFilter implements Filter {
                 }
             }
         } finally {
-            chain.doFilter(request, response);
-            AuthorizedResourceContext.clear();
+            try {
+                chain.doFilter(request, response);
+            } finally {
+                AuthorizedResourceContext.clear();
+            }
         }
     }
 }

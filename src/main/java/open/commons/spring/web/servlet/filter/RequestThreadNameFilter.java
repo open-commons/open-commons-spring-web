@@ -27,26 +27,20 @@
 package open.commons.spring.web.servlet.filter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 import open.commons.core.lang.IThreadLocalContext;
 import open.commons.core.lang.ThreadLocalContextService;
 import open.commons.core.utils.ThreadUtils;
-import open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration;
 import open.commons.spring.web.handler.HttpRequestProxyHeader;
 import open.commons.spring.web.handler.ProxyHeaderUtil;
 
@@ -56,18 +50,17 @@ import open.commons.spring.web.handler.ProxyHeaderUtil;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class RequestThreadNameFilter extends OncePerRequestFilter {
+public class RequestThreadNameFilter extends AbstractOncePerRequestFilter {
+    /** {@link Order}에 사용할 값 */
+    public static final int ORDER = Ordered.HIGHEST_PRECEDENCE;
 
     public static final String THREAD_NAME_DEFAULT = "open.commons.spring.web.servlet.filter.RequestThreadNameFilter#THREAD_NAME_DEFAULT";
     public static final String THREAD_NAME_INTERCEPTED_URL = "open.commons.spring.web.servlet.filter.RequestThreadNameFilter#THREAD_NAME_INTERCEPTED_URL";
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final IThreadLocalContext THREAD_LOCAL_CONTEXT = ThreadLocalContextService.context(RequestThreadNameFilter.class);
+
     /** proxy 서버를 이용하여 제공되는 서비스인 경우 HTTP 요청 정보를 forwardig 하기 위한 헤더 */
     private HttpRequestProxyHeader proxyHeader;
-
-    private List<AntPathRequest> ignoredUrl = new ArrayList<>();
-
-    private final IThreadLocalContext threadLocalContext = ThreadLocalContextService.context(RequestThreadNameFilter.class);
 
     /**
      * <br>
@@ -112,65 +105,26 @@ public class RequestThreadNameFilter extends OncePerRequestFilter {
                 .toString();
 
         final String threadName = ThreadUtils.setThreadName(reqUri);
-        this.threadLocalContext.set(THREAD_NAME_DEFAULT, threadName);
-        this.threadLocalContext.set(THREAD_NAME_INTERCEPTED_URL, reqUri);
+        THREAD_LOCAL_CONTEXT.set(THREAD_NAME_DEFAULT, threadName);
+        THREAD_LOCAL_CONTEXT.set(THREAD_NAME_INTERCEPTED_URL, reqUri);
         MDC.put(THREAD_NAME_INTERCEPTED_URL, reqUri);
 
         try {
             filterChain.doFilter(request, response);
         } finally {
-            String otn = (String) this.threadLocalContext.get(THREAD_NAME_DEFAULT);
+            String otn = (String) THREAD_LOCAL_CONTEXT.get(THREAD_NAME_DEFAULT);
 
             if (otn != null) {
                 ThreadUtils.setThreadName(otn);
-                this.threadLocalContext.clear();
+                THREAD_LOCAL_CONTEXT.clear();
             }
 
             MDC.clear();
         }
     }
 
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param ignoredUrl
-     *            the ignoredUrl to set
-     *
-     * @since 2025. 8. 4.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see #ignoredUrl
-     */
-    @Autowired
-    public void setIgnoredUrl(@Qualifier(GlobalServletConfiguration.BEAN_QUALIFIER_PRIMARY_ONCE_PER_REQUEST_SHOULD_NOT_PATTERNS) List<AntPathRequest> ignoredUrl) {
-        if (ignoredUrl != null) {
-            this.ignoredUrl = ignoredUrl;
-        }
-    }
-
     @Autowired
     public void setProxyHeader(HttpRequestProxyHeader proxyHeader) {
         this.proxyHeader = proxyHeader;
-    }
-
-    /**
-     *
-     * @since 2025. 8. 4.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see org.springframework.web.filter.OncePerRequestFilter#shouldNotFilter(javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return this.ignoredUrl.stream().anyMatch(p -> new AntPathRequestMatcher(p.getPattern(), p.getHttpMethodString(), p.isCaseSensitive()).matches(request));
     }
 }
