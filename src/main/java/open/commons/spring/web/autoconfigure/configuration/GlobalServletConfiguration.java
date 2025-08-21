@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
@@ -54,7 +55,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import open.commons.core.utils.CollectionUtils;
 import open.commons.core.utils.FunctionUtils;
+import open.commons.core.utils.MapUtils;
 import open.commons.core.utils.StreamUtils;
 import open.commons.spring.web.config.ResourceConfiguration;
 import open.commons.spring.web.handler.DefaultGlobalInterceptor;
@@ -249,13 +252,12 @@ public class GlobalServletConfiguration {
             @NotNull @Nonnull Map<String, InterceptorIgnoreUrlProperties> single //
             , @NotNull @Nonnull Map<String, List<InterceptorIgnoreUrlProperties>> multi) {
 
-        List<InterceptorIgnoreUrlProperties> merged = StreamUtils.toList(single, multi);
+        List<InterceptorIgnoreUrlProperties> merged = MapUtils.toList(single, multi);
 
         // 중복 검증
         // key: FQCN 기반의 target 정보, value: 동일한 target 정보인 InterceptorIgnoreUrlProperties 객체들
-        MultiValueMap<String, InterceptorIgnoreUrlProperties> mayBeDuplicated = merged.stream() //
-                .collect(Collectors.collectingAndThen(Collectors.groupingBy(InterceptorIgnoreUrlProperties::getTarget) //
-                        , LinkedMultiValueMap::new));
+        MultiValueMap<String, InterceptorIgnoreUrlProperties> mayBeDuplicated = StreamUtils.toMap(merged.stream(), InterceptorIgnoreUrlProperties::getTarget, Function.identity(),
+                LinkedMultiValueMap::new);
 
         mayBeDuplicated.forEach((k, v) -> {
             if (v.size() > 1) {
@@ -268,7 +270,7 @@ public class GlobalServletConfiguration {
             }
         });
 
-        Set<InterceptorIgnoreUrlProperties> result = StreamUtils.toSet(merged, InterceptorIgnoreUrlProperties::getTarget //
+        Set<InterceptorIgnoreUrlProperties> result = CollectionUtils.toSet(merged, InterceptorIgnoreUrlProperties::getTarget //
                 , // 설정 객체 데이터 변조 방지를 위해 새로운 객체 생성
                 p -> {
                     InterceptorIgnoreUrlProperties n = new InterceptorIgnoreUrlProperties();
@@ -290,7 +292,7 @@ public class GlobalServletConfiguration {
     List<AntPathRequest> beanPrimaryOncePerRequestShouldNotFilters( //
             @NotNull @Nonnull Map<String, AntPathRequest> single//
             , @NotNull @Nonnull Map<String, List<AntPathRequest>> multi) {
-        return StreamUtils.toList(single, multi);
+        return MapUtils.toList(single, multi);
     }
 
     @Bean(name = BEAN_QUALIFIER_PRIMARY_SHARED_HEADERS)
@@ -299,7 +301,7 @@ public class GlobalServletConfiguration {
             @NotNull @Nonnull Map<String, SharedHeader> single //
             , @NotNull @Nonnull Map<String, List<SharedHeader>> multi //
     ) {
-        return StreamUtils.toList(single, multi);
+        return MapUtils.toList(single, multi);
     }
 
     /**
