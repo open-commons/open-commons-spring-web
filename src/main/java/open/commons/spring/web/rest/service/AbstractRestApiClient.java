@@ -26,6 +26,7 @@
 
 package open.commons.spring.web.rest.service;
 
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URL;
 import java.util.Arrays;
@@ -35,6 +36,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import javax.annotation.PreDestroy;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -47,6 +49,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.AbstractClientHttpRequestFactoryWrapper;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -96,6 +101,31 @@ public abstract class AbstractRestApiClient {
     public AbstractRestApiClient(@NotNull RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
         this.retryCount = getRetryCount();
+    }
+
+    @PreDestroy
+    public void close() {
+        closeClientHttpRequestFactory(this.restTemplate.getRequestFactory());
+    }
+
+    private void closeClientHttpRequestFactory(ClientHttpRequestFactory chrf) {
+        if (chrf instanceof AbstractClientHttpRequestFactoryWrapper) {
+            for (Field f : chrf.getClass().getDeclaredFields()) {
+                if (ClientHttpRequestFactory.class.isAssignableFrom(f.getClass())) {
+                    try {
+                        closeClientHttpRequestFactory((ClientHttpRequestFactory) f.get(chrf));
+                        break;
+                    } catch (IllegalArgumentException | IllegalAccessException e) {
+                    }
+                }
+            }
+        }
+        if (chrf instanceof HttpComponentsClientHttpRequestFactory) {
+            try {
+                ((HttpComponentsClientHttpRequestFactory) chrf).destroy();
+            } catch (Exception e) {
+            }
+        }
     }
 
     /**

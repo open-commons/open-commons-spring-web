@@ -100,6 +100,16 @@ public class ResourceConfiguration {
      * <li>'공인 + 비공인' 인증서 허용
      */
     public static final String BEAN_QUALIFIER_RESTTEMPLATE_ALLOW_PRIVATE_CA = "open.commons.spring.web.config.ResourceConfiguration#RESTTEMPLATE_ALLOW_PRIVATE_CA";
+    /**
+     * 기본 {@link RestTemplate}<br>
+     * <li>공인 인증서만 허용
+     */
+    public static final String BEAN_QUALIFIER_RESTTEMPLATE_PROXY_MODE = "open.commons.spring.web.config.ResourceConfiguration#RESTTEMPLATE_PROXY)MODE";
+    /**
+     * 기본 {@link RestTemplate}<br>
+     * <li>'공인 + 비공인' 인증서 허용
+     */
+    public static final String BEAN_QUALIFIER_RESTTEMPLATE_PROXY_MODE_ALLOW_PRIVATE_CA = "open.commons.spring.web.config.ResourceConfiguration#RESTTEMPLATE_PROXY_MODE_ALLOW_PRIVATE_CA";
     /** 기본 {@link RestTemplate} 설정 */
     public static final String CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE = "open.commons.spring.web.config.ResourceConfiguration#CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE";
     /** 기본 {@link RestTemplate} 설정 경로 */
@@ -205,7 +215,7 @@ public class ResourceConfiguration {
     }
 
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE)
-    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Primary
     RestTemplate beanRestTemplate(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
             throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
@@ -217,9 +227,33 @@ public class ResourceConfiguration {
     }
 
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_ALLOW_PRIVATE_CA)
-    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Primary
     RestTemplate beanRestTemplateAllowPrivateCA(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
+            throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
+        HttpClient httpClient = RestUtils.createHttpsClient(true);
+        HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
+
+        RestTemplate tpl = new RestTemplate(reqFactory);
+        return tpl;
+    }
+
+    @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_PROXY_MODE)
+    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @Primary
+    RestTemplate beanRestTemplateProxyMode(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
+            throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
+        HttpClient httpClient = RestUtils.createHttpsClient(false);
+        HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
+
+        RestTemplate tpl = new RestTemplate(reqFactory);
+        return tpl;
+    }
+
+    @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_PROXY_MODE_ALLOW_PRIVATE_CA)
+    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @Primary
+    RestTemplate beanRestTemplateProxyModeAllowPrivateCA(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
             throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
         HttpClient httpClient = RestUtils.createHttpsClient(true);
         HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
