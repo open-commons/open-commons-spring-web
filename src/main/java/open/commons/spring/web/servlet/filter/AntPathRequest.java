@@ -32,6 +32,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.http.HttpMethod;
 
+import open.commons.core.utils.AssertUtils2;
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.spring.web.servlet.InvalidAntPathUrlPatternException;
 import open.commons.spring.web.utils.PathUtils;
@@ -474,10 +475,8 @@ public class AntPathRequest {
      *
      * @see #targetType
      */
-    public void setTargetType(Scheme targetType) {
-        if (targetType != null) {
-            this.targetType = targetType;
-        }
+    public void setTargetType(@NotNull @Nonnull Scheme targetType) {
+        this.targetType = (Scheme) AssertUtils2.notNull(targetType);
     }
 
     /**
@@ -505,10 +504,17 @@ public class AntPathRequest {
         return builder.toString();
     }
 
+    /**
+     * {@link AntPathRequest}가 적용될 대상을 결정하는 기준.
+     * 
+     * @since 2025. 8. 19.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     */
     public static enum Scheme {
-        /** 일치 */
+        /** {@link Class} 값이 일치 */
         CLASS,
-        /** 구현 클래스 */
+        /** <code>instaceof</code> 결과가 <code>true</code>. */
         INSTANCE
     }
 }

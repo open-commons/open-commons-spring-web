@@ -101,7 +101,6 @@ public class GlobalServletConfiguration {
 
     @SuppressWarnings("unused")
     private final ApplicationContext context;
-    @SuppressWarnings("unused")
     private final Environment environment;
 
     /**

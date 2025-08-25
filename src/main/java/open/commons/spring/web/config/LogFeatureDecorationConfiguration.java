@@ -30,7 +30,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,10 +37,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import open.commons.core.utils.MapUtils;
 import open.commons.spring.web.log.ILogFeatureDecorationConsolidator;
 import open.commons.spring.web.log.ILogFeatureDecorator;
-import open.commons.spring.web.log.LogFeatureDecorationConsolidator;
 import open.commons.spring.web.log.LogFeature;
+import open.commons.spring.web.log.LogFeatureDecorationConsolidator;
 
 /**
  * 
@@ -82,11 +82,11 @@ public class LogFeatureDecorationConfiguration {
      * 2025. 7. 29.		박준홍			최초 작성
      * </pre>
      *
-     * @param singleMdcPropertyLogDecorator
+     * @param single
      *            단일 항목에 대한 설정
      *            <li>key: Bean 이름
      *            <li>value: Bean 데이터
-     * @param multiMdcPropertyLogDecorator
+     * @param multi
      *            여러 항목에 대한 설정
      *            <li>key: Bean 이름
      *            <li>value: Bean 데이터
@@ -99,17 +99,12 @@ public class LogFeatureDecorationConfiguration {
     @Bean
     @Primary
     ILogFeatureDecorationConsolidator mdcPropertyLogDecorationConsolidator( //
-            Map<String, ILogFeatureDecorator> singleMdcPropertyLogDecorator //
-            , Map<String, List<ILogFeatureDecorator>> multiMdcPropertyLogDecorator //
+            Map<String, ILogFeatureDecorator> single //
+            , Map<String, List<ILogFeatureDecorator>> multi //
     ) {
         LogFeatureDecorationConsolidator consolidator = new LogFeatureDecorationConsolidator();
 
-        Collection<ILogFeatureDecorator> mplds = Stream //
-                .of(singleMdcPropertyLogDecorator.values().stream() //
-                        , multiMdcPropertyLogDecorator.values().stream() //
-                                .flatMap(List::stream)) //
-                .flatMap(s -> s) //
-                .collect(Collectors.toList());
+        Collection<ILogFeatureDecorator> mplds = MapUtils.flat(single, multi).collect(Collectors.toList());
         consolidator.setMdcPropertyLogDecoratorConfigurations(mplds);
 
         logger.info("[feature-based-logging] consolidator={}", consolidator);
