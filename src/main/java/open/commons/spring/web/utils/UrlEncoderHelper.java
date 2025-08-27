@@ -113,10 +113,23 @@ public class UrlEncoderHelper {
             // 'path? query?' 판단. MultiValueMap 이 Map 하위 타입이므로 MultiValueMap으로 판단
             boolean forQuery = variables.getVariables() instanceof MultiValueMap;
             Map<String, Object> encoded = encodedVariables(forQuery, Encoding.VALUES_ONLY_RESERVED, variables.getVariables());
-            return UriComponentsBuilder.fromUriString(template) //
-                    .build() //
-                    .expand(encoded) //
-                    .toString();
+            if (forQuery) {
+                UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(template);
+                for (Entry<String, Object> entry : encoded.entrySet()) {
+                    builder.queryParam(entry.getKey(), (List<String>) entry.getValue());
+                }
+                String query = builder.build().toString();
+                if (query.startsWith("?")) {
+                    return query.substring(1);
+                } else {
+                    return query;
+                }
+            } else {
+                return UriComponentsBuilder.fromUriString(template) //
+                        .build() //
+                        .expand(encoded) //
+                        .toString();
+            }
         });
         ENCODERS.put(Encoding.NONE, (template, variables) -> {
             return UriComponentsBuilder.fromUriString(template) //
