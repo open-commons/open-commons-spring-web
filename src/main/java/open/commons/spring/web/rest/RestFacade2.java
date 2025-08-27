@@ -58,17 +58,14 @@ import open.commons.core.utils.ThreadUtils;
  * @since 2021. 06. 11.
  * @version
  * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
- * 
- * @deprecated 2025. 8. 27. {@link RestFacade2} 를 사용하세요. 모든 메소드는 동일합니다.<br>
- *             <font color="red">다음 배포시 삭제 예정</font>
  */
-public class RestUtils2 {
+public class RestFacade2 {
 
     private static final int DEFAULT_RETRY_COUNT = 5;
 
-    private static final Logger logger = LoggerFactory.getLogger(RestUtils2.class);
+    private static final Logger logger = LoggerFactory.getLogger(RestFacade2.class);
 
-    private RestUtils2() {
+    private RestFacade2() {
     }
 
     /**
@@ -751,7 +748,7 @@ public class RestUtils2 {
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2021. 06. 11.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2025. 7. 14.         박준홍     {@link RestFacade2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -802,7 +799,7 @@ public class RestUtils2 {
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2023. 03. 06.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, Class, Function, Result, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2025. 7. 14.         박준홍     {@link RestFacade2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, Class, Function, Result, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -856,7 +853,7 @@ public class RestUtils2 {
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2021. 06. 11.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, ParameterizedTypeReference, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2025. 7. 14.         박준홍     {@link RestFacade2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, ParameterizedTypeReference, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -908,7 +905,7 @@ public class RestUtils2 {
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2023. 03. 06.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2025. 7. 14.         박준홍     {@link RestFacade2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -962,7 +959,7 @@ public class RestUtils2 {
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2021. 06. 11.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2025. 7. 14.         박준홍     {@link RestFacade2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1021,7 +1018,7 @@ public class RestUtils2 {
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2023. 03. 06.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, Class, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2025. 7. 14.         박준홍     {@link RestFacade2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, Class, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1082,7 +1079,7 @@ public class RestUtils2 {
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2021. 06. 11.    박준홍     최초 작성
-     * 2025. 7. 15.     박준홍    {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, ParameterizedTypeReference, Function, Function)}  메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2025. 7. 15.     박준홍    {@link RestFacade2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, ParameterizedTypeReference, Function, Function)}  메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1140,7 +1137,7 @@ public class RestUtils2 {
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2023. 03. 06.        박준홍     최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2025. 7. 14.         박준홍     {@link RestFacade2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1201,7 +1198,7 @@ public class RestUtils2 {
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2021. 06. 11.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2025. 7. 14.         박준홍     {@link RestFacade2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1247,7 +1244,7 @@ public class RestUtils2 {
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2023. 03. 06.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, Class, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2025. 7. 14.         박준홍     {@link RestFacade2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, Class, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1296,7 +1293,7 @@ public class RestUtils2 {
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2021. 06. 11.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, ParameterizedTypeReference, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2025. 7. 14.         박준홍     {@link RestFacade2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, ParameterizedTypeReference, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1342,7 +1339,7 @@ public class RestUtils2 {
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
      * 2023. 03. 06.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2025. 7. 14.         박준홍     {@link RestFacade2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>

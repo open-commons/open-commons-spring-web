@@ -31,6 +31,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -46,6 +47,14 @@ import open.commons.spring.web.servlet.InternalServerException;
  */
 public class ClassInspector {
     private ClassInspector() {
+    }
+
+    private static <T> List<T> getAll(Class<?> clazz, Function<Class<?>, T[]> m) {
+        List<T> all = new ArrayList<>();
+        for (Class<?> cls = clazz; cls != null && cls != Object.class; cls = cls.getSuperclass()) {
+            all.addAll(Arrays.asList(m.apply(cls)));
+        }
+        return all;
     }
 
     /**
@@ -66,18 +75,7 @@ public class ClassInspector {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public static List<Field> getAllFields(Class<?> clazz) {
-        if (clazz == null) {
-            return new ArrayList<>();
-        }
-
-        List<Field> fields = new ArrayList<>();
-        Class<?> current = clazz;
-        while (current != null && current != Object.class) {
-            fields.addAll(Arrays.asList(current.getDeclaredFields()));
-            current = current.getSuperclass();
-        }
-
-        return fields;
+        return getAll(clazz, Class::getDeclaredFields);
     }
 
     /**
@@ -98,18 +96,7 @@ public class ClassInspector {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     public static List<Method> getAllMethods(Class<?> clazz) {
-        if (clazz == null) {
-            return new ArrayList<>();
-        }
-
-        List<Method> fields = new ArrayList<>();
-        Class<?> current = clazz;
-        while (current != null && current != Object.class) {
-            fields.addAll(Arrays.asList(current.getDeclaredMethods()));
-            current = current.getSuperclass();
-        }
-
-        return fields;
+        return getAll(clazz, Class::getDeclaredMethods);
     }
 
     /**

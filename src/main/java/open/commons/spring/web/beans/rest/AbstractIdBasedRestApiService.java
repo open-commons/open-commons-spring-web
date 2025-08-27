@@ -26,6 +26,7 @@
 
 package open.commons.spring.web.beans.rest;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -47,9 +48,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import open.commons.core.Result;
+import open.commons.core.TwoValueObject;
 import open.commons.core.text.NamedTemplate;
 import open.commons.core.utils.MapUtils;
-import open.commons.spring.web.exception.RequiredQueryNotFoundException;
+import open.commons.core.utils.StreamUtils;
+import open.commons.core.utils.StringUtils;
+import open.commons.spring.web.exception.RequiredVariableNotFoundException;
 import open.commons.spring.web.rest.service.AbstractRestApiClient;
 
 /**
@@ -94,24 +98,46 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
             return null;
         }
 
+        // #1. HttpMethod
         HttpMethod method = api.getMethod();
-        String path = null;
+
+        // #2. 경로
+        String path = api.getPath();
+        Map<String, String> finalPathVariables = new HashMap<>();
+        Set<TwoValueObject<String, Boolean>> pathVarNames = NamedTemplate.getNames(path);
         if (MapUtils.isNullOrEmpty(pathVariables)) {
-            path = api.getPath();
+            if (pathVarNames.stream().filter(o -> o.second).findAny().isPresent()) {
+                throw new RequiredVariableNotFoundException(String.format("필수 'Path Variable'를 찾을 수 없습니다. path-variables=%s",
+                        String.join(", ", StreamUtils.toList(pathVarNames.stream(), o -> o.second, o -> o.first))));
+            }
         } else {
-            path = NamedTemplate.format(api.getPath(), pathVariables.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+            String variable = null;
+            for (TwoValueObject<String, Boolean> o : pathVarNames) {
+                variable = pathVariables.get(o.first);
+                if (!StringUtils.isNullOrEmptyString(variable)) {
+                    finalPathVariables.put(o.first, variable);
+                } else if (o.second) {
+                    throw new RequiredVariableNotFoundException(String.format("필수 Path Variable ('%s')를 찾을 수 없거나 값이 올바르지 않습니다.", o.first, variable));
+                }
+            }
         }
 
-        // #1. 헤더 병합
+        // #3. 헤더 병합
         final HttpHeaders staticHeaders = new HttpHeaders(api.getHeaders());
         if (headers != null) {
             staticHeaders.addAll(headers);
         }
-        // #2. query 파라미터
+        // #4. query 파라미터
         MultiValueMap<String, Object> finalQueries = new LinkedMultiValueMap<>();
-        // #2-1. 전달받은 쿼리 파라미터가 있는 경우
+        // #4-1. 전달받은 쿼리 파라미터가 있는 경우
         Map<String, Boolean> queryParams = api.getQueries();
-        if (queries != null) {
+        if (MapUtils.isNullOrEmpty(queries)) {
+            // REST API에 필수 쿼리파라미터가 있는지 확인
+            Set<String> requiredQueryNames = queryParams.entrySet().stream().filter(p -> p.getValue()).map(p -> p.getKey()).collect(Collectors.toSet());
+            if (requiredQueryNames.size() > 0) {
+                throw new RequiredVariableNotFoundException(String.format("필수 Query Parameters를 찾을 수 없습니다. query-names=%s", String.join(", ", requiredQueryNames)));
+            }
+        } else {
             List<Object> params = null;
             for (Entry<String, Boolean> entry : queryParams.entrySet()) {
                 params = queries.get(entry.getKey());
@@ -120,18 +146,12 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
                 }
                 // 전달받은 파라미터는 없지만, 해당 쿼리가 '필수'인 경우
                 else if (entry.getValue()) {
-                    throw new RequiredQueryNotFoundException(String.format("필수 Query Parameters ('%s')를 찾을 수 없습니다.", entry.getKey()));
+                    throw new RequiredVariableNotFoundException(String.format("필수 Query Parameters ('%s')를 찾을 수 없습니다.", entry.getKey()));
                 }
-            }
-        } else {
-            // 2-2. REST API에 필수 쿼리파라미터가 있는지 확인
-            Set<String> requiredQueryNames = queryParams.entrySet().stream().filter(p -> p.getValue()).map(p -> p.getKey()).collect(Collectors.toSet());
-            if (requiredQueryNames.size() > 0) {
-                throw new RequiredQueryNotFoundException(String.format("필수 Query Parameters를 찾을 수 없습니다. query-names=%s", String.join(", ", requiredQueryNames)));
             }
         }
 
-        return new RestEndpoint(method, path, staticHeaders, finalQueries);
+        return new RestEndpoint(method, path, finalPathVariables, staticHeaders, finalQueries);
     }
 
     /**
@@ -156,7 +176,7 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
             return Result.error(errMsg);
         }
 
-        return execute(api.method, api.path, api.queries, api.headers, requestBody, responseType, onSuccess, onError, getRetryCount());
+        return execute(api.method, api.path, api.pathVariables, api.queries, api.headers, requestBody, responseType, onSuccess, onError, getRetryCount());
     }
 
     /**
@@ -181,7 +201,7 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
             return Result.error(errMsg);
         }
 
-        return execute(api.method, api.path, api.queries, api.headers, requestBody, responseType, onSuccess, onError, getRetryCount());
+        return execute(api.method, api.path, api.pathVariables, api.queries, api.headers, requestBody, responseType, onSuccess, onError, getRetryCount());
     }
 
     /**
@@ -204,7 +224,7 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
             throw new UnsupportedOperationException(errMsg);
         }
 
-        return executeAsRaw(api.method, api.path, api.queries, api.headers, requestBody, responseType, onSuccess, getRetryCount());
+        return executeAsRaw(api.method, api.path, api.pathVariables, api.queries, api.headers, requestBody, responseType, onSuccess, getRetryCount());
     }
 
     /**
@@ -228,18 +248,20 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
             throw new UnsupportedOperationException(errMsg);
         }
 
-        return executeAsRaw(api.method, api.path, api.queries, api.headers, requestBody, responseType, onSuccess, getRetryCount());
+        return executeAsRaw(api.method, api.path, api.pathVariables, api.queries, api.headers, requestBody, responseType, onSuccess, getRetryCount());
     }
 
     private class RestEndpoint {
         private final HttpMethod method;
         private final String path;
+        private final Map<String, String> pathVariables;
         private final HttpHeaders headers;
         private final MultiValueMap<String, Object> queries;
 
-        public RestEndpoint(HttpMethod method, String path, HttpHeaders headers, MultiValueMap<String, Object> queries) {
+        public RestEndpoint(HttpMethod method, String path, Map<String, String> pathVariables, HttpHeaders headers, MultiValueMap<String, Object> queries) {
             this.method = method;
             this.path = path;
+            this.pathVariables = pathVariables;
             this.headers = headers;
             this.queries = queries;
         }
@@ -251,6 +273,8 @@ public abstract class AbstractIdBasedRestApiService extends AbstractRestApiClien
             builder.append(method);
             builder.append(", path=");
             builder.append(path);
+            builder.append(", path.variables=");
+            builder.append(pathVariables);
             builder.append(", headers=");
             builder.append(headers);
             builder.append(", queries=");

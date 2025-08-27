@@ -91,15 +91,12 @@ import open.commons.core.utils.ThreadUtils;
  * @since 2019. 10. 24.
  * @version
  * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
- * 
- * @deprecated 2025. 8. 27. {@link RestFacade} 클래스를 사용하세요. .모든 메소드를 동일합니다. <br>
- *             <font color="red">다음 배포시 삭제 예정</font>
  */
-public class RestUtils {
+public class RestFacade {
 
-    private static final Logger logger = LoggerFactory.getLogger(RestUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(RestFacade.class);
 
-    private RestUtils() {
+    private RestFacade() {
     }
 
     /**
@@ -447,7 +444,7 @@ public class RestUtils {
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      * 
      * @deprecated Use
-     *             {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, Class, Function, Function)}
+     *             {@link RestFacade2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, Class, Function, Function)}
      */
     public static <REQ, RES> Result<RES> exchange(RestTemplate restTemplate, HttpMethod method, String scheme, String host, int port, String path, HttpEntity<REQ> entity,
             Class<RES> responseType //
@@ -556,7 +553,7 @@ public class RestUtils {
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      * 
      * @deprecated Use
-     *             {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, ParameterizedTypeReference, Function, Function)}
+     *             {@link RestFacade2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, ParameterizedTypeReference, Function, Function)}
      */
     public static <REQ, RES> Result<RES> exchange(RestTemplate restTemplate, HttpMethod method, String scheme, String host, int port, String path, HttpEntity<REQ> entity,
             ParameterizedTypeReference<RES> responseType //
@@ -668,7 +665,7 @@ public class RestUtils {
      * @version
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      * @deprecated Use
-     *             {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, Class, Function, Function)}
+     *             {@link RestFacade2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, Class, Function, Function)}
      */
     public static <REQ, RES> Result<RES> exchange(RestTemplate restTemplate, HttpMethod method, String scheme, String host, int port, String path, String query,
             HttpEntity<REQ> entity, Class<RES> responseType //
@@ -785,7 +782,7 @@ public class RestUtils {
      * @version 0.4.0
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      * @deprecated Use
-     *             {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, ParameterizedTypeReference, Function, Function)}
+     *             {@link RestFacade2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, ParameterizedTypeReference, Function, Function)}
      */
     public static <REQ, RES> Result<RES> exchange(RestTemplate restTemplate, HttpMethod method, String scheme, String host, int port, String path, String query,
             HttpEntity<REQ> entity, ParameterizedTypeReference<RES> responseType //
@@ -834,7 +831,7 @@ public class RestUtils {
      * @since 2019. 10. 24.
      * @version
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
-     * @deprecated Use {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, Class, Function, Function)}
+     * @deprecated Use {@link RestFacade2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, Class, Function, Function)}
      */
     public static <REQ, RES> Result<RES> exchange(RestTemplate restTemplate, HttpMethod method, URI uri, HttpEntity<REQ> entity, Class<RES> responseType //
             , Function<ResponseEntity<RES>, Result<RES>> onSuccess //
@@ -879,7 +876,7 @@ public class RestUtils {
      * @version 0.4.0
      * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
      * @deprecated Use
-     *             {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, ParameterizedTypeReference, Function, Function)}
+     *             {@link RestFacade2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, ParameterizedTypeReference, Function, Function)}
      */
     public static <REQ, RES> Result<RES> exchange(RestTemplate restTemplate, HttpMethod method, URI uri, HttpEntity<REQ> entity, ParameterizedTypeReference<RES> responseType //
             , Function<ResponseEntity<RES>, Result<RES>> onSuccess //

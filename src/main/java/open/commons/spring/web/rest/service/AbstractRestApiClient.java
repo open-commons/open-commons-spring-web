@@ -26,18 +26,20 @@
 
 package open.commons.spring.web.rest.service;
 
-import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
 import javax.annotation.PreDestroy;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -49,9 +51,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.AbstractClientHttpRequestFactoryWrapper;
 import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -59,14 +59,20 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.DefaultUriBuilderFactory.EncodingMode;
+import org.springframework.web.util.UriBuilderFactory;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import open.commons.core.Result;
-import open.commons.core.text.NamedTemplate;
+import open.commons.core.utils.AssertUtils2;
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.core.utils.StringUtils;
-import open.commons.spring.web.rest.RestUtils2;
+import open.commons.spring.web.rest.RestFacade2;
+import open.commons.spring.web.rest.service.TemplateUriEncoder.Encoding;
 import open.commons.spring.web.servlet.InternalServerException;
+import open.commons.spring.web.utils.CloseableUtils;
+import open.commons.spring.web.utils.UrlEncoderHelper;
 
 /**
  * {@link RestTemplate}를 이용하여 외부 서비스와 연동하는 기능을 제공합니다.
@@ -98,40 +104,62 @@ public abstract class AbstractRestApiClient {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AbstractRestApiClient(@NotNull RestTemplate restTemplate) {
+    public AbstractRestApiClient(@NotNull @Nonnull RestTemplate restTemplate) {
+        AssertUtils2.notNull("RestTemplate 객체는 반드시 존재해야 합니다", restTemplate);
         this.restTemplate = restTemplate;
         this.retryCount = getRetryCount();
+        setUriBuilderFactory(restTemplate);
     }
 
+    /**
+     * {@link RestTemplate}이 내부적으로 사용하는 {@link ClientHttpRequestFactory} 자원을 해제합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 26.		박준홍			최초 작성
+     * </pre>
+     *
+     *
+     * @since 2025. 8. 25.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
     @PreDestroy
     public void close() {
-        closeClientHttpRequestFactory(this.restTemplate.getRequestFactory());
-    }
-
-    private void closeClientHttpRequestFactory(ClientHttpRequestFactory chrf) {
-        if (chrf instanceof AbstractClientHttpRequestFactoryWrapper) {
-            for (Field f : chrf.getClass().getDeclaredFields()) {
-                if (ClientHttpRequestFactory.class.isAssignableFrom(f.getClass())) {
-                    try {
-                        closeClientHttpRequestFactory((ClientHttpRequestFactory) f.get(chrf));
-                        break;
-                    } catch (IllegalArgumentException | IllegalAccessException e) {
-                    }
-                }
-            }
-        }
-        if (chrf instanceof HttpComponentsClientHttpRequestFactory) {
-            try {
-                ((HttpComponentsClientHttpRequestFactory) chrf).destroy();
-            } catch (Exception e) {
-            }
-        }
+        CloseableUtils.close(this.restTemplate);
     }
 
     /**
-     * 주어진 URI Path 값과 서버 정보를 이용하여 {@link URI} 객체를 제공합니다.
+     * URI 객체를 생성하여 제공합니다. <br>
      * 
-     * <br>
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 26.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param path
+     *            API URL 패턴
+     * @param pathVariables
+     *            API URL 패턴에 사용될 데이터
+     * @param query
+     *            쿼리 파라미터 정보
+     * @param fragment
+     * @return
+     *
+     * @since 2025. 8. 26.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected URI createURI(@NotBlank String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment) {
+        return createURI(getBaseUrl(), path, pathVariables, convertToMultiValueMap(query), fragment);
+    }
+
+    /**
+     * <code>[scheme:][//[userinfo@]host[:port]][/path][?query][#fragment]</code> 구조를 준수하는 {@link URI} 객체를 제공합니다.<br>
      * 
      * <pre>
      * [개정이력]
@@ -140,16 +168,84 @@ public abstract class AbstractRestApiClient {
      * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
+     * @param scheme
+     *            연동 대상 접속 scheme
+     * @param host
+     *            연동 대상 접속 host
+     * @param port
+     *            연동 대상 접속 port
      * @param path
      *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
      * @param query
      *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
      *
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected URI createURI(String path, @Nullable MultiValueMap<String, String> query, String fragment) {
-        return createURI(getBaseUrl(), path, query, fragment);
+    protected final URI createURI(@NotBlank String scheme, @NotBlank String host, @Min(1) int port, String path, @Nullable MultiValueMap<String, String> query, String fragment) {
+        return createURI(StringUtils.concatenate("", scheme, "://", host, ":", port), path, null, query, fragment);
+    }
+
+    /**
+     * <code>[scheme:][//[userinfo@]host[:port]][/path][?query][#fragment]</code> 구조를 준수하는 {@link URI} 객체를 제공합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param baseHttpUrl
+     *            연동 대상 접속 URL ({scheme}://({authority}@)?{host}:{port})
+     * @param path
+     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
+     * @param pathVariables
+     *            API URL 경로(path) 패턴에 사용될 데이터
+     * @param queryVariables
+     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
+     * @param fragment
+     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
+     * @return
+     *
+     * @since 2025. 7. 2.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     */
+    protected final URI createURI(@NotBlank String baseHttpUrl, @NotBlank String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, String> queryVariables,
+            String fragment) {
+
+        TemplateUriEncoder pathEncoder = pathEncoder();
+        TemplateUriEncoder queryEncoder = queryEncoder();
+        AssertUtils2.notNulls(String.format("URI encoder는 반드시 설정되어야 합니다. PathEncoder=%s, QueryEncoder=%s", pathEncoder, queryEncoder), pathEncoder, queryEncoder);
+        // TemplateUriEncoder fragmentEncoder = fragmentEncoder();
+        // AssertUtils2.notNulls(String.format("URI encoder는 반드시 설정되어야 합니다. PathEncoder=%s, QueryEncoder=%s,
+        // FragmentEncoder=%s", pathEncoder, queryEncoder, fragmentEncoder),
+        // pathEncoder, queryEncoder, fragmentEncoder);
+
+        // 'path'
+        String encodePath = pathEncoder.encode(path, new ByPassUriTemplateVariables(pathVariables));
+        // 'query'
+        StringJoiner query = new StringJoiner("&");
+        if (queryVariables != null) {
+            for (String qn : queryVariables.keySet()) {
+                query.add(String.join("", qn, "=", "{", qn, "}"));
+            }
+        }
+        String encodeQuery = query.length() > 0 ? queryEncoder.encode("", new ByPassUriTemplateVariables(queryVariables)) : "";
+        // 'fragment'
+        // String encodedFragment = fragmentEncoder.encode(fragment, ByPassUriTemplateVariables.emptyVariables());
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(baseHttpUrl) //
+                .path(encodePath)//
+                .query(encodeQuery)//
+                .fragment(fragment) //
+                .build(true)//
+                .toUri();
+        // 모든 정보가 encoding 됨.
+        return uri;
     }
 
     /**
@@ -196,7 +292,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query//
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query//
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -247,7 +343,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -295,7 +391,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , int retryCount) {
@@ -353,7 +449,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -410,7 +506,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -464,7 +560,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
@@ -516,25 +612,13 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
             , int retryCount) {
-
-        if (pathVariables != null) {
-            NamedTemplate tpl = new NamedTemplate(path);
-            pathVariables.forEach((k, v) -> {
-                tpl.addValue(k, v);
-            });
-            path = tpl.format();
-        }
-
-        URI uri = createURI(path, convertToMultiValueMap(query), fragment);
-
-        return RestUtils2.exchange(restTemplate, method, uri, entity, responseType, onSuccess, onError, retryCount);
+        return RestFacade2.exchange(restTemplate, method, createURI(path, pathVariables, query, fragment), entity, responseType, onSuccess, onError, retryCount);
     }
 
     /**
@@ -587,25 +671,13 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
             , int retryCount) {
-
-        if (pathVariables != null) {
-            NamedTemplate tpl = new NamedTemplate(path);
-            pathVariables.forEach((k, v) -> {
-                tpl.addValue(k, v);
-            });
-            path = tpl.format();
-        }
-
-        URI uri = createURI(path, convertToMultiValueMap(query), fragment);
-
-        return RestUtils2.exchange(restTemplate, method, uri, entity, responseType, onSuccess, onError, retryCount);
+        return RestFacade2.exchange(restTemplate, method, createURI(path, pathVariables, query, fragment), entity, responseType, onSuccess, onError, retryCount);
     }
 
     /**
@@ -654,8 +726,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -708,8 +779,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -759,8 +829,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType//
             , int retryCount) {
@@ -820,8 +889,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -880,8 +948,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -937,8 +1004,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 3.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
@@ -988,7 +1054,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query//
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query//
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -1037,7 +1103,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -1083,7 +1149,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , int retryCount) {
@@ -1139,7 +1205,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -1194,7 +1260,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -1246,7 +1312,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
@@ -1296,7 +1362,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -1353,7 +1419,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -1406,7 +1472,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -1457,7 +1523,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -1505,7 +1571,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType//
             , int retryCount) {
@@ -1562,7 +1628,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -1619,7 +1685,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -1673,7 +1739,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
@@ -1722,7 +1788,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query//
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query//
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
@@ -1770,7 +1836,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , int retryCount) {
@@ -1826,7 +1892,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
@@ -1880,7 +1946,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
@@ -1930,24 +1996,12 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
             , int retryCount) {
-
-        if (pathVariables != null) {
-            NamedTemplate tpl = new NamedTemplate(path);
-            pathVariables.forEach((k, v) -> {
-                tpl.addValue(k, v);
-            });
-            path = tpl.format();
-        }
-
-        URI uri = createURI(path, convertToMultiValueMap(query), fragment);
-
-        return RestUtils2.exchangeAsRaw(restTemplate, method, uri, entity, responseType, onSuccess, retryCount);
+        return RestFacade2.exchangeAsRaw(restTemplate, method, createURI(path, pathVariables, query, fragment), entity, responseType, onSuccess, retryCount);
     }
 
     /**
@@ -1998,24 +2052,12 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
             , int retryCount) {
-
-        if (pathVariables != null) {
-            NamedTemplate tpl = new NamedTemplate(path);
-            pathVariables.forEach((k, v) -> {
-                tpl.addValue(k, v);
-            });
-            path = tpl.format();
-        }
-
-        URI uri = createURI(path, convertToMultiValueMap(query), fragment);
-
-        return RestUtils2.exchangeAsRaw(restTemplate, method, uri, entity, responseType, onSuccess, retryCount);
+        return RestFacade2.exchangeAsRaw(restTemplate, method, createURI(path, pathVariables, query, fragment), entity, responseType, onSuccess, retryCount);
     }
 
     /**
@@ -2062,8 +2104,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
@@ -2113,8 +2154,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType//
             , int retryCount) {
@@ -2171,8 +2211,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
@@ -2228,8 +2267,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, Object> pathVariables, @Nullable MultiValueMap<String, Object> query,
-            String fragment //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
@@ -2276,7 +2314,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query//
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query//
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
@@ -2322,7 +2360,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , int retryCount) {
@@ -2375,7 +2413,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
@@ -2427,7 +2465,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
@@ -2474,7 +2512,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
@@ -2528,7 +2566,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
@@ -2578,7 +2616,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
@@ -2626,7 +2664,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType//
             , int retryCount) {
@@ -2681,7 +2719,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
@@ -2735,11 +2773,38 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 14.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, Object> query, String fragment //
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , int retryCount) {
         return executeAsRaw(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
+    }
+
+    @SuppressWarnings("unused")
+    private TemplateUriEncoder fragmentEncoder() {
+        Encoding enc = fragmentEncoding();
+        AssertUtils2.notNull("'Query' encoding 정보가 설정되지 않았습니다.", enc);
+        return UrlEncoderHelper.encoder(enc);
+    }
+
+    /**
+     * 'URI' 구성 중에 'fragmnet'를 'encoding'하는 방식을 제공합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 27.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 8. 27.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected Encoding fragmentEncoding() {
+        return Encoding.VALUES_ONLY_STRICT;
     }
 
     /**
@@ -2789,6 +2854,81 @@ public abstract class AbstractRestApiClient {
      */
     protected int getRetryCount() {
         return 3;
+    }
+
+    private TemplateUriEncoder pathEncoder() {
+        Encoding enc = pathEncoding();
+        AssertUtils2.notNull("'Path' encoding 정보가 설정되지 않았습니다.", enc);
+        return UrlEncoderHelper.encoder(enc);
+    }
+
+    /**
+     * 'URI' 구성 중에 '경로(path)'를 'encoding'하는 방식을 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 27.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 8. 27.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected Encoding pathEncoding() {
+        return Encoding.VALUES_ONLY_RESERVED;
+    }
+
+    private TemplateUriEncoder queryEncoder() {
+        Encoding enc = queryEncoding();
+        AssertUtils2.notNull("'Query' encoding 정보가 설정되지 않았습니다.", enc);
+        return UrlEncoderHelper.encoder(enc);
+    }
+
+    /**
+     * 'URI' 구성 중에 '쿼리(query)'를 'encoding'하는 방식을 제공합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 27.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 8. 27.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected Encoding queryEncoding() {
+        return Encoding.VALUES_ONLY_STRICT;
+    }
+
+    /**
+     * {@link RestTemplate}에서 사용할 {@link UriBuilderFactory}를 설정합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 27.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param restTemplate
+     *
+     * @since 2025. 8. 27.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected void setUriBuilderFactory(RestTemplate restTemplate) {
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory();
+        factory.setEncodingMode(EncodingMode.NONE);
+
+        restTemplate.setUriTemplateHandler(factory);
     }
 
     /**
@@ -2849,7 +2989,7 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected static final MultiValueMap<String, String> convertToMultiValueMap(@Nullable MultiValueMap<String, Object> data) {
+    protected static final MultiValueMap<String, String> convertToMultiValueMap(@Nullable MultiValueMap<String, ?> data) {
 
         MultiValueMap<String, String> m = new LinkedMultiValueMap<>();
 
@@ -2907,69 +3047,6 @@ public abstract class AbstractRestApiClient {
      */
     protected static final <REQ> HttpEntity<REQ> createHttpEntity(REQ requestBody, String... headers) {
         return new HttpEntity<REQ>(requestBody, toMultiValueMap(headers));
-    }
-
-    /**
-     * <code>[scheme:][//[userinfo@]host[:port]][/path][?query][#fragment]</code> 구조를 준수하는 {@link URI} 객체를 제공합니다.<br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜       | 작성자                           |  내용
-     * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
-     * </pre>
-     *
-     * @param scheme
-     *            연동 대상 접속 scheme
-     * @param host
-     *            연동 대상 접속 host
-     * @param port
-     *            연동 대상 접속 port
-     * @param path
-     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
-     * @param query
-     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
-     * @param fragment
-     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
-     * @return
-     *
-     * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
-     */
-    protected static final URI createURI(@NotEmpty String scheme, @NotEmpty String host, @Min(1) int port, String path, @Nullable MultiValueMap<String, String> query,
-            String fragment) {
-        return createURI(StringUtils.concatenate("", scheme, "://", host, ":", port), path, query, fragment);
-    }
-
-    /**
-     * <code>[scheme:][//[userinfo@]host[:port]][/path][?query][#fragment]</code> 구조를 준수하는 {@link URI} 객체를 제공합니다.<br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜       | 작성자                           |  내용
-     * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
-     * </pre>
-     *
-     * @param baseHttpUrl
-     *            연동 대상 접속 URL
-     * @param path
-     *            서버 상의 자원의 경로. 일반적으로 연동하는 REST API URL 정보
-     * @param query
-     *            <code>?</code> 뒤에 위치하며, key=value 형식의 파라미터.
-     * @param fragment
-     *            <code>#</code> 뒤에 위치하며, 문서 내의 특정 위치를 지정 (HTML 문서의 anchor 등)
-     * @return
-     *
-     * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
-     */
-    protected static final URI createURI(@NotEmpty String baseHttpUrl, String path, @Nullable MultiValueMap<String, String> query, String fragment) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseHttpUrl).path(path);
-        ifNotNull(query, builder::queryParams);
-        ifNotNull(fragment, builder::fragment);
-
-        return builder.build().toUri();
     }
 
     /**
@@ -3153,6 +3230,19 @@ public abstract class AbstractRestApiClient {
         }
 
         @SuppressWarnings("unchecked")
+        public static <RES, RET> Function<ResponseEntity<RES>, Result<RET>> success() {
+            return resEntity -> {
+                try {
+                    RES res = resEntity.getBody();
+                    return Result.success((RET) res);
+                } catch (Exception e) {
+                    String errMsg = String.format("연동 데이터 변환 도중 오류가 발생하였습니다. 원인=%s", e.getMessage());
+                    throw new InternalServerException(errMsg, e);
+                }
+            };
+        }
+
+        @SuppressWarnings("unchecked")
         public static <RES, RET> Function<ResponseEntity<RES>, Result<RET>> success(Logger logger) {
             return resEntity -> {
                 try {
@@ -3163,6 +3253,19 @@ public abstract class AbstractRestApiClient {
                     if (logger != null) {
                         logger.error(errMsg, e);
                     }
+                    throw new InternalServerException(errMsg, e);
+                }
+            };
+        }
+
+        @SuppressWarnings("unchecked")
+        public static <RES, RET> Function<ResponseEntity<RES>, RET> successAsRaw() {
+            return resEntity -> {
+                try {
+                    RES res = resEntity.getBody();
+                    return (RET) res;
+                } catch (Exception e) {
+                    String errMsg = String.format("연동 데이터 변환 도중 오류가 발생하였습니다. 원인=%s", e.getMessage());
                     throw new InternalServerException(errMsg, e);
                 }
             };

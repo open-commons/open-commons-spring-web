@@ -68,13 +68,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import open.commons.spring.web.async.MdcTaskDecorator;
+import open.commons.spring.web.client.CloseableRestTemplate;
 import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
 import open.commons.spring.web.resources.RestTemplateRequestFactoryResource;
 import open.commons.spring.web.resources.ScheduledThreadPoolExecutorConfig;
 import open.commons.spring.web.resources.ThreadPoolExecutorConfig;
 import open.commons.spring.web.resources.ThreadPoolTaskExecutorConfig;
 import open.commons.spring.web.resources.ThreadPoolTaskSchedulerConfig;
-import open.commons.spring.web.rest.RestUtils;
+import open.commons.spring.web.rest.RestFacade;
 import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
 import open.commons.spring.web.servlet.filter.AntPathRequest;
 
@@ -217,48 +218,48 @@ public class ResourceConfiguration {
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE)
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Primary
-    RestTemplate beanRestTemplate(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
+    CloseableRestTemplate beanRestTemplate(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
             throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
-        HttpClient httpClient = RestUtils.createHttpsClient(false);
+        HttpClient httpClient = RestFacade.createHttpsClient(false);
         HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
 
-        RestTemplate tpl = new RestTemplate(reqFactory);
+        CloseableRestTemplate tpl = new CloseableRestTemplate(reqFactory);
         return tpl;
     }
 
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_ALLOW_PRIVATE_CA)
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Primary
-    RestTemplate beanRestTemplateAllowPrivateCA(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
+    CloseableRestTemplate beanRestTemplateAllowPrivateCA(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
             throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
-        HttpClient httpClient = RestUtils.createHttpsClient(true);
+        HttpClient httpClient = RestFacade.createHttpsClient(true);
         HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
 
-        RestTemplate tpl = new RestTemplate(reqFactory);
+        CloseableRestTemplate tpl = new CloseableRestTemplate(reqFactory);
         return tpl;
     }
 
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_PROXY_MODE)
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Primary
-    RestTemplate beanRestTemplateProxyMode(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
+    CloseableRestTemplate beanRestTemplateProxyMode(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
             throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
-        HttpClient httpClient = RestUtils.createHttpsClient(false);
+        HttpClient httpClient = RestFacade.createHttpsClient(false);
         HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
 
-        RestTemplate tpl = new RestTemplate(reqFactory);
+        CloseableRestTemplate tpl = new CloseableRestTemplate(reqFactory);
         return tpl;
     }
 
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_PROXY_MODE_ALLOW_PRIVATE_CA)
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Primary
-    RestTemplate beanRestTemplateProxyModeAllowPrivateCA(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
+    CloseableRestTemplate beanRestTemplateProxyModeAllowPrivateCA(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
             throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
-        HttpClient httpClient = RestUtils.createHttpsClient(true);
+        HttpClient httpClient = RestFacade.createHttpsClient(true);
         HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
 
-        RestTemplate tpl = new RestTemplate(reqFactory);
+        CloseableRestTemplate tpl = new CloseableRestTemplate(reqFactory);
         return tpl;
     }
 

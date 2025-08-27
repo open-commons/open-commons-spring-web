@@ -1,3 +1,15 @@
+[2025/08/27]
+- New
+  + open.commons.spring.web.client.CloseableRestTemplate
+  + open.commons.spring.web.rest.RestFacade2: open.commons.spring.web.rest.RestUtil2 대체
+  + open.commons.spring.web.rest.RestFacade: open.commons.spring.web.rest.RestUtil 대체
+  + open.commons.spring.web.rest.service.ByPassUriTemplateVariables
+  + open.commons.spring.web.rest.service.MapUriTemplateVariables
+  + open.commons.spring.web.rest.service.TemplateUriEncoder
+  + open.commons.spring.web.utils.UrlEncoderHelper
+- Add
+  + open.commons.spring.web.utils.WebUtils.splitUrlTemplate(String)
+
 [2025/08/20]
 - Bugfix
   + open.commons.spring.web.beans.rest.IdBasedRestApiDecl.getHeaders()

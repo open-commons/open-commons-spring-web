@@ -35,6 +35,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Base64Utils;
@@ -56,6 +57,48 @@ import open.commons.spring.web.servlet.mvc.support.UrlInfo;
 public class WebUtils {
 
     private WebUtils() {
+    }
+
+    /**
+     * Base64로 인코딩된 문자열을 디코딩하여 반환한다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2018. 8. 22.     박준홍         최초 작성
+     * </pre>
+     *
+     * @param base64EncodeString
+     *            Base64로 인코딩된 문자열
+     * @return
+     *
+     * @since 2018. 8. 22.
+     * @see Base64Utils#decodeFromUrlSafeString(String)
+     */
+    public static final String base64DecodeFromUrlSafeString(String base64EncodeString) {
+        return new String(Base64Utils.decodeFromUrlSafeString(base64EncodeString));
+    }
+
+    /**
+     * Base64로 인코딩한 문자열을 제공한다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2018. 8. 22.     박준홍         최초 작성
+     * </pre>
+     *
+     * @param plainString
+     * @return
+     *
+     * @since 2018. 8. 22.
+     * 
+     * @see Base64Utils#encodeToUrlSafeString(byte[])
+     */
+    public static final String base64EncodeToUrlSafeString(String plainString) {
+        return Base64Utils.encodeToUrlSafeString(plainString.getBytes());
     }
 
     /**
@@ -150,48 +193,6 @@ public class WebUtils {
                         + (request.getQueryString() != null ? "?" + request.getQueryString() : "") //
                 , request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE) //
                 , request.getParameterMap()));
-    }
-
-    /**
-     * Base64로 인코딩된 문자열을 디코딩하여 반환한다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜      | 작성자   |   내용
-     * ------------------------------------------
-     * 2018. 8. 22.     박준홍         최초 작성
-     * </pre>
-     *
-     * @param base64EncodeString
-     *            Base64로 인코딩된 문자열
-     * @return
-     *
-     * @since 2018. 8. 22.
-     * @see Base64Utils#decodeFromUrlSafeString(String)
-     */
-    public static final String decodeFromUrlSafeString(String base64EncodeString) {
-        return new String(Base64Utils.decodeFromUrlSafeString(base64EncodeString));
-    }
-
-    /**
-     * Base64로 인코딩한 문자열을 제공한다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜      | 작성자   |   내용
-     * ------------------------------------------
-     * 2018. 8. 22.     박준홍         최초 작성
-     * </pre>
-     *
-     * @param plainString
-     * @return
-     *
-     * @since 2018. 8. 22.
-     * 
-     * @see Base64Utils#encodeToUrlSafeString(byte[])
-     */
-    public static final String encodeToUrlSafeString(String plainString) {
-        return Base64Utils.encodeToUrlSafeString(plainString.getBytes());
     }
 
     /**
@@ -423,4 +424,85 @@ public class WebUtils {
         return sb.toString();
     }
 
+    /**
+     * URL 문자열을 '경로' 부분과 '쿼리' 부분으로 나누어 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 8. 27.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param url
+     *            URL 문자열
+     * @return
+     *
+     * @since 2025. 8. 27.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static TemplateUrlSplit splitUrlTemplate(@NotBlank String url) {
+        url = StringUtils.notBlank(url);
+
+        int n = url.length();
+        int brace = 0;
+
+        // 1) '?' 위치(쿼리 시작) — 중괄호 밖에서만 인식
+        int qpos = -1;
+        for (int i = 0; i < n; i++) {
+            char c = url.charAt(i);
+            if (c == '{') {
+                brace++;
+            } else if (c == '}' && brace > 0) {
+                brace--;
+            } else if (c == '?' && brace == 0) {
+                qpos = i;
+                break;
+            } else
+            // 프래그먼트 시작 전에 쿼리 없으면 종료
+            if (c == '#' && brace == 0) {
+                break;
+            }
+        }
+
+        // 2) '#' 위치(프래그먼트 시작) — 중괄호 밖에서만 인식
+        int hpos = -1;
+        brace = 0;
+        for (int i = (qpos >= 0 ? qpos + 1 : 0); i < n; i++) {
+            char c = url.charAt(i);
+            if (c == '{') {
+                brace++;
+            } else if (c == '}' && brace > 0) {
+                brace--;
+            } else if (c == '#' && brace == 0) {
+                hpos = i;
+                break;
+            }
+        }
+
+        String path = url.substring(0, (qpos >= 0 ? qpos : (hpos >= 0 ? hpos : n)));
+        String query = (qpos >= 0) ? url.substring(qpos + 1, (hpos >= 0 ? hpos : n)) : null;
+
+        return new TemplateUrlSplit(path, query);
+    }
+
+    /**
+     * URL 문자열을 '경로' 부분과 '쿼리' 부분으로 나누어 제공하는 클래스.
+     * 
+     * @since 2025. 8. 27.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     */
+    public static class TemplateUrlSplit {
+        /** ({scheme}://)?({authority}@)?{host}:{port} 정보 ({query}, {fragment} 제외) */
+        public final String path;
+        /** {query}(#{fragment}) 정보 */
+        public final String query;
+
+        public TemplateUrlSplit(String path, String query) {
+            this.path = path;
+            this.query = query;
+        }
+    }
 }
