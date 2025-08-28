@@ -28,10 +28,10 @@ package open.commons.spring.web.rest.service;
 
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -63,16 +63,21 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.DefaultUriBuilderFactory.EncodingMode;
 import org.springframework.web.util.UriBuilderFactory;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import open.commons.core.Result;
 import open.commons.core.utils.AssertUtils2;
 import open.commons.core.utils.ExceptionUtils;
+import open.commons.core.utils.MapUtils;
 import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.rest.RestFacade2;
 import open.commons.spring.web.rest.service.TemplateUriEncoder.Encoding;
+import open.commons.spring.web.rest.service.TemplateUriEncoder.UriComponent;
 import open.commons.spring.web.servlet.InternalServerException;
 import open.commons.spring.web.utils.CloseableUtils;
-import open.commons.spring.web.utils.UrlEncoderHelper;
+import open.commons.spring.web.utils.UriEncodingHelper;
+import open.commons.spring.web.utils.WebUtils;
+import open.commons.spring.web.utils.WebUtils.TemplateUrlSplit;
 
 /**
  * {@link RestTemplate}를 이용하여 외부 서비스와 연동하는 기능을 제공합니다.
@@ -132,6 +137,51 @@ public abstract class AbstractRestApiClient {
     }
 
     /**
+     * <code>[scheme:][//[userinfo@]host[:port]][/path][?query][#fragment]</code> 구조를 준수하는 {@link URI} 객체를 제공합니다.<br>
+     * {@link RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)}과 유사한 패턴으로 동작하는 것을 지원.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param fqUrl
+     *            Full Qualified URL.<br>
+     *            포맷: {scheme}://({userinfo@})?{host}(:{port})?(/{path}(\?{query})?(#{fragment})?)?
+     * @param uriVariables
+     *            <code>fqUrl</code>에 사용되는 정보
+     * @return
+     *
+     * @since 2025. 8. 28.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     * 
+     * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
+     */
+    protected URI createURI(@NotBlank String fqUrl, Map<String, ?> uriVariables) {
+
+        // #1. (schemd ~ path), (query ~ fragment)
+        TemplateUrlSplit urlSplit = WebUtils.splitUrlTemplate(fqUrl);
+
+        TemplateUriEncoder httpBasedPathEncoder = pathEncoder();
+        TemplateUriEncoder queryEncoder = queryEncoder();
+        AssertUtils2.notNulls(String.format("URI encoder는 반드시 설정되어야 합니다. PathEncoder=%s, QueryEncoder=%s", httpBasedPathEncoder, queryEncoder), httpBasedPathEncoder, queryEncoder);
+
+        // 'path'
+        String encodeHttpBasePath = httpBasedPathEncoder.encode(UriComponent.PATH, urlSplit.path, new ByPassUriTemplateVariables(uriVariables));
+        // 'query' + 'fragment'
+        String encodeQuery = queryEncoder.encode(UriComponent.QUERY, urlSplit.query, new ByPassUriTemplateVariables(uriVariables));
+
+        // 모든 정보가 encoding 됨.
+        DefaultUriBuilderFactory uriFactory = new DefaultUriBuilderFactory();
+        uriFactory.setEncodingMode(EncodingMode.NONE);
+        URI uri = uriFactory.expand(String.join("?", encodeHttpBasePath, encodeQuery));
+
+        return uri;
+    }
+
+    /**
      * URI 객체를 생성하여 제공합니다. <br>
      * 
      * <pre>
@@ -154,7 +204,7 @@ public abstract class AbstractRestApiClient {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    protected URI createURI(@NotBlank String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment) {
+    protected final URI createURI(@NotBlank String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment) {
         return createURI(getBaseUrl(), path, pathVariables, convertToMultiValueMap(query), fragment);
     }
 
@@ -214,38 +264,340 @@ public abstract class AbstractRestApiClient {
      * @since 2025. 7. 2.
      * @author 박준홍(jhpark@ymtech.co.kr)
      */
-    protected final URI createURI(@NotBlank String baseHttpUrl, @NotBlank String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, String> queryVariables,
+    protected URI createURI(@NotBlank String baseHttpUrl, @NotBlank String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, String> queryVariables,
             String fragment) {
 
         TemplateUriEncoder pathEncoder = pathEncoder();
         TemplateUriEncoder queryEncoder = queryEncoder();
         AssertUtils2.notNulls(String.format("URI encoder는 반드시 설정되어야 합니다. PathEncoder=%s, QueryEncoder=%s", pathEncoder, queryEncoder), pathEncoder, queryEncoder);
-        // TemplateUriEncoder fragmentEncoder = fragmentEncoder();
-        // AssertUtils2.notNulls(String.format("URI encoder는 반드시 설정되어야 합니다. PathEncoder=%s, QueryEncoder=%s,
-        // FragmentEncoder=%s", pathEncoder, queryEncoder, fragmentEncoder),
-        // pathEncoder, queryEncoder, fragmentEncoder);
 
         // 'path'
-        String encodePath = pathEncoder.encode(path, new ByPassUriTemplateVariables(pathVariables));
+        String encodePath = pathEncoder.encode(UriComponent.PATH, path, new ByPassUriTemplateVariables(pathVariables));
         // 'query'
-        StringJoiner query = new StringJoiner("&");
-        if (queryVariables != null) {
-            for (String qn : queryVariables.keySet()) {
-                query.add(String.join("", qn, "=", "{", qn, "}"));
-            }
-        }
-        String encodeQuery = query.length() > 0 ? queryEncoder.encode("", new ByPassUriTemplateVariables(queryVariables)) : "";
+        String encodeQuery = MapUtils.isNullOrEmpty(queryVariables) //
+                ? "" //
+                : queryEncoder.encode(UriComponent.QUERY, "", new ByPassUriTemplateVariables(queryVariables));
         // 'fragment'
-        // String encodedFragment = fragmentEncoder.encode(fragment, ByPassUriTemplateVariables.emptyVariables());
+        String encodedFragment = UriUtils.encodeFragment(fragment, StandardCharsets.UTF_8);
 
+        // 모든 정보가 encoding 됨.
         URI uri = UriComponentsBuilder.fromHttpUrl(baseHttpUrl) //
                 .path(encodePath)//
                 .query(encodeQuery)//
-                .fragment(fragment) //
+                .fragment(encodedFragment) //
                 .build(true)//
                 .toUri();
-        // 모든 정보가 encoding 됨.
         return uri;
+    }
+
+    /**
+     * {@link RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)}과 유사한 패턴으로 동작하는 것을 지원합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param fqUrl
+     *            Full Qualified URL.<br>
+     *            포맷: {scheme}://({userinfo@})?{host}(:{port})?(/{path}(\?{query})?(#{fragment})?)?
+     * @param uriVariables
+     *            <code>fqUrl</code>에 사용되는 정보
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 8. 28.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     * 
+     * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
+     */
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String fqUrl, Map<String, ?> uriVariables //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , @NotNull Function<Exception, Result<RET>> onError //
+            , int retryCount //
+    ) {
+        return RestFacade2.exchange(this.restTemplate, method, createURI(fqUrl, uriVariables), entity, responseType, onSuccess, onError, retryCount);
+    }
+
+    /**
+     * {@link RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)}과 유사한 패턴으로 동작하는 것을 지원합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param fqUrl
+     *            Full Qualified URL.<br>
+     *            포맷: {scheme}://({userinfo@})?{host}(:{port})?(/{path}(\?{query})?(#{fragment})?)?
+     * @param uriVariables
+     *            <code>fqUrl</code>에 사용되는 정보
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 8. 28.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     * 
+     * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
+     */
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String fqUrl, Map<String, ?> uriVariables //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , int retryCount //
+    ) {
+        return execute(method, fqUrl, uriVariables, entity, responseType, onSuccess, CallbackOn.error(), retryCount);
+    }
+
+    /**
+     * {@link RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)}과 유사한 패턴으로 동작하는 것을 지원합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param fqUrl
+     *            Full Qualified URL.<br>
+     *            포맷: {scheme}://({userinfo@})?{host}(:{port})?(/{path}(\?{query})?(#{fragment})?)?
+     * @param uriVariables
+     *            <code>fqUrl</code>에 사용되는 정보
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 8. 28.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     * 
+     * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
+     */
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String fqUrl, Map<String, ?> uriVariables //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull Class<RES> responseType //
+            , int retryCount //
+    ) {
+        return execute(method, fqUrl, uriVariables, entity, responseType, CallbackOn.success(this.logger), CallbackOn.error(), retryCount);
+    }
+
+    /**
+     * {@link RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)}과 유사한 패턴으로 동작하는 것을 지원합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param fqUrl
+     *            Full Qualified URL.<br>
+     *            포맷: {scheme}://({userinfo@})?{host}(:{port})?(/{path}(\?{query})?(#{fragment})?)?
+     * @param uriVariables
+     *            <code>fqUrl</code>에 사용되는 정보
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param onError
+     *            오류가 발생했을 경우 처리하는 함수.
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 8. 28.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     * 
+     * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
+     */
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String fqUrl, Map<String, ?> uriVariables //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , Function<Exception, Result<RET>> onError //
+            , int retryCount //
+    ) {
+        return RestFacade2.exchange(this.restTemplate, method, createURI(fqUrl, uriVariables), entity, responseType, onSuccess, onError, retryCount);
+    }
+
+    /**
+     * {@link RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)}과 유사한 패턴으로 동작하는 것을 지원합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param fqUrl
+     *            Full Qualified URL.<br>
+     *            포맷: {scheme}://({userinfo@})?{host}(:{port})?(/{path}(\?{query})?(#{fragment})?)?
+     * @param uriVariables
+     *            <code>fqUrl</code>에 사용되는 정보
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 8. 28.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     * 
+     * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
+     */
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String fqUrl, Map<String, ?> uriVariables //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
+            , int retryCount //
+    ) {
+        return execute(method, fqUrl, uriVariables, entity, responseType, onSuccess, CallbackOn.error(), retryCount);
+    }
+
+    /**
+     * {@link RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)}과 유사한 패턴으로 동작하는 것을 지원합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param fqUrl
+     *            Full Qualified URL.<br>
+     *            포맷: {scheme}://({userinfo@})?{host}(:{port})?(/{path}(\?{query})?(#{fragment})?)?
+     * @param uriVariables
+     *            <code>fqUrl</code>에 사용되는 정보
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * 
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 8. 28.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     * 
+     * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
+     */
+    protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String fqUrl, Map<String, ?> uriVariables //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , int retryCount //
+    ) {
+        return execute(method, fqUrl, uriVariables, entity, responseType, CallbackOn.success(this.logger), CallbackOn.error(), retryCount);
     }
 
     /**
@@ -297,7 +649,8 @@ public abstract class AbstractRestApiClient {
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -347,7 +700,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
 
@@ -394,7 +748,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(),
                 retryCount);
     }
@@ -454,7 +809,8 @@ public abstract class AbstractRestApiClient {
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -510,7 +866,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
 
@@ -563,7 +920,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(),
                 retryCount);
     }
@@ -617,7 +975,8 @@ public abstract class AbstractRestApiClient {
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return RestFacade2.exchange(restTemplate, method, createURI(path, pathVariables, query, fragment), entity, responseType, onSuccess, onError, retryCount);
     }
 
@@ -676,7 +1035,8 @@ public abstract class AbstractRestApiClient {
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return RestFacade2.exchange(restTemplate, method, createURI(path, pathVariables, query, fragment), entity, responseType, onSuccess, onError, retryCount);
     }
 
@@ -731,7 +1091,8 @@ public abstract class AbstractRestApiClient {
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -783,7 +1144,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
 
@@ -832,7 +1194,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType//
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(),
                 retryCount);
     }
@@ -894,7 +1257,8 @@ public abstract class AbstractRestApiClient {
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -952,7 +1316,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
 
@@ -1007,7 +1372,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(),
                 retryCount);
     }
@@ -1059,7 +1425,8 @@ public abstract class AbstractRestApiClient {
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -1107,7 +1474,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
 
@@ -1152,7 +1520,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(),
                 retryCount);
     }
@@ -1210,7 +1579,8 @@ public abstract class AbstractRestApiClient {
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -1264,7 +1634,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
 
@@ -1315,7 +1686,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(),
                 retryCount);
     }
@@ -1367,7 +1739,8 @@ public abstract class AbstractRestApiClient {
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, fragment, entity, responseType, onSuccess, onError, retryCount);
     }
 
@@ -1424,7 +1797,8 @@ public abstract class AbstractRestApiClient {
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, fragment, entity, responseType, onSuccess, onError, retryCount);
     }
 
@@ -1477,7 +1851,8 @@ public abstract class AbstractRestApiClient {
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -1527,7 +1902,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
 
@@ -1574,7 +1950,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType//
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(), retryCount);
     }
 
@@ -1633,7 +2010,8 @@ public abstract class AbstractRestApiClient {
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
             , @NotNull Function<Exception, Result<RET>> onError //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, onError, retryCount);
     }
 
@@ -1689,7 +2067,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, CallbackOn.error(), retryCount);
     }
 
@@ -1742,8 +2121,209 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return execute(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.success(this.logger), CallbackOn.error(), retryCount);
+    }
+
+    /**
+     * {@link RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)}과 유사한 패턴으로 동작하는 것을 지원합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param fqUrl
+     *            Full Qualified URL.<br>
+     *            포맷: {scheme}://({userinfo@})?{host}(:{port})?(/{path}(\?{query})?(#{fragment})?)?
+     * @param uriVariables
+     *            <code>fqUrl</code>에 사용되는 정보
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 8. 28.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     * 
+     * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String fqUrl, Map<String, ?> uriVariables //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull Class<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount //
+    ) {
+        return RestFacade2.exchangeAsRaw(this.restTemplate, method, createURI(fqUrl, uriVariables), entity, responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * {@link RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)}과 유사한 패턴으로 동작하는 것을 지원합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param fqUrl
+     *            Full Qualified URL.<br>
+     *            포맷: {scheme}://({userinfo@})?{host}(:{port})?(/{path}(\?{query})?(#{fragment})?)?
+     * @param uriVariables
+     *            <code>fqUrl</code>에 사용되는 정보
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 8. 28.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     * 
+     * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String fqUrl, Map<String, ?> uriVariables //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull Class<RES> responseType //
+            , int retryCount //
+    ) {
+        return executeAsRaw(method, fqUrl, uriVariables, entity, responseType, CallbackOn.successAsRaw(this.logger), retryCount);
+    }
+
+    /**
+     * {@link RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)}과 유사한 패턴으로 동작하는 것을 지원합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param fqUrl
+     *            Full Qualified URL.<br>
+     *            포맷: {scheme}://({userinfo@})?{host}(:{port})?(/{path}(\?{query})?(#{fragment})?)?
+     * @param uriVariables
+     *            <code>fqUrl</code>에 사용되는 정보
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param onSuccess
+     *            &lt;RES&gt; 데이터를 Result&lt;RET&gt; 데이터를 변환하는 함수
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 8. 28.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     * 
+     * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String fqUrl, Map<String, ?> uriVariables //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
+            , int retryCount //
+    ) {
+        return RestFacade2.exchangeAsRaw(this.restTemplate, method, createURI(fqUrl, uriVariables), entity, responseType, onSuccess, retryCount);
+    }
+
+    /**
+     * {@link RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)}과 유사한 패턴으로 동작하는 것을 지원합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜       | 작성자                           |  내용
+     * ------------------------------------------------------------------------
+     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * </pre>
+     *
+     * @param <REQ>
+     *            요청 데이터 유형
+     * @param <RES>
+     *            연동 서비스가 제공하는 데이터 유형
+     * @param <RET>
+     *            실제 제공하는 데이터 유형
+     * @param method
+     *            Http 요청 방식
+     * @param fqUrl
+     *            Full Qualified URL.<br>
+     *            포맷: {scheme}://({userinfo@})?{host}(:{port})?(/{path}(\?{query})?(#{fragment})?)?
+     * @param uriVariables
+     *            <code>fqUrl</code>에 사용되는 정보
+     * @param entity
+     *            요청 데이터. <br>
+     *            <code>method</code>가 {@link HttpMethod#GET}, {@link HttpMethod#DELETE} 등과 같이 없는 경우 <code>null</code>
+     * @param responseType
+     *            연동 서비스가 제공하는 데이터 유형<br>
+     *            제공하는 데이터가 ({@link List}) 형태일 경우 사용<br>
+     * 
+     *            <pre>
+     *            ParameterizedTypeReference&lt;List&lt;UserInfo&gt;&gt; restype = new ParameterizedTypeReference&lt;&gt;() {
+     *            };
+     *            </pre>
+     * 
+     * @param retryCount
+     *            오류 발생시 재시도 횟수
+     * @return
+     *
+     * @since 2025. 8. 28.
+     * @author 박준홍(jhpark@ymtech.co.kr)
+     * 
+     * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
+     */
+    protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String fqUrl, Map<String, ?> uriVariables //
+            , @Nullable HttpEntity<REQ> entity //
+            , @NotNull ParameterizedTypeReference<RES> responseType //
+            , int retryCount //
+    ) {
+        return executeAsRaw(method, fqUrl, uriVariables, entity, responseType, CallbackOn.successAsRaw(this.logger), retryCount);
     }
 
     /**
@@ -1792,7 +2372,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
     }
 
@@ -1839,7 +2420,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger),
                 retryCount);
     }
@@ -1896,7 +2478,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
     }
 
@@ -1949,7 +2532,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, pathVariables, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger),
                 retryCount);
     }
@@ -2000,8 +2584,9 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpEntity<REQ> entity //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-            , int retryCount) {
-        return RestFacade2.exchangeAsRaw(restTemplate, method, createURI(path, pathVariables, query, fragment), entity, responseType, onSuccess, retryCount);
+            , int retryCount //
+    ) {
+        return RestFacade2.exchangeAsRaw(this.restTemplate, method, createURI(path, pathVariables, query, fragment), entity, responseType, onSuccess, retryCount);
     }
 
     /**
@@ -2056,8 +2641,9 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpEntity<REQ> entity //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-            , int retryCount) {
-        return RestFacade2.exchangeAsRaw(restTemplate, method, createURI(path, pathVariables, query, fragment), entity, responseType, onSuccess, retryCount);
+            , int retryCount //
+    ) {
+        return RestFacade2.exchangeAsRaw(this.restTemplate, method, createURI(path, pathVariables, query, fragment), entity, responseType, onSuccess, retryCount);
     }
 
     /**
@@ -2108,7 +2694,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
     }
 
@@ -2157,7 +2744,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType//
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
     }
 
@@ -2215,7 +2803,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
     }
 
@@ -2270,7 +2859,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, pathVariables, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
     }
 
@@ -2318,7 +2908,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
     }
 
@@ -2363,7 +2954,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
     }
 
@@ -2417,7 +3009,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
     }
 
@@ -2468,7 +3061,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, null, query, (String) null, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
     }
 
@@ -2516,7 +3110,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpEntity<REQ> entity //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, null, query, fragment, entity, responseType, onSuccess, retryCount);
     }
 
@@ -2570,7 +3165,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpEntity<REQ> entity //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, null, query, fragment, entity, responseType, onSuccess, retryCount);
     }
 
@@ -2620,7 +3216,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
     }
 
@@ -2667,7 +3264,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull Class<RES> responseType//
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
     }
 
@@ -2723,7 +3321,8 @@ public abstract class AbstractRestApiClient {
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, onSuccess, retryCount);
     }
 
@@ -2776,7 +3375,8 @@ public abstract class AbstractRestApiClient {
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
             , @NotNull ParameterizedTypeReference<RES> responseType //
-            , int retryCount) {
+            , int retryCount //
+    ) {
         return executeAsRaw(method, path, null, query, fragment, createHttpEntity(requestBody, headers), responseType, CallbackOn.successAsRaw(this.logger), retryCount);
     }
 
@@ -2784,7 +3384,7 @@ public abstract class AbstractRestApiClient {
     private TemplateUriEncoder fragmentEncoder() {
         Encoding enc = fragmentEncoding();
         AssertUtils2.notNull("'Query' encoding 정보가 설정되지 않았습니다.", enc);
-        return UrlEncoderHelper.encoder(enc);
+        return UriEncodingHelper.encoder(enc);
     }
 
     /**
@@ -2859,7 +3459,7 @@ public abstract class AbstractRestApiClient {
     private TemplateUriEncoder pathEncoder() {
         Encoding enc = pathEncoding();
         AssertUtils2.notNull("'Path' encoding 정보가 설정되지 않았습니다.", enc);
-        return UrlEncoderHelper.encoder(enc);
+        return UriEncodingHelper.encoder(enc);
     }
 
     /**
@@ -2885,7 +3485,7 @@ public abstract class AbstractRestApiClient {
     private TemplateUriEncoder queryEncoder() {
         Encoding enc = queryEncoding();
         AssertUtils2.notNull("'Query' encoding 정보가 설정되지 않았습니다.", enc);
-        return UrlEncoderHelper.encoder(enc);
+        return UriEncodingHelper.encoder(enc);
     }
 
     /**

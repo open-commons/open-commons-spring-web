@@ -27,7 +27,7 @@
 package open.commons.spring.web.rest.service;
 
 import javax.annotation.Nonnull;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.web.util.DefaultUriBuilderFactory.EncodingMode;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -52,18 +52,21 @@ public interface TemplateUriEncoder {
      * ------------------------------------------
      * 2025. 8. 27.		박준홍			최초 작성
      * </pre>
-     *
+     * 
+     * @param uriComponent
+     *            'URI' 구성요소
      * @param template
      *            'URI 템플릿' 문자열
      * @param varaibles
      *            'URI 템플릿'에 사용될 정보
+     *
      * @return
      *
      * @since 2025. 8. 27.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    String encode(@NotBlank @Nonnull String template, ByPassUriTemplateVariables varaibles);
+    String encode(@NotNull @Nonnull UriComponent uriComponent, @NotNull @Nonnull String template, ByPassUriTemplateVariables varaibles);
 
     /**
      * <pre>
@@ -152,5 +155,32 @@ public interface TemplateUriEncoder {
         NONE,
         //
         ;
+    }
+
+    /**
+     * Full Qualified URL 구성요소<br>
+     * 포맷: {scheme}://({userinfo@})?{host}(:{port})?(/{path}(\?{query})?(#{fragment})?)?
+     * 
+     * @since 2025. 8. 28.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     */
+    public static enum UriComponent {
+        /** URI */
+        URI,
+        /** scheme */
+        SCHEME,
+        /** userinfo */
+        USER_INFO,
+        /** host */
+        HOST,
+        /** port */
+        PORT,
+        /** path */
+        PATH,
+        /** query */
+        QUERY,
+        /** fragment */
+        FRAGMENT,
     }
 }
