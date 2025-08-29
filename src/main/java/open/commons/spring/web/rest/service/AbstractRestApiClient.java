@@ -173,12 +173,12 @@ public abstract class AbstractRestApiClient {
         String encodedQuery = queryEncoder.encode(UriComponent.QUERY, urlSplit.query, new ByPassUriTemplateVariables(uriVariables));
 
         // 모든 정보가 encoding 됨.
-     // 모든 정보가 encoding 됨.
+        // 모든 정보가 encoding 됨.
         StringBuilder pathAll = new StringBuilder(encodedHttpBasePath);
         if (!StringUtils.isNullOrEmptyString(encodedQuery)) {
             pathAll.append("?").append(encodedQuery);
         }
-        
+
         DefaultUriBuilderFactory uriFactory = new DefaultUriBuilderFactory();
         uriFactory.setEncodingMode(EncodingMode.NONE);
         URI uri = uriFactory.expand(pathAll.toString());
@@ -287,7 +287,7 @@ public abstract class AbstractRestApiClient {
 
         // 모든 정보가 encoding 됨.
         StringBuilder pathAll = new StringBuilder(baseHttpUrl).append(encodedPath);
-        if (!StringUtils.isNullOrEmptyString(encodedFragment)) {
+        if (!StringUtils.isNullOrEmptyString(encodedQuery)) {
             pathAll.append("?").append(encodedQuery);
         }
         if (!StringUtils.isNullOrEmptyString(encodedFragment)) {
