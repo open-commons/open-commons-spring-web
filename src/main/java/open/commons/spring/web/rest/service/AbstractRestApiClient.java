@@ -62,7 +62,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.DefaultUriBuilderFactory.EncodingMode;
 import org.springframework.web.util.UriBuilderFactory;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
 import open.commons.core.Result;
@@ -169,14 +168,20 @@ public abstract class AbstractRestApiClient {
         AssertUtils2.notNulls(String.format("URI encoder는 반드시 설정되어야 합니다. PathEncoder=%s, QueryEncoder=%s", httpBasedPathEncoder, queryEncoder), httpBasedPathEncoder, queryEncoder);
 
         // 'path'
-        String encodeHttpBasePath = httpBasedPathEncoder.encode(UriComponent.PATH, urlSplit.path, new ByPassUriTemplateVariables(uriVariables));
+        String encodedHttpBasePath = httpBasedPathEncoder.encode(UriComponent.PATH, urlSplit.path, new ByPassUriTemplateVariables(uriVariables));
         // 'query' + 'fragment'
-        String encodeQuery = queryEncoder.encode(UriComponent.QUERY, urlSplit.query, new ByPassUriTemplateVariables(uriVariables));
+        String encodedQuery = queryEncoder.encode(UriComponent.QUERY, urlSplit.query, new ByPassUriTemplateVariables(uriVariables));
 
         // 모든 정보가 encoding 됨.
+     // 모든 정보가 encoding 됨.
+        StringBuilder pathAll = new StringBuilder(encodedHttpBasePath);
+        if (!StringUtils.isNullOrEmptyString(encodedQuery)) {
+            pathAll.append("?").append(encodedQuery);
+        }
+        
         DefaultUriBuilderFactory uriFactory = new DefaultUriBuilderFactory();
         uriFactory.setEncodingMode(EncodingMode.NONE);
-        URI uri = uriFactory.expand(String.join("?", encodeHttpBasePath, encodeQuery));
+        URI uri = uriFactory.expand(pathAll.toString());
 
         return uri;
     }
@@ -272,21 +277,27 @@ public abstract class AbstractRestApiClient {
         AssertUtils2.notNulls(String.format("URI encoder는 반드시 설정되어야 합니다. PathEncoder=%s, QueryEncoder=%s", pathEncoder, queryEncoder), pathEncoder, queryEncoder);
 
         // 'path'
-        String encodePath = pathEncoder.encode(UriComponent.PATH, path, new ByPassUriTemplateVariables(pathVariables));
+        String encodedPath = pathEncoder.encode(UriComponent.PATH, path, new ByPassUriTemplateVariables(pathVariables));
         // 'query'
-        String encodeQuery = MapUtils.isNullOrEmpty(queryVariables) //
+        String encodedQuery = MapUtils.isNullOrEmpty(queryVariables) //
                 ? "" //
                 : queryEncoder.encode(UriComponent.QUERY, "", new ByPassUriTemplateVariables(queryVariables));
         // 'fragment'
         String encodedFragment = UriUtils.encodeFragment(fragment, StandardCharsets.UTF_8);
 
         // 모든 정보가 encoding 됨.
-        URI uri = UriComponentsBuilder.fromHttpUrl(baseHttpUrl) //
-                .path(encodePath)//
-                .query(encodeQuery)//
-                .fragment(encodedFragment) //
-                .build(true)//
-                .toUri();
+        StringBuilder pathAll = new StringBuilder(baseHttpUrl).append(encodedPath);
+        if (!StringUtils.isNullOrEmptyString(encodedFragment)) {
+            pathAll.append("?").append(encodedQuery);
+        }
+        if (!StringUtils.isNullOrEmptyString(encodedFragment)) {
+            pathAll.append(encodedFragment);
+        }
+
+        // 모든 정보가 encoding 됨.
+        DefaultUriBuilderFactory uriFactory = new DefaultUriBuilderFactory();
+        uriFactory.setEncodingMode(EncodingMode.NONE);
+        URI uri = uriFactory.expand(pathAll.toString());
         return uri;
     }
 
