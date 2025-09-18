@@ -198,7 +198,7 @@ public class AuthorizedFieldSerializer extends JsonSerializer<Object> implements
         if (authField != null) {
             handle = authField.handleType();
         } else {
-            AuthorizedFieldMetadata afm = this.authorizedResourcesMetadata.getAuthorizedFieldMetadata(serializedType, fieldName);
+            AuthorizedFieldMetadata afm = this.authorizedResourcesMetadata.getAuthorizedFieldMetadata(this.serializedType, fieldName);
             if (afm == null) {
                 afm = this.authorizedResourcesMetadata.getAuthorizedFieldMetadata(declaringClass, fieldName);
             }

@@ -1,3 +1,22 @@
+[2025/09/18]
+- New
+  + open.commons.spring.web.authority.AuthorizedData: 'AuthorizedField'에  의해 처리된 데이터를 원복하는 기능을 선언.
+  + open.commons.spring.web.beans.resolver: 'AuthorizedField'에  의해 처리된 데이터를 원복하는 기능을 제공 (PathVariable, RequestParam, ModelAttribute 지원)
+    + AuthorizedDataArgumentResolver
+    + AuthorizedDataModelAttributeProcessor
+    + AuthorizedDataModelAttributeResolver
+    + IAuthorizedDataResolver
+  + open.commons.spring.web.beans.authority.IAuthorizedDataHandler: 데이터를 원복하는 기능을 제공.
+- Add
+  + open.commons.spring.web.config.CustomWebMvcAutoConfiguration
+    + authorizedDataArgumentRevolser(ApplicationContext): PathVariable, RequestParam 지원.
+    + authorizedDataModelAttributeResolver(ApplicationContext): ModelAttribute 지원.
+    + authorizedDataResolver(Map&lt;String, IAuthorizedDataResolver&gt;, Map&lt;String, List&lt;IAuthorizedDataResolver&gt;&gt;): 통합하여 Bean으로 제공
+    + reorderArgumentResolvers(): 전체 Resolver에서 'IAuthorizedDataResolver'를 최우선으로 배치.
+  + open.commons.spring.web.config.CustomWebMvcConfigurer
+    + addArgumentResolvers(List&lt;HandlerMethodArgumentResolver&gt;):  내부 설정에 'IAuthorizedDataResolver' 추가
+    + setAuthorizedDataResolver(List&lt;IAuthorizedDataResolver&gt;): 내부에 추가하기 위해서 Bean을 전달받음.
+
 [2025/08/27]
 - New
   + open.commons.spring.web.client.CloseableRestTemplate

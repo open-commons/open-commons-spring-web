@@ -44,6 +44,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -54,6 +55,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.annotation.RequestValueSupported;
 import open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration;
+import open.commons.spring.web.beans.resolver.IAuthorizedDataResolver;
 import open.commons.spring.web.enums.EnumConverter;
 import open.commons.spring.web.enums.EnumConverterFactory;
 import open.commons.spring.web.enums.EnumPackages;
@@ -218,6 +220,9 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     /** {@link HandlerInterceptor}에서 처리하지 않을 URL 패턴 설정 */
     private Set<InterceptorIgnoreUrlProperties> interceptorIgnoreUrlConfigurations;
 
+    /** 커스텀 {@link HandlerMethodArgumentResolver} */
+    private List<IAuthorizedDataResolver> argumentResolvers = new ArrayList<>();
+
     /**
      * @deprecated {@link #setEnumPkgs(EnumPackages)} 메소드 내부에서 {@link AutoConfigurationPackages}를 이용해서 BasePackage 정보를
      *             추출해서 사용함.<br>
@@ -229,6 +234,21 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     public CustomWebMvcConfigurer(ApplicationContext context, Environment env) {
         this.context = context;
         this.environment = env;
+    }
+
+    /**
+     *
+     * @since 2025. 9. 18.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addArgumentResolvers(java.util.List)
+     */
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        this.argumentResolvers.forEach(r -> {
+            resolvers.add(0, r);
+        });
     }
 
     /**
@@ -391,9 +411,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
         WebMvcConfigurer.super.addResourceHandlers(registry);
-
         addStaticResourceHandlers(registry);
     }
 
@@ -506,6 +524,29 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
         // logger.info("Register a HttpMessageConverter. {}.", converter);
         // });
 
+    }
+
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 18.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param argResolver
+     * @param modelResolver
+     *
+     * @since 2025. 9. 18.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Autowired
+    public void setAuthorizedDataResolver(@Qualifier(CustomWebMvcAutoConfiguration.BEAN_QUALIFIER_AUTHORIZED_DATA_RESOLVERS) List<IAuthorizedDataResolver> resolvers) {
+        this.argumentResolvers.addAll(resolvers);
     }
 
     /**
