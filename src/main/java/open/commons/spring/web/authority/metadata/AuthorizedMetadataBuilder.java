@@ -38,6 +38,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 
 import open.commons.core.utils.ExceptionUtils;
@@ -57,6 +59,8 @@ import open.commons.spring.web.utils.ClassInspector;
  * @author parkjunhong77@gmail.com
  */
 public class AuthorizedMetadataBuilder {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizedMetadataBuilder.class);
 
     private AuthorizedMetadataBuilder() {
     }
@@ -225,9 +229,10 @@ public class AuthorizedMetadataBuilder {
                     }
                 }
             } catch (Exception e) {
-                throw ExceptionUtils.newException(InternalServerException.class, e,
-                        "데이터 처리 도중 오류가 발생하였습니다. target.class=%s, target.method=%s, target.object=%s / builder.class=%s, builder.field=%s, builder.object=%s" //
+                String errMsg = String.format("데이터 처리 도중 오류가 발생하였습니다. target.class=%s, target.method=%s, target.object=%s / builder.class=%s, builder.field=%s, builder.object=%s" //
                         , targetClass, targetMethod, newObject, builderClass, builderField, builder);
+                LOGGER.error(errMsg, e);
+                throw ExceptionUtils.newException(InternalServerException.class, e, errMsg);
             }
 
             return newObject;
