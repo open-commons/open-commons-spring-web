@@ -33,8 +33,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.springframework.context.annotation.Bean;
+
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
+import open.commons.spring.web.beans.authority.builtin.AuthorizedResourceHandler;
+import open.commons.spring.web.beans.authority.builtin.ResourceHandle;
+import open.commons.spring.web.config.AuthorizedHandles;
 
 /**
  * 권한제어를 적용하는 클래스 선언.
@@ -90,13 +95,16 @@ public @interface AuthorizedObject {
 
     /**
      * 권한제어 기능을 제공하는 Bean 이름(식별정보)을 설정합니다. <br>
-     * 설정되는 Bean은 반드시 {@link IUnauthorizedFieldHandler}를 구현해야 합니다.
+     * 설정되는 {@link Bean}은 반드시 {@link IUnauthorizedFieldHandler}를 구현해야 합니다.<br>
+     * 별도로 설정하지 않는 경우 기본값 {@link AuthorizedHandles}이 적용됩니다.<br>
+     * 이 경우 {@link #handleType()}에 사용하는 값으 {@link AuthorizedHandles}에서 제공하는 값을 사용하거나 {@link ResourceHandle}를 추가 등록해서 사용할
+     * 수 있습니다.
      * 
      * <pre>
      * [개정이력]
-     *      날짜    	| 작성자	|	내용
+     *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 5. 26.		박준홍			최초 작성
+     * 2025. 5. 26.     박준홍         최초 작성
      * </pre>
      *
      * @return
@@ -105,7 +113,7 @@ public @interface AuthorizedObject {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    String fieldHandleBean() default "";
+    String fieldHandleBean() default AuthorizedResourceHandler.BEAN_QUALIFIER;
 
     /**
      * 데이터 유형 이름<br>

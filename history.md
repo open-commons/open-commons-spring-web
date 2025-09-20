@@ -1,3 +1,29 @@
+[2025/09/20]
+- New
+  + open.commons.spring.web.authority.metadata
+    + AuthorizedRequestDataFieldMetadata
+    + AuthorizedRequestDataMetadataBuilder
+    + AuthorizedRequestDataObjectMetadata
+  + open.commons.spring.web.beans.authority.builtin
+    + AuthorizedResourceHandler
+    + ResourceHandle
+    + ResourceHandleImpl
+  + open.commons.spring.web.config
+    + AuthorizedHandles
+  + open.commons.spring.web.exception
+    + BeanMergeFailedException
+- Add
+  + open.commons.spring.web.config.CustomWebMvcAutoConfiguration
+    + authorizedDataArgumentRevolser(ApplicationContext)
+    + authorizedDataModelAttributeResolver(ApplicationContext)
+    + authorizedDataResolver(Map&lt;String, IAuthorizedDataResolver&gt;, Map&lt;String, List&lt;IAuthorizedDataResolver&gt;&gt;)
+    + reorderArgumentResolvers()
+- Rename
+  + open.commons.spring.web.authority
+    + AuthorizedData -> AuthorizedRequestData
+  + open.commons.spring.web.beans.authority
+    + IAuthorizedDataHandler -> IAuthorizedRequestDataHandler
+
 [2025/09/18]
 - New
   + open.commons.spring.web.authority.AuthorizedData: 'AuthorizedField'에  의해 처리된 데이터를 원복하는 기능을 선언.

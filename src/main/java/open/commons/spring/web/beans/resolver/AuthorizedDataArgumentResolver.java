@@ -47,13 +47,13 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.core.utils.StringUtils;
-import open.commons.spring.web.authority.AuthorizedData;
+import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration;
-import open.commons.spring.web.beans.authority.IAuthorizedDataHandler;
+import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 import open.commons.spring.web.servlet.InternalServerException;
 
 /**
- * "{@link AuthorizedData} && ({@link PathVariable} || {@link RequestParam})"가 선언된 파라미터를 처리합니다.<br>
+ * "{@link AuthorizedRequestData} && ({@link PathVariable} || {@link RequestParam})"가 선언된 파라미터를 처리합니다.<br>
  * {@link AuthorizedResourcesConfiguration}을 통해서 {@link Bean}으로 제공됩니다.
  * 
  * @since 2025. 9. 18.
@@ -101,9 +101,6 @@ public class AuthorizedDataArgumentResolver implements IAuthorizedDataResolver {
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-        String handleBean = parameter.getParameterAnnotation(AuthorizedData.class).handleBean();
-        int handleType = parameter.getParameterAnnotation(AuthorizedData.class).handleType();
-
         // #1. 파라미터 이름
         boolean isPathVariable = false;
         String parameterName = null;
@@ -131,14 +128,13 @@ public class AuthorizedDataArgumentResolver implements IAuthorizedDataResolver {
         }
 
         // #3. 데이터 원복
-        IAuthorizedDataHandler handler = null;
+        AuthorizedRequestData anno = parameter.getParameterAnnotation(AuthorizedRequestData.class);
         try {
-            handler = this.context.getBean(handleBean, IAuthorizedDataHandler.class);
-            return handler.restoreValue(handleType, rawValue);
+            return restoreValue(context, anno, rawValue);
         } catch (BeansException e) {
             String errMsg = String
                     .format("'권한 제어가 적용된 파라미터'를 처리하는 도중 오류가 발생하였습니다. parameter.name=%s, parameter.raw_value=%s, handle.beanname=%s, handle.type=%s, handle.class=%s, 원인=%s" //
-                            , parameterName, rawValue, handleBean, handleType, IAuthorizedDataHandler.class.getName(), e.getMessage());
+                            , parameterName, rawValue, anno.handleBean(), anno.handleType(), IAuthorizedRequestDataHandler.class.getName(), e.getMessage());
             logger.error("{}", errMsg, e);
 
             throw ExceptionUtils.newException(InternalServerException.class, e, errMsg);
@@ -147,7 +143,7 @@ public class AuthorizedDataArgumentResolver implements IAuthorizedDataResolver {
     }
 
     /**
-     * "{@link AuthorizedData} && ({@link PathVariable} || {@link RequestParam})"가 선언된 파라미터만 지원합니다.
+     * "{@link AuthorizedRequestData} && ({@link PathVariable} || {@link RequestParam})"가 선언된 파라미터만 지원합니다.
      * 
      * @since 2025. 9. 18.
      * @version 0.8.0
@@ -157,7 +153,7 @@ public class AuthorizedDataArgumentResolver implements IAuthorizedDataResolver {
      */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(AuthorizedData.class) //
+        return parameter.hasParameterAnnotation(AuthorizedRequestData.class) //
                 && (parameter.hasParameterAnnotation(PathVariable.class) //
                         || parameter.hasParameterAnnotation(RequestParam.class));
     }

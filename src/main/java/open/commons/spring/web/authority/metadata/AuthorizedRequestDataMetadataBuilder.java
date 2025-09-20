@@ -18,7 +18,7 @@
  *
  * This file is generated under this project, "open-commons-spring-web".
  *
- * Date  : 2025. 6. 18. 오후 2:30:05
+ * Date  : 2025. 9. 20. 오후 3:05:21
  *
  * Author: parkjunhong77@gmail.com
  * 
@@ -42,23 +42,22 @@ import org.springframework.context.annotation.Bean;
 
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.core.utils.StringUtils;
+import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.authority.AuthorizedField;
-import open.commons.spring.web.authority.AuthorizedObject;
-import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
-import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
+import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 import open.commons.spring.web.servlet.InternalServerException;
 import open.commons.spring.web.utils.ClassInspector;
 
 /**
- * {@link AuthorizedObjectMetadata} 객체를 생성하는 "계층형 Builder".
+ * {@link AuthorizedRequestDataObjectMetadata} 객체를 생성하는 "계층형 Builder".
  * 
- * @since 2025. 6. 18.
+ * @since 2025. 9. 20.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class AuthorizedMetadataBuilder {
+public class AuthorizedRequestDataMetadataBuilder {
 
-    private AuthorizedMetadataBuilder() {
+    private AuthorizedRequestDataMetadataBuilder() {
     }
 
     /**
@@ -74,7 +73,7 @@ public class AuthorizedMetadataBuilder {
     public interface Builder {
 
         /**
-         * 1개의 {@link AuthorizedObjectMetadata}를 생성하는 빌더를 제공합니다. <br>
+         * 1개의 {@link AuthorizedRequestDataObjectMetadata}를 생성하는 빌더를 제공합니다. <br>
          * 
          * <pre>
          * [개정이력]
@@ -85,14 +84,14 @@ public class AuthorizedMetadataBuilder {
          *
          * @return
          *
-         * @since 2025. 6. 18.
+         * @since 2025. 9. 20.
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
         ObjectBuilder object();
 
         /**
-         * 여러 개의 {@link AuthorizedObjectMetadata}를 생성하는 빌더를 제공합니다. <br>
+         * 여러 개의 {@link AuthorizedRequestDataObjectMetadata}를 생성하는 빌더를 제공합니다. <br>
          * <br>
          * 
          * <pre>
@@ -237,22 +236,17 @@ public class AuthorizedMetadataBuilder {
          * 내부 FieldMetadata Builder
          */
         @SuppressWarnings("unused")
-        private static class AuthorizedFieldMetadataBuilder {
-            private String authorityBean;
-            private String fieldHandleBean;
+        private static class AuthorizedDataFieldMetadataBuilder {
+            private String handleBean;
             private int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
             private String name;
 
-            public void authorityBean(String authorityBean) {
-                this.authorityBean = authorityBean;
+            public AuthorizedRequestDataFieldMetadata build() {
+                return newObject(AuthorizedRequestDataFieldMetadata.class, this);
             }
 
-            public AuthorizedFieldMetadata build() {
-                return newObject(AuthorizedFieldMetadata.class, this);
-            }
-
-            public void fieldHandleBean(String fieldHandleBean) {
-                this.fieldHandleBean = fieldHandleBean;
+            public void handleBean(String handleBean) {
+                this.handleBean = handleBean;
             }
 
             public void handleType(int handleType) {
@@ -268,26 +262,21 @@ public class AuthorizedMetadataBuilder {
          * 내부 ObjectMetadata Builder
          */
         @SuppressWarnings({ "unused", "unchecked" })
-        private static class AuthorizedObjectMetadataBuilder {
+        private static class AuthorizedDataObjectMetadataBuilder {
             static Map<String, Function<Object, Object>> pp = new HashMap<>();
             static {
                 pp.put("fields", o -> ((List<FieldBuilder>) o).stream().map(b -> b.build()).collect(Collectors.toList()));
             }
-            private String authorityBean;
-            private String fieldHandleBean;
+            private String handleBean;
             private Class<?> type;
             private List<FieldBuilder> fields;
 
-            public void authorityBean(String authorityBean) {
-                this.authorityBean = authorityBean;
+            public AuthorizedRequestDataObjectMetadata build() {
+                return newObject(AuthorizedRequestDataObjectMetadata.class, this, pp);
             }
 
-            public AuthorizedObjectMetadata build() {
-                return newObject(AuthorizedObjectMetadata.class, this, pp);
-            }
-
-            public void fieldHandleBean(String fieldHandleBean) {
-                this.fieldHandleBean = fieldHandleBean;
+            public void handleBean(String handleBean) {
+                this.handleBean = handleBean;
             }
 
             public void fields(List<FieldBuilder> fields) {
@@ -304,25 +293,19 @@ public class AuthorizedMetadataBuilder {
          */
         private static class FieldBuilderImpl implements FieldBuilder {
 
-            private final AuthorizedFieldMetadataBuilder afmBuilder = new AuthorizedFieldMetadataBuilder();
+            private final AuthorizedDataFieldMetadataBuilder afmBuilder = new AuthorizedDataFieldMetadataBuilder();
 
             public FieldBuilderImpl() {
             }
 
             @Override
-            public FieldBuilder authorityBean(String authorityBean) {
-                afmBuilder.authorityBean(authorityBean);
-                return this;
-            }
-
-            @Override
-            public AuthorizedFieldMetadata build() {
+            public AuthorizedRequestDataFieldMetadata build() {
                 return afmBuilder.build();
             }
 
             @Override
-            public FieldBuilder fieldHandleBean(String fieldHandleBean) {
-                afmBuilder.fieldHandleBean(fieldHandleBean);
+            public FieldBuilder handleBean(String fieldHandleBean) {
+                afmBuilder.handleBean(fieldHandleBean);
                 return this;
             }
 
@@ -344,17 +327,11 @@ public class AuthorizedMetadataBuilder {
          */
         private static class ObjectBuilderImpl implements ObjectBuilder {
 
-            private final AuthorizedObjectMetadataBuilder abmBuilder = new AuthorizedObjectMetadataBuilder();
+            private final AuthorizedDataObjectMetadataBuilder abmBuilder = new AuthorizedDataObjectMetadataBuilder();
             private final List<FieldBuilder> fields = new ArrayList<>();
 
             @Override
-            public ObjectBuilder authorityBean(String authorityBean) {
-                abmBuilder.authorityBean(authorityBean);
-                return this;
-            }
-
-            @Override
-            public AuthorizedObjectMetadata build() {
+            public AuthorizedRequestDataObjectMetadata build() {
                 abmBuilder.fields(fields);
                 return abmBuilder.build();
             }
@@ -368,7 +345,7 @@ public class AuthorizedMetadataBuilder {
 
             @Override
             public ObjectBuilder fieldHandleBean(String fieldHandleBean) {
-                abmBuilder.fieldHandleBean(fieldHandleBean);
+                abmBuilder.handleBean(fieldHandleBean);
                 return this;
             }
 
@@ -389,10 +366,10 @@ public class AuthorizedMetadataBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.authority.metadata.AuthorizedMetadataBuilder.ObjectsBuilder#build()
+             * @see open.commons.spring.web.authority.metadata.AuthorizedRequestDataMetadataBuilder.ObjectsBuilder#build()
              */
             @Override
-            public List<AuthorizedObjectMetadata> build() {
+            public List<AuthorizedRequestDataObjectMetadata> build() {
                 return objects.stream().map(b -> b.build()).collect(Collectors.toList());
             }
 
@@ -402,7 +379,7 @@ public class AuthorizedMetadataBuilder {
              * @version 0.8.0
              * @author parkjunhong77@gmail.com
              *
-             * @see open.commons.spring.web.authority.metadata.AuthorizedMetadataBuilder.ObjectsBuilder#object(java.util.function.Function)
+             * @see open.commons.spring.web.authority.metadata.AuthorizedRequestDataMetadataBuilder.ObjectsBuilder#object(java.util.function.Function)
              */
             @Override
             public ObjectsBuilder object(Function<ObjectBuilder, ObjectBuilder> consumer) {
@@ -417,100 +394,79 @@ public class AuthorizedMetadataBuilder {
      * Stage 3: Field 단계
      */
     public interface FieldBuilder {
-        /**
-         * {@link AuthorizedField#authorityBean()}에 해당하는 값을 설정합니다.
-         * 
-         * <pre>
-         * [개정이력]
-         *      날짜    	| 작성자	|	내용
-         * ------------------------------------------
-         * 2025. 6. 18.		박준홍			최초 작성
-         * </pre>
-         *
-         * @param authorityBean
-         *            {@link IFieldAccessAuthorityProvider}를 구현함 {@link Bean} 이름.
-         * @return
-         *
-         * @since 2025. 6. 18.
-         * @version 0.8.0
-         * @author Park, Jun-Hong parkjunhong77@gmail.com
-         * 
-         * @see AuthorizedFieldMetadata#setAuthorityBean(String)
-         */
-        FieldBuilder authorityBean(String authorityBean);
 
         /**
-         * {@link AuthorizedFieldMetadata} 객체를 생성합니다. <br>
+         * {@link AuthorizedRequestDataFieldMetadata} 객체를 생성합니다. <br>
          * 
          * <pre>
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 6. 18.		박준홍			최초 작성
+         * 2025. 9. 20.		박준홍			최초 작성
          * </pre>
          *
          * @return
          *
-         * @since 2025. 6. 18.
+         * @since 2025. 9. 20.
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
-        AuthorizedFieldMetadata build();
+        AuthorizedRequestDataFieldMetadata build();
 
         /**
-         * {@link AuthorizedField#fieldHandleBean()}에 해당하는 값을 설정합니다.
+         * {@link AuthorizedRequestDataFieldMetadata#handleBean()}에 해당하는 값을 설정합니다.
          * 
          * <pre>
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 6. 18.		박준홍			최초 작성
+         * 2025. 9. 20.		박준홍			최초 작성
          * </pre>
          *
-         * @param fieldHandleBean
-         *            {@link IUnauthorizedFieldHandler}를 구현한 {@link Bean} 이름
+         * @param handleBean
+         *            {@link IAuthorizedRequestDataHandler}를 구현한 {@link Bean} 이름
          * @return
          *
-         * @since 2025. 6. 18.
+         * @since 2025. 9. 20.
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
-        FieldBuilder fieldHandleBean(String fieldHandleBean);
+        FieldBuilder handleBean(String handleBean);
 
         /**
-         * {@link AuthorizedField#handleType()}에 해당하는 값을 설정합니다.<br>
+         * {@link AuthorizedRequestDataFieldMetadata#handleType()}에 해당하는 값을 설정합니다.<br>
          * 
          * <pre>
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 6. 18.		박준홍			최초 작성
+         * 2025. 9. 20.		박준홍			최초 작성
          * </pre>
          *
          * @param handleType
          *            데이터 처리 유형
          * @return
          *
-         * @since 2025. 6. 18.
+         * @since 2025. 9. 20.
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
         FieldBuilder handleType(int handleType);
 
         /**
-         * {@link AuthorizedField#name()}에 해당하는 값을 설정합니다.<br>
+         * {@link AuthorizedRequestDataFieldMetadata#name()}에 해당하는 값을 설정합니다.<br>
          * 
          * <pre>
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 6. 18.		박준홍			최초 작성
+         * 2025. 9. 20.		박준홍			최초 작성
          * </pre>
          *
          * @param name
          * @return
          *
-         * @since 2025. 6. 18.
+         * @since 2025. 9. 20.
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
@@ -523,46 +479,24 @@ public class AuthorizedMetadataBuilder {
     public interface ObjectBuilder {
 
         /**
-         * {@link AuthorizedField#authorityBean()}에 해당하는 값을 설정합니다.
-         * 
-         * <pre>
-         * [개정이력]
-         *      날짜      | 작성자   |   내용
-         * ------------------------------------------
-         * 2025. 6. 18.     박준홍         최초 작성
-         * </pre>
-         *
-         * @param authorityBean
-         *            {@link IFieldAccessAuthorityProvider}를 구현함 {@link Bean} 이름.
-         * @return
-         *
-         * @since 2025. 6. 18.
-         * @version 0.8.0
-         * @author Park, Jun-Hong parkjunhong77@gmail.com
-         */
-        ObjectBuilder authorityBean(String authorityBean);
-
-        /**
-         * {@link AuthorizedObjectMetadata} 객체를 생성합니다. <br>
+         * {@link AuthorizedRequestDataObjectMetadata} 객체를 생성합니다. <br>
          * 
          * <pre>
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 6. 18.		박준홍			최초 작성
+         * 2025. 9. 20.		박준홍			최초 작성
          * </pre>
          *
          * @return
          *
-         * @since 2025. 6. 18.
+         * @since 2025. 9. 20.
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
-        AuthorizedObjectMetadata build();
+        AuthorizedRequestDataObjectMetadata build();
 
         /**
-         * {@link AuthorizedFieldMetadata} Builder를 생성합니다. <br>
-         * 
          * <pre>
          * [개정이력]
          *      날짜    	| 작성자	|	내용
@@ -580,40 +514,40 @@ public class AuthorizedMetadataBuilder {
         ObjectBuilder field(Function<FieldBuilder, FieldBuilder> function);
 
         /**
-         * {@link AuthorizedObject#fieldHandleBean()}에 해당하는 값을 설정합니다.
+         * {@link AuthorizedRequestData#handleBean()}에 해당하는 값을 설정합니다.
          * 
          * <pre>
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2025. 6. 18.     박준홍         최초 작성
+         * 2025. 9. 20.     박준홍         최초 작성
          * </pre>
          *
          * @param fieldHandleBean
-         *            {@link IUnauthorizedFieldHandler}를 구현한 {@link Bean} 이름
+         *            {@link IAuthorizedRequestDataHandler}를 구현한 {@link Bean} 이름
          * @return
          *
-         * @since 2025. 6. 18.
+         * @since 2025. 9. 20.
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
         ObjectBuilder fieldHandleBean(String fieldHandleBean);
 
         /**
-         * {@link AuthorizedObject}가 적용되는 데이터 유형을 설정합니다.<br>
+         * {@link AuthorizedRequestData}가 적용된 {@link Field}를 소유한 데이터 유형을 설정합니다.<br>
          * 
          * <pre>
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 6. 18.		박준홍			최초 작성
+         * 2025. 9. 20.		박준홍			최초 작성
          * </pre>
          *
          * @param type
          *            데이터 유형
          * @return
          *
-         * @since 2025. 6. 18.
+         * @since 2025. 9. 20.
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
@@ -622,7 +556,7 @@ public class AuthorizedMetadataBuilder {
 
     public interface ObjectsBuilder {
 
-        List<AuthorizedObjectMetadata> build();
+        List<AuthorizedRequestDataObjectMetadata> build();
 
         ObjectsBuilder object(Function<ObjectBuilder, ObjectBuilder> function);
     }

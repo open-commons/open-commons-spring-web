@@ -26,17 +26,17 @@
 
 package open.commons.spring.web.beans.authority;
 
-import open.commons.spring.web.authority.AuthorizedData;
+import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.authority.AuthorizedField;
 
 /**
- * {@link AuthorizedData#handleBean()}에서 사용되는 인터페이스.
+ * {@link AuthorizedRequestData#handleBean()}에서 사용되는 인터페이스.
  * 
  * @since 2025. 9. 18.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public interface IAuthorizedDataHandler {
+public interface IAuthorizedRequestDataHandler {
 
     /**
      * 데이터 처리 방식에 따라서 {@link AuthorizedField#fieldHandleBean()}에 의해서 처리된 데이터를 원복하여 제공합니다. <br>

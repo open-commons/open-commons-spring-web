@@ -43,6 +43,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
@@ -95,6 +97,7 @@ public class CustomWebMvcAutoConfiguration {
 
     @Bean
     @Primary
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     AuthorizedDataArgumentResolver authorizedDataArgumentRevolser(ApplicationContext context) {
         AuthorizedDataArgumentResolver resolver = new AuthorizedDataArgumentResolver(context);
         logger.info("[authorized-resources] authorized-data-argument-resolver={}", resolver);
@@ -103,6 +106,7 @@ public class CustomWebMvcAutoConfiguration {
 
     @Bean
     @Primary
+    @Order(Ordered.HIGHEST_PRECEDENCE + 1)
     AuthorizedDataModelAttributeResolver authorizedDataModelAttributeResolver(ApplicationContext context) {
         AuthorizedDataModelAttributeResolver resolver = new AuthorizedDataModelAttributeResolver(context);
         logger.info("[authorized-resources] authorized-data-model-attribute-resolver={}", resolver);

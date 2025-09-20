@@ -32,8 +32,8 @@ import org.springframework.context.annotation.Bean;
 
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
-import open.commons.spring.web.beans.authority.forced.ForcedUnintelligibleHandler;
-import open.commons.spring.web.beans.authority.forced.ForcedUnintelligibleJudge;
+import open.commons.spring.web.beans.authority.builtin.ForcedUnintelligibleHandler;
+import open.commons.spring.web.beans.authority.builtin.ForcedUnintelligibleJudge;
 
 /**
  * 

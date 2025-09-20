@@ -28,6 +28,7 @@ package open.commons.spring.web.authority.metadata;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -50,7 +51,7 @@ import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 public class AuthorizedObjectMetadata extends AuthorizedMetadata {
 
     /** 데이터 유형 */
-    @NotEmpty
+    @NotNull
     private Class<?> type;
     /** bind to {@link AuthorizedObject#authorityBean()} */
     private String authorityBean;
@@ -241,7 +242,7 @@ public class AuthorizedObjectMetadata extends AuthorizedMetadata {
      *
      * @see #fields
      */
-    public void setFields(@NotEmpty List<AuthorizedFieldMetadata> fields) {
+    public void setFields(@NotEmpty @Nonnull List<AuthorizedFieldMetadata> fields) {
         this.fields = fields;
     }
 
@@ -261,7 +262,7 @@ public class AuthorizedObjectMetadata extends AuthorizedMetadata {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public void setType(@NotNull Class<?> type) {
+    public void setType(@NotNull @Nonnull Class<?> type) {
         this.type = type;
     }
 

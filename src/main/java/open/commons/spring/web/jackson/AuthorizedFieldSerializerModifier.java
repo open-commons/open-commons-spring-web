@@ -105,11 +105,11 @@ public class AuthorizedFieldSerializerModifier extends BeanSerializerModifier {
         final AnnotatedClass annoClass = beanDesc.getClassInfo();
         final Class<?> serializedType = annoClass.getAnnotated();
         // #1. 타입에 정의된 어노테이션 조회
-        final AuthorizedObject authorizedObject = annoClass.getAnnotation(AuthorizedObject.class);
+        final AuthorizedObject annoAuthorizedObject = annoClass.getAnnotation(AuthorizedObject.class);
 
         // #2. 필드 처리.
         AnnotatedField annoField = null;
-        AuthorizedField authorizedField = null;
+        AuthorizedField annoAuthorizedField = null;
         IFieldAccessAuthorityProvider authority = null;
         IUnauthorizedFieldHandler unauthorized = null;
 
@@ -131,13 +131,13 @@ public class AuthorizedFieldSerializerModifier extends BeanSerializerModifier {
             }
 
             String fieldName = annoField.getName();
-            authorizedField = annoField.getAnnotation(AuthorizedField.class);
+            annoAuthorizedField = annoField.getAnnotation(AuthorizedField.class);
             // 조건1: ao 와 af 가 반드시 있어야 합니다.
-            if (authorizedObject != null && authorizedField != null) {
-                authorityBeanNameOnObject = authorizedObject::authorityBean;
-                authorityBeanNameOnField = authorizedField::authorityBean;
-                fieldHandleBeanNamOnObject = authorizedObject::fieldHandleBean;
-                fieldHandleBeanNamOnField = authorizedField::fieldHandleBean;
+            if (annoAuthorizedObject != null && annoAuthorizedField != null) {
+                authorityBeanNameOnObject = annoAuthorizedObject::authorityBean;
+                authorityBeanNameOnField = annoAuthorizedField::authorityBean;
+                fieldHandleBeanNamOnObject = annoAuthorizedObject::fieldHandleBean;
+                fieldHandleBeanNamOnField = annoAuthorizedField::fieldHandleBean;
             }
             // serialize 대상 데이터 유형(class)을 기준으로 검색
             else if (this.authorizedResourcesMetadata.isAuthorizedField(serializedType, fieldName)) {

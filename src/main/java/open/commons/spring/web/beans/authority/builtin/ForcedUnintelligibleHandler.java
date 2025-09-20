@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.beans.authority.forced;
+package open.commons.spring.web.beans.authority.builtin;
 
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
@@ -38,7 +38,7 @@ import open.commons.spring.web.servlet.InternalServerException;
  */
 public class ForcedUnintelligibleHandler implements IUnauthorizedFieldHandler {
 
-    public static final String BEAN_QUALIFIER = "open.commons.spring.web.beans.authority.forced.ForcedUnintelligibleHandler";
+    public static final String BEAN_QUALIFIER = "open.commons.spring.web.beans.authority.builtin.ForcedUnintelligibleHandler";
 
     /**
      * <br>
