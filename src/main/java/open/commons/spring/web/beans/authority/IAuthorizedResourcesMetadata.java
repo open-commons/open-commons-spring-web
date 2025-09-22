@@ -39,6 +39,7 @@ import open.commons.spring.web.authority.metadata.AuthorizedFieldMetadata;
 import open.commons.spring.web.authority.metadata.AuthorizedObjectMetadata;
 
 /**
+ * {@link AuthorizedObject}, {@link AuthorizedField}를 POJO 클래스에 직접 선언하지 않거나, 3rd POJO 클래스에 적용하고자 할때 사용되메타데이터 클래스
  * 
  * @since 2025. 6. 12.
  * @version 0.8.0

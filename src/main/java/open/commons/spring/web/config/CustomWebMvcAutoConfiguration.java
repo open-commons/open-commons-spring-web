@@ -37,6 +37,7 @@ import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
@@ -50,6 +51,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import open.commons.core.utils.MapUtils;
+import open.commons.spring.web.beans.authority.AuthorizedRequestDataMetadata;
+import open.commons.spring.web.beans.authority.IAuthorizedRequestDataMetadata;
 import open.commons.spring.web.beans.resolver.AuthorizedDataArgumentResolver;
 import open.commons.spring.web.beans.resolver.AuthorizedDataModelAttributeResolver;
 import open.commons.spring.web.beans.resolver.IAuthorizedDataResolver;
@@ -107,8 +110,9 @@ public class CustomWebMvcAutoConfiguration {
     @Bean
     @Primary
     @Order(Ordered.HIGHEST_PRECEDENCE + 1)
-    AuthorizedDataModelAttributeResolver authorizedDataModelAttributeResolver(ApplicationContext context) {
-        AuthorizedDataModelAttributeResolver resolver = new AuthorizedDataModelAttributeResolver(context);
+    AuthorizedDataModelAttributeResolver authorizedDataModelAttributeResolver(ApplicationContext context,
+            @Qualifier(AuthorizedRequestDataMetadata.BEAN_QUALIFIER) IAuthorizedRequestDataMetadata authorizedRequestDataMetadata) {
+        AuthorizedDataModelAttributeResolver resolver = new AuthorizedDataModelAttributeResolver(context, authorizedRequestDataMetadata);
         logger.info("[authorized-resources] authorized-data-model-attribute-resolver={}", resolver);
         return resolver;
     }

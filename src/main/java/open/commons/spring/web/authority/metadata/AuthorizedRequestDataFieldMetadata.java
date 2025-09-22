@@ -27,6 +27,7 @@
 package open.commons.spring.web.authority.metadata;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 import org.springframework.context.annotation.Bean;
 
@@ -75,6 +76,26 @@ public class AuthorizedRequestDataFieldMetadata extends AuthorizedMetadata {
      * @author parkjunhong77@gmail.com
      */
     public AuthorizedRequestDataFieldMetadata() {
+    }
+
+    /**
+     *
+     * @since 2025. 9. 22.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AuthorizedRequestDataFieldMetadata other = (AuthorizedRequestDataFieldMetadata) obj;
+        return Objects.equals(name, other.name);
     }
 
     /**
@@ -144,6 +165,19 @@ public class AuthorizedRequestDataFieldMetadata extends AuthorizedMetadata {
 
     public String getName() {
         return name;
+    }
+
+    /**
+     *
+     * @since 2025. 9. 22.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     /**

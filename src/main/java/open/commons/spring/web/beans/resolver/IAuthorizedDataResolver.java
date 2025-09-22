@@ -32,8 +32,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
-import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.authority.AuthorizedField;
+import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 
 /**
@@ -57,8 +57,10 @@ public interface IAuthorizedDataResolver extends HandlerMethodArgumentResolver {
      * </pre>
      *
      * @param context
-     * @param anno
-     *            {@link AuthorizedRequestData}가 선언된 객체
+     * @param handleBean
+     *            {@link AuthorizedRequestData#handleBean()}에 해당하는 값
+     * @param handleType
+     *            {@link AuthorizedRequestData#handleType()}에 해당하는 값
      * @param rawValue
      *            데이터
      * @return
@@ -68,13 +70,10 @@ public interface IAuthorizedDataResolver extends HandlerMethodArgumentResolver {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    default Object restoreValue(@Nonnull ApplicationContext context, AuthorizedRequestData anno, Object rawValue) throws BeansException {
-        if (rawValue == null || anno == null) {
-            return rawValue;
+    default Object restoreValue(@Nonnull ApplicationContext context, String handleBean, int handleType, Object rawValue) throws BeansException {
+        if (rawValue == null) {
+            return null;
         }
-        String handleBean = anno.handleBean();
-        int handleType = anno.handleType();
-
         try {
             IAuthorizedRequestDataHandler handler = context.getBean(handleBean, IAuthorizedRequestDataHandler.class);
             return handler.restoreValue(handleType, rawValue);

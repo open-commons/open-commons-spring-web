@@ -224,7 +224,7 @@ public class AuthorizedResourcesMetadata implements IAuthorizedResourcesMetadata
             return;
         }
 
-        if (authorizedObjectMetadata != null) {
+        if (this.authorizedObjectMetadata != null) {
             boolean duplicated = false;
             Set<Class<?>> errBuf = new HashSet<>();
 

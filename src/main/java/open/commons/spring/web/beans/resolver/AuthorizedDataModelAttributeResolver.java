@@ -28,13 +28,8 @@ package open.commons.spring.web.beans.resolver;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.temporal.Temporal;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -50,6 +45,7 @@ import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -62,16 +58,19 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.annotation.ModelAttributeMethodProcessor;
 import org.springframework.web.servlet.mvc.method.annotation.ExtendedServletRequestDataBinder;
 
+import open.commons.core.TwoValueObject;
 import open.commons.core.utils.ExceptionUtils;
+import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
+import open.commons.spring.web.beans.authority.IAuthorizedRequestDataMetadata;
 import open.commons.spring.web.servlet.InternalServerException;
 import open.commons.spring.web.utils.ClassInspector;
 
 /**
- * "{@link AuthorizedRequestData} && ({@link ModelAttribute} || {@link ModelAttributeMethodProcessor#annotationNotRequired} )"가
- * 선언된 파라미터를 처리합니다.<br>
+ * "{@link AuthorizedRequestData} && ({@link ModelAttribute} ||
+ * {@link ModelAttributeMethodProcessor#annotationNotRequired} )"가 선언된 파라미터를 처리합니다.<br>
  * {@link AuthorizedResourcesConfiguration}을 통해서 {@link Bean}으로 제공됩니다.
  * 
  * @since 2025. 9. 18.
@@ -85,14 +84,19 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
     @NotNull
     private final ApplicationContext applicationContext;
 
+    @NotNull
+    private final IAuthorizedRequestDataMetadata authorizedRequestDataMetadata;
+
     // 클래스별로 "처리 대상 필드 목록"을 캐싱
     // - @AuthorizedData 가 붙은 필드
     // - 혹은 nested 탐색이 필요한 컨테이너/복합타입 필드(재귀 진입용)
     private final ConcurrentHashMap<Class<?>, List<Field>> authorizedDataFieldCache = new ConcurrentHashMap<>();
 
-    public AuthorizedDataModelAttributeResolver(ApplicationContext applicationContext) {
+    public AuthorizedDataModelAttributeResolver(ApplicationContext applicationContext, IAuthorizedRequestDataMetadata authorizedRequestDataMetadata //
+    ) {
         super(false);
         this.applicationContext = applicationContext;
+        this.authorizedRequestDataMetadata = authorizedRequestDataMetadata;
     }
 
     @Override
@@ -113,7 +117,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
             return;
         }
         // 데이터 처리
-        resolvePojo(target, null, Collections.newSetFromMap(new IdentityHashMap<>()));
+        resolvePojo(target, Collections.newSetFromMap(new IdentityHashMap<>()));
     }
 
     /**
@@ -134,30 +138,57 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     private List<Field> getProcessableFields(Class<?> clazz) {
-        return this.authorizedDataFieldCache.computeIfAbsent(clazz, c -> {
-            List<Field> out = new ArrayList<>();
-            for (Field f : ClassInspector.getAllFields(c)) {
-                if (f.isAnnotationPresent(AuthorizedRequestData.class) //
-                        || !isSimpleValue(f.getType())) {
-                    out.add(f);
-                }
-            }
-            return out;
-        });
+        return this.authorizedDataFieldCache.computeIfAbsent(clazz, ClassInspector::getAllFields);
     }
 
     private boolean isSimpleValue(Class<?> type) {
-        return type.isPrimitive() //
+        return BeanUtils.isSimpleProperty(type) //
                 || String.class.equals(type) //
-                || Number.class.isAssignableFrom(type) //
-                || Boolean.class.equals(type) //
-                || Character.class.equals(type) //
-                || BigDecimal.class.equals(type) //
-                || BigInteger.class.equals(type) //
                 || UUID.class.equals(type) //
-                || Date.class.isAssignableFrom(type) //
-                || Temporal.class.isAssignableFrom(type) //
-                || Enum.class.isAssignableFrom(type);
+        ;
+    }
+
+    /**
+     * {@link AuthorizedRequestData} 정보와 TODO ( ) 정보를 확인하여, {@link AuthorizedRequestData#handleBean()},
+     * {@link AuthorizedRequestData#handleType()}에 해당하는 정보를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 22.		박준홍			최초 작성
+     * </pre>
+     * 
+     * @param targetClass
+     *            POJO 데이터 유형
+     * @param fieldName
+     *            필드 이름
+     * @param anno
+     *            <li>first: {@link AuthorizedRequestData#handleBean()} 정보
+     *            <li>second: {@link AuthorizedRequestData#handleType()()} 정보
+     *
+     * @return
+     *
+     * @since 2025. 9. 22.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private TwoValueObject<String, Integer> resolveAnnotatedContext(Class<?> targetClass, String fieldName, AuthorizedRequestData anno) {
+        if (anno != null) {
+            return new TwoValueObject<>(anno.handleBean(), anno.handleType());
+        } else {
+
+            String handleBean = this.authorizedRequestDataMetadata.getHandleBeanName(targetClass, fieldName);
+            if (StringUtils.isNullOrEmptyString(handleBean)) {
+                return null;
+            }
+            int handleType = this.authorizedRequestDataMetadata.getHandleType(targetClass, fieldName);
+            if (handleType == AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE) {
+                return null;
+            }
+
+            return new TwoValueObject<>(handleBean, handleType);
+        }
     }
 
     /**
@@ -173,15 +204,13 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
      * 
      * @param targetValue
      *            확인할 데이터
-     * @param anno
-     *            권한제어 해제 정보
      * @param visited
      *            {@link Field}를 스캔할 객체.
      * @since 2025. 9. 18.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private void resolvePojo(Object targetValue, AuthorizedRequestData anno, Set<Object> visited) {
+    private void resolvePojo(Object targetValue, Set<Object> visited) {
         if (targetValue == null || visited.contains(targetValue)) {
             return;
         }
@@ -190,6 +219,8 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
         Class<?> targetClass = targetValue.getClass();
         List<Field> fields = getProcessableFields(targetClass);
         Object rawValue = null;
+        String handleBean = null;
+        int handleType = AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE;
         for (Field field : fields) {
             field.setAccessible(true);
             try {
@@ -197,13 +228,18 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
                 if (rawValue == null) {
                     continue;
                 }
-                anno = field.getAnnotation(AuthorizedRequestData.class);
-                Object value = resolveRawValue(rawValue, anno, visited);
+                TwoValueObject<String, Integer> annotatedValue = resolveAnnotatedContext(targetClass, field.getName(), field.getAnnotation(AuthorizedRequestData.class));
+                if (annotatedValue == null) {
+                    continue;
+                }
+                handleBean = annotatedValue.first;
+                handleType = annotatedValue.second;
+                Object value = resolveRawValue(rawValue, handleBean, handleType, visited);
                 field.set(targetValue, value);
             } catch (BeansException e) {
                 String errMsg = String
                         .format("'권한 제어가 적용된 파라미터'를 처리하는 도중 오류가 발생하였습니다. field.name=%s, field.raw_value=%s, handle.beanname=%s, handle.type=%s, handle.class=%s, 원인=%s" //
-                                , field.getName(), rawValue, anno.handleBean(), anno.handleType(), IAuthorizedRequestDataHandler.class.getName(), e.getMessage());
+                                , field.getName(), rawValue, handleBean, handleType, IAuthorizedRequestDataHandler.class.getName(), e.getMessage());
                 logger.error("{}", errMsg, e);
 
                 throw ExceptionUtils.newException(InternalServerException.class, e, errMsg);
@@ -216,14 +252,14 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
         }
     }
 
-    private Object resolveRawValue(Object rawValue, AuthorizedRequestData anno, Set<Object> visited) {
+    private Object resolveRawValue(Object rawValue, String handleBean, int handleType, Set<Object> visited) {
         if (rawValue == null) {
             return null;
         }
         Class<?> rawValueClass = rawValue.getClass();
 
         if (isSimpleValue(rawValueClass)) {
-            return restoreValue(applicationContext, anno, rawValue);
+            return restoreValue(applicationContext, handleBean, handleType, rawValue);
         } else if (rawValueClass.isArray()) {
             Object[] valueArr = (Object[]) rawValue;
             int len = Array.getLength(rawValue);
@@ -231,7 +267,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
                 Object elemValue = Array.get(rawValue, i);
                 if (elemValue != null) {
                     // 복호화/평문화 데이터를 받아 기존 데이터를 교체.
-                    valueArr[i] = resolveRawValue(elemValue, anno, visited);
+                    valueArr[i] = resolveRawValue(elemValue, handleBean, handleType, visited);
                 }
             }
         }
@@ -242,7 +278,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
             while (itr.hasNext()) {
                 Object elemValue = itr.next();
                 if (elemValue != null) {
-                    itr.set(resolveRawValue(elemValue, anno, visited));
+                    itr.set(resolveRawValue(elemValue, handleBean, handleType, visited));
                 }
             }
         }
@@ -254,7 +290,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
             // 복호화/평문화 데이터를 받기 위해 기존 객체를 유지하고 내용만 비움.
             valueCol.clear();
             for (Object elem : tempCol) {
-                valueCol.add(resolveRawValue(elem, anno, visited));
+                valueCol.add(resolveRawValue(elem, handleBean, handleType, visited));
             }
         } else if (rawValue instanceof Map) {
             @SuppressWarnings("unchecked")
@@ -262,11 +298,11 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
             for (Entry<?, ?> entry : valueMap.entrySet()) {
                 Object elemValue = entry.getValue();
                 if (elemValue != null) {
-                    valueMap.put(entry.getKey(), resolveRawValue(elemValue, anno, visited));
+                    valueMap.put(entry.getKey(), resolveRawValue(elemValue, handleBean, handleType, visited));
                 }
             }
         } else {
-            resolvePojo(rawValue, anno, visited);
+            resolvePojo(rawValue, visited);
         }
 
         return rawValue;

@@ -130,7 +130,7 @@ public class AuthorizedDataArgumentResolver implements IAuthorizedDataResolver {
         // #3. 데이터 원복
         AuthorizedRequestData anno = parameter.getParameterAnnotation(AuthorizedRequestData.class);
         try {
-            return restoreValue(context, anno, rawValue);
+            return restoreValue(context, anno.handleBean(), anno.handleType(), rawValue);
         } catch (BeansException e) {
             String errMsg = String
                     .format("'권한 제어가 적용된 파라미터'를 처리하는 도중 오류가 발생하였습니다. parameter.name=%s, parameter.raw_value=%s, handle.beanname=%s, handle.type=%s, handle.class=%s, 원인=%s" //

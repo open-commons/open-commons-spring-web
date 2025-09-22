@@ -42,8 +42,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 
+import open.commons.core.utils.MapUtils;
 import open.commons.spring.web.authority.metadata.AuthorizedObjectMetadata;
+import open.commons.spring.web.authority.metadata.AuthorizedRequestDataObjectMetadata;
+import open.commons.spring.web.beans.authority.AuthorizedRequestDataMetadata;
 import open.commons.spring.web.beans.authority.AuthorizedResourcesMetadata;
+import open.commons.spring.web.beans.authority.IAuthorizedRequestDataMetadata;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.utils.BeanUtils;
 
@@ -80,13 +84,14 @@ public class AuthorizedResourcesMetadataConfiguration {
     }
 
     /**
+     * 
      * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 17.		박준홍			최초 작성
+     * 2025. 9. 22.		박준홍			최초 작성
      * </pre>
      *
      * @param singleAuthorizedObjectMetadata
@@ -99,6 +104,46 @@ public class AuthorizedResourcesMetadataConfiguration {
      *            <li>value: Bean 데이터
      * @return
      *
+     * @since 2025. 9. 22.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @Bean(name = AuthorizedRequestDataMetadata.BEAN_QUALIFIER)
+    @Primary
+    IAuthorizedRequestDataMetadata authorizedRequestDataMetadataProvider(//
+            @NotNull Map<String, AuthorizedRequestDataObjectMetadata> single //
+            , @NotNull Map<String, List<AuthorizedRequestDataObjectMetadata>> multi//
+    ) {
+        AuthorizedRequestDataMetadata arm = new AuthorizedRequestDataMetadata();
+        Collection<AuthorizedRequestDataObjectMetadata> merged = MapUtils.toList(single, multi);
+        arm.setAuthorizedRequestObjectMetadata(merged);
+
+        logger.info("[authorized-resources] authorized-request-data-metadata={}", arm);
+
+        return arm;
+
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 6. 17.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param single
+     *            단일 데이터 유형에 대한 메타데이터 정보
+     *            <li>key: Bean 이름
+     *            <li>value: Bean 데이터
+     * @param multi
+     *            여러 데이터 유형에 대한 메타데이터 정보
+     *            <li>key: Bean 이름
+     *            <li>value: Bean 데이터
+     * @return
+     *
      * @since 2025. 6. 17.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
@@ -106,14 +151,14 @@ public class AuthorizedResourcesMetadataConfiguration {
     @Bean(name = AuthorizedResourcesMetadata.BEAN_QUALIFIER)
     @Primary
     IAuthorizedResourcesMetadata authorizedResourcesMetadataProvider( //
-            @NotNull Map<String, AuthorizedObjectMetadata> singleAuthorizedObjectMetadata //
-            , @NotNull Map<String, List<AuthorizedObjectMetadata>> multiAuthorizedObjectMetadata //
+            @NotNull Map<String, AuthorizedObjectMetadata> single //
+            , @NotNull Map<String, List<AuthorizedObjectMetadata>> multi //
     ) {
         AuthorizedResourcesMetadata arm = new AuthorizedResourcesMetadata();
 
         Collection<AuthorizedObjectMetadata> aoms = Stream //
-                .of(singleAuthorizedObjectMetadata.values().stream() //
-                        , multiAuthorizedObjectMetadata.values().stream() //
+                .of(single.values().stream() //
+                        , multi.values().stream() //
                                 .flatMap(List::stream)) //
                 .flatMap(s -> s) //
                 .collect(Collectors.toList());

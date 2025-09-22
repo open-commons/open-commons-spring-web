@@ -1,3 +1,20 @@
+[2025/09/22]
+- New
+  + open.commons.spring.web.beans.authority
+    + AuthorizedRequestDataMetadata
+    + IAuthorizedRequestDataMetadata
+- Add
+  + open.commons.spring.web.authority.metadata.AuthorizedRequestDataFieldMetadata
+    + equals(Object)
+    + hashCode()
+- Modify
+  + open.commons.spring.web.beans.resolver.AuthorizedDataModelAttributeResolver: IAuthorizedRequestDataMetadata 적용
+    + getProcessableFields(Class&lt;?&gt;)
+    + resolveAnnotatedContext(Class&lt;?&gt;, String, AuthorizedRequestData)
+    + resolveRawValue(Object, String, int, Set&lt;Object&gt;)
+  + open.commons.spring.web.beans.resolver.IAuthorizedDataResolver
+    + restoreValue(ApplicationContext, String, int, Object)
+
 [2025/09/20]
 - New
   + open.commons.spring.web.authority.metadata
