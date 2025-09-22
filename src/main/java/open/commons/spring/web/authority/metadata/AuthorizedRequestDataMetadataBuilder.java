@@ -241,7 +241,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * 내부 FieldMetadata Builder
          */
         @SuppressWarnings("unused")
-        private static class AuthorizedRequestFieldDataMetadataBuilder {
+        private static class AuthorizedRequestDataFieldMetadataBuilder {
             private String handleBean;
             private int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
             private String name;
@@ -267,7 +267,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * 내부 ObjectMetadata Builder
          */
         @SuppressWarnings({ "unused", "unchecked" })
-        private static class AuthorizedRequestObjectDataMetadataBuilder {
+        private static class AuthorizedRequestDataObjectMetadataBuilder {
             static Map<String, Function<Object, Object>> pp = new HashMap<>();
             static {
                 pp.put("fields", o -> ((List<FieldBuilder>) o).stream().map(b -> b.build()).collect(Collectors.toList()));
@@ -298,7 +298,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          */
         private static class FieldBuilderImpl implements FieldBuilder {
 
-            private final AuthorizedRequestFieldDataMetadataBuilder afmBuilder = new AuthorizedRequestFieldDataMetadataBuilder();
+            private final AuthorizedRequestDataFieldMetadataBuilder afmBuilder = new AuthorizedRequestDataFieldMetadataBuilder();
 
             public FieldBuilderImpl() {
             }
@@ -332,13 +332,13 @@ public class AuthorizedRequestDataMetadataBuilder {
          */
         private static class ObjectBuilderImpl implements ObjectBuilder {
 
-            private final AuthorizedRequestObjectDataMetadataBuilder abmBuilder = new AuthorizedRequestObjectDataMetadataBuilder();
+            private final AuthorizedRequestDataObjectMetadataBuilder aomBuilder = new AuthorizedRequestDataObjectMetadataBuilder();
             private final List<FieldBuilder> fields = new ArrayList<>();
 
             @Override
             public AuthorizedRequestDataObjectMetadata build() {
-                abmBuilder.fields(fields);
-                return abmBuilder.build();
+                aomBuilder.fields(fields);
+                return aomBuilder.build();
             }
 
             @Override
@@ -350,13 +350,13 @@ public class AuthorizedRequestDataMetadataBuilder {
 
             @Override
             public ObjectBuilder fieldHandleBean(String fieldHandleBean) {
-                abmBuilder.handleBean(fieldHandleBean);
+                aomBuilder.handleBean(fieldHandleBean);
                 return this;
             }
 
             @Override
             public ObjectBuilder type(@NotNull Class<?> type) {
-                abmBuilder.type(type);
+                aomBuilder.type(type);
                 return this;
             }
         }

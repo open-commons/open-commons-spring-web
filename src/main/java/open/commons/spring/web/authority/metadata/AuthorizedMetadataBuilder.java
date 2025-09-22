@@ -349,19 +349,19 @@ public class AuthorizedMetadataBuilder {
          */
         private static class ObjectBuilderImpl implements ObjectBuilder {
 
-            private final AuthorizedObjectMetadataBuilder abmBuilder = new AuthorizedObjectMetadataBuilder();
+            private final AuthorizedObjectMetadataBuilder aomBuilder = new AuthorizedObjectMetadataBuilder();
             private final List<FieldBuilder> fields = new ArrayList<>();
 
             @Override
             public ObjectBuilder authorityBean(String authorityBean) {
-                abmBuilder.authorityBean(authorityBean);
+                aomBuilder.authorityBean(authorityBean);
                 return this;
             }
 
             @Override
             public AuthorizedObjectMetadata build() {
-                abmBuilder.fields(fields);
-                return abmBuilder.build();
+                aomBuilder.fields(fields);
+                return aomBuilder.build();
             }
 
             @Override
@@ -373,13 +373,13 @@ public class AuthorizedMetadataBuilder {
 
             @Override
             public ObjectBuilder fieldHandleBean(String fieldHandleBean) {
-                abmBuilder.fieldHandleBean(fieldHandleBean);
+                aomBuilder.fieldHandleBean(fieldHandleBean);
                 return this;
             }
 
             @Override
             public ObjectBuilder type(@NotNull Class<?> type) {
-                abmBuilder.type(type);
+                aomBuilder.type(type);
                 return this;
             }
         }
