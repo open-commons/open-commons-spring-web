@@ -84,6 +84,29 @@ public class AuthorizedRequestDataObjectMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
+     * 2025. 9. 22.		박준홍			최초 작성
+     * </pre>
+     * 
+     * @return the fields
+     *
+     * @since 2025. 9. 22.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #fields
+     */
+
+    public List<AuthorizedRequestDataFieldMetadata> getFields() {
+        return fields;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
      * 2025. 9. 20.		박준홍			최초 작성
      * </pre>
      * 
@@ -121,6 +144,29 @@ public class AuthorizedRequestDataObjectMetadata extends AuthorizedMetadata {
 
     public Class<?> getType() {
         return type;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 22.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param fields
+     *            the fields to set
+     *
+     * @since 2025. 9. 22.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #fields
+     */
+    public void setFields(List<AuthorizedRequestDataFieldMetadata> fields) {
+        this.fields = fields;
     }
 
     /**
@@ -171,7 +217,7 @@ public class AuthorizedRequestDataObjectMetadata extends AuthorizedMetadata {
 
     /**
      *
-     * @since 2025. 9. 20.
+     * @since 2025. 9. 22.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -180,10 +226,12 @@ public class AuthorizedRequestDataObjectMetadata extends AuthorizedMetadata {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("AuthorizedDataObjectMetadata [type=");
+        builder.append("AuthorizedRequestObjectDataMetadata [type=");
         builder.append(type);
         builder.append(", handleBean=");
         builder.append(handleBean);
+        builder.append(", fields=");
+        builder.append(fields);
         builder.append("]");
         return builder.toString();
     }

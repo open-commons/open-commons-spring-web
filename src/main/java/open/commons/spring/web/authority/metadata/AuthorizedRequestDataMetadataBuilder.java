@@ -241,7 +241,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * 내부 FieldMetadata Builder
          */
         @SuppressWarnings("unused")
-        private static class AuthorizedDataFieldMetadataBuilder {
+        private static class AuthorizedRequestFieldDataMetadataBuilder {
             private String handleBean;
             private int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
             private String name;
@@ -267,7 +267,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * 내부 ObjectMetadata Builder
          */
         @SuppressWarnings({ "unused", "unchecked" })
-        private static class AuthorizedDataObjectMetadataBuilder {
+        private static class AuthorizedRequestObjectDataMetadataBuilder {
             static Map<String, Function<Object, Object>> pp = new HashMap<>();
             static {
                 pp.put("fields", o -> ((List<FieldBuilder>) o).stream().map(b -> b.build()).collect(Collectors.toList()));
@@ -298,7 +298,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          */
         private static class FieldBuilderImpl implements FieldBuilder {
 
-            private final AuthorizedDataFieldMetadataBuilder afmBuilder = new AuthorizedDataFieldMetadataBuilder();
+            private final AuthorizedRequestFieldDataMetadataBuilder afmBuilder = new AuthorizedRequestFieldDataMetadataBuilder();
 
             public FieldBuilderImpl() {
             }
@@ -332,7 +332,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          */
         private static class ObjectBuilderImpl implements ObjectBuilder {
 
-            private final AuthorizedDataObjectMetadataBuilder abmBuilder = new AuthorizedDataObjectMetadataBuilder();
+            private final AuthorizedRequestObjectDataMetadataBuilder abmBuilder = new AuthorizedRequestObjectDataMetadataBuilder();
             private final List<FieldBuilder> fields = new ArrayList<>();
 
             @Override
