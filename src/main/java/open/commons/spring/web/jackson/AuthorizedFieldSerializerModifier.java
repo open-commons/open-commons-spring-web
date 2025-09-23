@@ -61,7 +61,7 @@ import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
  */
 public class AuthorizedFieldSerializerModifier extends BeanSerializerModifier {
 
-    /** {@link AuthorizedObject}, {@link AuthorizedField} 외부 설정 정보 제공 서비스 */
+    /** 메타데이터 형태로 기술된 {@link AuthorizedObject}, {@link AuthorizedField} 설정 정보 제공 서비스 */
     private final IAuthorizedResourcesMetadata authorizedResourcesMetadata;
     /** 동적으로 bean을 제공 */
     private final BeanUtils BEANS;
@@ -78,7 +78,7 @@ public class AuthorizedFieldSerializerModifier extends BeanSerializerModifier {
      * 
      * @param context
      * @param authorizedResourcesMetadata
-     *            {@link AuthorizedObject}, {@link AuthorizedField} 외부 설정 정보 제공 서비스
+     *            {@link AuthorizedObject}, {@link AuthorizedField} 설정 정보 제공 서비스
      *
      *
      * @since 2025. 5. 25.

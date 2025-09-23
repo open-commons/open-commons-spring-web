@@ -117,8 +117,22 @@ public class AuthorizedHandles {
             return "";
         }
 
-        String[] emailArray = email.split("@");
-        return String.join("@", SecurityUtils.decryptBySessionUUID(emailArray[0]), emailArray[1]);
+        int atPos = email.indexOf('@');
+
+        String idStr = null;
+        String domainStr = null;
+        if (atPos < 0) {
+            idStr = email;
+            domainStr = "";
+        } else if (atPos == 0) {
+            idStr = "";
+            domainStr = email;
+        } else {
+            idStr = email.substring(0, atPos);
+            domainStr = email.substring(atPos + 1);
+        }
+
+        return String.join("@", SecurityUtils.decryptBySessionUUID(idStr), domainStr);
     }
 
     public static String encryptEmail(String email) {
@@ -126,16 +140,44 @@ public class AuthorizedHandles {
             return "";
         }
 
-        String[] emailArray = email.split("@");
-        return String.join("@", SecurityUtils.encryptBySessionUUID(emailArray[0]), emailArray[1]);
+        int atPos = email.indexOf('@');
+
+        String idStr = null;
+        String domainStr = null;
+        if (atPos < 0) {
+            return email;
+        } else if (atPos == 0) {
+            idStr = "";
+            domainStr = email;
+        } else {
+            idStr = email.substring(0, atPos);
+            domainStr = email.substring(atPos + 1);
+        }
+
+        return String.join("@", SecurityUtils.encryptBySessionUUID(idStr), domainStr);
     }
 
     public static String maskEmail(String email) {
         if (StringUtils.isNullOrEmptyString(email)) {
             return "";
         }
-        String[] emailArray = email.split("@");
-        return String.join("@", maskString(emailArray[0], 3, 16, '*', true), emailArray[1]);
+
+        int atPos = email.indexOf('@');
+
+        String idStr = null;
+        String domainStr = null;
+        if (atPos < 0) {
+            idStr = email;
+            domainStr = "";
+        } else if (atPos == 0) {
+            idStr = "";
+            domainStr = email;
+        } else {
+            idStr = email.substring(0, atPos);
+            domainStr = email.substring(atPos + 1);
+        }
+
+        return String.join("@", maskString(idStr, 3, 16, '*', true), domainStr);
     }
 
     /**

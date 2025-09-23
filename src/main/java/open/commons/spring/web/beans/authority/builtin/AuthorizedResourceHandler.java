@@ -33,13 +33,9 @@ import java.util.function.Function;
 import javax.annotation.Nonnull;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import open.commons.core.utils.ExceptionUtils;
-import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.authority.AuthorizedField;
-import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration;
+import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.beans.authority.builtin.ResourceHandle.Target;
@@ -139,9 +135,8 @@ public class AuthorizedResourceHandler implements IUnauthorizedFieldHandler, IAu
      * @see IUnauthorizedFieldHandler
      * @see Target#UNAUTHORIZED
      */
-    @Autowired
-    public void setAuthorizedResourceHandlers(
-            @Qualifier(AuthorizedResourcesConfiguration.BEAN_QUALIFIER_AUTHORIZED_RESOURCE_HANDLERS) @NotNull @Nonnull Collection<ResourceHandle> handlers) {
+//    @auto
+    public void setAuthorizedResourceHandlers(@NotNull @Nonnull Collection<ResourceHandle> handlers) {
         handlers.forEach(h -> {
             if (Target.AUTHORIZED == h.target()) {
                 this.authorizedDataHandlers.put(h.handleType(), h.handle());

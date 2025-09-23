@@ -26,33 +26,17 @@
 
 package open.commons.spring.web.exception;
 
+import org.springframework.beans.BeansException;
+
 /**
  * 
  * @since 2025. 6. 13.
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-public class IllegalBeanNameFqnResolveException extends RuntimeException {
+public class InvalidBeanNameFqnResolveException extends BeansException {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 6. 13.		박준홍			최초 작성
-     * </pre>
-     *
-     *
-     * @since 2025. 6. 13.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     */
-    public IllegalBeanNameFqnResolveException() {
-    }
 
     /**
      * <br>
@@ -70,7 +54,7 @@ public class IllegalBeanNameFqnResolveException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public IllegalBeanNameFqnResolveException(String message) {
+    public InvalidBeanNameFqnResolveException(String message) {
         super(message);
     }
 
@@ -91,51 +75,7 @@ public class IllegalBeanNameFqnResolveException extends RuntimeException {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public IllegalBeanNameFqnResolveException(String message, Throwable cause) {
+    public InvalidBeanNameFqnResolveException(String message, Throwable cause) {
         super(message, cause);
     }
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 6. 13.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param message
-     * @param cause
-     * @param enableSuppression
-     * @param writableStackTrace
-     *
-     * @since 2025. 6. 13.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     */
-    public IllegalBeanNameFqnResolveException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 6. 13.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param cause
-     *
-     * @since 2025. 6. 13.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     */
-    public IllegalBeanNameFqnResolveException(Throwable cause) {
-        super(cause);
-    }
-
 }

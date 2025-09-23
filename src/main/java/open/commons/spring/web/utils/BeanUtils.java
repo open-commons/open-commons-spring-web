@@ -46,7 +46,7 @@ import org.springframework.util.Assert;
 
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.core.utils.StringUtils;
-import open.commons.spring.web.exception.IllegalBeanNameFqnResolveException;
+import open.commons.spring.web.exception.InvalidBeanNameFqnResolveException;
 
 /**
  * Bean 관련 기능 제공.
@@ -324,7 +324,7 @@ public class BeanUtils {
             field.setAccessible(true);
             return (String) field.get(null); // static field
         } catch (Exception e) {
-            throw new IllegalBeanNameFqnResolveException("FQN 문자열에서 bean 이름을 추출할 수 없습니다: " + fqn, e);
+            throw new InvalidBeanNameFqnResolveException("FQN 문자열에서 bean 이름을 추출할 수 없습니다: " + fqn, e);
         }
     }
 }

@@ -1,3 +1,24 @@
+[2025/09/23]
+- New
+  + open.commons.spring.web.jackson
+    + AuthorizedFieldDeserializer
+    + AuthorizedFieldDeserializerModifier
+    + ContainerSimpleTypeElementWrappingDeserializer
+    + MapSimpleTypeValueWrappingDeserializer'
+  + open.commons.spring.web.exception
+    + InvalidBeanNameException
+- Rename    
+  + open.commons.spring.web.autoconfigure.configuration
+    + AuthorizedObjectForcedUnintelligibleConfiguration => AuthorizedResourceBuiltinHandlerConfiguration
+  + open.commons.spring.web.exception
+    + IllegalBeanNameFqnResolveException => InvalidBeanNameFqnResolveException
+- Modify
+  + AuthorizedHandles
+    + decryptEmail(String)
+    + encryptEmail(String)
+    + maskEmail(String)
+
+
 [2025/09/22]
 - New
   + open.commons.spring.web.beans.authority

@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -110,8 +111,9 @@ public class AuthorizedRequestDataMetadata implements IAuthorizedRequestDataMeta
      */
     @Override
     public AuthorizedRequestDataFieldMetadata getFieldMetadat(@NotNull @Nonnull Class<?> targetClass, @NotBlank String fieldName) {
-        if (isAuthorizedRequestDataObject(targetClass)) {
-            Optional<AuthorizedRequestDataFieldMetadata> opt = this.authorizedRequestFields.get(targetClass).stream() //
+        Class<?> supportingClass = supporingAuthorizedRequestDataObjectType(targetClass);
+        if (supportingClass != null) {
+            Optional<AuthorizedRequestDataFieldMetadata> opt = this.authorizedRequestFields.get(supportingClass).stream() //
                     .filter(fm -> fm.getName().equals(fieldName)) //
                     .findAny();
             return opt.isPresent() ? opt.get() : null;
@@ -167,7 +169,20 @@ public class AuthorizedRequestDataMetadata implements IAuthorizedRequestDataMeta
     @Override
     public AuthorizedRequestDataObjectMetadata getObjectMetadata(@NotNull @Nonnull Class<?> targetClass) {
         AssertUtils2.notNull(targetClass);
-        return this.authorizedRequestClasses.get(targetClass);
+
+        // 일치하는 클래스 조회
+        AuthorizedRequestDataObjectMetadata om = this.authorizedRequestClasses.get(targetClass);
+        if (om != null) {
+            return om;
+        }
+
+        // 상위 클래스 조회
+        for (Entry<Class<?>, AuthorizedRequestDataObjectMetadata> entry : this.authorizedRequestClasses.entrySet()) {
+            if (entry.getKey().isAssignableFrom(targetClass)) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 
     /**
@@ -258,6 +273,28 @@ public class AuthorizedRequestDataMetadata implements IAuthorizedRequestDataMeta
     public void setAuthorizedRequestObjectMetadata(Collection<AuthorizedRequestDataObjectMetadata> authorizedRequestObjectMetadata) {
         this.authorizedRequestObjectMetadata = authorizedRequestObjectMetadata;
         this.resolved = false;
+    }
+
+    /**
+     * 대상 클래스에 해당하는 정보 또는 대상 클래스의 상위 클래스를 지원하는 정보를 제공합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 23.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param targetClass
+     * @return
+     *
+     * @since 2025. 9. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private Class<?> supporingAuthorizedRequestDataObjectType(Class<?> targetClass) {
+        AuthorizedRequestDataObjectMetadata om = getObjectMetadata(targetClass);
+        return om != null ? om.getType() : null;
     }
 
 }

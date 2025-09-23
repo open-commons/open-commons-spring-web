@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import open.commons.core.utils.ExceptionUtils;
-import open.commons.spring.web.exception.IllegalBeanNameFqnResolveException;
+import open.commons.spring.web.exception.InvalidBeanNameFqnResolveException;
 import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties.Scheme;
 import open.commons.spring.web.utils.PathUtils;
 
@@ -110,7 +110,7 @@ public class InterceptorIgnoreValidator {
                     throw ExceptionUtils.newException(UnsupportedOperationException.class, "지원하지 않는 'scheme'(%s) 입니다. 지원목록=%s", prop.getScheme(), Scheme.values());
             }
         } catch (ClassNotFoundException e) {
-            throw ExceptionUtils.newException(IllegalBeanNameFqnResolveException.class, e, "'{}'에 해당하는 클래스 정보가 없습니다.", prop.getFqcn());
+            throw ExceptionUtils.newException(InvalidBeanNameFqnResolveException.class, e, "'{}'에 해당하는 클래스 정보가 없습니다.", prop.getFqcn());
         }
     }
 

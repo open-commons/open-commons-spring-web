@@ -107,13 +107,15 @@ public class AuthorizedObjectMessageConfigure implements WebMvcConfigurer {
      */
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        int index = 0;
-        for (HttpMessageConverter<?> c : converters) {
-            if (c instanceof MappingJackson2HttpMessageConverter) {
-                break;
-            }
-            index++;
-        }
-        converters.add(index, this.authorizeObjectMessageConverter);
+        converters.removeIf(c -> c instanceof MappingJackson2HttpMessageConverter);
+        converters.add(this.authorizeObjectMessageConverter);
+//        int index = 0;
+//        for (HttpMessageConverter<?> c : converters) {
+//            if (c instanceof MappingJackson2HttpMessageConverter) {
+//                break;
+//            }
+//            index++;
+//        }
+//        converters.add(index, this.authorizeObjectMessageConverter);
     }
 }

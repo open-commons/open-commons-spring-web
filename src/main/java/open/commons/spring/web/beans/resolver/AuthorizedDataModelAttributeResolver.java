@@ -142,7 +142,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
     }
 
     private boolean isSimpleValue(Class<?> type) {
-        return BeanUtils.isSimpleProperty(type) //
+        return BeanUtils.isSimpleValueType(type) //
                 || String.class.equals(type) //
                 || UUID.class.equals(type) //
         ;

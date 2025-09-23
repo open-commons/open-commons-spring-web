@@ -28,8 +28,12 @@ package open.commons.spring.web.jackson;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.lang.reflect.Type;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -46,12 +50,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonInputMessage;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -70,11 +77,13 @@ import open.commons.spring.web.thread.AuthorizedResourceContext;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -99,6 +108,16 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
     public static final String BEAN_QUALIFIER = "open.commons.spring.web.jackson.AuthorizedObjectJackson2HttpMessageConverter";
 
     private static final String DEFAULT_JACKSON_OBJECT_MAPPER = "jacksonObjectMapper";
+
+    private static final Map<String, JsonEncoding> ENCODINGS;
+
+    static {
+        ENCODINGS = CollectionUtils.newHashMap(JsonEncoding.values().length);
+        for (JsonEncoding encoding : JsonEncoding.values()) {
+            ENCODINGS.put(encoding.getJavaName(), encoding);
+        }
+        ENCODINGS.put("US-ASCII", JsonEncoding.UTF8);
+    }
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -207,6 +226,62 @@ public class AuthorizedObjectJackson2HttpMessageConverter extends MappingJackson
             }
             logger.trace("ObjectMapper 등록됨: {} -> {}", name, om.getClass().getName());
         });
+    }
+
+    @Override
+    public Object read(Type type, @Nullable Class<?> contextClass, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
+        JavaType javaType = getJavaType(type, contextClass);
+        return readJavaType(javaType, inputMessage);
+    }
+
+    /**
+     * {@link AbstractJackson2HttpMessageConverter#readJavaType(JavaType, HttpInputMessage)} 코드를 그대로 인용.
+     *
+     * @param javaType
+     * @param inputMessage
+     * @return
+     * @throws IOException
+     *
+     * @since 2025. 9. 23.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    @SuppressWarnings("null")
+    private Object readJavaType(JavaType javaType, HttpInputMessage inputMessage) throws IOException {
+        MediaType contentType = inputMessage.getHeaders().getContentType();
+        Charset charset = getCharset(contentType);
+
+        ObjectMapper objectMapper = allObjectMappers.get(AuthorizedResourcesConfiguration.BEAN_QUALIFIER_AUTHORIZED_OBJECT_MAPPER);
+        Assert.state(objectMapper != null, () -> "No ObjectMapper for " + javaType);
+
+        boolean isUnicode = ENCODINGS.containsKey(charset.name()) //
+                || "UTF-16".equals(charset.name()) //
+                || "UTF-32".equals(charset.name());
+        try {
+            InputStream inputStream = StreamUtils.nonClosing(inputMessage.getBody());
+            if (inputMessage instanceof MappingJacksonInputMessage) {
+                Class<?> deserializationView = ((MappingJacksonInputMessage) inputMessage).getDeserializationView();
+                if (deserializationView != null) {
+                    ObjectReader objectReader = objectMapper.readerWithView(deserializationView).forType(javaType);
+                    if (isUnicode) {
+                        return objectReader.readValue(inputStream);
+                    } else {
+                        Reader reader = new InputStreamReader(inputStream, charset);
+                        return objectReader.readValue(reader);
+                    }
+                }
+            }
+            if (isUnicode) {
+                return objectMapper.readValue(inputStream, javaType);
+            } else {
+                Reader reader = new InputStreamReader(inputStream, charset);
+                return objectMapper.readValue(reader, javaType);
+            }
+        } catch (InvalidDefinitionException ex) {
+            throw new HttpMessageConversionException("Type definition error: " + ex.getType(), ex);
+        } catch (JsonProcessingException ex) {
+            throw new HttpMessageNotReadableException("JSON parse error: " + ex.getOriginalMessage(), ex, inputMessage);
+        }
     }
 
     /**
