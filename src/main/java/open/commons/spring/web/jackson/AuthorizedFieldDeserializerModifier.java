@@ -41,7 +41,6 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import open.commons.core.utils.MapUtils;
 import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
@@ -276,14 +275,11 @@ public class AuthorizedFieldDeserializerModifier extends BeanDeserializerModifie
     }
 
     private static BeanPropertyDefinition findPropertyDef(Class<?> targetClass, BeanDescription beanDesc, String name) {
-        String propId = String.join("#", targetClass.getName(), name);
-        return MapUtils.getOrDefault(PROPERTY_DEF_CACHE //
-                , propId //
-                , () -> beanDesc.findProperties().stream() //
-                        .filter(p -> p.getName().equals(name)) //
-                        .findFirst() //
-                        .orElse(null) //
-                , true);
+        final String propId = String.join("#", targetClass.getName(), name);
+        return PROPERTY_DEF_CACHE.computeIfAbsent(propId, k -> beanDesc.findProperties().stream() //
+                .filter(p -> p.getName().equals(name)) //
+                .findFirst() //
+                .orElse(null));
     }
 
     private static <A extends Annotation> A getAnnotation(Annotated annotated, Class<A> annoClass) {
