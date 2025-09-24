@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 
@@ -40,6 +41,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import open.commons.core.utils.MapUtils;
 import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
@@ -66,11 +68,14 @@ import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
  */
 public class AuthorizedFieldDeserializerModifier extends BeanDeserializerModifier {
 
-    private final Logger logger = LoggerFactory.getLogger(AuthorizedFieldDeserializerModifier.class);
+    /** 특정 {@link BeanPropertyDefinition}에 설정된 {@link AuthorizedRequestData} 데이터 */
+    private static final ConcurrentHashMap<BeanPropertyDefinition, AuthorizedRequestData> AUTHORIZED_REQUEST_DATA_CACHE = new ConcurrentHashMap<>();
+    /** "{특정 클래스}#{필드}"의 {@link BeanPropertyDefinition} 캐쉬. */
+    private static final ConcurrentHashMap<String, BeanPropertyDefinition> PROPERTY_DEF_CACHE = new ConcurrentHashMap<>();
 
+    private final Logger logger = LoggerFactory.getLogger(AuthorizedFieldDeserializerModifier.class);
     /** 메타데이터 형태로 기술된 {@link AuthorizedRequestData} 정보를 제공하는 서비스. */
     private final IAuthorizedRequestDataMetadata authorizedRequestDataMetadata;
-
     /** 동적으로 bean을 제공 */
     private final BeanUtils BEANS;
 
@@ -166,18 +171,18 @@ public class AuthorizedFieldDeserializerModifier extends BeanDeserializerModifie
         while (itrProperties.hasNext()) {
             SettableBeanProperty prop = itrProperties.next();
             // BeanPropertyDefinition에서 해당 프로퍼티 찾기
-            BeanPropertyDefinition def = findPropertyDef(beanDesc, prop.getName());
+            BeanPropertyDefinition def = findPropertyDef(targetClass, beanDesc, prop.getName());
             if (def == null) {
                 continue;
             }
 
             // 필드/메서드 등 우선 멤버에서 어노테이션 탐색
             AuthorizedRequestData anno = findAuthorizedAnnotation(def);
+            fieldName = prop.getName();
             if (anno != null) {
                 handleBean = anno.handleBean();
                 handleType = anno.handleType();
             } else {
-                fieldName = prop.getName();
                 // IAuthorizedRequestDataMetadata 에서 정보 획득
                 handleBean = this.authorizedRequestDataMetadata.getHandleBeanName(targetClass, fieldName);
                 handleType = this.authorizedRequestDataMetadata.getHandleType(targetClass, fieldName);
@@ -205,23 +210,17 @@ public class AuthorizedFieldDeserializerModifier extends BeanDeserializerModifie
             }
             // Array / Collection
             else if (fieldType.isArrayType() || fieldType.isCollectionLikeType()) {
-                JavaType containerType = fieldType.getContentType();
-                if (isSimpleType(containerType.getRawClass())) {
-                    IAuthorizedRequestDataHandler handler = resolveHandler(handleBean);
-                    // delegate 'deserializer'
-                    JsonDeserializer<?> wrapper = new ContainerSimpleTypeElementWrappingDeserializer(fieldType, handler, handleType);
-                    toReplace.add(prop.withValueDeserializer(wrapper));
-                }
+                IAuthorizedRequestDataHandler handler = resolveHandler(handleBean);
+                // delegate 'deserializer'
+                JsonDeserializer<?> wrapper = new ContainerSimpleTypeElementWrappingDeserializer(fieldType, handler, handleType);
+                toReplace.add(prop.withValueDeserializer(wrapper));
             }
             // Map
             else if (fieldType.isMapLikeType()) {
-                JavaType mapType = fieldType.getContentType();
-                if (isSimpleType(mapType.getRawClass())) {
-                    IAuthorizedRequestDataHandler handler = resolveHandler(handleBean);
-                    // delegate 'deserializer'
-                    JsonDeserializer<?> wrapper = new MapSimpleTypeValueWrappingDeserializer(fieldType, handler, handleType);
-                    toReplace.add(prop.withValueDeserializer(wrapper));
-                }
+                IAuthorizedRequestDataHandler handler = resolveHandler(handleBean);
+                // delegate 'deserializer'
+                JsonDeserializer<?> wrapper = new MapSimpleTypeValueWrappingDeserializer(fieldType, handler, handleType);
+                toReplace.add(prop.withValueDeserializer(wrapper));
             }
         }
 
@@ -232,110 +231,6 @@ public class AuthorizedFieldDeserializerModifier extends BeanDeserializerModifie
 
         return builder;
     }
-
-    /**
-     *
-     * @since 2025. 9. 23.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     *
-     * @see com.fasterxml.jackson.databind.deser.BeanDeserializerModifier#modifyDeserializer(com.fasterxml.jackson.databind.DeserializationConfig,
-     *      com.fasterxml.jackson.databind.BeanDescription, com.fasterxml.jackson.databind.JsonDeserializer)
-     */
-    // @Override
-    // public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config, BeanDescription beanDesc,
-    // JsonDeserializer<?> deserializer) {
-    //
-    // if (!(deserializer instanceof BeanDeserializerBase)) {
-    // return deserializer;
-    // }
-    //
-    // // POJO 타입 정보
-    // Class<?> targetClass = beanDesc.getBeanClass();
-    // // 필드 정보
-    // String fieldName = null;
-    // JavaType fieldType = null;
-    // Class<?> fieldRawType = null;
-    // // AuthorizedRequestData 관련 정보
-    // String handleBean = null;
-    // int handleType = AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE;
-    //
-    // BeanDeserializerBase base = (BeanDeserializerBase) deserializer;
-    // Iterator<SettableBeanProperty> itrProperties = base.properties();
-    //
-    // Map<String, SettableBeanProperty> newProps = new LinkedHashMap<>();
-    //
-    // while (itrProperties.hasNext()) {
-    // SettableBeanProperty prop = itrProperties.next();
-    // // BeanPropertyDefinition에서 해당 프로퍼티 찾기
-    // BeanPropertyDefinition def = findPropertyDef(beanDesc, prop.getName());
-    // if (def == null) {
-    // continue;
-    // }
-    //
-    // // 필드/메서드 등 우선 멤버에서 어노테이션 탐색
-    // AuthorizedRequestData anno = findAuthorizedAnnotation(def);
-    // if (anno != null) {
-    // handleBean = anno.handleBean();
-    // handleType = anno.handleType();
-    // } else {
-    // fieldName = prop.getName();
-    // // IAuthorizedRequestDataMetadata 에서 정보 획득
-    // handleBean = this.authorizedRequestDataMetadata.getHandleBeanName(targetClass, fieldName);
-    // handleType = this.authorizedRequestDataMetadata.getHandleType(targetClass, fieldName);
-    // }
-    //
-    // if (!validateBeanNameAndHandleType(handleBean, handleType)) {
-    // if (anno != null) {
-    // String errMsg = String.format("'%s.%s'에 대한 '%s' 정보가 설정되어 있지만, 올바르지 않습니다. handleBean=%s, handleType=%s",
-    // targetClass.getName(), prop.getType().getRawClass(),
-    // AuthorizedRequestData.class.getName(), handleBean, handleBean);
-    // logger.error("{}", errMsg);
-    // throw new InvalidBeanNameException(errMsg);
-    // }
-    // // 메타데이터가 없으면 이 필드는 패스
-    // continue;
-    // }
-    //
-    // // 타입 정보
-    // fieldType = prop.getType();
-    // fieldRawType = fieldType.getRawClass();
-    //
-    // // 단순 값 → 바로 AuthorizedFieldDeserializer
-    // if (isSimpleType(fieldRawType)) {
-    // IAuthorizedRequestDataHandler handler = resolveHandler(handleBean);
-    // JsonDeserializer<Object> customDeser = new AuthorizedFieldDeserializer(handler, handleType);
-    // prop = prop.withValueDeserializer(customDeser);
-    // }
-    // // Collection/Array element simple type
-    // else if (fieldType.isArrayType() || fieldType.isCollectionLikeType()) {
-    // JavaType elemType = fieldType.getContentType();
-    // if (isSimpleType(elemType.getRawClass())) {
-    // IAuthorizedRequestDataHandler handler = resolveHandler(handleBean);
-    // // delegate 'deserializer'
-    // JsonDeserializer<?> collectionDeserializer = prop.getValueDeserializer();
-    // JsonDeserializer<?> wrapper = new ContainerSimpleTypeElementWrappingDeserializer(collectionDeserializer, handler,
-    // handleType);
-    // prop = prop.withValueDeserializer(wrapper);
-    // }
-    // }
-    // // Map value simple type
-    // else if (fieldType.isMapLikeType()) {
-    // JavaType valType = fieldType.getContentType();
-    // if (isSimpleType(valType.getRawClass())) {
-    // IAuthorizedRequestDataHandler handler = resolveHandler(handleBean);
-    // // delegate 'deserializer'
-    // JsonDeserializer<?> mapDeserializer = prop.getValueDeserializer();
-    // JsonDeserializer<?> wrapper = new MapSimpleTypeValueWrappingDeserializer(mapDeserializer, handler, handleType);
-    // prop = prop.withValueDeserializer(wrapper);
-    // }
-    // }
-    //
-    // newProps.put(prop.getName(), prop);
-    // }
-    //
-    // return base.withBeanProperties(new BeanPropertyMap(true, newProps.values(), null, Locale.getDefault()));
-    // }
 
     /**
      * {@link AuthorizedRequestData}에 사용될 정보를 검증합니다.
@@ -364,25 +259,31 @@ public class AuthorizedFieldDeserializerModifier extends BeanDeserializerModifie
     }
 
     private static AuthorizedRequestData findAuthorizedAnnotation(BeanPropertyDefinition def) {
-        // 필드/Setter/Getter 등 우선순위 멤버에서 탐색
-        AnnotatedMember m = def.getPrimaryMember();
-        AuthorizedRequestData annotation = null;
-        return m != null //
-                ? (annotation = getAnnotation(def.getField(), AuthorizedRequestData.class)) != null //
-                        ? annotation //
-                        : (annotation = getAnnotation(def.getSetter(), AuthorizedRequestData.class)) != null //
-                                ? annotation //
-                                : (annotation = getAnnotation(def.getGetter(), AuthorizedRequestData.class)) != null //
-                                        ? annotation //
-                                        : null //
-                : null;
+        return AUTHORIZED_REQUEST_DATA_CACHE.computeIfAbsent(def, _def -> {
+            // 필드/Setter/Getter 등 우선순위 멤버에서 탐색
+            AnnotatedMember m = _def.getPrimaryMember();
+            AuthorizedRequestData annotation = null;
+            return m != null //
+                    ? (annotation = getAnnotation(_def.getField(), AuthorizedRequestData.class)) != null //
+                            ? annotation //
+                            : (annotation = getAnnotation(_def.getSetter(), AuthorizedRequestData.class)) != null //
+                                    ? annotation //
+                                    : (annotation = getAnnotation(_def.getGetter(), AuthorizedRequestData.class)) != null //
+                                            ? annotation //
+                                            : null //
+                    : null;
+        });
     }
 
-    private static BeanPropertyDefinition findPropertyDef(BeanDescription beanDesc, String name) {
-        return beanDesc.findProperties().stream() //
-                .filter(p -> p.getName().equals(name)) //
-                .findFirst() //
-                .orElse(null);
+    private static BeanPropertyDefinition findPropertyDef(Class<?> targetClass, BeanDescription beanDesc, String name) {
+        String propId = String.join("#", targetClass.getName(), name);
+        return MapUtils.getOrDefault(PROPERTY_DEF_CACHE //
+                , propId //
+                , () -> beanDesc.findProperties().stream() //
+                        .filter(p -> p.getName().equals(name)) //
+                        .findFirst() //
+                        .orElse(null) //
+                , true);
     }
 
     private static <A extends Annotation> A getAnnotation(Annotated annotated, Class<A> annoClass) {

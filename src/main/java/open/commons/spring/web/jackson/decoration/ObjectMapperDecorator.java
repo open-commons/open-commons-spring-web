@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.jacksons.decoration;
+package open.commons.spring.web.jackson.decoration;
 
 import java.util.Collections;
 import java.util.Set;
@@ -73,7 +73,7 @@ public class ObjectMapperDecorator implements IObjectMapperDecorator {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.jacksons.decoration.IObjectMapperDecorator#disables()
+     * @see open.commons.spring.web.jackson. decoration.IObjectMapperDecorator#disables()
      */
     @Override
     public Set<Object> disables() {
@@ -86,7 +86,7 @@ public class ObjectMapperDecorator implements IObjectMapperDecorator {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.jacksons.decoration.IObjectMapperDecorator#enables()
+     * @see open.commons.spring.web.jackson. decoration.IObjectMapperDecorator#enables()
      */
     @Override
     public Set<Object> enables() {
@@ -99,7 +99,7 @@ public class ObjectMapperDecorator implements IObjectMapperDecorator {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.jacksons.decoration.IObjectMapperDecorator#modules()
+     * @see open.commons.spring.web.jackson. decoration.IObjectMapperDecorator#modules()
      */
     @Override
     public Set<Module> modules() {
@@ -112,7 +112,7 @@ public class ObjectMapperDecorator implements IObjectMapperDecorator {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.jacksons.decoration.IObjectMapperDecorator#namedTypes()
+     * @see open.commons.spring.web.jackson. decoration.IObjectMapperDecorator#namedTypes()
      */
     @Override
     public Set<NamedType> namedTypes() {
@@ -125,7 +125,7 @@ public class ObjectMapperDecorator implements IObjectMapperDecorator {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.jacksons.decoration.IObjectMapperDecorator#subtypes()
+     * @see open.commons.spring.web.jackson. decoration.IObjectMapperDecorator#subtypes()
      */
     @Override
     public Set<Class<?>> subtypes() {

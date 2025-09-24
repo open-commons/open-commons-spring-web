@@ -36,7 +36,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -45,7 +44,6 @@ import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -66,6 +64,7 @@ import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesCo
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataMetadata;
 import open.commons.spring.web.servlet.InternalServerException;
+import open.commons.spring.web.utils.BeanUtils;
 import open.commons.spring.web.utils.ClassInspector;
 
 /**
@@ -82,15 +81,15 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @NotNull
-    private final ApplicationContext applicationContext;
-
-    @NotNull
     private final IAuthorizedRequestDataMetadata authorizedRequestDataMetadata;
 
     // 클래스별로 "처리 대상 필드 목록"을 캐싱
     // - @AuthorizedData 가 붙은 필드
     // - 혹은 nested 탐색이 필요한 컨테이너/복합타입 필드(재귀 진입용)
     private final ConcurrentHashMap<Class<?>, List<Field>> authorizedDataFieldCache = new ConcurrentHashMap<>();
+    
+    @NotNull
+    private final ApplicationContext applicationContext;
 
     public AuthorizedDataModelAttributeResolver(ApplicationContext applicationContext, IAuthorizedRequestDataMetadata authorizedRequestDataMetadata //
     ) {
@@ -139,13 +138,6 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
      */
     private List<Field> getProcessableFields(Class<?> clazz) {
         return this.authorizedDataFieldCache.computeIfAbsent(clazz, ClassInspector::getAllFields);
-    }
-
-    private boolean isSimpleValue(Class<?> type) {
-        return BeanUtils.isSimpleValueType(type) //
-                || String.class.equals(type) //
-                || UUID.class.equals(type) //
-        ;
     }
 
     /**
@@ -258,13 +250,12 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
         }
         Class<?> rawValueClass = rawValue.getClass();
 
-        if (isSimpleValue(rawValueClass)) {
+        if (BeanUtils.isSimpleValueType(rawValueClass)) {
             return restoreValue(applicationContext, handleBean, handleType, rawValue);
         } else if (rawValueClass.isArray()) {
             Object[] valueArr = (Object[]) rawValue;
-            int len = Array.getLength(rawValue);
-            for (int i = 0; i < len; i++) {
-                Object elemValue = Array.get(rawValue, i);
+            for (int i = 0; i < valueArr.length; i++) {
+                Object elemValue = valueArr[i];
                 if (elemValue != null) {
                     // 복호화/평문화 데이터를 받아 기존 데이터를 교체.
                     valueArr[i] = resolveRawValue(elemValue, handleBean, handleType, visited);

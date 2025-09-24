@@ -121,8 +121,15 @@ public class MapSimpleTypeValueWrappingDeserializer extends JsonDeserializer<Obj
      */
     @Override
     public JsonDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) throws JsonMappingException {
-        JsonDeserializer<Object> base = (JsonDeserializer<Object>) ctxt.findContextualValueDeserializer(mapType, property);
-        return new MapSimpleTypeValueWrappingDeserializer(this.mapType, this.handler, this.handleType, base);
+        if (this.delegate != null) {
+            return this; // 이미 contextual-resolved
+        }
+        //  Map 타입 자체로 표준 delegate 획득
+        JsonDeserializer<Object> std = (JsonDeserializer<Object>) ctxt.findContextualValueDeserializer(mapType, property);
+        if (std == null) {
+            std = (JsonDeserializer<Object>) ctxt.findRootValueDeserializer(mapType);
+        }
+        return new MapSimpleTypeValueWrappingDeserializer(mapType, handler, handleType, std);
     }
 
     /**
@@ -134,7 +141,6 @@ public class MapSimpleTypeValueWrappingDeserializer extends JsonDeserializer<Obj
      * @see com.fasterxml.jackson.databind.deser.std.DelegatingDeserializer#deserialize(com.fasterxml.jackson.core.JsonParser,
      *      com.fasterxml.jackson.databind.DeserializationContext)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         Object mapObj = this.delegate.deserialize(p, ctxt);
@@ -143,12 +149,7 @@ public class MapSimpleTypeValueWrappingDeserializer extends JsonDeserializer<Obj
             return mapObj;
         }
 
-        Map<Object, Object> rawValues = (Map<Object, Object>) mapObj;
-        for (Map.Entry<Object, Object> entry : rawValues.entrySet()) {
-            Object oldValue = entry.getValue();
-            Object newValue = oldValue != null ? this.handler.restoreValue(this.handleType, oldValue) : null;
-            entry.setValue(newValue);
-        }
-        return rawValues;
+        //  그 다음 자바 객체를 재귀 후처리 (값/value만 대상)
+        return AuthorizedRequestDataContainerWalker.processRecursively(mapObj, mapType, handler, handleType);
     }
 }

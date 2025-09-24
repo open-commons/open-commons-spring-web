@@ -30,6 +30,7 @@ import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
@@ -267,6 +268,31 @@ public class BeanUtils {
     }
 
     /**
+     * 주어진 클래스가 'simple vale type' 인지 여부를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 24.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param type
+     * @return
+     *
+     * @since 2025. 9. 24.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see org.springframework.beans.BeanUtils#isSimpleValueType(Class)
+     */
+    public static boolean isSimpleValueType(Class<?> type) {
+        return org.springframework.beans.BeanUtils.isSimpleValueType(type) //
+                || UUID.class.equals(type) //
+        ;
+    }
+
+    /**
      * 
      * <br>
      * 
@@ -327,4 +353,5 @@ public class BeanUtils {
             throw new InvalidBeanNameFqnResolveException("FQN 문자열에서 bean 이름을 추출할 수 없습니다: " + fqn, e);
         }
     }
+
 }

@@ -28,10 +28,7 @@ package open.commons.spring.web.jackson;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.ListIterator;
 
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 
@@ -116,43 +113,6 @@ public class ContainerSimpleTypeElementWrappingDeserializer extends JsonDeserial
         this.delegate = delegate;
     }
 
-    private Object coercePrimitiveIfNeeded(Class<?> componentType, Object value) {
-        if (!componentType.isPrimitive())
-            return value;
-        if (value == null) {
-            // primitive에 null은 불가 → 0/false 기본값
-            if (boolean.class.equals(componentType))
-                return false;
-            if (char.class.equals(componentType))
-                return (char) 0;
-            return 0;
-        }
-        if (boolean.class.equals(componentType)) {
-            return (value instanceof Boolean) ? value : Boolean.parseBoolean(String.valueOf(value));
-        }
-        if (char.class.equals(componentType)) {
-            if (value instanceof Character)
-                return value;
-            String s = String.valueOf(value);
-            return s.isEmpty() ? (char) 0 : s.charAt(0);
-        }
-        // 수치형
-        Number n = (value instanceof Number) ? (Number) value : parseNumber(String.valueOf(value));
-        if (byte.class.equals(componentType))
-            return n.byteValue();
-        if (short.class.equals(componentType))
-            return n.shortValue();
-        if (int.class.equals(componentType))
-            return n.intValue();
-        if (long.class.equals(componentType))
-            return n.longValue();
-        if (float.class.equals(componentType))
-            return n.floatValue();
-        if (double.class.equals(componentType))
-            return n.doubleValue();
-        return value;
-    }
-
     /**
      *
      * @since 2025. 9. 23.
@@ -164,9 +124,15 @@ public class ContainerSimpleTypeElementWrappingDeserializer extends JsonDeserial
      */
     @Override
     public JsonDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) throws JsonMappingException {
-        // 기본 컨테이너 deserializer 확보 (이 시점엔 준비되어 있음)
-        JsonDeserializer<Object> base = (JsonDeserializer<Object>) ctxt.findContextualValueDeserializer(containerType, property);
-        return new ContainerSimpleTypeElementWrappingDeserializer(this.containerType, this.handler, this.handleType, base);
+        if (this.delegate != null) {
+            return this; // 이미 contextual-resolved
+        }
+        // 컨테이너 타입 자체로 표준 delegate 획득 (property 컨텍스트 고려)
+        JsonDeserializer<Object> std = (JsonDeserializer<Object>) ctxt.findContextualValueDeserializer(containerType, property);
+        if (std == null) {
+            std = (JsonDeserializer<Object>) ctxt.findRootValueDeserializer(containerType);
+        }
+        return new ContainerSimpleTypeElementWrappingDeserializer(containerType, handler, handleType, std);
     }
 
     /**
@@ -178,7 +144,6 @@ public class ContainerSimpleTypeElementWrappingDeserializer extends JsonDeserial
      * @see com.fasterxml.jackson.databind.deser.std.DelegatingDeserializer#deserialize(com.fasterxml.jackson.core.JsonParser,
      *      com.fasterxml.jackson.databind.DeserializationContext)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         // Jackson이 컨테이너 전체를 먼저 만듦
@@ -188,64 +153,7 @@ public class ContainerSimpleTypeElementWrappingDeserializer extends JsonDeserial
             return null;
         }
 
-        // List 인 경우, 데이터를 복제하지 않고 처리
-        if (container instanceof List) {
-            ListIterator<Object> itr = ((List<Object>) container).listIterator();
-            while (itr.hasNext()) {
-                Object elemValue = itr.next();
-                // itr.set(this.elemDeserializer.deserialize(ctxt.getParser(), ctxt));
-                itr.set(handleObject(elemValue));
-            }
-            return container;
-        }
-
-        // 그 이외의 경우 데이터를 복제하여 처리
-        if (container instanceof Collection) {
-            Collection<Object> col = (Collection<Object>) container;
-            Collection<Object> newCol = instantiateSameCollection(col);
-            for (Object elem : col) {
-                newCol.add(handleObject(elem));
-            }
-            return newCol;
-        }
-
-        // 배열: 원시/레퍼런스 배열 모두 지원
-        Class<?> compType = container.getClass().getComponentType();
-        if (compType != null && container.getClass().isArray()) {
-            int len = Array.getLength(container);
-            Object newArr = Array.newInstance(compType, len);
-            for (int i = 0; i < len; i++) {
-                Object v = Array.get(container, i);
-                Object nv = handleObject(v);
-                Array.set(newArr, i, coercePrimitiveIfNeeded(compType, nv));
-            }
-            return newArr;
-        }
-
-        return container;
+        // 그 다음 자바 객체를 재귀 후처리 (파서 재소모 없음)
+        return AuthorizedRequestDataContainerWalker.processRecursively(container, containerType, handler, handleType);
     }
-
-    private Object handleObject(Object value) {
-        return this.handler.restoreValue(this.handleType, value);
-    }
-
-    @SuppressWarnings("unchecked")
-    private Collection<Object> instantiateSameCollection(Collection<Object> col) {
-        try {
-            return col.getClass().getDeclaredConstructor().newInstance();
-        } catch (Throwable ignore) {
-            return new ArrayList<>(col.size());
-        }
-    }
-
-    private Number parseNumber(String s) {
-        try {
-            if (s.indexOf('.') >= 0)
-                return Double.valueOf(s);
-            return Long.valueOf(s);
-        } catch (Exception ignore) {
-            return 0;
-        }
-    }
-
 }

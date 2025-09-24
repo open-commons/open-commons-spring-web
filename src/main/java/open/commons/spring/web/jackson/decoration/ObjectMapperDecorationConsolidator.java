@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.jacksons.decoration;
+package open.commons.spring.web.jackson.decoration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,7 +107,7 @@ public class ObjectMapperDecorationConsolidator implements IObjectMapperDecorati
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.jacksons.decoration.IObjectMapperDecorationConsolidator#addObjectMapperDecorator(java.util.Collection)
+     * @see open.commons.spring.web.jackson. decoration.IObjectMapperDecorationConsolidator#addObjectMapperDecorator(java.util.Collection)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -122,7 +122,7 @@ public class ObjectMapperDecorationConsolidator implements IObjectMapperDecorati
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.jacksons.decoration.IObjectMapperDecorationConsolidator#addObjectMapperDecorator(open.commons.spring.web.jacksons.decoration.IObjectMapperDecorator[])
+     * @see open.commons.spring.web.jackson. decoration.IObjectMapperDecorationConsolidator#addObjectMapperDecorator(open.commons.spring.web.jackson. decoration.IObjectMapperDecorator[])
      */
     @Override
     public void addObjectMapperDecorator(@NotNull IObjectMapperDecorator... decorators) {
@@ -135,7 +135,7 @@ public class ObjectMapperDecorationConsolidator implements IObjectMapperDecorati
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.jacksons.decoration.IObjectMapperDecorationConsolidator#configureFeature(com.fasterxml.jackson.databind.ObjectMapper)
+     * @see open.commons.spring.web.jackson. decoration.IObjectMapperDecorationConsolidator#configureFeature(com.fasterxml.jackson.databind.ObjectMapper)
      */
     @Override
     public void configureFeature(@NotNull ObjectMapper objectMapper) {

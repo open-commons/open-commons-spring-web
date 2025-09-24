@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.jacksons.decoration;
+package open.commons.spring.web.jackson.decoration;
 
 import java.util.Set;
 
