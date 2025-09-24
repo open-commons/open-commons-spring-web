@@ -26,8 +26,8 @@
 
 package open.commons.spring.web.beans.authority;
 
-import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.authority.AuthorizedField;
+import open.commons.spring.web.authority.AuthorizedRequestData;
 
 /**
  * {@link AuthorizedRequestData#handleBean()}에서 사용되는 인터페이스.

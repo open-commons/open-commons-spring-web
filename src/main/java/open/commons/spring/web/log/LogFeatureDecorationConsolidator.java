@@ -34,7 +34,6 @@ import java.util.function.Function;
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

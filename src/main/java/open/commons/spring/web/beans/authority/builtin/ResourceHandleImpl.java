@@ -31,8 +31,8 @@ import java.util.function.Function;
 import javax.annotation.Nonnull;
 
 import open.commons.core.utils.AssertUtils2;
-import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.authority.AuthorizedField;
+import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 
@@ -61,7 +61,7 @@ public class ResourceHandleImpl implements ResourceHandle {
     private final Function<?, ?> handle;
 
     /** 우선 적용 여부 */
-    private final boolean preemtive;
+    private final boolean preemptive;
 
     /**
      * <br>
@@ -116,7 +116,7 @@ public class ResourceHandleImpl implements ResourceHandle {
         this.target = target;
         this.handleType = handleType;
         this.handle = handle;
-        this.preemtive = preemtive;
+        this.preemptive = preemtive;
     }
 
     /**
@@ -155,7 +155,7 @@ public class ResourceHandleImpl implements ResourceHandle {
      */
     @Override
     public boolean preemptive() {
-        return this.preemtive;
+        return this.preemptive;
     }
 
     /**

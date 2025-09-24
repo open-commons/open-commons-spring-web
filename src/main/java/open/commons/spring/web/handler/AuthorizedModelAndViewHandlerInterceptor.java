@@ -53,7 +53,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import open.commons.core.TwoValueObject;
 import open.commons.core.utils.ExceptionUtils;
-import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
@@ -131,7 +130,7 @@ public class AuthorizedModelAndViewHandlerInterceptor implements HandlerIntercep
 
         Set<Object> visited = Collections.newSetFromMap(new IdentityHashMap<>());
         for (Entry<String, Object> entry : model.entrySet()) {
-            Object o = resolve(entry.getValue(), visited);
+            Object o = resolveRawValue(entry.getValue(), null, AuthorizedField.NO_ASSINGED_HANDLE_TYPE, visited, true);
             entry.setValue(o);
         }
     }
@@ -182,108 +181,35 @@ public class AuthorizedModelAndViewHandlerInterceptor implements HandlerIntercep
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private TwoValueObject<String, Integer> resolveAnnotatedContext(Class<?> targetClass, String fieldName, AuthorizedRequestData anno) {
+    private TwoValueObject<String, Integer> resolveAnnotatedContext(Class<?> targetClass, String fieldName, AuthorizedField anno) {
         if (anno != null) {
-            return new TwoValueObject<>(anno.handleBean(), anno.handleType());
+            return new TwoValueObject<>(anno.fieldHandleBean(), anno.handleType());
         } else {
 
-//            String handleBean = this.authorizedRequestDataMetadata.getHandleBeanName(targetClass, fieldName);
-//            if (StringUtils.isNullOrEmptyString(handleBean)) {
-//                return null;
-//            }
-//            int handleType = this.authorizedRequestDataMetadata.getHandleType(targetClass, fieldName);
-//            if (handleType == AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE) {
-//                return null;
-//            }
+            // String handleBean = this.authorizedRequestDataMetadata.getHandleBeanName(targetClass, fieldName);
+            // if (StringUtils.isNullOrEmptyString(handleBean)) {
+            // return null;
+            // }
+            // int handleType = this.authorizedRequestDataMetadata.getHandleType(targetClass, fieldName);
+            // if (handleType == AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE) {
+            // return null;
+            // }
 
-//            return new TwoValueObject<>(handleBean, handleType);
+            // return new TwoValueObject<>(handleBean, handleType);
             return null;
         }
     }
 
-    /**
-     * 
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜      | 작성자   |   내용
-     * ------------------------------------------
-     * 2025. 9. 18.     박준홍         최초 작성
-     * </pre>
-     * 
-     * @param targetValue
-     *            확인할 데이터
-     * @param visited
-     *            {@link Field}를 스캔할 객체.
-     * @since 2025. 9. 18.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    private Object resolve(Object targetValue, Set<Object> visited) {
-        if (targetValue == null || visited.contains(targetValue)) {
-            return null;
+    private Object resolveRawValue(Object rawValue, String handleBean, int handleType, Set<Object> visited, boolean fromRoot) {
+        if (rawValue == null || visited.contains(rawValue)) {
+            return rawValue;
         }
-        visited.add(targetValue);
+        visited.add(rawValue);
 
-        Class<?> targetClass = targetValue.getClass();
-        if (BeanUtils.isSimpleValueType(targetClass)) {
-            return targetValue;
-        } else if (targetClass.isArray()) {
-            Object[] valueArr = (Object[]) targetValue;
-            for (int i = 0; i < valueArr.length; i++) {
-                Object elemValue = valueArr[i];
-                if (elemValue != null) {
-                    // 복호화/평문화 데이터를 받아 기존 데이터를 교체.
-                    valueArr[i] = resolveRawValue(elemValue, null, AuthorizedField.NO_ASSINGED_HANDLE_TYPE, visited);
-                }
-            }
-        }
-        // 명확한 List 처리
-        else if (targetValue instanceof List) {
-            @SuppressWarnings("unchecked")
-            ListIterator<Object> itr = ((List<Object>) targetValue).listIterator();
-            while (itr.hasNext()) {
-                Object elemValue = itr.next();
-                if (elemValue != null) {
-                    itr.set(resolveRawValue(elemValue, null, AuthorizedField.NO_ASSINGED_HANDLE_TYPE, visited));
-                }
-            }
-        }
-        // List를 제외한 Collection 자식 처리
-        else if (targetValue instanceof Collection) {
-            @SuppressWarnings("unchecked")
-            Collection<Object> valueCol = (Collection<Object>) targetValue;
-            Collection<Object> tempCol = valueCol.stream().collect(Collectors.toList());
-            // 복호화/평문화 데이터를 받기 위해 기존 객체를 유지하고 내용만 비움.
-            valueCol.clear();
-            for (Object elem : tempCol) {
-                valueCol.add(resolveRawValue(elem, null, AuthorizedField.NO_ASSINGED_HANDLE_TYPE, visited));
-            }
-        } else if (targetValue instanceof Map) {
-            @SuppressWarnings("unchecked")
-            Map<Object, Object> valueMap = (Map<Object, Object>) targetValue;
-            for (Entry<?, ?> entry : valueMap.entrySet()) {
-                Object elemValue = entry.getValue();
-                if (elemValue != null) {
-                    valueMap.put(entry.getKey(), resolveRawValue(elemValue, null, AuthorizedField.NO_ASSINGED_HANDLE_TYPE, visited));
-                }
-            }
-        } else {
-            resolvePojo(targetValue, visited);
-        }
-
-        return targetValue;
-    }
-
-    private Object resolveRawValue(Object rawValue, String handleBean, int handleType, Set<Object> visited) {
-        if (rawValue == null) {
-            return null;
-        }
         Class<?> rawValueClass = rawValue.getClass();
 
         if (BeanUtils.isSimpleValueType(rawValueClass)) {
-            return handleObject(handleBean, handleType, rawValue);
+            return fromRoot ? rawValue : handleObject(handleBean, handleType, rawValue);
         } else if (rawValueClass.isArray()) {
             Object[] valueArr = (Object[]) rawValue;
             int len = Array.getLength(rawValue);
@@ -291,7 +217,7 @@ public class AuthorizedModelAndViewHandlerInterceptor implements HandlerIntercep
                 Object elemValue = Array.get(rawValue, i);
                 if (elemValue != null) {
                     // 복호화/평문화 데이터를 받아 기존 데이터를 교체.
-                    valueArr[i] = resolveRawValue(elemValue, handleBean, handleType, visited);
+                    valueArr[i] = resolveRawValue(elemValue, handleBean, handleType, visited, false);
                 }
             }
         }
@@ -302,7 +228,7 @@ public class AuthorizedModelAndViewHandlerInterceptor implements HandlerIntercep
             while (itr.hasNext()) {
                 Object elemValue = itr.next();
                 if (elemValue != null) {
-                    itr.set(resolveRawValue(elemValue, handleBean, handleType, visited));
+                    itr.set(resolveRawValue(elemValue, handleBean, handleType, visited, false));
                 }
             }
         }
@@ -314,7 +240,7 @@ public class AuthorizedModelAndViewHandlerInterceptor implements HandlerIntercep
             // 복호화/평문화 데이터를 받기 위해 기존 객체를 유지하고 내용만 비움.
             valueCol.clear();
             for (Object elem : tempCol) {
-                valueCol.add(resolveRawValue(elem, handleBean, handleType, visited));
+                valueCol.add(resolveRawValue(elem, handleBean, handleType, visited, false));
             }
         } else if (rawValue instanceof Map) {
             @SuppressWarnings("unchecked")
@@ -322,7 +248,7 @@ public class AuthorizedModelAndViewHandlerInterceptor implements HandlerIntercep
             for (Entry<?, ?> entry : valueMap.entrySet()) {
                 Object elemValue = entry.getValue();
                 if (elemValue != null) {
-                    valueMap.put(entry.getKey(), resolveRawValue(elemValue, handleBean, handleType, visited));
+                    valueMap.put(entry.getKey(), resolveRawValue(elemValue, handleBean, handleType, visited, false));
                 }
             }
         } else {
@@ -342,7 +268,7 @@ public class AuthorizedModelAndViewHandlerInterceptor implements HandlerIntercep
         List<Field> fields = getProcessableFields(targetClass);
         Object rawValue = null;
         String handleBean = null;
-        int handleType = AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE;
+        int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
         for (Field field : fields) {
             field.setAccessible(true);
             try {
@@ -350,13 +276,13 @@ public class AuthorizedModelAndViewHandlerInterceptor implements HandlerIntercep
                 if (rawValue == null) {
                     continue;
                 }
-                TwoValueObject<String, Integer> annotatedValue = resolveAnnotatedContext(targetClass, field.getName(), field.getAnnotation(AuthorizedRequestData.class));
+                TwoValueObject<String, Integer> annotatedValue = resolveAnnotatedContext(targetClass, field.getName(), field.getAnnotation(AuthorizedField.class));
                 if (annotatedValue == null) {
                     continue;
                 }
                 handleBean = annotatedValue.first;
                 handleType = annotatedValue.second;
-                Object value = resolveRawValue(rawValue, handleBean, handleType, visited);
+                Object value = resolveRawValue(rawValue, handleBean, handleType, visited, false);
                 field.set(targetValue, value);
             } catch (BeansException e) {
                 String errMsg = String
@@ -402,8 +328,8 @@ public class AuthorizedModelAndViewHandlerInterceptor implements HandlerIntercep
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     private Object handleObject(String handleBean, int handleType, Object rawValue) throws BeansException {
-        if (rawValue == null) {
-            return null;
+        if (rawValue == null || handleBean == null || handleType == AuthorizedField.NO_ASSINGED_HANDLE_TYPE) {
+            return rawValue;
         }
         try {
             IUnauthorizedFieldHandler handler = this.context.getBean(handleBean, IUnauthorizedFieldHandler.class);

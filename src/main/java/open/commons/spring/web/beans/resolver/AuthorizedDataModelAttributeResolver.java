@@ -26,7 +26,6 @@
 
 package open.commons.spring.web.beans.resolver;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
@@ -87,7 +86,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
     // - @AuthorizedData 가 붙은 필드
     // - 혹은 nested 탐색이 필요한 컨테이너/복합타입 필드(재귀 진입용)
     private final ConcurrentHashMap<Class<?>, List<Field>> authorizedDataFieldCache = new ConcurrentHashMap<>();
-    
+
     @NotNull
     private final ApplicationContext applicationContext;
 

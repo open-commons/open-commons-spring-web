@@ -31,8 +31,8 @@ import java.util.function.Function;
 import javax.annotation.Nonnull;
 import javax.validation.constraints.NotNull;
 
-import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.authority.AuthorizedField;
+import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 
@@ -133,8 +133,8 @@ public interface ResourceHandle {
         /**
          * '권한제어' 해제 대상
          * 
-         * @see {@link AuthorizedData}
-         * @see {@link IAuthorizedDataHandler}
+         * @see {@link AuthorizedRequestData}
+         * @see {@link IAuthorizedRequestDataHandler}
          */
         AUTHORIZED,
     }
