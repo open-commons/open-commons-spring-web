@@ -49,7 +49,6 @@ import com.fasterxml.jackson.databind.deser.std.MapDeserializer;
  */
 public class MapSimpleTypeValueWrappingDeserializer extends JsonDeserializer<Object> implements ContextualDeserializer {
 
-    private static final long serialVersionUID = 1L;
     // Map<*, SimpleType>
     private final JavaType mapType;
     private final IAuthorizedRequestDataHandler handler;

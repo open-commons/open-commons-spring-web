@@ -53,8 +53,6 @@ import com.fasterxml.jackson.databind.deser.std.CollectionDeserializer;
  */
 public class ContainerSimpleTypeElementWrappingDeserializer extends JsonDeserializer<Object> implements ContextualDeserializer {
 
-    private static final long serialVersionUID = 1L;
-
     // List, Set, Collection, [] 등
     private final JavaType containerType;
     private final IAuthorizedRequestDataHandler handler;
