@@ -59,9 +59,9 @@ import open.commons.core.TwoValueObject;
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.authority.AuthorizedRequestData;
-import open.commons.spring.web.autoconfigure.configuration.AuthorizedResourcesConfiguration;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataMetadata;
+import open.commons.spring.web.config.CustomWebMvcAutoConfiguration;
 import open.commons.spring.web.servlet.InternalServerException;
 import open.commons.spring.web.utils.BeanUtils;
 import open.commons.spring.web.utils.ClassInspector;
@@ -69,7 +69,7 @@ import open.commons.spring.web.utils.ClassInspector;
 /**
  * "{@link AuthorizedRequestData} && ({@link ModelAttribute} ||
  * {@link ModelAttributeMethodProcessor#annotationNotRequired} )"가 선언된 파라미터를 처리합니다.<br>
- * {@link AuthorizedResourcesConfiguration}을 통해서 {@link Bean}으로 제공됩니다.
+ * {@link CustomWebMvcAutoConfiguration}을 통해서 {@link Bean}으로 제공됩니다.
  * 
  * @since 2025. 9. 18.
  * @version 0.8.0
@@ -244,8 +244,8 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
     }
 
     private Object resolveRawValue(Object rawValue, String handleBean, int handleType, Set<Object> visited) {
-        if (rawValue == null) {
-            return null;
+        if (rawValue == null || visited.contains(rawValue)) {
+            return rawValue;
         }
         Class<?> rawValueClass = rawValue.getClass();
 
@@ -312,4 +312,16 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
         return super.supportsParameter(parameter);
     }
 
+    /**
+     *
+     * @since 2025. 9. 25.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see org.springframework.web.method.annotation.ModelAttributeMethodProcessor#supportsReturnType(org.springframework.core.MethodParameter)
+     */
+    @Override
+    public boolean supportsReturnType(MethodParameter returnType) {
+        return false;
+    }
 }

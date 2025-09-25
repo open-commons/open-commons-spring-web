@@ -1,3 +1,10 @@
+[2025/09/25]
+- New
+  + open.commons.spring.web.authority.AuthorizedResourceUtils
+  + open.commons.spring.web.handler.AuthorizedModelAndViewHandlerInterceptor
+  + open.commons.spring.web.handler.PostProcessingHandlerInterceptor: HandlerInterceptor 를 등록하고 후처리를 지원하는 인터페이스
+
+
 [2025/09/23]
 - New
   + open.commons.spring.web.jackson

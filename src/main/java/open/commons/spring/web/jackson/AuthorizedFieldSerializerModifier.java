@@ -34,9 +34,9 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.context.ApplicationContext;
 
-import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedObject;
+import open.commons.spring.web.authority.AuthorizedResourceUtils;
 import open.commons.spring.web.authority.metadata.AuthorizedFieldMetadata;
 import open.commons.spring.web.authority.metadata.AuthorizedObjectMetadata;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
@@ -164,50 +164,12 @@ public class AuthorizedFieldSerializerModifier extends BeanSerializerModifier {
                 continue;
             }
 
-            authority = getBean(IFieldAccessAuthorityProvider.class, authorityBeanNameOnObject, authorityBeanNameOnField);
-            unauthorized = getBean(IUnauthorizedFieldHandler.class, fieldHandleBeanNamOnObject, fieldHandleBeanNamOnField);
+            authority = AuthorizedResourceUtils.getBean(this.BEANS, IFieldAccessAuthorityProvider.class, authorityBeanNameOnObject, authorityBeanNameOnField);
+            unauthorized = AuthorizedResourceUtils.getBean(this.BEANS, IUnauthorizedFieldHandler.class, fieldHandleBeanNamOnObject, fieldHandleBeanNamOnField);
 
             writer.assignSerializer(new AuthorizedFieldSerializer(serializedType, annoField, authority, unauthorized, this.authorizedResourcesMetadata));
         }
 
         return super.changeProperties(config, beanDesc, beanProperties);
-    }
-
-    /**
-     * 
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 5. 26.		박준홍			최초 작성
-     * </pre>
-     *
-     * @param <T>
-     * @param beanType
-     *            Bean 유형
-     * @param o
-     *            타입에 정의된 어노테이션 이름
-     * @param f
-     *            필드에 정의된 어노테이션 이름
-     * @return
-     *
-     * @since 2025. 5. 26.
-     * @version 0.8.0
-     * @author Park, Jun-Hong parkjunhong77@gmail.com
-     */
-    private <T> T getBean(Class<T> beanType, Supplier<String> o, Supplier<String> f) {
-        String beanName = null;
-        if (f == null) {
-            beanName = o.get();
-        } else {
-            String fBean = f.get();
-            beanName = StringUtils.isNullOrEmptyString(fBean) //
-                    ? o.get()//
-                    : fBean;
-        }
-
-        return BEANS.findBean(beanName, beanType, null, true);
     }
 }

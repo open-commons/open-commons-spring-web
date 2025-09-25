@@ -40,6 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -61,6 +62,7 @@ import open.commons.spring.web.enums.EnumConverterFactory;
 import open.commons.spring.web.enums.EnumPackages;
 import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
 import open.commons.spring.web.handler.InterceptorIgnoreValidator;
+import open.commons.spring.web.handler.PostProcessingHandlerInterceptor;
 
 /**
  * 사용자 정의 설정을 자동으로 등록해주는 클래스.
@@ -194,6 +196,8 @@ import open.commons.spring.web.handler.InterceptorIgnoreValidator;
  * @author Park_Jun_Hong_(parkjunhong77@gmail.com)S
  */
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
+    /** 사용자 정의 {@link WebMvcConfigurer} 들 중에서 가장 마지막으로 실행하기 위한 설정값 */
+    public static final int ORDER = Ordered.LOWEST_PRECEDENCE;
 
     /**
      * Prefix of configurations in appliation.yml(or .properteis, or ...)<br>
@@ -386,12 +390,15 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
         WebMvcConfigurer.super.addInterceptors(registry);
 
-        // Bean 중에서 HandlerIntereceptor 를 구현한 객체를 찾아서.
-        Collection<HandlerInterceptor> intcptrs = context.getBeansOfType(HandlerInterceptor.class).values();
+        // Bean 중에서 HandlerInterceptor 를 구현한 객체를 찾아서.
+        Collection<HandlerInterceptor> customIntcptrs = context.getBeansOfType(HandlerInterceptor.class).values();
 
-        intcptrs.stream() //
+        customIntcptrs.stream() //
                 .forEach(intcptr -> {
                     InterceptorRegistration intcptrReg = registry.addInterceptor(intcptr);
+                    if (intcptr instanceof PostProcessingHandlerInterceptor) {
+                        ((PostProcessingHandlerInterceptor) intcptr).afterRegistered(intcptrReg);
+                    }
                     for (InterceptorIgnoreUrlProperties p : this.interceptorIgnoreUrlConfigurations) {
                         if (InterceptorIgnoreValidator.isAvailable(p, intcptr)) {
                             addIncludePatternsToInterceptor(intcptrReg, p.getIncludePathPatterns().stream().collect(Collectors.toList()));
@@ -400,7 +407,6 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
                     }
                     logger.info("[handler-interceptor] interceptor={}", intcptr);
                 });
-
     }
 
     /**

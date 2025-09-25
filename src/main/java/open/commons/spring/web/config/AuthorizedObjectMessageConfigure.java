@@ -59,14 +59,15 @@ public class AuthorizedObjectMessageConfigure implements WebMvcConfigurer {
      * ------------------------------------------
      * 2025. 5. 26.		박준홍			최초 작성
      * </pre>
-     *
+     * 
      * @param authorizeObjectMessageConverter
-     *
+     * 
      * @since 2025. 5. 26.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AuthorizedObjectMessageConfigure(@NotNull AuthorizedObjectJackson2HttpMessageConverter authorizeObjectMessageConverter) {
+    public AuthorizedObjectMessageConfigure(@NotNull AuthorizedObjectJackson2HttpMessageConverter authorizeObjectMessageConverter //
+    ) {
         this.authorizeObjectMessageConverter = authorizeObjectMessageConverter;
     }
 
@@ -107,15 +108,15 @@ public class AuthorizedObjectMessageConfigure implements WebMvcConfigurer {
      */
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.removeIf(c -> c instanceof MappingJackson2HttpMessageConverter);
-        converters.add(this.authorizeObjectMessageConverter);
-//        int index = 0;
-//        for (HttpMessageConverter<?> c : converters) {
-//            if (c instanceof MappingJackson2HttpMessageConverter) {
-//                break;
-//            }
-//            index++;
-//        }
-//        converters.add(index, this.authorizeObjectMessageConverter);
+        // converters.removeIf(c -> c instanceof MappingJackson2HttpMessageConverter);
+        // converters.add(this.authorizeObjectMessageConverter);
+        int index = 0;
+        for (HttpMessageConverter<?> c : converters) {
+            if (c instanceof MappingJackson2HttpMessageConverter) {
+                break;
+            }
+            index++;
+        }
+        converters.add(index, this.authorizeObjectMessageConverter);
     }
 }

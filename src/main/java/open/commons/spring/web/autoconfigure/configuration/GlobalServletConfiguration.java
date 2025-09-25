@@ -56,7 +56,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import open.commons.core.utils.CollectionUtils;
-import open.commons.core.utils.FunctionUtils;
 import open.commons.core.utils.MapUtils;
 import open.commons.core.utils.StreamUtils;
 import open.commons.spring.web.config.ResourceConfiguration;
@@ -68,6 +67,7 @@ import open.commons.spring.web.servlet.filter.RequestHeaderFilter;
 import open.commons.spring.web.servlet.filter.RequestThreadNameFilter;
 import open.commons.spring.web.servlet.filter.header.SharedHeader;
 import open.commons.spring.web.servlet.filter.header.SharedHeadersBuiltinProvider;
+import open.commons.spring.web.utils.PathUtils;
 
 /**
  * 
@@ -375,11 +375,10 @@ public class GlobalServletConfiguration {
         prop.setTarget("open.commons.spring.web.handler.*");
 
         // 웹서비스 개발시 정적 자원 경로: ${spring.mvc.static-path-pattern}
-        FunctionUtils.runIf(this.environment.getProperty("spring.mvc.static-path-pattern"), v -> prop.addExcludePathPattern(v));
-
+        PathUtils.addEnvironmentProperty(this.environment, "spring.mvc.static-path-pattern", prop::addExcludePathPattern);
         // --> begin: Swagger API
         // Swager Doc. API 경로: ${springdoc.api-docs.path}
-        FunctionUtils.runIf(this.environment.getProperty("springdoc.api-docs.path"), v -> {
+        PathUtils.addEnvironmentProperty(this.environment, "springdoc.api-docs.path", v -> {
             if (v.endsWith("/**")) {
                 prop.addExcludePathPattern(v);
             } else {
@@ -429,16 +428,17 @@ public class GlobalServletConfiguration {
         List<AntPathRequest> paths = new ArrayList<>();
 
         // 웹서비스 개발시 정적 자원 경로: ${spring.mvc.static-path-pattern}
-        FunctionUtils.runIf(this.environment.getProperty("spring.mvc.static-path-pattern"), v -> paths.add(new AntPathRequest(v)));
+        PathUtils.addEnvironmentProperty(this.environment, "spring.mvc.static-path-pattern", AntPathRequest::new, paths::add);
         // --> begin: Swagger API
         // Swager Doc. API 경로: ${springdoc.api-docs.path}
-        FunctionUtils.runIf(this.environment.getProperty("springdoc.api-docs.path"), v -> {
+        PathUtils.addEnvironmentProperty(this.environment, "springdoc.api-docs.path", v -> {
             if (v.endsWith("/**")) {
                 paths.add(new AntPathRequest(v));
             } else {
                 paths.add(new AntPathRequest(String.join("", v, "/**")));
             }
         });
+        // Swagger 웹 페이지 자원 경로
         paths.add(new AntPathRequest("/swagger/**", HttpMethod.GET));
         paths.add(new AntPathRequest("/swagger-ui/**", HttpMethod.GET));
 

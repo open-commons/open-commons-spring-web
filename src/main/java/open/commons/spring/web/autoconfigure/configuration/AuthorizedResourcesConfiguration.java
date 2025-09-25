@@ -40,6 +40,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
@@ -54,6 +55,7 @@ import open.commons.spring.web.beans.authority.IRequestAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.beans.authority.builtin.AuthorizedResourceHandler;
 import open.commons.spring.web.beans.authority.builtin.ResourceHandle;
+import open.commons.spring.web.handler.AuthorizedModelAndViewHandlerInterceptor;
 import open.commons.spring.web.jackson.AuthorizedFieldDeserializerModifier;
 import open.commons.spring.web.jackson.AuthorizedFieldSerializerModifier;
 import open.commons.spring.web.servlet.filter.AuthorizedResourceFilter;
@@ -138,4 +140,14 @@ public class AuthorizedResourcesConfiguration {
         return h;
     }
 
+    @Bean
+    @Primary
+    @ConditionalOnBean({ IFieldAccessAuthorityProvider.class, IUnauthorizedFieldHandler.class })
+    AuthorizedModelAndViewHandlerInterceptor authorizedModelAndViewHandlerInterceptor(ApplicationContext context //
+            , @NotNull @Nonnull IAuthorizedResourcesMetadata authorizedResourcesMetadata //
+    ) {
+        AuthorizedModelAndViewHandlerInterceptor h = new AuthorizedModelAndViewHandlerInterceptor(context, authorizedResourcesMetadata);
+        logger.info("[authorized-resources] authorized-model_and_view-handler-interceptor={}", h);
+        return h;
+    }
 }

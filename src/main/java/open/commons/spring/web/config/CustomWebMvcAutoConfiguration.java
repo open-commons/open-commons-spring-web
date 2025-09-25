@@ -127,6 +127,7 @@ public class CustomWebMvcAutoConfiguration {
     }
 
     @Bean
+    @Order(CustomWebMvcConfigurer.ORDER)
     public CustomWebMvcConfigurer customWebMvcConfigurer() {
         CustomWebMvcConfigurer c = new CustomWebMvcConfigurer(this.context, this.environment);
         logger.info("[web-mvc-configurer] custom-web-mvc-configurer={}", c);

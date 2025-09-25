@@ -122,7 +122,7 @@ public class AuthorizedFieldSerializer extends JsonSerializer<Object> implements
     public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property) throws JsonMappingException {
         AuthorizedField annotation = property.getAnnotation(AuthorizedField.class);
         if (annotation != null) {
-            return new AuthorizedFieldSerializer(null, this.annotatedField, this.authority, this.fieldHandler, this.authorizedResourcesMetadata);
+            return new AuthorizedFieldSerializer(this.serializedType, this.annotatedField, this.authority, this.fieldHandler, this.authorizedResourcesMetadata);
         }
         return prov.findValueSerializer(property.getType(), property);
     }
