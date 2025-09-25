@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.jackson;
+package open.commons.spring.web.jackson.serialization;
 
 import java.util.List;
 import java.util.Objects;
@@ -45,11 +45,13 @@ import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.utils.BeanUtils;
 
 import com.fasterxml.jackson.databind.BeanDescription;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
 import com.fasterxml.jackson.databind.introspect.AnnotatedField;
 import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
+import com.fasterxml.jackson.databind.ser.BeanSerializerBuilder;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 
 /**
@@ -110,8 +112,8 @@ public class AuthorizedFieldSerializerModifier extends BeanSerializerModifier {
         // #2. 필드 처리.
         AnnotatedField annoField = null;
         AuthorizedField annoAuthorizedField = null;
-        IFieldAccessAuthorityProvider authority = null;
-        IUnauthorizedFieldHandler unauthorized = null;
+        IFieldAccessAuthorityProvider fieldAccessor = null;
+        IUnauthorizedFieldHandler fieldHandler = null;
 
         Supplier<String> authorityBeanNameOnObject = null;
         Supplier<String> authorityBeanNameOnField = null;
@@ -164,12 +166,44 @@ public class AuthorizedFieldSerializerModifier extends BeanSerializerModifier {
                 continue;
             }
 
-            authority = AuthorizedResourceUtils.getBean(this.BEANS, IFieldAccessAuthorityProvider.class, authorityBeanNameOnObject, authorityBeanNameOnField);
-            unauthorized = AuthorizedResourceUtils.getBean(this.BEANS, IUnauthorizedFieldHandler.class, fieldHandleBeanNamOnObject, fieldHandleBeanNamOnField);
+            fieldAccessor = AuthorizedResourceUtils.getBean(this.BEANS, IFieldAccessAuthorityProvider.class, authorityBeanNameOnObject, authorityBeanNameOnField);
+            fieldHandler = AuthorizedResourceUtils.getBean(this.BEANS, IUnauthorizedFieldHandler.class, fieldHandleBeanNamOnObject, fieldHandleBeanNamOnField);
 
-            writer.assignSerializer(new AuthorizedFieldSerializer(serializedType, annoField, authority, unauthorized, this.authorizedResourcesMetadata));
+            JavaType fieldType = writer.getType();
+            Class<?> raw = fieldType.getRawClass();
+
+            // 단순 타입
+            if (AuthorizedFieldDecisionUtil.isSimpleType(raw)) {
+                writer.assignSerializer(new AuthorizedFieldSerializer(serializedType, annoField, fieldAccessor, fieldHandler, this.authorizedResourcesMetadata));
+            }
+            // 배열, Collection
+            else if (fieldType.isArrayType() || fieldType.isCollectionLikeType()) {
+                writer.assignSerializer(new ContainerSimpleTypeElementWrappingSerializer(serializedType, annoField, fieldAccessor, fieldHandler, this.authorizedResourcesMetadata));
+            }
+            // Map
+            else if (fieldType.isMapLikeType()) {
+                writer.assignSerializer(new MapSimpleTypeValueWrappingSerializer(serializedType, annoField, fieldAccessor, fieldHandler, this.authorizedResourcesMetadata));
+            }
+            // POJO 필드는 assign하지 않음 → 내부 필드의 @AuthorizedField 가 처리
         }
 
-        return super.changeProperties(config, beanDesc, beanProperties);
+        return beanProperties;
+    }
+
+    /**
+     *
+     * @since 2025. 9. 25.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see com.fasterxml.jackson.databind.ser.BeanSerializerModifier#updateBuilder(com.fasterxml.jackson.databind.SerializationConfig,
+     *      com.fasterxml.jackson.databind.BeanDescription, com.fasterxml.jackson.databind.ser.BeanSerializerBuilder)
+     */
+    @Override
+    public BeanSerializerBuilder updateBuilder(SerializationConfig config, BeanDescription beanDesc, BeanSerializerBuilder builder) {
+
+        builder.getProperties();
+
+        return super.updateBuilder(config, beanDesc, builder);
     }
 }

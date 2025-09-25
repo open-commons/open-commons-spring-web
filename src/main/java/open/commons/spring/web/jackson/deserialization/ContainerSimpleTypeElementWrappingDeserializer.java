@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.jackson;
+package open.commons.spring.web.jackson.deserialization;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -128,11 +128,11 @@ public class ContainerSimpleTypeElementWrappingDeserializer extends JsonDeserial
             return this; // 이미 contextual-resolved
         }
         // 컨테이너 타입 자체로 표준 delegate 획득 (property 컨텍스트 고려)
-        JsonDeserializer<Object> std = (JsonDeserializer<Object>) ctxt.findContextualValueDeserializer(containerType, property);
+        JsonDeserializer<Object> std = (JsonDeserializer<Object>) ctxt.findContextualValueDeserializer(this.containerType, property);
         if (std == null) {
-            std = (JsonDeserializer<Object>) ctxt.findRootValueDeserializer(containerType);
+            std = (JsonDeserializer<Object>) ctxt.findRootValueDeserializer(this.containerType);
         }
-        return new ContainerSimpleTypeElementWrappingDeserializer(containerType, handler, handleType, std);
+        return new ContainerSimpleTypeElementWrappingDeserializer(this.containerType, this.handler, this.handleType, std);
     }
 
     /**
@@ -154,6 +154,6 @@ public class ContainerSimpleTypeElementWrappingDeserializer extends JsonDeserial
         }
 
         // 그 다음 자바 객체를 재귀 후처리 (파서 재소모 없음)
-        return AuthorizedRequestDataContainerWalker.processRecursively(container, containerType, handler, handleType);
+        return AuthorizedRequestDataContainerWalker.processRecursively(container, this.containerType, this.handler, this.handleType);
     }
 }

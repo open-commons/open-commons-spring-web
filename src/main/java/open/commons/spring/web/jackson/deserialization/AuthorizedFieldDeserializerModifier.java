@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.jackson;
+package open.commons.spring.web.jackson.deserialization;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;

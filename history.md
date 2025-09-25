@@ -1,4 +1,13 @@
 [2025/09/25]
+- Bugfix
+  + 중첩된 형태의 Container 유형 (배열of배열, ListOfList, MapOfMap)  데이터 처리 적용
+    + open.commons.spring.web.jackson.serialization
+      + AbstractWrappingSerializer
+      + AuthorizedFieldDecisionUtil
+      + AuthorizedFieldSerializer
+      + AuthorizedFieldSerializerModifier
+      + ContainerSimpleTypeElementWrappingSerializer
+      + MapSimpleTypeValueWrappingSerializer
 - New
   + open.commons.spring.web.authority.AuthorizedResourceUtils
   + open.commons.spring.web.handler.AuthorizedModelAndViewHandlerInterceptor

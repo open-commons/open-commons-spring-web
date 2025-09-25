@@ -56,8 +56,8 @@ import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.beans.authority.builtin.AuthorizedResourceHandler;
 import open.commons.spring.web.beans.authority.builtin.ResourceHandle;
 import open.commons.spring.web.handler.AuthorizedModelAndViewHandlerInterceptor;
-import open.commons.spring.web.jackson.AuthorizedFieldDeserializerModifier;
-import open.commons.spring.web.jackson.AuthorizedFieldSerializerModifier;
+import open.commons.spring.web.jackson.deserialization.AuthorizedFieldDeserializerModifier;
+import open.commons.spring.web.jackson.serialization.AuthorizedFieldSerializerModifier;
 import open.commons.spring.web.servlet.filter.AuthorizedResourceFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -35,9 +35,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import open.commons.spring.web.authority.AuthorizedObject;
-import open.commons.spring.web.jackson.AuthorizedFieldSerializer;
-import open.commons.spring.web.jackson.AuthorizedFieldSerializerModifier;
 import open.commons.spring.web.jackson.AuthorizedObjectJackson2HttpMessageConverter;
+import open.commons.spring.web.jackson.serialization.AuthorizedFieldSerializer;
+import open.commons.spring.web.jackson.serialization.AuthorizedFieldSerializerModifier;
 
 /**
  * {@link AuthorizedObject} 어노테이션이 설정된 타입을 serialize를 처리하는 {@link HttpMessageConverter}를 등록하는 서비스.

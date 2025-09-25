@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.jackson;
+package open.commons.spring.web.jackson.deserialization;
 
 import java.io.IOException;
 import java.util.Map;
@@ -124,12 +124,12 @@ public class MapSimpleTypeValueWrappingDeserializer extends JsonDeserializer<Obj
         if (this.delegate != null) {
             return this; // 이미 contextual-resolved
         }
-        //  Map 타입 자체로 표준 delegate 획득
-        JsonDeserializer<Object> std = (JsonDeserializer<Object>) ctxt.findContextualValueDeserializer(mapType, property);
+        // Map 타입 자체로 표준 delegate 획득
+        JsonDeserializer<Object> std = (JsonDeserializer<Object>) ctxt.findContextualValueDeserializer(this.mapType, property);
         if (std == null) {
-            std = (JsonDeserializer<Object>) ctxt.findRootValueDeserializer(mapType);
+            std = (JsonDeserializer<Object>) ctxt.findRootValueDeserializer(this.mapType);
         }
-        return new MapSimpleTypeValueWrappingDeserializer(mapType, handler, handleType, std);
+        return new MapSimpleTypeValueWrappingDeserializer(this.mapType, this.handler, this.handleType, std);
     }
 
     /**
@@ -149,7 +149,7 @@ public class MapSimpleTypeValueWrappingDeserializer extends JsonDeserializer<Obj
             return mapObj;
         }
 
-        //  그 다음 자바 객체를 재귀 후처리 (값/value만 대상)
-        return AuthorizedRequestDataContainerWalker.processRecursively(mapObj, mapType, handler, handleType);
+        // 그 다음 자바 객체를 재귀 후처리 (값/value만 대상)
+        return AuthorizedRequestDataContainerWalker.processRecursively(mapObj, this.mapType, this.handler, this.handleType);
     }
 }
