@@ -28,14 +28,24 @@ package open.commons.spring.web.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nonnull;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
+import open.commons.core.utils.AssertUtils2;
+import open.commons.core.utils.ExceptionUtils;
+import open.commons.core.utils.MapUtils;
 import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.beans.authority.builtin.ResourceHandle;
 import open.commons.spring.web.beans.authority.builtin.ResourceHandle.Target;
@@ -50,6 +60,9 @@ import open.commons.spring.web.utils.SecurityUtils;
  */
 @Configuration
 public class AuthorizedHandles {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizedHandles.class);
+
     /** 문자열 암/복호화 */
     public static final int CIPHER_STRING = 0x00;
     /** 전화번호 masking */
@@ -63,7 +76,33 @@ public class AuthorizedHandles {
     /** IPv6 masking */
     public static final int MASKING_IPV6 = MASKING_IPV4 + 1;
 
+    private static final MultiValueMap<Integer, Target> HANDLE_TYPES = new LinkedMultiValueMap<>();
+    private static final List<ResourceHandle> BUILTIN_HANDLES = new ArrayList<>();
+
+    static {
+        // CIPHER_STRING (문자열 암/복호화)
+        registerResourceHandle(CIPHER_STRING, Target.UNAUTHORIZED, (Function<String, String>) SecurityUtils::encryptBySessionUUID, false);
+        registerResourceHandle(CIPHER_STRING, Target.AUTHORIZED, (Function<String, String>) SecurityUtils::decryptBySessionUUID, false);
+
+        // MASKING_PHONE_NUMBER (전화번호 마스킹)
+        registerResourceHandle(MASKING_PHONE_NUMBER, Target.UNAUTHORIZED, (Function<String, String>) AuthorizedHandles::maskPhoneNumber, false);
+
+        // MASKING_EMAIL (email masking)
+        registerResourceHandle(MASKING_EMAIL, Target.UNAUTHORIZED, (Function<String, String>) AuthorizedHandles::maskEmail, false);
+
+        // CIPHER_EMAIL (email 암/복호화)
+        registerResourceHandle(CIPHER_EMAIL, Target.UNAUTHORIZED, (Function<String, String>) AuthorizedHandles::encryptEmail, false);
+        registerResourceHandle(CIPHER_EMAIL, Target.AUTHORIZED, (Function<String, String>) AuthorizedHandles::decryptEmail, false);
+
+        // MASKING_IPV4
+        registerResourceHandle(MASKING_IPV4, Target.UNAUTHORIZED, (Function<String, String>) ipv4 -> AuthorizedHandles.maskIPv4(ipv4, 2, 3), false);
+
+        // MASKING_IPV6
+        registerResourceHandle(MASKING_IPV6, Target.UNAUTHORIZED, (Function<String, String>) ipv4 -> AuthorizedHandles.maskIPv6(ipv4, 2, 3, 4, 5, 6, 7), false);
+    }
+
     private static final String DELIM_REGEX = "[-/:_]";
+
     private static final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("^\\d+([-_/:]\\d+)*$");
     private static final Pattern IPV4_PATTERN = Pattern.compile("^(\\d{1,3})\\.?(\\d{1,3})\\.?(\\d{1,3})\\.?(\\d{1,3})$");
 
@@ -87,29 +126,42 @@ public class AuthorizedHandles {
 
     @Bean
     List<ResourceHandle> authorizedResourcesHandles() {
+        return Collections.unmodifiableList(BUILTIN_HANDLES);
+    }
 
-        List<ResourceHandle> handles = new ArrayList<>();
-        // CIPHER_STRING (문자열 암/복호화)
-        handles.add(new ResourceHandleImpl(Target.UNAUTHORIZED, CIPHER_STRING, (Function<String, String>) SecurityUtils::encryptBySessionUUID));
-        handles.add(new ResourceHandleImpl(Target.AUTHORIZED, CIPHER_STRING, (Function<String, String>) SecurityUtils::decryptBySessionUUID));
+    /**
+     * 등록하려는 '데이터 처리방식' 식별정보가 사용 가능한지 여부를 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 27.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param handleType
+     *            '데이터 처리방식' 식별정보
+     * @param targetType
+     *            적옹 대상 유형
+     * @param preemptive
+     *            이미 존재하는 경우 교체 여부.
+     * @return
+     *
+     * @since 2025. 9. 27.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static void assertUsableHandleType(int handleType, @Nonnull Target targetType, boolean preemptive) {
+        AssertUtils2.notNull(targetType);
+        if (preemptive //
+                || !HANDLE_TYPES.containsKey(handleType) //
+                || !HANDLE_TYPES.get(handleType).contains(targetType) //
+        ) {
+            update(handleType, targetType);
+            return;
+        }
 
-        // MASKING_PHONE_NUMBER (전화번호 마스킹)
-        handles.add(new ResourceHandleImpl(Target.UNAUTHORIZED, MASKING_PHONE_NUMBER, (Function<String, String>) AuthorizedHandles::maskPhoneNumber));
-
-        // MASKING_EMAIL (email masking)
-        handles.add(new ResourceHandleImpl(Target.UNAUTHORIZED, MASKING_EMAIL, (Function<String, String>) AuthorizedHandles::maskEmail));
-
-        // CIPHER_EMAIL (email 암/복호화)
-        handles.add(new ResourceHandleImpl(Target.UNAUTHORIZED, CIPHER_EMAIL, (Function<String, String>) AuthorizedHandles::encryptEmail));
-        handles.add(new ResourceHandleImpl(Target.AUTHORIZED, CIPHER_EMAIL, (Function<String, String>) AuthorizedHandles::decryptEmail));
-
-        // MASKING_IPV4
-        handles.add(new ResourceHandleImpl(Target.UNAUTHORIZED, MASKING_IPV4, (Function<String, String>) ipv4 -> AuthorizedHandles.maskIPv4(ipv4, 2, 3)));
-
-        // MASKING_IPV6
-        handles.add(new ResourceHandleImpl(Target.UNAUTHORIZED, MASKING_IPV6, (Function<String, String>) ipv4 -> AuthorizedHandles.maskIPv6(ipv4, 2, 3, 4, 5, 6, 7)));
-
-        return handles;
+        throw ExceptionUtils.newException(IllegalArgumentException.class, "'%s' 데이터 유형에 대한 처리방식(%s)이 존재합니다. 교체여부=%s", targetType, handleType, preemptive);
     }
 
     public static String decryptEmail(String email) {
@@ -449,6 +501,59 @@ public class AuthorizedHandles {
             return StringUtils.rightPad(str.substring(0, visibleLen), max, padChar);
         } else {
             return StringUtils.leftPad(str.substring(str.length() - visibleLen), max, padChar);
+        }
+    }
+
+    /**
+     * 내부적으로 {@link ResourceHandle} 등록 절차를 통합하여 실행합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 29.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param handleType
+     * @param targetType
+     * @param function
+     * @param preemptive
+     *
+     * @since 2025. 9. 29.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private static void registerResourceHandle(int handleType, Target targetType, Function<?, ?> function, boolean preemptive) {
+        assertUsableHandleType(handleType, targetType, preemptive);
+        HANDLE_TYPES.add(handleType, targetType);
+        BUILTIN_HANDLES.add(new ResourceHandleImpl(targetType, handleType, function, preemptive));
+    }
+
+    /**
+     * 새로운 데이터인 경우 추가합니다.<br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 27.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param handleType
+     * @param targetType
+     *
+     * @since 2025. 9. 27.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private static void update(int handleType, Target targetType) {
+        List<Target> targets = MapUtils.getOrDefault(HANDLE_TYPES, handleType, () -> {
+            return new ArrayList<>();
+        }, true);
+        if (!targets.contains(targetType)) {
+            targets.add(targetType);
+
+            LOGGER.debug("새로운 핸들타입이 추가되었습니다. handleType={}, targetType={}", handleType, targetType);
         }
     }
 }
