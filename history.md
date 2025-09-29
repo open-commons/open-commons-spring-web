@@ -1,3 +1,19 @@
+[2025/09/29]
+- New
+  + open.commons.spring.web.config.AuthorizedHandlesConfiguration: ResouceHandles 등록을 분리.
+- Modify
+  + 패키지명 수정: open.commons.spring.web.beans.authority.builtin => open.commons.spring.web.beans.authority.internal
+    + AuthorizedHandles
+    + AuthorizedResourceHandler
+    + ForcedUnintelligibleHandler
+    + ForcedUnintelligibleHandleType
+    + ForcedUnintelligibleJudge
+    + ResourceHandleImpl
+  + 패키지 변경
+    + open.commons.spring.web.beans.authority.internal
+      + AuthorizedHandles
+      + ResourceHandleImpl
+
 [2025/09/25]
 - Bugfix
   + 중첩된 형태의 Container 유형 (배열of배열, ListOfList, MapOfMap)  데이터 처리 적용
