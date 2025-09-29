@@ -13,6 +13,11 @@
     + open.commons.spring.web.beans.authority.internal
       + AuthorizedHandles
       + ResourceHandleImpl
+- Add
+  + Spring Environment Property Placeholder 패턴(${...:default})을 지원
+      + open.commons.spring.web.aspect.AbstractAuthorizedResourceAspect.findConfigurationValue(String)
+  + 응용프로그램이 제공하는 REST API 목록 제공
+    + open.commons.spring.web.beans.controller      
 
 [2025/09/25]
 - Bugfix

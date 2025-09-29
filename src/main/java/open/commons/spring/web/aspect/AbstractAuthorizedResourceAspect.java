@@ -28,6 +28,8 @@ package open.commons.spring.web.aspect;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -40,6 +42,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 
+import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.authority.AuthorizedMethod;
 import open.commons.spring.web.authority.AuthorizedRequest;
 
@@ -53,6 +56,8 @@ public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspect
 
     public static final int ORDER_METHOD = Ordered.HIGHEST_PRECEDENCE;
     public static final int ORDER_REQUEST = Ordered.HIGHEST_PRECEDENCE;
+
+    private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("^\\$\\{\\s*([^:}]+)(?::([^}]*))?\\s*}$");
 
     protected final Class<T> providerType;
 
@@ -146,6 +151,40 @@ public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspect
         return annoM != null //
                 ? annoM //
                 : AnnotationUtils.getAnnotation(o, annoType);
+    }
+
+    /**
+     * Spring Environment Property Placeholder 패턴(${...:default})을 지원합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜      | 작성자   |   내용
+     * ------------------------------------------
+     * 2025. 9. 29.     박준홍         최초 작성
+     * </pre>
+     *
+     * @param input
+     * @return
+     *
+     * @since 2025. 9. 29.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected final String findConfigurationValue(String input) {
+        Matcher matcher = PLACEHOLDER_PATTERN.matcher(input);
+        if (matcher.matches()) {
+            String propertyName = matcher.group(1); // 속성 이름
+            String defaultValue = matcher.group(2); // 기본값 (없으면 null)
+
+            String configValue = this.env.getProperty(propertyName);
+            if (StringUtils.isNullOrEmptyString(configValue)) {
+                return defaultValue;
+            } else {
+                return configValue;
+            }
+        } else {
+            return input;
+        }
     }
 
     /**

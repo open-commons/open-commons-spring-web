@@ -39,6 +39,7 @@ import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
@@ -65,6 +66,7 @@ public abstract class AbstractAspectPointcuts {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     protected final ApplicationContext context;
+    protected final Environment env;
     protected final BeanUtils BEAN_UTILS;
 
     /**
@@ -84,6 +86,7 @@ public abstract class AbstractAspectPointcuts {
      */
     public AbstractAspectPointcuts(ApplicationContext context) {
         this.context = context;
+        this.env = context.getEnvironment();
         this.BEAN_UTILS = BeanUtils.context(context);
     }
 

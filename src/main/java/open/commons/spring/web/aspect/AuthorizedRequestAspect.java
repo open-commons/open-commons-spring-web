@@ -214,12 +214,12 @@ public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IR
         StringBuilder pathBuilder = new StringBuilder();
         // #1. 타입에 정의된 최상위 경로, Nullable
         String pathOnType = mappingOnType(target.getClass());
-        pathBuilder.append(pathOnType);
+        pathBuilder.append(findConfigurationValue(pathOnType));
         // 메소드에 정의된 세부 경로, NotNull
         TwoValueObject<RequestMethod, String> mappingOnMethod = mappingOnMethod(invokedMethod);
         RequestMethod httpMethod = mappingOnMethod.first;
         String pathOnMethod = mappingOnMethod.second;
-        pathBuilder.append(pathOnMethod);
+        pathBuilder.append(findConfigurationValue(pathOnMethod));
 
         AuthorizedRequest annotation = decideAnnotation(AuthorizedRequest.class, target.getClass(), invokedMethod);
         String beanName = annotation.authorityBean();
