@@ -33,6 +33,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,6 +45,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.annotation.AnnotatedElementUtils;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -58,6 +61,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import open.commons.core.utils.CollectionUtils;
+import open.commons.core.utils.StringUtils;
+import open.commons.spring.web.authority.AuthorizedRequest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -72,11 +77,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("${open-commons.spring.web.rest-api-provider:/internal/rest-api-metadata}")
 @Validated
+@AuthorizedRequest
 public class RequestMappingProvider implements ApplicationListener<ApplicationReadyEvent> {
+
+    private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("^\\$\\{\\s*([^:}]+)(?::([^}]*))?\\s*}$");
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
     private ApplicationContext context;
+
+    private Environment env;
 
     /** {@link Controller}가 설정된 클래스에서 정의한 REST API */
     private List<RestApiGroup> controllerApiGroups = new ArrayList<>();
@@ -101,6 +111,7 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
      */
     public RequestMappingProvider(ApplicationContext context) {
         this.context = context;
+        this.env = context.getEnvironment();
     }
 
     private void apiInfo(List<RestApiGroup> apiGroup) {
@@ -197,7 +208,7 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
                     base = "";
                 if (path == null)
                     path = "";
-                return (base + "/" + path).replaceAll("//+", "/");
+                return String.join("", base, path).replaceAll("//+", "/");
             };
 
             // --- 조합 생성 (N × M × K) ---
@@ -209,7 +220,8 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
                                         decl.setName(op.summary());
                                         decl.setDescription(op.description());
                                         decl.setMethod(httpMethod);
-                                        decl.setPath(COMPINE_PATH.apply(classPath, methodPath));
+                                        String fullPath = COMPINE_PATH.apply(findConfigurationValue(classPath), findConfigurationValue(methodPath));
+                                        decl.setPath(fullPath);
                                         return decl;
                                     })))
                     .collect(Collectors.toList()));
@@ -221,6 +233,40 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
         }
 
         return group;
+    }
+
+    /**
+     * Spring Environment Property Placeholder 패턴(${...:default})을 지원합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 29.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param input
+     * @return
+     *
+     * @since 2025. 9. 29.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private String findConfigurationValue(String input) {
+        Matcher matcher = PLACEHOLDER_PATTERN.matcher(input);
+        if (matcher.matches()) {
+            String propertyName = matcher.group(1); // 속성 이름
+            String defaultValue = matcher.group(2); // 기본값 (없으면 null)
+
+            String configValue = this.env.getProperty(propertyName);
+            if (StringUtils.isNullOrEmptyString(configValue)) {
+                return defaultValue;
+            } else {
+                return configValue;
+            }
+        } else {
+            return input;
+        }
     }
 
     /**
@@ -240,7 +286,7 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Operation(summary = "REST API Metadata 제공", description = "")
-    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "${open-commons.spring.web.rest-api-provider-method:}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getRestApiMetadata() {
         return ResponseEntity.ok(new RestApiMeta(this.controllerApiGroups, this.restControllerApiGroups));
     }
