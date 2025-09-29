@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.beans.authority.builtin;
+package open.commons.spring.web.beans.authority.internal;
 
 import java.util.function.Function;
 
@@ -35,6 +35,7 @@ import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
+import open.commons.spring.web.config.ResourceHandle;
 
 /**
  * @since 2025. 9. 19.
@@ -42,6 +43,10 @@ import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
  * @author parkjunhong77@gmail.com
  */
 public class ResourceHandleImpl implements ResourceHandle {
+
+    /** 내부에서 제공되는 설정인지 여부 */
+    private boolean isBuiltin;
+
     /** 데이터 유형 */
     private final Target target;
 
@@ -64,8 +69,38 @@ public class ResourceHandleImpl implements ResourceHandle {
     private final boolean preemptive;
 
     /**
-     * <br>
-     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 29.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param isBuiltin
+     *            내부에서 제공되는 설정인지 여부
+     * @param target
+     *            데이터 유형
+     * @param handleType
+     *            데이터 처리유형 식별정보
+     * @param handle
+     *            데이터 처리 함수
+     * @param preemptive
+     *            우선적용 여부
+     *
+     * @since 2025. 9. 29.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     */
+    ResourceHandleImpl(boolean isBuiltin, @Nonnull Target target, int handleType, @Nonnull Function<?, ?> handle, boolean preemptive) {
+        AssertUtils2.notNulls(target, handle);
+        this.isBuiltin = isBuiltin;
+        this.target = target;
+        this.handleType = handleType;
+        this.handle = handle;
+        this.preemptive = preemptive;
+    }
+
+    /**
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
@@ -85,12 +120,10 @@ public class ResourceHandleImpl implements ResourceHandle {
      * @author parkjunhong77@gmail.com
      */
     public ResourceHandleImpl(@Nonnull Target target, int handleType, @Nonnull Function<?, ?> handle) {
-        this(target, handleType, handle, false);
+        this(false, target, handleType, handle, false);
     }
 
     /**
-     * <br>
-     * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
@@ -104,19 +137,15 @@ public class ResourceHandleImpl implements ResourceHandle {
      *            데이터 처리유형 식별정보
      * @param handle
      *            데이터 처리 함수
-     * @param preemtive
+     * @param preemptive
      *            우선적용 여부
      *
      * @since 2025. 9. 19.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public ResourceHandleImpl(@Nonnull Target target, int handleType, @Nonnull Function<?, ?> handle, boolean preemtive) {
-        AssertUtils2.notNulls(target, handle);
-        this.target = target;
-        this.handleType = handleType;
-        this.handle = handle;
-        this.preemptive = preemtive;
+    public ResourceHandleImpl(@Nonnull Target target, int handleType, @Nonnull Function<?, ?> handle, boolean preemptive) {
+        this(false, target, handleType, handle, preemptive);
     }
 
     /**
@@ -125,7 +154,7 @@ public class ResourceHandleImpl implements ResourceHandle {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.beans.authority.builtin.ResourceHandle#handle()
+     * @see open.commons.spring.web.config.ResourceHandle#handle()
      */
     @Override
     public Function<?, ?> handle() {
@@ -138,11 +167,34 @@ public class ResourceHandleImpl implements ResourceHandle {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.beans.authority.builtin.ResourceHandle#handleType()
+     * @see open.commons.spring.web.config.ResourceHandle#handleType()
      */
     @Override
     public int handleType() {
         return this.handleType;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 29.		박준홍			최초 작성
+     * </pre>
+     * 
+     * @return the isBuiltin
+     *
+     * @since 2025. 9. 29.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #isBuiltin
+     */
+
+    public final boolean isBuiltin() {
+        return isBuiltin;
     }
 
     /**
@@ -151,7 +203,7 @@ public class ResourceHandleImpl implements ResourceHandle {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.beans.authority.builtin.ResourceHandle#preemptive()
+     * @see open.commons.spring.web.config.ResourceHandle#preemptive()
      */
     @Override
     public boolean preemptive() {
@@ -164,7 +216,7 @@ public class ResourceHandleImpl implements ResourceHandle {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.beans.authority.builtin.ResourceHandle#target()
+     * @see open.commons.spring.web.config.ResourceHandle#target()
      */
     @Override
     public Target target() {

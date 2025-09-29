@@ -47,9 +47,10 @@ import open.commons.core.utils.MapUtils;
 import open.commons.core.utils.StreamUtils;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
-import open.commons.spring.web.beans.authority.builtin.ForcedUnintelligibleHandler;
-import open.commons.spring.web.beans.authority.builtin.ForcedUnintelligibleJudge;
-import open.commons.spring.web.beans.authority.builtin.ResourceHandle;
+import open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler;
+import open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleJudge;
+import open.commons.spring.web.beans.authority.internal.ResourceHandleImpl;
+import open.commons.spring.web.config.ResourceHandle;
 import open.commons.spring.web.exception.BeanMergeFailedException;
 
 /**
@@ -91,8 +92,14 @@ public class AuthorizedResourceBuiltinHandlerConfiguration {
         List<ResourceHandle> merged = MapUtils.toList(single, multi, h -> String.format("%s#%s", h.target(), h.handleType()), (h1, h2) -> {
             if (h2.preemptive()) {
                 return h2;
-            } else {
+            } else if (h1.preemptive()) {
                 return h1;
+            } else if (h1 instanceof ResourceHandleImpl && ((ResourceHandleImpl) h1).isBuiltin()) {
+                return h1;
+            } else if (h2 instanceof ResourceHandleImpl && ((ResourceHandleImpl) h2).isBuiltin()) {
+                return h2;
+            } else {
+                return h2;
             }
         });
         // #2. 중복 '데이터 처리 식별정보' 검증

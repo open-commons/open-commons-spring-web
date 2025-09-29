@@ -37,9 +37,9 @@ import org.springframework.context.annotation.Bean;
 
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
-import open.commons.spring.web.beans.authority.builtin.AuthorizedResourceHandler;
-import open.commons.spring.web.beans.authority.builtin.ResourceHandle;
-import open.commons.spring.web.config.AuthorizedHandles;
+import open.commons.spring.web.beans.authority.internal.AuthorizedHandles;
+import open.commons.spring.web.beans.authority.internal.AuthorizedResourceHandler;
+import open.commons.spring.web.config.ResourceHandle;
 
 /**
  * 권한제어를 적용하는 클래스 선언.

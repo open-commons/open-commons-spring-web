@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.config;
+package open.commons.spring.web.beans.authority.internal;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,8 +39,6 @@ import javax.annotation.Nonnull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -48,9 +46,8 @@ import open.commons.core.utils.AssertUtils2;
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.core.utils.MapUtils;
 import open.commons.core.utils.StringUtils;
-import open.commons.spring.web.beans.authority.builtin.ResourceHandle;
-import open.commons.spring.web.beans.authority.builtin.ResourceHandle.Target;
-import open.commons.spring.web.beans.authority.builtin.ResourceHandleImpl;
+import open.commons.spring.web.config.ResourceHandle;
+import open.commons.spring.web.config.ResourceHandle.Target;
 import open.commons.spring.web.utils.SecurityUtils;
 
 /**
@@ -59,7 +56,6 @@ import open.commons.spring.web.utils.SecurityUtils;
  * @version 0.8.0
  * @author parkjunhong77@gmail.com
  */
-@Configuration
 public class AuthorizedHandles {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizedHandles.class);
@@ -107,27 +103,7 @@ public class AuthorizedHandles {
     private static final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("^\\d+([-_/:]\\d+)*$");
     private static final Pattern IPV4_PATTERN = Pattern.compile("^(\\d{1,3})\\.?(\\d{1,3})\\.?(\\d{1,3})\\.?(\\d{1,3})$");
 
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 9. 19.		박준홍			최초 작성
-     * </pre>
-     *
-     *
-     * @since 2025. 9. 19.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     */
-    public AuthorizedHandles() {
-    }
-
-    @Bean
-    List<ResourceHandle> authorizedResourcesHandles() {
-        return Collections.unmodifiableList(BUILTIN_HANDLES);
+    private AuthorizedHandles() {
     }
 
     /**
@@ -163,6 +139,28 @@ public class AuthorizedHandles {
         }
 
         throw ExceptionUtils.newException(IllegalArgumentException.class, "'%s' 데이터 유형에 대한 처리방식(%s)이 존재합니다. 교체여부=%s", targetType, handleType, preemptive);
+    }
+
+    /**
+     * 내부에 등록된 {@link ResourceHandle}을 제공합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 29.		박준홍			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 9. 29.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see Collections#unmodifiableList(List)
+     */
+    public static List<ResourceHandle> authorizedResourcesHandles() {
+        return Collections.unmodifiableList(BUILTIN_HANDLES);
     }
 
     public static String decryptEmail(String email) {
@@ -527,7 +525,7 @@ public class AuthorizedHandles {
     private static void registerResourceHandle(int handleType, Target targetType, Function<?, ?> function, boolean preemptive) {
         assertUsableHandleType(handleType, targetType, preemptive);
         HANDLE_TYPES.add(handleType, targetType);
-        BUILTIN_HANDLES.add(new ResourceHandleImpl(targetType, handleType, function, preemptive));
+        BUILTIN_HANDLES.add(new ResourceHandleImpl(true, targetType, handleType, function, preemptive));
     }
 
     /**

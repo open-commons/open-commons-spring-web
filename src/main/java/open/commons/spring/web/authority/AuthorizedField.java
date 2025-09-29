@@ -37,9 +37,9 @@ import org.springframework.context.annotation.Bean;
 
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
-import open.commons.spring.web.beans.authority.builtin.AuthorizedResourceHandler;
-import open.commons.spring.web.beans.authority.builtin.ResourceHandle;
-import open.commons.spring.web.config.AuthorizedHandles;
+import open.commons.spring.web.beans.authority.internal.AuthorizedHandles;
+import open.commons.spring.web.beans.authority.internal.AuthorizedResourceHandler;
+import open.commons.spring.web.config.ResourceHandle;
 
 /**
  * 필드값을 사용하기 위한 접근 권한을 정의하는 클래스.<br>

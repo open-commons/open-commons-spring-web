@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.beans.authority.builtin;
+package open.commons.spring.web.config;
 
 import java.util.function.Function;
 

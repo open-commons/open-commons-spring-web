@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.beans.authority.builtin;
+package open.commons.spring.web.beans.authority.internal;
 
 /**
  * Primitive 데이터 유형에 따라서 강제적으로 처리하기 위한 타입 정의.

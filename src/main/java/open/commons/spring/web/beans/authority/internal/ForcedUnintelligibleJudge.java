@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.beans.authority.builtin;
+package open.commons.spring.web.beans.authority.internal;
 
 import java.lang.reflect.Field;
 
@@ -44,7 +44,7 @@ import open.commons.spring.web.servlet.InternalServerException;
  */
 public class ForcedUnintelligibleJudge implements IFieldAccessAuthorityProvider {
 
-    public static final String BEAN_QUALIFIER = "open.commons.spring.web.beans.authority.builtin.ForcedUnintelligibleJudge";
+    public static final String BEAN_QUALIFIER = "open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleJudge";
 
     /**
      * <br>

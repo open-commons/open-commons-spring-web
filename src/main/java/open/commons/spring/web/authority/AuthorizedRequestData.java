@@ -36,9 +36,9 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Bean;
 
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
-import open.commons.spring.web.beans.authority.builtin.AuthorizedResourceHandler;
-import open.commons.spring.web.beans.authority.builtin.ResourceHandle;
-import open.commons.spring.web.config.AuthorizedHandles;
+import open.commons.spring.web.beans.authority.internal.AuthorizedHandles;
+import open.commons.spring.web.beans.authority.internal.AuthorizedResourceHandler;
+import open.commons.spring.web.config.ResourceHandle;
 
 /**
  * {@link AuthorizedField}를 통해서 처리된 데이터라는 것을 선언하는 어노테이션.

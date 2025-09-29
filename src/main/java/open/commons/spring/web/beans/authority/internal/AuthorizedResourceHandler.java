@@ -24,7 +24,7 @@
  * 
  */
 
-package open.commons.spring.web.beans.authority.builtin;
+package open.commons.spring.web.beans.authority.internal;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,7 +38,8 @@ import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
-import open.commons.spring.web.beans.authority.builtin.ResourceHandle.Target;
+import open.commons.spring.web.config.ResourceHandle;
+import open.commons.spring.web.config.ResourceHandle.Target;
 
 /**
  * {@link IUnauthorizedFieldHandler}, {@link IAuthorizedRequestDataHandler}를 하나의 서비스로 통합하여 제공하는 내부 컴포넌트
@@ -49,7 +50,7 @@ import open.commons.spring.web.beans.authority.builtin.ResourceHandle.Target;
  */
 public class AuthorizedResourceHandler implements IUnauthorizedFieldHandler, IAuthorizedRequestDataHandler {
 
-    public static final String BEAN_QUALIFIER = "open.commons.spring.web.beans.authority.builtin.AuthorizedHandler";
+    public static final String BEAN_QUALIFIER = "open.commons.spring.web.beans.authority.internal.AuthorizedHandler";
 
     /** 암호화/난독화 기능을 수행 */
     private ConcurrentHashMap<Integer, Function<?, ?>> unauthorizedFieldHandlers = new ConcurrentHashMap<>();
