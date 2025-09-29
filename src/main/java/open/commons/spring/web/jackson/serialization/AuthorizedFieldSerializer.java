@@ -62,16 +62,13 @@ public class AuthorizedFieldSerializer extends AbstractWrappingSerializer {
      * </pre>
      * 
      * @param serializedType
-     *            TODO
+     *            데이터 유형
      * @param authority
      *            필드 접근권한 서비스
      * @param fieldHandler
      *            데이터 처리 서비스
      * @param authorizedResourcesMetadata
      *            {@link AuthorizedObject}, {@link AuthorizedField} 외부 설정 정보 제공 서비스
-     * @param annotatedField
-     *            필드 정보
-     * 
      * @since 2025. 5. 23.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
@@ -90,7 +87,7 @@ public class AuthorizedFieldSerializer extends AbstractWrappingSerializer {
      * @see com.fasterxml.jackson.databind.ser.ContextualSerializer#createContextual(com.fasterxml.jackson.databind.SerializerProvider,
      *      com.fasterxml.jackson.databind.BeanProperty)
      */
-//    @Override
+    // @Override
     public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property) throws JsonMappingException {
         return this;
     }

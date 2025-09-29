@@ -94,7 +94,8 @@ public class ForcedUnintelligibleHandler implements IUnauthorizedFieldHandler {
             case ForcedUnintelligibleHandleType.CHAR_SEQUENCE:
                 return (String) null;
             default:
-                throw ExceptionUtils.newException(InternalServerException.class, "지원하지 않는 처리방식입니다. 입력=%s", handle);
+                return null;
+//                throw ExceptionUtils.newException(InternalServerException.class, "지원하지 않는 처리방식입니다. 입력=%s", handle);
         }
     }
 }

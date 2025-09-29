@@ -48,6 +48,7 @@ import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedObject;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
+import open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleJudge;
 import open.commons.spring.web.servlet.InternalServerException;
 import open.commons.spring.web.utils.ClassInspector;
 
@@ -243,7 +244,7 @@ public class AuthorizedMetadataBuilder {
          */
         @SuppressWarnings("unused")
         private static class AuthorizedFieldMetadataBuilder {
-            private String authorityBean;
+            private String authorityBean = ForcedUnintelligibleJudge.BEAN_QUALIFIER;
             private String fieldHandleBean;
             private int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
             private String name;
@@ -278,7 +279,7 @@ public class AuthorizedMetadataBuilder {
             static {
                 pp.put("fields", o -> ((List<FieldBuilder>) o).stream().map(b -> b.build()).collect(Collectors.toList()));
             }
-            private String authorityBean;
+            private String authorityBean = ForcedUnintelligibleJudge.BEAN_QUALIFIER;
             private String fieldHandleBean;
             private Class<?> type;
             private List<FieldBuilder> fields;

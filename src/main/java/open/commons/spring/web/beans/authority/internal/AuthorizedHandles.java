@@ -228,7 +228,10 @@ public class AuthorizedHandles {
             domainStr = email.substring(atPos + 1);
         }
 
-        return String.join("@", maskString(idStr, 3, 16, '*', true), domainStr);
+        int emailLen = email.length();
+        int maxLen = (int) (emailLen * Math.random());
+
+        return String.join("@", maskString(idStr, 2, 4 + maxLen, '*', true), domainStr);
     }
 
     /**

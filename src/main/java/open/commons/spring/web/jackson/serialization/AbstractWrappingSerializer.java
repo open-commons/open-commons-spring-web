@@ -95,8 +95,30 @@ public abstract class AbstractWrappingSerializer extends JsonSerializer<Object> 
         return AuthorizedFieldDecisionUtil.resolve(this.serializedType, this.annotatedField, this.fieldAccessor, this.authorizedResourcesMetadata);
     }
 
-    protected Object handleValue(Object value, boolean accessible, int handle) {
-        return accessible ? value : this.fieldHandler.handleObject(handle, value);
+    /**
+     * 
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 29.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param value
+     * @param accessible
+     *            {@link IFieldAccessAuthorityProvider#isAllowed(String, String)} 결과 중에 첫번째 값.
+     * @param handleType
+     *            {@link IFieldAccessAuthorityProvider#isAllowed(String, String)} 결과 중에 두번째 값.
+     * @return
+     *
+     * @since 2025. 9. 25.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    protected Object handleValue(Object value, boolean accessible, int handleType) {
+        return accessible ? value : this.fieldHandler.handleObject(handleType, value);
     }
 
     protected boolean isSimpleType(Class<?> type) {

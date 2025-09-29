@@ -39,6 +39,7 @@ import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.beans.authority.internal.AuthorizedHandles;
 import open.commons.spring.web.beans.authority.internal.AuthorizedResourceHandler;
+import open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleJudge;
 import open.commons.spring.web.config.ResourceHandle;
 
 /**
@@ -76,7 +77,7 @@ public @interface AuthorizedField {
      * 
      * @see IFieldAccessAuthorityProvider
      */
-    String authorityBean() default "";
+    String authorityBean() default ForcedUnintelligibleJudge.BEAN_QUALIFIER;
 
     /**
      * 데이터 유형 설명 <br>

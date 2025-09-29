@@ -119,6 +119,7 @@ public class AuthorizedFieldSerializerModifier extends BeanSerializerModifier {
         Supplier<String> authorityBeanNameOnField = null;
         Supplier<String> fieldHandleBeanNamOnObject = null;
         Supplier<String> fieldHandleBeanNamOnField = null;
+
         for (BeanPropertyWriter writer : beanProperties) {
             annoField = beanDesc.findProperties().stream() //
                     .filter(p -> p.getName().equals(writer.getName())) //
@@ -150,7 +151,6 @@ public class AuthorizedFieldSerializerModifier extends BeanSerializerModifier {
                 AuthorizedFieldMetadata afm = this.authorizedResourcesMetadata.getAuthorizedFieldMetadata(serializedType, fieldName);
                 authorityBeanNameOnField = () -> afm.getAuthorityBean();
                 fieldHandleBeanNamOnField = () -> afm.getFieldHandleBean();
-
             } // 실제 field가 선언된 데이터 유형(class)을 기준으로 검색
             else if (this.authorizedResourcesMetadata.isAuthorizedField(annoField.getDeclaringClass(), fieldName)) {
                 Class<?> declaringClass = annoField.getDeclaringClass();
