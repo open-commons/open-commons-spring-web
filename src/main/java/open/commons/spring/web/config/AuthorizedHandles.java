@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -547,7 +548,7 @@ public class AuthorizedHandles {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     private static void update(int handleType, Target targetType) {
-        List<Target> targets = MapUtils.getOrDefault(HANDLE_TYPES, handleType, () -> {
+        List<Target> targets = MapUtils.getOrDefault(HANDLE_TYPES, handleType, (Supplier<List<Target>>) () -> {
             return new ArrayList<>();
         }, true);
         if (!targets.contains(targetType)) {
