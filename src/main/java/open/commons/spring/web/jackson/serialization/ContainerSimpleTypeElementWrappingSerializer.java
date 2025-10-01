@@ -31,7 +31,9 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 
-import open.commons.core.TwoValueObject;
+import org.springframework.context.ApplicationContext;
+
+import open.commons.spring.web.beans.authority.FieldAccessAuthorityDecision;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
@@ -63,7 +65,8 @@ public class ContainerSimpleTypeElementWrappingSerializer extends AbstractWrappi
      * ------------------------------------------
      * 2025. 9. 25.		박준홍			최초 작성
      * </pre>
-     *
+     * 
+     * @param context
      * @param serializedType
      *            데이터 유형
      * @param annotatedField
@@ -74,13 +77,14 @@ public class ContainerSimpleTypeElementWrappingSerializer extends AbstractWrappi
      *            필드 데이터 처리 서비스
      * @param authorizedResourcesMetadata
      *            메타데이터 제공 서비스
+     *
      * @since 2025. 9. 25.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public ContainerSimpleTypeElementWrappingSerializer(Class<?> serializedType, AnnotatedField annotatedField, IFieldAccessAuthorityProvider fieldAccessor,
-            IUnauthorizedFieldHandler fieldHandler, IAuthorizedResourcesMetadata authorizedResourcesMetadata) {
-        super(serializedType, annotatedField, fieldAccessor, fieldHandler, authorizedResourcesMetadata);
+    public ContainerSimpleTypeElementWrappingSerializer(ApplicationContext context, Class<?> serializedType, AnnotatedField annotatedField,
+            IFieldAccessAuthorityProvider fieldAccessor, IUnauthorizedFieldHandler fieldHandler, IAuthorizedResourcesMetadata authorizedResourcesMetadata) {
+        super(context, serializedType, annotatedField, fieldAccessor, fieldHandler, authorizedResourcesMetadata);
     }
 
     /**
@@ -101,80 +105,77 @@ public class ContainerSimpleTypeElementWrappingSerializer extends AbstractWrappi
         }
 
         // 현재 필드 정책 계산(한 번만)
-        final TwoValueObject<Boolean, Integer> decision = decide();
-        final boolean accessible = decision.first;
-        final int handle = decision.second;
-
+        FieldAccessAuthorityDecision decision = decide();
         // 최상위가 배열/컬렉션이 아니더라도 방어적으로 재귀 진입 가능
-        writeValueRecursive(value, gen, serializers, accessible, handle);
+        writeValueRecursive(value, gen, serializers, decision);
     }
 
-    private void writeValueRecursive(Object v, JsonGenerator gen, SerializerProvider sp, boolean accessible, int handle) throws IOException {
-        if (v == null) {
+    private void writeValueRecursive(Object rawValue, JsonGenerator gen, SerializerProvider sp, FieldAccessAuthorityDecision decision) throws IOException {
+        if (rawValue == null) {
             gen.writeNull();
             return;
         }
 
-        Class<?> raw = v.getClass();
+        Class<?> rawClass = rawValue.getClass();
 
         // 1) 단순 타입 → 바로 변환 후 출력
-        if (isSimpleType(raw)) {
-            Object out = handleValue(v, accessible, handle);
-            sp.defaultSerializeValue(out, gen);
+        if (isSimpleType(rawClass)) {
+            Object value = handleValue(rawValue, decision);
+            sp.defaultSerializeValue(value, gen);
             return;
         }
 
         // 2) 배열
-        if (raw.isArray()) {
-            int len = Array.getLength(v);
+        if (rawClass.isArray()) {
+            int len = Array.getLength(rawValue);
             try {
-                gen.writeStartArray(v, len);
+                gen.writeStartArray(rawValue, len);
             } catch (Throwable t) {
-                gen.setCurrentValue(v);
+                gen.setCurrentValue(rawValue);
                 gen.writeStartArray();
             }
             for (int i = 0; i < len; i++) {
-                Object e = Array.get(v, i);
-                writeValueRecursive(e, gen, sp, accessible, handle);
+                Object e = Array.get(rawValue, i);
+                writeValueRecursive(e, gen, sp, decision);
             }
             gen.writeEndArray();
             return;
         }
 
         // 3) Collection
-        if (v instanceof Collection<?>) {
-            Collection<?> col = (Collection<?>) v;
+        if (rawValue instanceof Collection<?>) {
+            Collection<?> col = (Collection<?>) rawValue;
             try {
-                gen.writeStartArray(v, col.size());
+                gen.writeStartArray(rawValue, col.size());
             } catch (Throwable t) {
-                gen.setCurrentValue(v);
+                gen.setCurrentValue(rawValue);
                 gen.writeStartArray();
             }
             for (Object e : col) {
-                writeValueRecursive(e, gen, sp, accessible, handle);
+                writeValueRecursive(e, gen, sp, decision);
             }
             gen.writeEndArray();
             return;
         }
 
         // 4) Map → 값만 재귀 처리(키는 문자열화)
-        if (v instanceof Map<?, ?>) {
-            Map<?, ?> map = (Map<?, ?>) v;
+        if (rawValue instanceof Map<?, ?>) {
+            Map<?, ?> map = (Map<?, ?>) rawValue;
             try {
-                gen.writeStartObject(v);
+                gen.writeStartObject(rawValue);
             } catch (Throwable t) {
-                gen.setCurrentValue(v);
+                gen.setCurrentValue(rawValue);
                 gen.writeStartObject();
             }
             for (Map.Entry<?, ?> e : map.entrySet()) {
                 gen.writeFieldName(String.valueOf(e.getKey()));
-                writeValueRecursive(e.getValue(), gen, sp, accessible, handle);
+                writeValueRecursive(e.getValue(), gen, sp, decision);
             }
             gen.writeEndObject();
             return;
         }
 
         // 5) POJO → 기본 BeanSerializer에 위임 (내부 @AuthorizedField가 처리)
-        sp.defaultSerializeValue(v, gen);
+        sp.defaultSerializeValue(rawValue, gen);
     }
 }

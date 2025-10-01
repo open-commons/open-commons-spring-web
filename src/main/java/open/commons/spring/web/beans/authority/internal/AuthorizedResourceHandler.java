@@ -50,7 +50,7 @@ import open.commons.spring.web.config.ResourceHandle.Target;
  */
 public class AuthorizedResourceHandler implements IUnauthorizedFieldHandler, IAuthorizedRequestDataHandler {
 
-    public static final String BEAN_QUALIFIER = "open.commons.spring.web.beans.authority.internal.AuthorizedHandler";
+    public static final String BEAN_QUALIFIER = "open.commons.spring.web.beans.authority.internal.AuthorizedResourceHandler";
 
     /** 암호화/난독화 기능을 수행 */
     private ConcurrentHashMap<Integer, Function<?, ?>> unauthorizedFieldHandlers = new ConcurrentHashMap<>();

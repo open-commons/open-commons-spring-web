@@ -166,23 +166,25 @@ public class AuthorizedFieldSerializerModifier extends BeanSerializerModifier {
                 continue;
             }
 
-            fieldAccessor = AuthorizedResourceUtils.getBean(this.BEANS, IFieldAccessAuthorityProvider.class, authorityBeanNameOnObject, authorityBeanNameOnField);
-            fieldHandler = AuthorizedResourceUtils.getBean(this.BEANS, IUnauthorizedFieldHandler.class, fieldHandleBeanNamOnObject, fieldHandleBeanNamOnField);
+            fieldAccessor = AuthorizedResourceUtils.getBean(this.BEANS, IFieldAccessAuthorityProvider.class, authorityBeanNameOnObject, authorityBeanNameOnField, false);
+            fieldHandler = AuthorizedResourceUtils.getBean(this.BEANS, IUnauthorizedFieldHandler.class, fieldHandleBeanNamOnObject, fieldHandleBeanNamOnField, true);
 
             JavaType fieldType = writer.getType();
             Class<?> raw = fieldType.getRawClass();
 
             // 단순 타입
             if (AuthorizedFieldDecisionUtil.isSimpleType(raw)) {
-                writer.assignSerializer(new AuthorizedFieldSerializer(serializedType, annoField, fieldAccessor, fieldHandler, this.authorizedResourcesMetadata));
+                writer.assignSerializer(new AuthorizedFieldSerializer(BEANS.context(), serializedType, annoField, fieldAccessor, fieldHandler, this.authorizedResourcesMetadata));
             }
             // 배열, Collection
             else if (fieldType.isArrayType() || fieldType.isCollectionLikeType()) {
-                writer.assignSerializer(new ContainerSimpleTypeElementWrappingSerializer(serializedType, annoField, fieldAccessor, fieldHandler, this.authorizedResourcesMetadata));
+                writer.assignSerializer(new ContainerSimpleTypeElementWrappingSerializer(BEANS.context(), serializedType, annoField, fieldAccessor, fieldHandler,
+                        this.authorizedResourcesMetadata));
             }
             // Map
             else if (fieldType.isMapLikeType()) {
-                writer.assignSerializer(new MapSimpleTypeValueWrappingSerializer(serializedType, annoField, fieldAccessor, fieldHandler, this.authorizedResourcesMetadata));
+                writer.assignSerializer(
+                        new MapSimpleTypeValueWrappingSerializer(BEANS.context(), serializedType, annoField, fieldAccessor, fieldHandler, this.authorizedResourcesMetadata));
             }
             // POJO 필드는 assign하지 않음 → 내부 필드의 @AuthorizedField 가 처리
         }

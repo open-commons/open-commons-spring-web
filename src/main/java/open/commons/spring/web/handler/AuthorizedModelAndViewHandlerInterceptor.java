@@ -54,14 +54,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 
 import open.commons.core.Result;
-import open.commons.core.TwoValueObject;
 import open.commons.core.utils.ExceptionUtils;
+import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedObject;
 import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.authority.AuthorizedResourceUtils;
 import open.commons.spring.web.authority.metadata.AuthorizedFieldMetadata;
 import open.commons.spring.web.authority.metadata.AuthorizedObjectMetadata;
+import open.commons.spring.web.beans.authority.FieldAccessAuthorityDecision;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
@@ -182,7 +183,6 @@ public class AuthorizedModelAndViewHandlerInterceptor implements PostProcessingH
      * </pre>
      * 
      * @param annoCtx
-     *            TODO
      * @param rawValue
      *            데이터
      * @return
@@ -198,18 +198,24 @@ public class AuthorizedModelAndViewHandlerInterceptor implements PostProcessingH
         }
         // #1. 데이터 접근여부
         boolean accessible = false;
-        int handle = annoCtx.handleType;
+        int handleType = annoCtx.handleType;
+        String handleBean = null;
 
         if (annoCtx.handleType == AuthorizedField.NO_ASSINGED_HANDLE_TYPE) {
-            TwoValueObject<Boolean, Integer> fieldAccessible = isAllowed(annoCtx.authority, annoCtx.targetClass.getName(), null);
-            accessible = fieldAccessible.first;
-            handle = fieldAccessible.second;
+            FieldAccessAuthorityDecision fieldAccessible = isAllowed(annoCtx.authority, annoCtx.targetClass.getName(), null);
+            accessible = fieldAccessible.accessible;
+            handleType = fieldAccessible.handleType;
+            handleBean = fieldAccessible.handleBean;
         }
 
         if (accessible) {
             return rawValue;
         } else {
-            return annoCtx.unauthorized.handleObject(handle, rawValue);
+            if (StringUtils.isNullOrEmptyString(handleBean)) {
+                return annoCtx.unauthorized.handleObject(handleType, rawValue);
+            } else {
+                return this.BEANS.findBean(handleBean, IUnauthorizedFieldHandler.class, null, true).handleObject(handleType, rawValue);
+            }
         }
     }
 
@@ -236,8 +242,8 @@ public class AuthorizedModelAndViewHandlerInterceptor implements PostProcessingH
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private TwoValueObject<Boolean, Integer> isAllowed(IFieldAccessAuthorityProvider authority, String fqcn, String fieldName) {
-        Result<TwoValueObject<Boolean, Integer>> resultFieldAccessible = authority.isAllowed(fqcn, fieldName);
+    private FieldAccessAuthorityDecision isAllowed(IFieldAccessAuthorityProvider authority, String fqcn, String fieldName) {
+        Result<FieldAccessAuthorityDecision> resultFieldAccessible = authority.isAllowed(fqcn, fieldName);
         if (resultFieldAccessible == null) {
             throw ExceptionUtils.newException(InternalServerException.class,
                     "Field 접근에 대한 판단은 'null'일 수가 없습니다. 원인=open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider.isAllowed(String, String) 구현이 올바르지 않습니다.");
@@ -357,8 +363,8 @@ public class AuthorizedModelAndViewHandlerInterceptor implements PostProcessingH
                         return AnnotatedContext.NULL;
                     }
 
-                    authority = AuthorizedResourceUtils.getBean(this.BEANS, IFieldAccessAuthorityProvider.class, authorityBeanNameOnObject, authorityBeanNameOnField);
-                    unauthorized = AuthorizedResourceUtils.getBean(this.BEANS, IUnauthorizedFieldHandler.class, fieldHandleBeanNamOnObject, fieldHandleBeanNamOnField);
+                    authority = AuthorizedResourceUtils.getBean(this.BEANS, IFieldAccessAuthorityProvider.class, authorityBeanNameOnObject, authorityBeanNameOnField, false);
+                    unauthorized = AuthorizedResourceUtils.getBean(this.BEANS, IUnauthorizedFieldHandler.class, fieldHandleBeanNamOnObject, fieldHandleBeanNamOnField, true);
 
                     AnnotatedContext annoCtx = new AnnotatedContext(field.getType(), authority, unauthorized, handleType);
                     return annoCtx;

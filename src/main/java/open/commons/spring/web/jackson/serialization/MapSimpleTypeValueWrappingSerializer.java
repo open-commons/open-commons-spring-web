@@ -31,7 +31,9 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 
-import open.commons.core.TwoValueObject;
+import org.springframework.context.ApplicationContext;
+
+import open.commons.spring.web.beans.authority.FieldAccessAuthorityDecision;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
@@ -61,7 +63,8 @@ public class MapSimpleTypeValueWrappingSerializer extends AbstractWrappingSerial
      * ------------------------------------------
      * 2025. 9. 25.		박준홍			최초 작성
      * </pre>
-     *
+     * 
+     * @param context
      * @param serializedType
      *            데이터 유형
      * @param annotatedField
@@ -72,13 +75,14 @@ public class MapSimpleTypeValueWrappingSerializer extends AbstractWrappingSerial
      *            필드 데이터 처리 서비스
      * @param authorizedResourcesMetadata
      *            메타데이터 제공 서비스
+     *
      * @since 2025. 9. 25.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public MapSimpleTypeValueWrappingSerializer(Class<?> serializedType, AnnotatedField annotatedField, IFieldAccessAuthorityProvider fieldAccessor,
+    public MapSimpleTypeValueWrappingSerializer(ApplicationContext context, Class<?> serializedType, AnnotatedField annotatedField, IFieldAccessAuthorityProvider fieldAccessor,
             IUnauthorizedFieldHandler fieldHandler, IAuthorizedResourcesMetadata authorizedResourcesMetadata) {
-        super(serializedType, annotatedField, fieldAccessor, fieldHandler, authorizedResourcesMetadata);
+        super(context, serializedType, annotatedField, fieldAccessor, fieldHandler, authorizedResourcesMetadata);
     }
 
     /**
@@ -97,9 +101,7 @@ public class MapSimpleTypeValueWrappingSerializer extends AbstractWrappingSerial
             return;
         }
 
-        final TwoValueObject<Boolean, Integer> decision = decide();
-        final boolean accessible = decision.first;
-        final int handle = decision.second;
+        FieldAccessAuthorityDecision decision = decide();
 
         Map<?, ?> map = (Map<?, ?>) value;
 
@@ -111,70 +113,70 @@ public class MapSimpleTypeValueWrappingSerializer extends AbstractWrappingSerial
         }
         for (Map.Entry<?, ?> e : map.entrySet()) {
             gen.writeFieldName(String.valueOf(e.getKey()));
-            writeValueRecursive(e.getValue(), gen, serializers, accessible, handle);
+            writeValueRecursive(e.getValue(), gen, serializers, decision);
         }
         gen.writeEndObject();
     }
 
     // Map의 Value를 재귀 처리 (Collection/Array/Map/POJO 포함)
-    private void writeValueRecursive(Object v, JsonGenerator gen, SerializerProvider sp, boolean accessible, int handle) throws IOException {
-        if (v == null) {
+    private void writeValueRecursive(Object rawValue, JsonGenerator gen, SerializerProvider sp, FieldAccessAuthorityDecision decision) throws IOException {
+        if (rawValue == null) {
             gen.writeNull();
             return;
         }
 
-        Class<?> raw = v.getClass();
+        Class<?> rawClass = rawValue.getClass();
 
-        if (isSimpleType(raw)) {
-            Object out = handleValue(v, accessible, handle);
-            sp.defaultSerializeValue(out, gen);
+        if (isSimpleType(rawClass)) {
+            Object value = handleValue(rawValue, null);
+            sp.defaultSerializeValue(value, gen);
             return;
         }
-        if (raw.isArray()) {
-            int len = Array.getLength(v);
+        if (rawClass.isArray()) {
+            int len = Array.getLength(rawValue);
             try {
-                gen.writeStartArray(v, len);
+                gen.writeStartArray(rawValue, len);
             } catch (Throwable t) {
-                gen.setCurrentValue(v);
+                gen.setCurrentValue(rawValue);
                 gen.writeStartArray();
             }
             for (int i = 0; i < len; i++) {
-                writeValueRecursive(Array.get(v, i), gen, sp, accessible, handle);
+                writeValueRecursive(Array.get(rawValue, i), gen, sp, decision);
             }
             gen.writeEndArray();
             return;
         }
-        if (v instanceof Collection<?>) {
-            Collection<?> col = (Collection<?>) v;
+        if (rawValue instanceof Collection<?>) {
+            Collection<?> col = (Collection<?>) rawValue;
             try {
-                gen.writeStartArray(v, col.size());
+                gen.writeStartArray(rawValue, col.size());
             } catch (Throwable t) {
-                gen.setCurrentValue(v);
+                gen.setCurrentValue(rawValue);
                 gen.writeStartArray();
             }
             for (Object e : col) {
-                writeValueRecursive(e, gen, sp, accessible, handle);
+                writeValueRecursive(e, gen, sp, decision);
             }
             gen.writeEndArray();
             return;
         }
-        if (v instanceof Map<?, ?>) {
-            Map<?, ?> m = (Map<?, ?>) v;
+        if (rawValue instanceof Map<?, ?>) {
+            Map<?, ?> m = (Map<?, ?>) rawValue;
             try {
-                gen.writeStartObject(v);
+                gen.writeStartObject(rawValue);
             } catch (Throwable t) {
-                gen.setCurrentValue(v);
+                gen.setCurrentValue(rawValue);
                 gen.writeStartObject();
             }
             for (Map.Entry<?, ?> en : m.entrySet()) {
                 gen.writeFieldName(String.valueOf(en.getKey()));
-                writeValueRecursive(en.getValue(), gen, sp, accessible, handle);
+                writeValueRecursive(en.getValue(), gen, sp, decision);
             }
             gen.writeEndObject();
             return;
         }
 
         // POJO
-        sp.defaultSerializeValue(v, gen);
+        sp.defaultSerializeValue(rawValue, gen);
     }
 }

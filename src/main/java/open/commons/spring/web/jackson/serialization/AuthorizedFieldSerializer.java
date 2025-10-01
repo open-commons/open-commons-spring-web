@@ -28,7 +28,10 @@ package open.commons.spring.web.jackson.serialization;
 
 import java.io.IOException;
 
-import open.commons.core.TwoValueObject;
+import javax.annotation.Nonnull;
+
+import org.springframework.context.ApplicationContext;
+
 import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedObject;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
@@ -60,7 +63,7 @@ public class AuthorizedFieldSerializer extends AbstractWrappingSerializer {
      * ------------------------------------------
      * 2025. 5. 23.		박준홍			최초 작성
      * </pre>
-     * 
+     * @param context TODO
      * @param serializedType
      *            데이터 유형
      * @param authority
@@ -69,13 +72,14 @@ public class AuthorizedFieldSerializer extends AbstractWrappingSerializer {
      *            데이터 처리 서비스
      * @param authorizedResourcesMetadata
      *            {@link AuthorizedObject}, {@link AuthorizedField} 외부 설정 정보 제공 서비스
+     * 
      * @since 2025. 5. 23.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AuthorizedFieldSerializer(Class<?> serializedType, AnnotatedField field, IFieldAccessAuthorityProvider authority, IUnauthorizedFieldHandler fieldHandler,
-            IAuthorizedResourcesMetadata authorizedResourcesMetadata) {
-        super(serializedType, field, authority, fieldHandler, authorizedResourcesMetadata);
+    public AuthorizedFieldSerializer(ApplicationContext context, @Nonnull Class<?> serializedType, @Nonnull AnnotatedField field,
+            IFieldAccessAuthorityProvider authority, @Nonnull IUnauthorizedFieldHandler fieldHandler, IAuthorizedResourcesMetadata authorizedResourcesMetadata) {
+        super(context, serializedType, field, authority, fieldHandler, authorizedResourcesMetadata);
     }
 
     /**
@@ -115,8 +119,8 @@ public class AuthorizedFieldSerializer extends AbstractWrappingSerializer {
             return;
         }
 
-        TwoValueObject<Boolean, Integer> decision = decide();
-        Object value = decision.first ? rawValue : this.fieldHandler.handleObject(decision.second, rawValue);
+        Object value = handleValue(rawValue, decide());
+
         serializers.defaultSerializeValue(value, gen);
     }
 }

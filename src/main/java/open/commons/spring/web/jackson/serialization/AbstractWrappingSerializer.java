@@ -26,12 +26,16 @@
 
 package open.commons.spring.web.jackson.serialization;
 
+import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 
-import open.commons.core.TwoValueObject;
+import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedObject;
+import open.commons.spring.web.beans.authority.FieldAccessAuthorityDecision;
 import open.commons.spring.web.beans.authority.IAuthorizedResourcesMetadata;
 import open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
@@ -48,6 +52,8 @@ import com.fasterxml.jackson.databind.introspect.AnnotatedField;
 public abstract class AbstractWrappingSerializer extends JsonSerializer<Object> {
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
+
+    protected final ApplicationContext context;
 
     /** serialize 데이터 유형 */
     protected final Class<?> serializedType;
@@ -67,7 +73,8 @@ public abstract class AbstractWrappingSerializer extends JsonSerializer<Object> 
      * ------------------------------------------
      * 2025. 9. 25.		박준홍			최초 작성
      * </pre>
-     *
+     * 
+     * @param context
      * @param serializedType
      *            데이터 유형
      * @param annotatedField
@@ -78,12 +85,14 @@ public abstract class AbstractWrappingSerializer extends JsonSerializer<Object> 
      *            필드 데이터 처리 서비스
      * @param authorizedResourcesMetadata
      *            메타데이터 제공 서비스
+     *
      * @since 2025. 9. 25.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AbstractWrappingSerializer(Class<?> serializedType, AnnotatedField annotatedField, IFieldAccessAuthorityProvider fieldAccessor, IUnauthorizedFieldHandler fieldHandler,
-            IAuthorizedResourcesMetadata authorizedResourcesMetadata) {
+    public AbstractWrappingSerializer(ApplicationContext context, @Nonnull Class<?> serializedType, @Nonnull AnnotatedField annotatedField,
+            IFieldAccessAuthorityProvider fieldAccessor, @Nonnull IUnauthorizedFieldHandler fieldHandler, IAuthorizedResourcesMetadata authorizedResourcesMetadata) {
+        this.context = context;
         this.serializedType = serializedType;
         this.annotatedField = annotatedField;
         this.fieldAccessor = fieldAccessor;
@@ -91,7 +100,7 @@ public abstract class AbstractWrappingSerializer extends JsonSerializer<Object> 
         this.authorizedResourcesMetadata = authorizedResourcesMetadata;
     }
 
-    protected TwoValueObject<Boolean, Integer> decide() {
+    protected FieldAccessAuthorityDecision decide() {
         return AuthorizedFieldDecisionUtil.resolve(this.serializedType, this.annotatedField, this.fieldAccessor, this.authorizedResourcesMetadata);
     }
 
@@ -107,21 +116,26 @@ public abstract class AbstractWrappingSerializer extends JsonSerializer<Object> 
      * </pre>
      *
      * @param value
-     * @param accessible
-     *            {@link IFieldAccessAuthorityProvider#isAllowed(String, String)} 결과 중에 첫번째 값.
-     * @param handleType
-     *            {@link IFieldAccessAuthorityProvider#isAllowed(String, String)} 결과 중에 두번째 값.
+     * @param decision
      * @return
      *
      * @since 2025. 9. 25.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    protected Object handleValue(Object value, boolean accessible, int handleType) {
-        return accessible ? value : this.fieldHandler.handleObject(handleType, value);
+    protected Object handleValue(Object value, FieldAccessAuthorityDecision decision) {
+        return decision.accessible ? value : resolveFieldHandler(decision.handleBean).handleObject(decision.handleType, value);
     }
 
     protected boolean isSimpleType(Class<?> type) {
         return AuthorizedFieldDecisionUtil.isSimpleType(type);
+    }
+
+    private IUnauthorizedFieldHandler resolveFieldHandler(String handleBean) {
+        if (StringUtils.isNullOrEmptyString(handleBean)) {
+            return this.fieldHandler;
+        } else {
+            return (IUnauthorizedFieldHandler) this.context.getBean(handleBean);
+        }
     }
 }

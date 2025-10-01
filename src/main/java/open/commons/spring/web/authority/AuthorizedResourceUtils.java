@@ -64,13 +64,15 @@ public class AuthorizedResourceUtils {
      *            타입에 정의된 어노테이션 이름
      * @param f
      *            필드에 정의된 어노테이션 이름
+     * @param required
+     *            필수 여부
      * @return
      *
      * @since 2025. 9. 25.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static <T> T getBean(BeanUtils beanUtils, Class<T> beanType, Supplier<String> o, Supplier<String> f) {
+    public static <T> T getBean(BeanUtils beanUtils, Class<T> beanType, Supplier<String> o, Supplier<String> f, boolean required) {
         String beanName = null;
         if (f == null) {
             beanName = o.get();
@@ -81,7 +83,7 @@ public class AuthorizedResourceUtils {
                     : fBean;
         }
 
-        return beanUtils.findBean(beanName, beanType, null, true);
+        return beanUtils.findBean(beanName, beanType, null, required);
     }
 
 }

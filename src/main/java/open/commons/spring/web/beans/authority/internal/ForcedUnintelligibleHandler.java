@@ -26,9 +26,7 @@
 
 package open.commons.spring.web.beans.authority.internal;
 
-import open.commons.core.utils.ExceptionUtils;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
-import open.commons.spring.web.servlet.InternalServerException;
 
 /**
  * 
@@ -76,7 +74,7 @@ public class ForcedUnintelligibleHandler implements IUnauthorizedFieldHandler {
             case ForcedUnintelligibleHandleType.BOOLEAN:
                 return false;
             case ForcedUnintelligibleHandleType.CHARACTER:
-                return "".charAt(0);
+                return null;
             case ForcedUnintelligibleHandleType.BYTE:
                 return Byte.MIN_VALUE;
             case ForcedUnintelligibleHandleType.SHORT:
@@ -95,7 +93,62 @@ public class ForcedUnintelligibleHandler implements IUnauthorizedFieldHandler {
                 return (String) null;
             default:
                 return null;
-//                throw ExceptionUtils.newException(InternalServerException.class, "지원하지 않는 처리방식입니다. 입력=%s", handle);
+            // throw ExceptionUtils.newException(InternalServerException.class, "지원하지 않는 처리방식입니다. 입력=%s", handle);
+        }
+    }
+
+    public static class ForcedUnintelligibleHandleType {
+
+        /** 없는 유형 */
+        public static final int NONE = 0x00;
+        /** boolean, {@link Boolean} */
+        public static final int BOOLEAN = NONE + 1;
+        /** char, {@link Character} */
+        public static final int CHARACTER = BOOLEAN + 1;
+        /** byte, {@link Byte} */
+        public static final int BYTE = CHARACTER + 1;
+        /** short, {@link Short} */
+        public static final int SHORT = BYTE + 1;
+        /** int, {@link Integer} */
+        public static final int INTEGER = SHORT + 1;
+        /** long, {@link Long} */
+        public static final int LONG = INTEGER + 1;
+        /** float, {@link Float} */
+        public static final int FLOAT = LONG + 1;
+        /** double, {@link Double} */
+        public static final int DOUBLE = FLOAT + 1;
+        /** {@link String} */
+        public static final int STRING = DOUBLE + 1;
+        /** {@link CharSequence} */
+        public static final int CHAR_SEQUENCE = STRING + 1;
+
+        private ForcedUnintelligibleHandleType() {
+        }
+
+        public static int find(Class<?> fieldType) {
+            if (boolean.class.equals(fieldType) || Boolean.class.equals(fieldType)) {
+                return BOOLEAN;
+            } else if (char.class.equals(fieldType) || Character.class.equals(fieldType)) {
+                return CHARACTER;
+            } else if (byte.class.equals(fieldType) || Byte.class.equals(fieldType)) {
+                return BYTE;
+            } else if (short.class.equals(fieldType) || Short.class.equals(fieldType)) {
+                return SHORT;
+            } else if (int.class.equals(fieldType) || Integer.class.equals(fieldType)) {
+                return INTEGER;
+            } else if (long.class.equals(fieldType) || Long.class.equals(fieldType)) {
+                return LONG;
+            } else if (float.class.equals(fieldType) || Float.class.equals(fieldType)) {
+                return FLOAT;
+            } else if (double.class.equals(fieldType) || Double.class.equals(fieldType)) {
+                return DOUBLE;
+            } else if (String.class.equals(fieldType)) {
+                return STRING;
+            } else if (CharSequence.class.equals(fieldType)) {
+                return CHAR_SEQUENCE;
+            } else {
+                return NONE;
+            }
         }
     }
 }

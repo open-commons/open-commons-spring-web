@@ -1,3 +1,21 @@
+[2025/10/01]
+- Modify
+  + '데이터 필드 접근제어' 기본설정 적용
+    + open.commons.spring.web.authority.AuthorizedResourceUtils
+    + open.commons.spring.web.beans.authority.FieldAccessAuthorityDecision
+    + open.commons.spring.web.beans.authority.IFieldAccessAuthorityProvider
+    + open.commons.spring.web.beans.authority.internal.AuthorizedResourceHandler
+    + open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandleType
+    + open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler
+    + open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleJudge
+    + open.commons.spring.web.handler.AuthorizedModelAndViewHandlerInterceptor
+    + open.commons.spring.web.jackson.serialization.AbstractWrappingSerializer
+    + open.commons.spring.web.jackson.serialization.AuthorizedFieldDecisionUtil
+    + open.commons.spring.web.jackson.serialization.AuthorizedFieldSerializer
+    + open.commons.spring.web.jackson.serialization.AuthorizedFieldSerializerModifier
+    + open.commons.spring.web.jackson.serialization.ContainerSimpleTypeElementWrappingSerializer
+    + open.commons.spring.web.jackson.serialization.MapSimpleTypeValueWrappingSerializer
+
 [2025/09/29]
 - New
   + open.commons.spring.web.config.AuthorizedHandlesConfiguration: ResouceHandles 등록을 분리.
