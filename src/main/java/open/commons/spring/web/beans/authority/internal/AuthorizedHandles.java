@@ -28,6 +28,7 @@ package open.commons.spring.web.beans.authority.internal;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -47,6 +48,8 @@ import open.commons.core.utils.AssertUtils2;
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.core.utils.MapUtils;
 import open.commons.core.utils.StringUtils;
+import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
+import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 import open.commons.spring.web.config.ResourceHandle;
 import open.commons.spring.web.config.ResourceHandle.Target;
 import open.commons.spring.web.utils.SecurityUtils;
@@ -79,8 +82,8 @@ public class AuthorizedHandles {
 
     static {
         // CIPHER_STRING (문자열 암/복호화)
-        registerResourceHandle(CIPHER_STRING, Target.UNAUTHORIZED, (Function<String, String>) SecurityUtils::encryptBySessionUUID, false);
-        registerResourceHandle(CIPHER_STRING, Target.AUTHORIZED, (Function<String, String>) SecurityUtils::decryptBySessionUUID, false);
+        registerResourceHandles(CIPHER_STRING, (Function<String, String>) SecurityUtils::encryptBySessionUUID, (Function<String, String>) SecurityUtils::decryptBySessionUUID,
+                false);
 
         // MASKING_PHONE_NUMBER (전화번호 마스킹)
         registerResourceHandle(MASKING_PHONE_NUMBER, Target.UNAUTHORIZED, (Function<String, String>) AuthorizedHandles::maskPhoneNumber, false);
@@ -89,8 +92,7 @@ public class AuthorizedHandles {
         registerResourceHandle(MASKING_EMAIL, Target.UNAUTHORIZED, (Function<String, String>) AuthorizedHandles::maskEmail, false);
 
         // CIPHER_EMAIL (email 암/복호화)
-        registerResourceHandle(CIPHER_EMAIL, Target.UNAUTHORIZED, (Function<String, String>) AuthorizedHandles::encryptEmail, false);
-        registerResourceHandle(CIPHER_EMAIL, Target.AUTHORIZED, (Function<String, String>) AuthorizedHandles::decryptEmail, false);
+        registerResourceHandles(CIPHER_EMAIL, (Function<String, String>) AuthorizedHandles::encryptEmail, (Function<String, String>) AuthorizedHandles::decryptEmail, false);
 
         // MASKING_IPV4
         registerResourceHandle(MASKING_IPV4, Target.UNAUTHORIZED, (Function<String, String>) ipv4 -> AuthorizedHandles.maskIPv4(ipv4, 2, 3), false);
@@ -221,6 +223,131 @@ public class AuthorizedHandles {
      */
     public static ResourceHandle createResourceHandle(@Nonnull Target target, @NotEmpty @Nonnull String handleType, @Nonnull Function<?, ?> handle) {
         return createResourceHandle(false, target, handleType, handle, false);
+    }
+
+    /**
+     * {@link ResourceHandle} 객체를 제공합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 10. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param isBuiltin
+     *            내부에서 제공되는 설정인지 여부
+     * @param target
+     *            데이터 유형
+     * @param handleType
+     *            데이터 처리유형 식별정보
+     * @param handle
+     *            데이터 처리 함수
+     * @param preemptive
+     *            우선적용 여부
+     * @return
+     *
+     * @since 2025. 10. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static ResourceHandle createResourceHandle(@Nonnull Target target, @NotEmpty @Nonnull String handleType, @Nonnull Function<?, ?> handle, boolean preemptive) {
+        return createResourceHandle(false, target, handleType, handle, preemptive);
+    }
+
+    /**
+     * {@link ResourceHandle} 객체를 제공합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 10. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param isBuiltin
+     *            내부에서 제공되는 설정인지 여부
+     * @param handleType
+     *            데이터 처리유형 식별정보
+     * @param unauthorizedHandle
+     *            {@link IUnauthorizedFieldHandler#handleObject(String, Object)} 함수
+     * @param authorizedHandle
+     *            {@link IAuthorizedRequestDataHandler#restoreValue(String, Object)} 함수
+     * @param preemptive
+     *            우선적용 여부
+     * @return
+     *
+     * @since 2025. 10. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    static Collection<ResourceHandle> createResourceHandles(boolean isBuiltin, @NotEmpty @Nonnull String handleType, @Nonnull Function<?, ?> unauthorizedHandle,
+            @Nonnull Function<?, ?> authorizedHandle, boolean preemptive) {
+
+        assertUsableHandleType(handleType, Target.UNAUTHORIZED, preemptive);
+        assertUsableHandleType(handleType, Target.AUTHORIZED, preemptive);
+
+        Collection<ResourceHandle> handles = new ArrayList<>();
+        handles.add(new ResourceHandleImpl(isBuiltin, Target.UNAUTHORIZED, handleType, unauthorizedHandle, preemptive));
+        handles.add(new ResourceHandleImpl(isBuiltin, Target.AUTHORIZED, handleType, authorizedHandle, preemptive));
+
+        return handles;
+    }
+
+    /**
+     * {@link ResourceHandle} 객체를 제공합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 10. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param handleType
+     *            데이터 처리유형 식별정보
+     * @param unauthorizedHandle
+     *            {@link IUnauthorizedFieldHandler#handleObject(String, Object)} 함수
+     * @param authorizedHandle
+     *            {@link IAuthorizedRequestDataHandler#restoreValue(String, Object)} 함수
+     * @return
+     *
+     * @since 2025. 10. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static Collection<ResourceHandle> createResourceHandles(@NotEmpty @Nonnull String handleType, @Nonnull Function<?, ?> unauthorizedHandle,
+            @Nonnull Function<?, ?> authorizedHandle) {
+        return createResourceHandles(false, handleType, unauthorizedHandle, authorizedHandle, false);
+    }
+
+    /**
+     * {@link ResourceHandle} 객체를 제공합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 10. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param handleType
+     *            데이터 처리유형 식별정보
+     * @param unauthorizedHandle
+     *            {@link IUnauthorizedFieldHandler#handleObject(String, Object)} 함수
+     * @param authorizedHandle
+     *            {@link IAuthorizedRequestDataHandler#restoreValue(String, Object)} 함수
+     * @param preemptive
+     *            우선적용 여부
+     * @return
+     *
+     * @since 2025. 10. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static Collection<ResourceHandle> createResourceHandles(@NotEmpty @Nonnull String handleType, @Nonnull Function<?, ?> unauthorizedHandle,
+            @Nonnull Function<?, ?> authorizedHandle, boolean preemptive) {
+        return createResourceHandles(false, handleType, unauthorizedHandle, authorizedHandle, preemptive);
     }
 
     public static String decryptEmail(String email) {
@@ -587,8 +714,36 @@ public class AuthorizedHandles {
      */
     private static void registerResourceHandle(@Nonnull String handleType, Target targetType, Function<?, ?> function, boolean preemptive) {
         assertUsableHandleType(handleType, targetType, preemptive);
-        HANDLE_TYPES.add(handleType, targetType);
         BUILTIN_HANDLES.add(new ResourceHandleImpl(true, targetType, handleType, function, preemptive));
+    }
+
+    /**
+     * 내부적으로 {@link ResourceHandle} 등록 절차를 통합하여 실행합니다. <br>
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 10. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param handleType
+     *            데이터 처리유형 식별정보
+     * @param unauthorizedHandle
+     *            {@link IUnauthorizedFieldHandler#handleObject(String, Object)} 함수
+     * @param authorizedHandle
+     *            {@link IAuthorizedRequestDataHandler#restoreValue(String, Object)} 함수
+     * @param preemptive
+     *            우선적용 여부
+     *
+     * @since 2025. 10. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    private static void registerResourceHandles(@Nonnull String handleType, Function<?, ?> unuathorizedHandle, Function<?, ?> authorizedHandle, boolean preemptive) {
+        registerResourceHandle(handleType, Target.UNAUTHORIZED, unuathorizedHandle, preemptive);
+        registerResourceHandle(handleType, Target.AUTHORIZED, authorizedHandle, preemptive);
     }
 
     /**
