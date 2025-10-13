@@ -29,6 +29,7 @@ package open.commons.spring.web.config;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import open.commons.spring.web.authority.AuthorizedField;
@@ -81,7 +82,9 @@ public interface ResourceHandle {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public int handleType();
+    @NotEmpty
+    @Nonnull
+    public String handleType();
 
     /**
      * 데이터 처리방식 식별정보가 동일한 경우 우선 적용할지 여부. <br>

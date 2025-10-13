@@ -29,6 +29,9 @@ package open.commons.spring.web.jackson.deserialization;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.validation.constraints.NotEmpty;
+
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -52,7 +55,7 @@ public class MapSimpleTypeValueWrappingDeserializer extends JsonDeserializer<Obj
     // Map<*, SimpleType>
     private final JavaType mapType;
     private final IAuthorizedRequestDataHandler handler;
-    private final int handleType;
+    private final String handleType;
 
     // createContextual 이후 주입
     private final JsonDeserializer<?> delegate;
@@ -77,7 +80,7 @@ public class MapSimpleTypeValueWrappingDeserializer extends JsonDeserializer<Obj
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public MapSimpleTypeValueWrappingDeserializer(JavaType mapType, IAuthorizedRequestDataHandler handler, int handleType) {
+    public MapSimpleTypeValueWrappingDeserializer(JavaType mapType, IAuthorizedRequestDataHandler handler, @NotEmpty @Nonnull String handleType) {
         this(mapType, handler, handleType, null);
     }
 
@@ -103,7 +106,7 @@ public class MapSimpleTypeValueWrappingDeserializer extends JsonDeserializer<Obj
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public MapSimpleTypeValueWrappingDeserializer(JavaType mapType, IAuthorizedRequestDataHandler handler, int handleType, JsonDeserializer<?> delegate) {
+    public MapSimpleTypeValueWrappingDeserializer(JavaType mapType, IAuthorizedRequestDataHandler handler, @NotEmpty @Nonnull String handleType, JsonDeserializer<?> delegate) {
         this.mapType = mapType;
         this.handler = handler;
         this.handleType = handleType;

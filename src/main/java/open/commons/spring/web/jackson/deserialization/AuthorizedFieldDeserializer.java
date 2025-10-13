@@ -29,6 +29,9 @@ package open.commons.spring.web.jackson.deserialization;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+import javax.annotation.Nonnull;
+import javax.validation.constraints.NotEmpty;
+
 import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 
@@ -50,7 +53,7 @@ import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
 public class AuthorizedFieldDeserializer extends JsonDeserializer<Object> implements ContextualDeserializer {
 
     private final IAuthorizedRequestDataHandler handle;
-    private final int handleType;
+    private final String handleType;
 
     /**
      * <br>
@@ -67,7 +70,7 @@ public class AuthorizedFieldDeserializer extends JsonDeserializer<Object> implem
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public AuthorizedFieldDeserializer(IAuthorizedRequestDataHandler handle, int handleType) {
+    public AuthorizedFieldDeserializer(IAuthorizedRequestDataHandler handle, @NotEmpty @Nonnull String handleType) {
         this.handle = handle;
         this.handleType = handleType;
     }

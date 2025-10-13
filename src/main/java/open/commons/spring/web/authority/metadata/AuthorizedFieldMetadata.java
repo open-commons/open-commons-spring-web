@@ -29,8 +29,9 @@ package open.commons.spring.web.authority.metadata;
 import java.lang.reflect.Field;
 import java.util.Objects;
 
-import javax.validation.constraints.Min;
+import javax.annotation.Nonnull;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.context.annotation.Bean;
 
@@ -57,7 +58,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
     /** bind to {@link AuthorizedField#fieldHandleBean()} */
     private String fieldHandleBean;
     /** bind to {@link AuthorizedField#handleType()} */
-    private int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
+    private String handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
 
     /**
      * <br>
@@ -168,7 +169,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * @see #handleType
      */
 
-    public int getHandleType() {
+    public String getHandleType() {
         return handleType;
     }
 
@@ -277,7 +278,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      *
      * @see #handleType
      */
-    public void setHandleType(@Min(AuthorizedField.NO_ASSINGED_HANDLE_TYPE + 1) int handleType) {
+    public void setHandleType(@NotNull @Nonnull String handleType) {
         this.handleType = handleType;
     }
 

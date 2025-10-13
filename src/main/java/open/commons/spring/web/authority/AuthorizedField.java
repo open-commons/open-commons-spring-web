@@ -56,7 +56,7 @@ import open.commons.spring.web.config.ResourceHandle;
 public @interface AuthorizedField {
 
     /** 데이터 처리 방식을 설정하지 않은 값. */
-    public static final int NO_ASSINGED_HANDLE_TYPE = Integer.MIN_VALUE;
+    public static final String NO_ASSINGED_HANDLE_TYPE = "open.commons.spring.web.authority.AuthorizedField.NO_ASSINGED_HANDLE_TYPE";
 
     /**
      * 접근권한을 검증하는 Bean 정보를 설정합니다. <br>
@@ -136,7 +136,7 @@ public @interface AuthorizedField {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    int handleType() default NO_ASSINGED_HANDLE_TYPE;
+    String handleType() default NO_ASSINGED_HANDLE_TYPE;
 
     /**
      * 데이터 유형 이름<br>

@@ -26,6 +26,9 @@
 
 package open.commons.spring.web.beans.authority.internal;
 
+import javax.annotation.Nonnull;
+import javax.validation.constraints.NotEmpty;
+
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
 
 /**
@@ -62,10 +65,10 @@ public class ForcedUnintelligibleHandler implements IUnauthorizedFieldHandler {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler#handleObject(int, java.lang.Object)
+     * @see open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler#handleObject(String, java.lang.Object)
      */
     @Override
-    public Object handleObject(int handle, Object data) {
+    public Object handleObject(@NotEmpty @Nonnull String handle, Object data) {
         if (data == null) {
             return null;
         }
@@ -100,32 +103,32 @@ public class ForcedUnintelligibleHandler implements IUnauthorizedFieldHandler {
     public static class ForcedUnintelligibleHandleType {
 
         /** 없는 유형 */
-        public static final int NONE = 0x00;
+        public static final String NONE = "open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler.ForcedUnintelligibleHandleType.NONE";
         /** boolean, {@link Boolean} */
-        public static final int BOOLEAN = NONE + 1;
+        public static final String BOOLEAN = "open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler.ForcedUnintelligibleHandleType.BOONEAN";
         /** char, {@link Character} */
-        public static final int CHARACTER = BOOLEAN + 1;
+        public static final String CHARACTER = "open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler.ForcedUnintelligibleHandleType.CHARACTER";
         /** byte, {@link Byte} */
-        public static final int BYTE = CHARACTER + 1;
+        public static final String BYTE = "open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler.ForcedUnintelligibleHandleType.BYTE";
         /** short, {@link Short} */
-        public static final int SHORT = BYTE + 1;
+        public static final String SHORT = "open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler.ForcedUnintelligibleHandleType.SHORT";
         /** int, {@link Integer} */
-        public static final int INTEGER = SHORT + 1;
+        public static final String INTEGER = "open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler.ForcedUnintelligibleHandleType.INTEGER";
         /** long, {@link Long} */
-        public static final int LONG = INTEGER + 1;
+        public static final String LONG = "open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler.ForcedUnintelligibleHandleType.LONG";
         /** float, {@link Float} */
-        public static final int FLOAT = LONG + 1;
+        public static final String FLOAT = "open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler.ForcedUnintelligibleHandleType.FLOAT";
         /** double, {@link Double} */
-        public static final int DOUBLE = FLOAT + 1;
+        public static final String DOUBLE = "open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler.ForcedUnintelligibleHandleType.DOUBLE";
         /** {@link String} */
-        public static final int STRING = DOUBLE + 1;
+        public static final String STRING = "open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler.ForcedUnintelligibleHandleType.STRING";
         /** {@link CharSequence} */
-        public static final int CHAR_SEQUENCE = STRING + 1;
+        public static final String CHAR_SEQUENCE = "open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler.ForcedUnintelligibleHandleType.CHAR_SEQUENCE";
 
         private ForcedUnintelligibleHandleType() {
         }
 
-        public static int find(Class<?> fieldType) {
+        public static String find(Class<?> fieldType) {
             if (boolean.class.equals(fieldType) || Boolean.class.equals(fieldType)) {
                 return BOOLEAN;
             } else if (char.class.equals(fieldType) || Character.class.equals(fieldType)) {

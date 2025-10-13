@@ -243,7 +243,7 @@ public class AuthorizedRequestDataMetadataBuilder {
         @SuppressWarnings("unused")
         private static class AuthorizedRequestDataFieldMetadataBuilder {
             private String handleBean;
-            private int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
+            private String handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
             private String name;
 
             public AuthorizedRequestDataFieldMetadata build() {
@@ -254,7 +254,7 @@ public class AuthorizedRequestDataMetadataBuilder {
                 this.handleBean = handleBean;
             }
 
-            public void handleType(int handleType) {
+            public void handleType(String handleType) {
                 this.handleType = handleType;
             }
 
@@ -315,7 +315,7 @@ public class AuthorizedRequestDataMetadataBuilder {
             }
 
             @Override
-            public FieldBuilder handleType(int handleType) {
+            public FieldBuilder handleType(String handleType) {
                 afmBuilder.handleType(handleType);
                 return this;
             }
@@ -456,7 +456,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
-        FieldBuilder handleType(int handleType);
+        FieldBuilder handleType(String handleType);
 
         /**
          * {@link AuthorizedRequestDataFieldMetadata#name()}에 해당하는 값을 설정합니다.<br>

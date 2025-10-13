@@ -293,8 +293,7 @@ public class BeanUtils {
     }
 
     /**
-     * 
-     * <br>
+     * 'application'에 대한 설정정보를 주어진 타입에 맞게 변환하여 {@link List} 형태로 제공합니다. <br>
      * 
      * <pre>
      * [개정이력]

@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
@@ -198,10 +199,10 @@ public class AuthorizedModelAndViewHandlerInterceptor implements PostProcessingH
         }
         // #1. 데이터 접근여부
         boolean accessible = false;
-        int handleType = annoCtx.handleType;
+        String handleType = annoCtx.handleType;
         String handleBean = null;
 
-        if (annoCtx.handleType == AuthorizedField.NO_ASSINGED_HANDLE_TYPE) {
+        if (AuthorizedField.NO_ASSINGED_HANDLE_TYPE.equals(annoCtx.handleType)) {
             FieldAccessAuthorityDecision fieldAccessible = isAllowed(annoCtx.authority, annoCtx.targetClass.getName(), null);
             accessible = fieldAccessible.accessible;
             handleType = fieldAccessible.handleType;
@@ -324,7 +325,7 @@ public class AuthorizedModelAndViewHandlerInterceptor implements PostProcessingH
                     Supplier<String> fieldHandleBeanNamOnObject = null;
                     Supplier<String> fieldHandleBeanNamOnField = null;
 
-                    int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
+                    String handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
                     // 조건1: ao 와 af 가 반드시 있어야 합니다.
                     if (annoAuthorizedObject != null && annoAuthorizedField != null) {
                         authorityBeanNameOnObject = annoAuthorizedObject::authorityBean;
@@ -525,10 +526,10 @@ public class AuthorizedModelAndViewHandlerInterceptor implements PostProcessingH
         /** '접근제어' 기능 적용 서비스 */
         final IUnauthorizedFieldHandler unauthorized;
         /** '접근제어' 데이터 처리 방식 */
-        final int handleType;
+        final String handleType;
 
         private AnnotatedContext() {
-            this(null, null, null, Integer.MIN_VALUE);
+            this(null, null, null, AuthorizedField.NO_ASSINGED_HANDLE_TYPE);
         }
 
         /**
@@ -554,7 +555,7 @@ public class AuthorizedModelAndViewHandlerInterceptor implements PostProcessingH
          * @version 0.8.0
          * @author parkjunhong77@gmail.com
          */
-        public AnnotatedContext(Class<?> targetClass, IFieldAccessAuthorityProvider authority, IUnauthorizedFieldHandler unauthorized, int handleType) {
+        public AnnotatedContext(Class<?> targetClass, IFieldAccessAuthorityProvider authority, IUnauthorizedFieldHandler unauthorized, @NotEmpty @Nonnull String handleType) {
             this.targetClass = targetClass;
             this.authority = authority;
             this.unauthorized = unauthorized;

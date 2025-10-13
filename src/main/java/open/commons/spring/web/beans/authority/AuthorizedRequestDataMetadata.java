@@ -153,7 +153,7 @@ public class AuthorizedRequestDataMetadata implements IAuthorizedRequestDataMeta
      *      java.lang.String)
      */
     @Override
-    public int getHandleType(@NotNull @Nonnull Class<?> targetClass, @NotBlank String fieldName) {
+    public String getHandleType(@NotNull @Nonnull Class<?> targetClass, @NotBlank String fieldName) {
         AuthorizedRequestDataFieldMetadata fm = getFieldMetadat(targetClass, fieldName);
         return fm != null ? fm.getHandleType() : AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE;
     }

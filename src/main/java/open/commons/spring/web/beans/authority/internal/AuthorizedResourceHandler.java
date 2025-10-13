@@ -31,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import open.commons.core.utils.ExceptionUtils;
@@ -53,9 +54,9 @@ public class AuthorizedResourceHandler implements IUnauthorizedFieldHandler, IAu
     public static final String BEAN_QUALIFIER = "open.commons.spring.web.beans.authority.internal.AuthorizedResourceHandler";
 
     /** 암호화/난독화 기능을 수행 */
-    private ConcurrentHashMap<Integer, Function<?, ?>> unauthorizedFieldHandlers = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Function<?, ?>> unauthorizedFieldHandlers = new ConcurrentHashMap<>();
     /** 복호화/평문화 기능을 수행 */
-    private ConcurrentHashMap<Integer, Function<?, ?>> authorizedDataHandlers = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Function<?, ?>> authorizedDataHandlers = new ConcurrentHashMap<>();
 
     /**
      * <br>
@@ -81,10 +82,10 @@ public class AuthorizedResourceHandler implements IUnauthorizedFieldHandler, IAu
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler#handleObject(int, java.lang.Object)
+     * @see open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler#handleObject(String, java.lang.Object)
      */
     @Override
-    public Object handleObject(int handle, Object data) throws UnsupportedOperationException {
+    public Object handleObject(@NotEmpty @Nonnull String handle, Object data) throws UnsupportedOperationException {
         @SuppressWarnings("unchecked")
         Function<Object, Object> handler = (Function<Object, Object>) this.unauthorizedFieldHandlers.get(handle);
         if (handler == null) {
@@ -99,10 +100,10 @@ public class AuthorizedResourceHandler implements IUnauthorizedFieldHandler, IAu
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler#restoreValue(int, java.lang.Object)
+     * @see open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler#restoreValue(String, java.lang.Object)
      */
     @Override
-    public Object restoreValue(int handle, Object value) throws UnsupportedOperationException {
+    public Object restoreValue(@NotEmpty @Nonnull String handle, Object value) throws UnsupportedOperationException {
         @SuppressWarnings("unchecked")
         Function<Object, Object> handler = (Function<Object, Object>) this.authorizedDataHandlers.get(handle);
         if (handler == null) {
@@ -136,7 +137,7 @@ public class AuthorizedResourceHandler implements IUnauthorizedFieldHandler, IAu
      * @see IUnauthorizedFieldHandler
      * @see Target#UNAUTHORIZED
      */
-//    @auto
+    // @auto
     public void setAuthorizedResourceHandlers(@NotNull @Nonnull Collection<ResourceHandle> handlers) {
         handlers.forEach(h -> {
             if (Target.AUTHORIZED == h.target()) {

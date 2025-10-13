@@ -36,6 +36,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
+import javax.validation.constraints.NotEmpty;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,19 +62,19 @@ public class AuthorizedHandles {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizedHandles.class);
 
     /** 문자열 암/복호화 */
-    public static final int CIPHER_STRING = 0x00;
+    public static final String CIPHER_STRING = "open.commons.spring.web.beans.authority.internal.AuthorizedHandles.CIPHER_STRING";
     /** 전화번호 masking */
-    public static final int MASKING_PHONE_NUMBER = CIPHER_STRING + 1;
+    public static final String MASKING_PHONE_NUMBER = "open.commons.spring.web.beans.authority.internal.AuthorizedHandles.MASKING_PHONE_NUMBER";
     /** 이메일 masking */
-    public static final int MASKING_EMAIL = MASKING_PHONE_NUMBER + 1;
+    public static final String MASKING_EMAIL = "open.commons.spring.web.beans.authority.internal.AuthorizedHandles.MASKING_EMAIL";
     /** 이메일 암/복호화 */
-    public static final int CIPHER_EMAIL = MASKING_EMAIL + 1;
+    public static final String CIPHER_EMAIL = "open.commons.spring.web.beans.authority.internal.AuthorizedHandles.CIPHER_EMAIL";
     /** IPv4 masking */
-    public static final int MASKING_IPV4 = CIPHER_EMAIL + 1;
+    public static final String MASKING_IPV4 = "open.commons.spring.web.beans.authority.internal.AuthorizedHandles.MASKING_IPV4";
     /** IPv6 masking */
-    public static final int MASKING_IPV6 = MASKING_IPV4 + 1;
+    public static final String MASKING_IPV6 = "open.commons.spring.web.beans.authority.internal.AuthorizedHandles.MASKING_IPV6";
 
-    private static final MultiValueMap<Integer, Target> HANDLE_TYPES = new LinkedMultiValueMap<>();
+    private static final MultiValueMap<String, Target> HANDLE_TYPES = new LinkedMultiValueMap<>();
     private static final List<ResourceHandle> BUILTIN_HANDLES = new ArrayList<>();
 
     static {
@@ -128,8 +129,9 @@ public class AuthorizedHandles {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public static void assertUsableHandleType(int handleType, @Nonnull Target targetType, boolean preemptive) {
+    public static void assertUsableHandleType(@NotEmpty @Nonnull String handleType, @Nonnull Target targetType, boolean preemptive) {
         AssertUtils2.notNull(targetType);
+        AssertUtils2.isFalse("데이터 처리 방식은 반드시 설정되어야 합니다.", StringUtils.isNullOrEmptyString(handleType));
         if (preemptive //
                 || !HANDLE_TYPES.containsKey(handleType) //
                 || !HANDLE_TYPES.get(handleType).contains(targetType) //
@@ -525,7 +527,7 @@ public class AuthorizedHandles {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private static void registerResourceHandle(int handleType, Target targetType, Function<?, ?> function, boolean preemptive) {
+    private static void registerResourceHandle(@Nonnull String handleType, Target targetType, Function<?, ?> function, boolean preemptive) {
         assertUsableHandleType(handleType, targetType, preemptive);
         HANDLE_TYPES.add(handleType, targetType);
         BUILTIN_HANDLES.add(new ResourceHandleImpl(true, targetType, handleType, function, preemptive));
@@ -548,7 +550,7 @@ public class AuthorizedHandles {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private static void update(int handleType, Target targetType) {
+    private static void update(@NotEmpty @Nonnull String handleType, Target targetType) {
         List<Target> targets = MapUtils.getOrDefault(HANDLE_TYPES, handleType, (Supplier<List<Target>>) () -> {
             return new ArrayList<>();
         }, true);

@@ -26,6 +26,9 @@
 
 package open.commons.spring.web.beans.authority;
 
+import javax.annotation.Nonnull;
+import javax.validation.constraints.NotEmpty;
+
 import open.commons.spring.web.authority.AuthorizedField;
 
 /**
@@ -57,7 +60,10 @@ public interface IUnauthorizedFieldHandler {
      * @since 2025. 5. 26.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * 
+     * @see AuthorizedField#handleType()
      */
-    Object handleObject(int handle, Object data) throws UnsupportedOperationException;
+    Object handleObject(@NotEmpty @Nonnull String handle, Object data) throws UnsupportedOperationException;
 
 }

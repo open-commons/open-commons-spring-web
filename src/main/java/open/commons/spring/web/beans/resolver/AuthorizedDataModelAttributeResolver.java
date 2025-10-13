@@ -38,7 +38,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
@@ -164,7 +166,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private TwoValueObject<String, Integer> resolveAnnotatedContext(Class<?> targetClass, String fieldName, AuthorizedRequestData anno) {
+    private TwoValueObject<String, String> resolveAnnotatedContext(Class<?> targetClass, String fieldName, AuthorizedRequestData anno) {
         if (anno != null) {
             return new TwoValueObject<>(anno.handleBean(), anno.handleType());
         } else {
@@ -173,8 +175,8 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
             if (StringUtils.isNullOrEmptyString(handleBean)) {
                 return null;
             }
-            int handleType = this.authorizedRequestDataMetadata.getHandleType(targetClass, fieldName);
-            if (handleType == AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE) {
+            String handleType = this.authorizedRequestDataMetadata.getHandleType(targetClass, fieldName);
+            if (AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE.equals(handleType)) {
                 return null;
             }
 
@@ -211,7 +213,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
         List<Field> fields = getProcessableFields(targetClass);
         Object rawValue = null;
         String handleBean = null;
-        int handleType = AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE;
+        String handleType = AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE;
         for (Field field : fields) {
             field.setAccessible(true);
             try {
@@ -219,7 +221,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
                 if (rawValue == null) {
                     continue;
                 }
-                TwoValueObject<String, Integer> annotatedValue = resolveAnnotatedContext(targetClass, field.getName(), field.getAnnotation(AuthorizedRequestData.class));
+                TwoValueObject<String, String> annotatedValue = resolveAnnotatedContext(targetClass, field.getName(), field.getAnnotation(AuthorizedRequestData.class));
                 if (annotatedValue == null) {
                     continue;
                 }
@@ -243,7 +245,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
         }
     }
 
-    private Object resolveRawValue(Object rawValue, String handleBean, int handleType, Set<Object> visited) {
+    private Object resolveRawValue(Object rawValue, String handleBean, @NotEmpty @Nonnull String handleType, Set<Object> visited) {
         if (rawValue == null || visited.contains(rawValue)) {
             return rawValue;
         }

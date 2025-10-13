@@ -29,6 +29,7 @@ package open.commons.spring.web.beans.authority.internal;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.validation.constraints.NotEmpty;
 
 import open.commons.core.utils.AssertUtils2;
 import open.commons.spring.web.authority.AuthorizedField;
@@ -56,12 +57,12 @@ public class ResourceHandleImpl implements ResourceHandle {
      * <li>{@link AuthorizedField#handleType()}
      * <li>{@link AuthorizedRequestData#handleType()}
      */
-    private final int handleType;
+    private final String handleType;
 
     /**
      * 데이터 처리 함수. 아래 정보에서 사용됩니다.
-     * <li>{@link IUnauthorizedFieldHandler#handleObject(int, Object)}
-     * <li>{@link IAuthorizedRequestDataHandler#restoreValue(int, Object)}
+     * <li>{@link IUnauthorizedFieldHandler#handleObject(String, Object)}
+     * <li>{@link IAuthorizedRequestDataHandler#restoreValue(String, Object)}
      */
     private final Function<?, ?> handle;
 
@@ -91,7 +92,7 @@ public class ResourceHandleImpl implements ResourceHandle {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    ResourceHandleImpl(boolean isBuiltin, @Nonnull Target target, int handleType, @Nonnull Function<?, ?> handle, boolean preemptive) {
+    ResourceHandleImpl(boolean isBuiltin, @Nonnull Target target, @NotEmpty @Nonnull String handleType, @Nonnull Function<?, ?> handle, boolean preemptive) {
         AssertUtils2.notNulls(target, handle);
         this.isBuiltin = isBuiltin;
         this.target = target;
@@ -119,7 +120,7 @@ public class ResourceHandleImpl implements ResourceHandle {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public ResourceHandleImpl(@Nonnull Target target, int handleType, @Nonnull Function<?, ?> handle) {
+    public ResourceHandleImpl(@Nonnull Target target, @NotEmpty @Nonnull String handleType, @Nonnull Function<?, ?> handle) {
         this(false, target, handleType, handle, false);
     }
 
@@ -144,7 +145,7 @@ public class ResourceHandleImpl implements ResourceHandle {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public ResourceHandleImpl(@Nonnull Target target, int handleType, @Nonnull Function<?, ?> handle, boolean preemptive) {
+    public ResourceHandleImpl(@Nonnull Target target, @NotEmpty @Nonnull String handleType, @Nonnull Function<?, ?> handle, boolean preemptive) {
         this(false, target, handleType, handle, preemptive);
     }
 
@@ -170,7 +171,9 @@ public class ResourceHandleImpl implements ResourceHandle {
      * @see open.commons.spring.web.config.ResourceHandle#handleType()
      */
     @Override
-    public int handleType() {
+    @NotEmpty
+    @Nonnull
+    public String handleType() {
         return this.handleType;
     }
 

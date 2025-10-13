@@ -33,6 +33,11 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.validation.constraints.NotEmpty;
+
+import open.commons.core.utils.AssertUtils2;
+import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 import open.commons.spring.web.utils.BeanUtils;
@@ -129,7 +134,8 @@ public class AuthorizedRequestDataContainerWalker {
      *            핸들 타입(전략 식별자)
      * @return 변환된 객체(가능하면 원본 컬렉션/맵은 제자리 갱신, 배열은 새 배열 반환)
      */
-    public static Object processRecursively(Object rawValue, JavaType type, IAuthorizedRequestDataHandler handler, int handleType) {
+    public static Object processRecursively(Object rawValue, JavaType type, IAuthorizedRequestDataHandler handler, @NotEmpty @Nonnull String handleType) {
+        AssertUtils2.isFalse("데이터 처리 식별정보는 반드시 설정되어야 합니다. handleType=" + handleType, StringUtils.isNullOrEmptyString(handleType));
 
         if (rawValue == null || type == null) {
             return processRecursivelyRuntime(rawValue, handler, handleType);
@@ -204,7 +210,7 @@ public class AuthorizedRequestDataContainerWalker {
      * <li>- 배열/Collection/Map 은 런타임 타입으로 재귀 처리
      * <li>- POJO 는 그대로 반환
      */
-    private static Object processRecursivelyRuntime(Object value, IAuthorizedRequestDataHandler handler, int handleType) {
+    private static Object processRecursivelyRuntime(Object value, IAuthorizedRequestDataHandler handler, String handleType) {
         if (value == null)
             return null;
 

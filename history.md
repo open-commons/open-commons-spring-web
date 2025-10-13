@@ -1,3 +1,34 @@
+[2025/10/13]
+- Modify
+  + AuthorizedField#handleType(), AuthorizedRequestData#handleType() 데이터 유형 변경(Integer -> String)에 따른 코드 수정
+    + open.commons.spring.web.authority.AuthorizedField
+    + open.commons.spring.web.authority.AuthorizedRequestData
+    + open.commons.spring.web.authority.metadata.AuthorizedFieldMetadata
+    + open.commons.spring.web.authority.metadata.AuthorizedMetadataBuilder
+    + open.commons.spring.web.authority.metadata.AuthorizedRequestDataFieldMetadata
+    + open.commons.spring.web.authority.metadata.AuthorizedRequestDataMetadataBuilder
+    + open.commons.spring.web.beans.authority.AuthorizedRequestDataMetadata
+    + open.commons.spring.web.beans.authority.FieldAccessAuthorityDecision
+    + open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler
+    + open.commons.spring.web.beans.authority.IAuthorizedRequestDataMetadata
+    + open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler
+    + open.commons.spring.web.beans.authority.internal.AuthorizedHandles
+    + open.commons.spring.web.beans.authority.internal.AuthorizedResourceHandler
+    + open.commons.spring.web.beans.authority.internal.ForcedUnintelligibleHandler
+    + open.commons.spring.web.beans.authority.internal.ResourceHandleImpl
+    + open.commons.spring.web.beans.controller.RequestMappingProvider
+    + open.commons.spring.web.beans.resolver.AuthorizedDataModelAttributeResolver
+    + open.commons.spring.web.beans.resolver.IAuthorizedDataResolver
+    + open.commons.spring.web.config.ResourceHandle
+    + open.commons.spring.web.handler.AuthorizedModelAndViewHandlerInterceptor
+    + open.commons.spring.web.jackson.deserialization.AuthorizedFieldDeserializer
+    + open.commons.spring.web.jackson.deserialization.AuthorizedFieldDeserializerModifier
+    + open.commons.spring.web.jackson.deserialization.AuthorizedRequestDataContainerWalker
+    + open.commons.spring.web.jackson.deserialization.ContainerSimpleTypeElementWrappingDeserializer
+    + open.commons.spring.web.jackson.deserialization.MapSimpleTypeValueWrappingDeserializer
+    + open.commons.spring.web.jackson.serialization.AuthorizedFieldDecisionUtil
+    + open.commons.spring.web.utils.BeanUtils
+
 [2025/10/01]
 - Modify
   + '데이터 필드 접근제어' 기본설정 적용

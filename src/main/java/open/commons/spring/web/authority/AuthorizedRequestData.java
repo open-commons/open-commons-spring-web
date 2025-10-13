@@ -54,7 +54,7 @@ import open.commons.spring.web.config.ResourceHandle;
 public @interface AuthorizedRequestData {
 
     /** 데이터 처리 방식을 설정하지 않은 값. */
-    public static final int NO_ASSINGED_HANDLE_TYPE = Integer.MIN_VALUE;
+    public static final String NO_ASSINGED_HANDLE_TYPE = "open.commons.spring.web.authority.AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE";
 
     /**
      * {@link AuthorizedField#fieldHandleBean()}를 통해서 처리된 데이터를 원복하는 기능을 제공하는 {@link Bean} 이름. <br>
@@ -95,6 +95,6 @@ public @interface AuthorizedRequestData {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    int handleType() default NO_ASSINGED_HANDLE_TYPE;
+    String handleType() default NO_ASSINGED_HANDLE_TYPE;
 
 }

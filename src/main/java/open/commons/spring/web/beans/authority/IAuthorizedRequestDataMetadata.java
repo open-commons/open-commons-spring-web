@@ -95,7 +95,7 @@ public interface IAuthorizedRequestDataMetadata {
     public String getHandleBeanName(@NotNull @Nonnull Class<?> targetClass, @NotBlank String fieldName);
 
     /**
-     * 주어진 클래스의 {@link Field}에 선언된 {@link IAuthorizedRequestDataHandler#restoreValue(int, Object)}에 사용될 '데이터 처리방식 식별정보'를
+     * 주어진 클래스의 {@link Field}에 선언된 {@link IAuthorizedRequestDataHandler#restoreValue(String, Object)}에 사용될 '데이터 처리방식 식별정보'를
      * 제공합니다.<br>
      * {@link AuthorizedRequestData#handleType()} 값과 매칭됩니다.
      * 
@@ -118,7 +118,7 @@ public interface IAuthorizedRequestDataMetadata {
      * 
      * @see AuthorizedRequestData#handleType()
      */
-    public int getHandleType(@NotNull @Nonnull Class<?> targetClass, @NotBlank String fieldName);
+    public String getHandleType(@NotNull @Nonnull Class<?> targetClass, @NotBlank String fieldName);
 
     /**
      * 주어진 클래스에 적용될 {@link AuthorizedRequestDataObjectMetadata} 정보를 제공합니다. <br>

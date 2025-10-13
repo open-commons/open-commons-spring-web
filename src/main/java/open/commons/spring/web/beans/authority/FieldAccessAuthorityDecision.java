@@ -26,6 +26,9 @@
 
 package open.commons.spring.web.beans.authority;
 
+import javax.annotation.Nonnull;
+import javax.validation.constraints.NotEmpty;
+
 /**
  * 
  * @since 2025. 10. 1.
@@ -37,7 +40,7 @@ public class FieldAccessAuthorityDecision {
     /** 허용 여부 */
     public final boolean accessible;
     /** 데이터 처리 방식 */
-    public final int handleType;
+    public final String handleType;
     /**
      * 데이터 처리 빈<br>
      * {@link IUnauthorizedFieldHandler} 를 구현한 객체여야 함.
@@ -67,7 +70,7 @@ public class FieldAccessAuthorityDecision {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public FieldAccessAuthorityDecision(boolean accessible, int handleType, String handleBean) {
+    public FieldAccessAuthorityDecision(boolean accessible, @NotEmpty @Nonnull String handleType, String handleBean) {
         this.accessible = accessible;
         this.handleType = handleType;
         this.handleBean = handleBean;

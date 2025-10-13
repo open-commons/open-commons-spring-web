@@ -66,7 +66,7 @@ public class AuthorizedFieldDecisionUtil {
         final String fieldName = annotatedField.getName();
 
         boolean accessible = false;
-        int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
+        String handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
         String handleBean = null;
 
         // 1) @AuthorizedField 우선
@@ -86,7 +86,7 @@ public class AuthorizedFieldDecisionUtil {
 
         try {
             // 3) 아직 미지정이면 권한서비스로 접근/처리결정 조회
-            if (handleType == AuthorizedField.NO_ASSINGED_HANDLE_TYPE) {
+            if (AuthorizedField.NO_ASSINGED_HANDLE_TYPE.equals(handleType)) {
                 Result<FieldAccessAuthorityDecision> resultFieldAccessorDecision = fieldAccessor.isAllowed(declaringClass.getName(), fieldName);
                 if (resultFieldAccessorDecision == null || resultFieldAccessorDecision.isError() || resultFieldAccessorDecision.getData() == null) {
                     throw ExceptionUtils.newException(InternalServerException.class, "필드 접근권한 조회 실패. type=%s, field=%s, result=%s", declaringClass, fieldName,

@@ -30,6 +30,9 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Collection;
 
+import javax.annotation.Nonnull;
+import javax.validation.constraints.NotEmpty;
+
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -53,7 +56,7 @@ public class ContainerSimpleTypeElementWrappingDeserializer extends JsonDeserial
     // List, Set, Collection, [] 등
     private final JavaType containerType;
     private final IAuthorizedRequestDataHandler handler;
-    private final int handleType;
+    private final String handleType;
 
     // createContextual 이후 채워질 delegate
     private final JsonDeserializer<?> delegate;
@@ -69,7 +72,6 @@ public class ContainerSimpleTypeElementWrappingDeserializer extends JsonDeserial
      * </pre>
      * 
      * @param containerType
-     *            TODO
      * @param handler
      *            {@link IAuthorizedRequestDataHandler} 구현 객체.
      * @param handleType
@@ -79,7 +81,7 @@ public class ContainerSimpleTypeElementWrappingDeserializer extends JsonDeserial
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public ContainerSimpleTypeElementWrappingDeserializer(JavaType containerType, IAuthorizedRequestDataHandler handler, int handleType) {
+    public ContainerSimpleTypeElementWrappingDeserializer(JavaType containerType, IAuthorizedRequestDataHandler handler, @NotEmpty @Nonnull String handleType) {
         this(containerType, handler, handleType, null);
     }
 
@@ -94,7 +96,6 @@ public class ContainerSimpleTypeElementWrappingDeserializer extends JsonDeserial
      * </pre>
      * 
      * @param containerType
-     *            TODO
      * @param handler
      *            {@link IAuthorizedRequestDataHandler} 구현 객체.
      * @param handleType
@@ -106,7 +107,8 @@ public class ContainerSimpleTypeElementWrappingDeserializer extends JsonDeserial
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public ContainerSimpleTypeElementWrappingDeserializer(JavaType containerType, IAuthorizedRequestDataHandler handler, int handleType, JsonDeserializer<?> delegate) {
+    public ContainerSimpleTypeElementWrappingDeserializer(JavaType containerType, IAuthorizedRequestDataHandler handler, @NotEmpty @Nonnull String handleType,
+            JsonDeserializer<?> delegate) {
         this.containerType = containerType;
         this.handler = handler;
         this.handleType = handleType;

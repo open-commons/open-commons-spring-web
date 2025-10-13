@@ -166,7 +166,7 @@ public class AuthorizedFieldDeserializerModifier extends BeanDeserializerModifie
         Class<?> fieldRawType = null;
         // AuthorizedRequestData 관련 정보
         String handleBean = null;
-        int handleType = AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE;
+        String handleType = AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE;
         while (itrProperties.hasNext()) {
             SettableBeanProperty prop = itrProperties.next();
             // BeanPropertyDefinition에서 해당 프로퍼티 찾기
@@ -253,8 +253,8 @@ public class AuthorizedFieldDeserializerModifier extends BeanDeserializerModifie
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    private boolean validateBeanNameAndHandleType(String beanName, int beanType) {
-        return !StringUtils.isNullOrEmptyString(beanName) && beanType != AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE;
+    private boolean validateBeanNameAndHandleType(String beanName, String beanType) {
+        return !StringUtils.isNullOrEmptyString(beanName) && !AuthorizedRequestData.NO_ASSINGED_HANDLE_TYPE.equals(beanType);
     }
 
     private static AuthorizedRequestData findAuthorizedAnnotation(BeanPropertyDefinition def) {

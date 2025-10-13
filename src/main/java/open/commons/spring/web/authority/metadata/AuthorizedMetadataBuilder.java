@@ -246,7 +246,7 @@ public class AuthorizedMetadataBuilder {
         private static class AuthorizedFieldMetadataBuilder {
             private String authorityBean = ForcedUnintelligibleJudge.BEAN_QUALIFIER;
             private String fieldHandleBean;
-            private int handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
+            private String handleType = AuthorizedField.NO_ASSINGED_HANDLE_TYPE;
             private String name;
 
             public void authorityBean(String authorityBean) {
@@ -261,7 +261,7 @@ public class AuthorizedMetadataBuilder {
                 this.fieldHandleBean = fieldHandleBean;
             }
 
-            public void handleType(int handleType) {
+            public void handleType(String handleType) {
                 this.handleType = handleType;
             }
 
@@ -333,7 +333,7 @@ public class AuthorizedMetadataBuilder {
             }
 
             @Override
-            public FieldBuilder handleType(int handleType) {
+            public FieldBuilder handleType(String handleType) {
                 afmBuilder.handleType(handleType);
                 return this;
             }
@@ -501,7 +501,7 @@ public class AuthorizedMetadataBuilder {
          * @version 0.8.0
          * @author Park, Jun-Hong parkjunhong77@gmail.com
          */
-        FieldBuilder handleType(int handleType);
+        FieldBuilder handleType(String handleType);
 
         /**
          * {@link AuthorizedField#name()}에 해당하는 값을 설정합니다.<br>

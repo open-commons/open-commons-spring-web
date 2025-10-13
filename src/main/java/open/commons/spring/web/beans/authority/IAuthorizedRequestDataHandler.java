@@ -26,6 +26,9 @@
 
 package open.commons.spring.web.beans.authority;
 
+import javax.annotation.Nonnull;
+import javax.validation.constraints.NotEmpty;
+
 import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedRequestData;
 
@@ -59,7 +62,9 @@ public interface IAuthorizedRequestDataHandler {
      * @since 2025. 9. 18.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
+     * 
+     * @see AuthorizedRequestData#handleType()
      */
-    Object restoreValue(int handle, Object value) throws UnsupportedOperationException;
+    Object restoreValue(@NotEmpty @Nonnull String handle, Object value) throws UnsupportedOperationException;
 
 }
