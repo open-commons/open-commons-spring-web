@@ -28,6 +28,12 @@
     + open.commons.spring.web.jackson.deserialization.MapSimpleTypeValueWrappingDeserializer
     + open.commons.spring.web.jackson.serialization.AuthorizedFieldDecisionUtil
     + open.commons.spring.web.utils.BeanUtils
+  + ResourceHandle 객체 생성 방식 변경: 중복 검증을 통한 객체 생성 제공.
+    + open.commons.spring.web.beans.authority.internal
+      + AuthorizedHandles
+      + ResourceHandleImpl.java
+    + open.commons.spring.web.config
+      + ResourceHandle.java
 
 [2025/10/01]
 - Modify

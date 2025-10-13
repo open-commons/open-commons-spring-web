@@ -120,7 +120,7 @@ public class ResourceHandleImpl implements ResourceHandle {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public ResourceHandleImpl(@Nonnull Target target, @NotEmpty @Nonnull String handleType, @Nonnull Function<?, ?> handle) {
+    ResourceHandleImpl(@Nonnull Target target, @NotEmpty @Nonnull String handleType, @Nonnull Function<?, ?> handle) {
         this(false, target, handleType, handle, false);
     }
 

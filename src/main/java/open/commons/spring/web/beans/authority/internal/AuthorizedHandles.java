@@ -165,6 +165,64 @@ public class AuthorizedHandles {
         return Collections.unmodifiableList(BUILTIN_HANDLES);
     }
 
+    /**
+     * {@link ResourceHandle} 객체를 제공합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 10. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * @param isBuiltin
+     *            내부에서 제공되는 설정인지 여부
+     * @param target
+     *            데이터 유형
+     * @param handleType
+     *            데이터 처리유형 식별정보
+     * @param handle
+     *            데이터 처리 함수
+     * @param preemptive
+     *            우선적용 여부
+     * @return
+     *
+     * @since 2025. 10. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static ResourceHandle createResourceHandle(boolean isBuiltin, @Nonnull Target target, @NotEmpty @Nonnull String handleType, @Nonnull Function<?, ?> handle,
+            boolean preemptive) {
+        assertUsableHandleType(handleType, target, preemptive);
+        return new ResourceHandleImpl(target, handleType, handle, preemptive);
+    }
+
+    /**
+     * {@link ResourceHandle} 객체를 제공합니다.
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 10. 13.		박준홍			최초 작성
+     * </pre>
+     *
+     * * @param target 데이터 유형
+     * 
+     * @param handleType
+     *            데이터 처리유형 식별정보
+     * @param handle
+     *            데이터 처리 함수
+     * @return
+     *
+     * @since 2025. 10. 13.
+     * @version 0.8.0
+     * @author Park, Jun-Hong parkjunhong77@gmail.com
+     */
+    public static ResourceHandle createResourceHandle(@Nonnull Target target, @NotEmpty @Nonnull String handleType, @Nonnull Function<?, ?> handle) {
+        return createResourceHandle(false, target, handleType, handle, false);
+    }
+
     public static String decryptEmail(String email) {
         if (StringUtils.isNullOrEmptyString(email)) {
             return "";

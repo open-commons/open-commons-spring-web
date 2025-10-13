@@ -36,9 +36,13 @@ import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.authority.AuthorizedRequestData;
 import open.commons.spring.web.beans.authority.IAuthorizedRequestDataHandler;
 import open.commons.spring.web.beans.authority.IUnauthorizedFieldHandler;
+import open.commons.spring.web.beans.authority.internal.AuthorizedHandles;
 
 /**
- * 데이터 처리(암호화/난독화 <==> 복호화/평문화)에 사용되는 기능을 정의합니다.
+ * 데이터 처리(암호화/난독화 <==> 복호화/평문화)에 사용되는 기능을 정의합니다.<br>
+ * 객체는 {@link AuthorizedHandles#createResourceHandle(Target, String, Function)},
+ * {@link AuthorizedHandles#createResourceHandle(boolean, Target, String, Function, boolean)}를 이용해서 생성을 합니다.<br>
+ * 내부적으로 중복 확인에 대한 기능을 제공합니다.
  * 
  * @since 2025. 9. 19.
  * @version 0.8.0
