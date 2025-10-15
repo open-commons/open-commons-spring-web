@@ -307,9 +307,9 @@ public class AuthorizedHandles {
      * @param handleType
      *            데이터 처리유형 식별정보
      * @param unauthorizedHandle
-     *            {@link IUnauthorizedFieldHandler#handleObject(String, Object)} 함수
+     *            {@link IUnauthorizedFieldHandler#handleObject(String, Object)}에서 사용되는 함수
      * @param authorizedHandle
-     *            {@link IAuthorizedRequestDataHandler#restoreValue(String, Object)} 함수
+     *            {@link IAuthorizedRequestDataHandler#restoreValue(String, Object)}에서 사용되는 함수
      * @return
      *
      * @since 2025. 10. 13.
@@ -334,9 +334,9 @@ public class AuthorizedHandles {
      * @param handleType
      *            데이터 처리유형 식별정보
      * @param unauthorizedHandle
-     *            {@link IUnauthorizedFieldHandler#handleObject(String, Object)} 함수
+     *            {@link IUnauthorizedFieldHandler#handleObject(String, Object)}에서 사용되는 함수
      * @param authorizedHandle
-     *            {@link IAuthorizedRequestDataHandler#restoreValue(String, Object)} 함수
+     *            {@link IAuthorizedRequestDataHandler#restoreValue(String, Object)}에서 사용되는 함수
      * @param preemptive
      *            우선적용 여부
      * @return
@@ -731,9 +731,9 @@ public class AuthorizedHandles {
      * @param handleType
      *            데이터 처리유형 식별정보
      * @param unauthorizedHandle
-     *            {@link IUnauthorizedFieldHandler#handleObject(String, Object)} 함수
+     *            {@link IUnauthorizedFieldHandler#handleObject(String, Object)}에서 사용되는 함수
      * @param authorizedHandle
-     *            {@link IAuthorizedRequestDataHandler#restoreValue(String, Object)} 함수
+     *            {@link IAuthorizedRequestDataHandler#restoreValue(String, Object)}에서 사용되는 함수
      * @param preemptive
      *            우선적용 여부
      *

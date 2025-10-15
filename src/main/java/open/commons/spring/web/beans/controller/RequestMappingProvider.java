@@ -206,6 +206,11 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
                 continue;
             }
 
+            // RequestMapping#path() 또는 RequestMapping#value() 값을 설정하지 않은 경우에 대한 방어 코드
+            if (methodPaths.size() < 1) {
+                methodPaths.add("");
+            }
+
             BiFunction<String, String, String> COMPINE_PATH = (base, path) -> {
                 if (base == null)
                     base = "";
