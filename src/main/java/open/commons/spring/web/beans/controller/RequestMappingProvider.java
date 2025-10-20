@@ -75,7 +75,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @Tag(name = "REST API 제공 서비스", description = "서비스가 제공하는 REST API 정보를 제공합니다.")
 @RestController
-@RequestMapping("${open-commons.spring.web.rest-api-provider:/internal/rest-api-metadata}")
+@RequestMapping("${open-commons.spring.web.beans.controller.request-mapping-provider.prefix:/builtin/api/rest-api-metadata}")
 @Validated
 @AuthorizedRequest
 public class RequestMappingProvider implements ApplicationListener<ApplicationReadyEvent> {
@@ -294,9 +294,9 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     @Operation(summary = "REST API Metadata 제공", description = "")
-    @GetMapping(path = "${open-commons.spring.web.rest-api-provider-method:}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getRestApiMetadata() {
-        return ResponseEntity.ok(new RestApiMeta(this.controllerApiGroups, this.restControllerApiGroups));
+    @GetMapping(path = "${open-commons.spring.web.beans.controller.request-mapping-provider.get-all:}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RestApiMetadataDTO> getRestApiMetadata() {
+        return ResponseEntity.ok(new RestApiMetadataDTO(this.controllerApiGroups, this.restControllerApiGroups));
     }
 
     /**
@@ -347,7 +347,7 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
         }
     }
 
-    class RestApiMeta {
+    class RestApiMetadataDTO {
 
         List<RestApiGroup> controller;
         List<RestApiGroup> restController;
@@ -369,7 +369,7 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
          * @version 0.8.0
          * @author parkjunhong77@gmail.com
          */
-        public RestApiMeta(List<RestApiGroup> controller, List<RestApiGroup> restController) {
+        public RestApiMetadataDTO(List<RestApiGroup> controller, List<RestApiGroup> restController) {
             this.controller = controller;
             this.restController = restController;
         }
