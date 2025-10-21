@@ -128,7 +128,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 9. 9.		박준홍			최초 작성
+     * 2021. 9. 9.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @param eventPub
@@ -158,7 +158,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 9. 9.		박준홍			최초 작성
+     * 2021. 9. 9.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @throws Exception
@@ -186,7 +186,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 9. 9.		박준홍			최초 작성
+     * 2021. 9. 9.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @throws Exception
@@ -214,7 +214,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 9. 9.		박준홍			최초 작성
+     * 2021. 9. 9.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -267,7 +267,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 9. 9.      박준홍         최초 작성
+     * 2021. 9. 9.      parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param eventTypeKey
@@ -398,7 +398,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          * 
          * @param asyncJob
@@ -463,7 +463,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param eventTypeKey
@@ -488,7 +488,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          *
@@ -508,7 +508,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param eventTypeKey
@@ -540,7 +540,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param eventTypeKey
@@ -613,7 +613,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param unsubsParamsClosure
@@ -630,7 +630,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param <T>
@@ -683,7 +683,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @return
@@ -704,7 +704,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param eventTypeKey
@@ -729,7 +729,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param eventTypeKey
@@ -771,7 +771,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          * 
          * @param eventTypeKey
@@ -823,7 +823,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          * 
          * @param eventTypeKey
@@ -852,7 +852,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          * 
          * @return the eventTypeKey
@@ -873,7 +873,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          * 
          * @return the parameter
@@ -910,7 +910,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param ms
@@ -968,7 +968,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param ttl
@@ -989,8 +989,8 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.     박준홍         최초 작성
-         * 2021. 9. 16.    박준홍         포함 여부 변수의 혼용사용에 따른 버그 수정
+         * 2021. 9. 9.     parkjunhong77@gmail.com         최초 작성
+         * 2021. 9. 16.    parkjunhong77@gmail.com         포함 여부 변수의 혼용사용에 따른 버그 수정
          * </pre>
          *
          * @param eventTypeKey
@@ -1030,7 +1030,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2021. 9. 14.		박준홍			최초 작성
+         * 2021. 9. 14.		parkjunhong77@gmail.com			최초 작성
          * </pre>
          *
          * @param eventTypeKey
@@ -1101,7 +1101,7 @@ public abstract class AbstractEventDrivenMonitor extends AbstractComponent imple
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2021. 9. 9.      박준홍         최초 작성
+         * 2021. 9. 9.      parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param provider

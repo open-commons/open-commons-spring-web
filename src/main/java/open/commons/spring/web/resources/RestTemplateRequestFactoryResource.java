@@ -59,7 +59,7 @@ public class RestTemplateRequestFactoryResource {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 6. 27.     박준홍         최초 작성
+     * 2019. 6. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @since 2019. 6. 27.
@@ -76,7 +76,7 @@ public class RestTemplateRequestFactoryResource {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 6. 27.     박준홍         최초 작성
+     * 2019. 6. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the connectionRequestTimeout
@@ -98,7 +98,7 @@ public class RestTemplateRequestFactoryResource {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 6. 27.     박준홍         최초 작성
+     * 2019. 6. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the connctionTimeout
@@ -120,7 +120,7 @@ public class RestTemplateRequestFactoryResource {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 6. 27.     박준홍         최초 작성
+     * 2019. 6. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the readTimeout
@@ -142,7 +142,7 @@ public class RestTemplateRequestFactoryResource {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 6. 27.     박준홍         최초 작성
+     * 2019. 6. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the bufferRequestBody
@@ -163,7 +163,7 @@ public class RestTemplateRequestFactoryResource {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 11.		박준홍			최초 작성
+     * 2025. 8. 11.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the initialized
@@ -186,7 +186,7 @@ public class RestTemplateRequestFactoryResource {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 6. 27.     박준홍         최초 작성
+     * 2019. 6. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param bufferRequestBody
@@ -212,7 +212,7 @@ public class RestTemplateRequestFactoryResource {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 6. 27.     박준홍         최초 작성
+     * 2019. 6. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param connectionRequestTimeout
@@ -237,7 +237,7 @@ public class RestTemplateRequestFactoryResource {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 6. 27.     박준홍         최초 작성
+     * 2019. 6. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param connctionTimeout
@@ -262,7 +262,7 @@ public class RestTemplateRequestFactoryResource {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 6. 27.     박준홍         최초 작성
+     * 2019. 6. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param readTimeout

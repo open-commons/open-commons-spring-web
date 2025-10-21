@@ -55,8 +55,8 @@ public interface IConvertingService {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 12. 28.		박준홍			최초 작성
-     * 2021. 12. 30.    박준홍     변환 이후 Class<?> 파라미터 삭제.
+     * 2021. 12. 28.		parkjunhong77@gmail.com			최초 작성
+     * 2021. 12. 30.    parkjunhong77@gmail.com     변환 이후 Class<?> 파라미터 삭제.
      * </pre>
      *
      * @param <S>
@@ -92,8 +92,8 @@ public interface IConvertingService {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 12. 3.     박준홍         최초 작성
-     * 2021. 12. 30.    박준홍     변환 이후 Class<?> 파라미터 삭제.
+     * 2021. 12. 3.     parkjunhong77@gmail.com         최초 작성
+     * 2021. 12. 30.    parkjunhong77@gmail.com     변환 이후 Class<?> 파라미터 삭제.
      * </pre>
      *
      * @param <S>
@@ -124,7 +124,7 @@ public interface IConvertingService {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2022. 11. 9.     박준홍         최초 작성
+     * 2022. 11. 9.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <S>
@@ -152,8 +152,8 @@ public interface IConvertingService {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 12. 3.     박준홍         최초 작성
-     * 2021. 12. 30.    박준홍     변환 이후 Class<?> 파라미터 삭제.
+     * 2021. 12. 3.     parkjunhong77@gmail.com         최초 작성
+     * 2021. 12. 30.    parkjunhong77@gmail.com     변환 이후 Class<?> 파라미터 삭제.
      * </pre>
      *
      * @param <S>
@@ -185,8 +185,8 @@ public interface IConvertingService {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 12. 6.     박준홍         최초 작성
-     * 2021. 12. 30.    박준홍     변환 이후 Class<?> 파라미터 삭제.
+     * 2021. 12. 6.     parkjunhong77@gmail.com         최초 작성
+     * 2021. 12. 30.    parkjunhong77@gmail.com     변환 이후 Class<?> 파라미터 삭제.
      * </pre>
      *
      * @param <S>
@@ -217,7 +217,7 @@ public interface IConvertingService {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2022. 11. 9.     박준홍         최초 작성
+     * 2022. 11. 9.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <S>
@@ -245,8 +245,8 @@ public interface IConvertingService {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 12. 3.     박준홍         최초 작성
-     * 2021. 12. 30.    박준홍     변환 이후 Class<?> 파라미터 삭제.
+     * 2021. 12. 3.     parkjunhong77@gmail.com         최초 작성
+     * 2021. 12. 30.    parkjunhong77@gmail.com     변환 이후 Class<?> 파라미터 삭제.
      * </pre>
      *
      * @param <S>
@@ -281,7 +281,7 @@ public interface IConvertingService {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2022. 11. 2.     박준홍         최초 작성
+     * 2022. 11. 2.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <S>

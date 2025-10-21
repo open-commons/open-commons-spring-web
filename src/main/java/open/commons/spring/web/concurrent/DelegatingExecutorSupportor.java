@@ -55,7 +55,7 @@ public class DelegatingExecutorSupportor {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param delegate
@@ -78,7 +78,7 @@ public class DelegatingExecutorSupportor {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param delegate
@@ -103,7 +103,7 @@ public class DelegatingExecutorSupportor {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param delegate
@@ -126,7 +126,7 @@ public class DelegatingExecutorSupportor {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param delegate
@@ -151,7 +151,7 @@ public class DelegatingExecutorSupportor {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 6.		박준홍			최초 작성
+     * 2025. 8. 6.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * {@link TaskExecutor} 기능을 제공하는 객체.
@@ -174,7 +174,7 @@ public class DelegatingExecutorSupportor {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 6.		박준홍			최초 작성
+     * 2025. 8. 6.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param delegate
@@ -199,7 +199,7 @@ public class DelegatingExecutorSupportor {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param delegate
@@ -222,7 +222,7 @@ public class DelegatingExecutorSupportor {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param delegate

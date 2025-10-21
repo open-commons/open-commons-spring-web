@@ -48,7 +48,7 @@ public class RestApiServer {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @since 2020. 8. 21.
@@ -64,7 +64,7 @@ public class RestApiServer {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the apiList
@@ -85,7 +85,7 @@ public class RestApiServer {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the context
@@ -106,7 +106,7 @@ public class RestApiServer {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the host
@@ -127,7 +127,7 @@ public class RestApiServer {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the port
@@ -147,7 +147,7 @@ public class RestApiServer {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 25.     박준홍         최초 작성
+     * 2020. 8. 25.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param name
@@ -169,7 +169,7 @@ public class RestApiServer {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the scheme
@@ -189,7 +189,7 @@ public class RestApiServer {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param apiList
@@ -210,7 +210,7 @@ public class RestApiServer {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param context
@@ -231,7 +231,7 @@ public class RestApiServer {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param host
@@ -252,7 +252,7 @@ public class RestApiServer {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param port
@@ -273,7 +273,7 @@ public class RestApiServer {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param scheme

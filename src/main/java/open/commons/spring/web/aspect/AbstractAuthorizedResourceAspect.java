@@ -68,7 +68,7 @@ public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspect
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 19.		박준홍			최초 작성
+     * 2025. 5. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param context
@@ -92,7 +92,7 @@ public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspect
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 19.		박준홍			최초 작성
+     * 2025. 5. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -111,7 +111,7 @@ public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspect
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 19.		박준홍			최초 작성
+     * 2025. 5. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -130,7 +130,7 @@ public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspect
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 5. 19.     박준홍         최초 작성
+     * 2025. 5. 19.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <A>
@@ -160,7 +160,7 @@ public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspect
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 9. 29.     박준홍         최초 작성
+     * 2025. 9. 29.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param input
@@ -194,7 +194,7 @@ public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspect
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 19.		박준홍			최초 작성
+     * 2025. 5. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -224,7 +224,7 @@ public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspect
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 19.		박준홍			최초 작성
+     * 2025. 5. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -243,7 +243,7 @@ public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspect
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 19.		박준홍			최초 작성
+     * 2025. 5. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *

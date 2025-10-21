@@ -56,8 +56,8 @@ public class UrlInfo {
      * [개정이력]
      *      날짜      | 작성자			|	내용
      * ------------------------------------------
-     * 2019. 6. 28    박준홍                 최초 작성
-     * 2025. 2. 18.	  박준홍 (jhpark@ymtech.co.kr) javax.servlet:servlet-api -> javax.servlet:javax.servlet-api 로 변경함에 따라 {@link HttpServletRequest#getParameterMap()} 반환데이터 타입 변경.
+     * 2019. 6. 28    parkjunhong77@gmail.com                 최초 작성
+     * 2025. 2. 18.	  parkjunhong77@gmail.com (jhpark@ymtech.co.kr) javax.servlet:servlet-api -> javax.servlet:javax.servlet-api 로 변경함에 따라 {@link HttpServletRequest#getParameterMap()} 반환데이터 타입 변경.
      * </pre>
      * 
      * @since 2019. 6. 28.
@@ -90,8 +90,8 @@ public class UrlInfo {
      * [개정이력]
      *      날짜      | 작성자           |   내용
      * ------------------------------------------
-     * 2019. 6. 28    박준홍                 최초 작성
-     * 2025. 2. 18.   박준홍 (jhpark@ymtech.co.kr) javax.servlet:servlet-api -> javax.servlet:javax.servlet-api 로 변경함에 따라 {@link HttpServletRequest#getParameterMap()} 반환데이터 타입 변경.
+     * 2019. 6. 28    parkjunhong77@gmail.com                 최초 작성
+     * 2025. 2. 18.   parkjunhong77@gmail.com (jhpark@ymtech.co.kr) javax.servlet:servlet-api -> javax.servlet:javax.servlet-api 로 변경함에 따라 {@link HttpServletRequest#getParameterMap()} 반환데이터 타입 변경.
      * </pre>
      * 
      * @return the parameters

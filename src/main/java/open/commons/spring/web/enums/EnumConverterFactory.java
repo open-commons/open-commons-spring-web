@@ -51,7 +51,7 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum> {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 6. 3.		박준홍			최초 작성
+     * 2019. 6. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @since 2019. 6. 3.

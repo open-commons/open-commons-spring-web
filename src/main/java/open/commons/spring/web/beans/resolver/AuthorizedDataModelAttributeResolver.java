@@ -127,7 +127,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 9. 18.     박준홍         최초 작성
+     * 2025. 9. 18.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param clazz
@@ -149,7 +149,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 22.		박준홍			최초 작성
+     * 2025. 9. 22.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @param targetClass
@@ -192,7 +192,7 @@ public class AuthorizedDataModelAttributeResolver extends ModelAttributeMethodPr
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 9. 18.     박준홍         최초 작성
+     * 2025. 9. 18.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @param targetValue

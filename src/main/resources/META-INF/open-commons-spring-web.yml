@@ -1,0 +1,92 @@
+open-commons:
+  spring:
+    web:
+      interceptor-ignore-url-patterns:
+        - 
+          # FQCN 기반 Java 정규식
+          # (package|class|instance):)?)({FQCN}값)
+          target: "open.commons.spring.web.handler.*"
+          # URL 경로의 AntPath 패턴 (array) 
+          includePathPatterns: 
+          # URL 경로의 AntPath 패턴 (array)
+          excludePathPatterns:
+            - /index.html
+            - /favicon*
+      once-per-request-should-not-filters:
+        -
+          # AntPath 패턴, @Nonnull
+          pattern: /index.html
+          # org.springframework.http.HttpMethod, @Nullable
+          httpMethod: GET # default: null
+          caseSensitive: false #default: false
+        -
+          # AntPath 패턴, @Nonnull
+          pattern: /faviconx*
+          # org.springframework.http.HttpMethod, @Nullable
+          httpMethod: GET # default: null
+          caseSensitive: false #default: false
+  springdoc:
+    # Open Commons Spring Web이 제공하는 REST API 노출 여부
+    show-builtin-api: true
+    # Swagger UI 에서 제공할 REST API 
+    grouped-open-api:
+      # Open Commons Spring Web 내부 제공 기능
+      ocsw-api:
+        # {string}: API Group Name. Swagger UI에서 API 선택창에 보여지는 정보.
+        group: __builtin_ocsw-supported
+        # {string}: Swagger UI를 통해서 보여지는 정보
+        displayName: Open Commons Spring Web Supported 
+        # {array of string}: package 경로 기준으로 등록하는 API 정보
+        packagesToScan:
+        # {array of string}: package 경로 기준으로 제외하는 API 정보
+        packagesToExclude:
+        # {array of string}: REST API Path 기준으로 등록하는 API 정보
+        pathsToMatch:
+        # {array of string}: REST API Path 기준으로 제외하는 API 정보
+        pathsToExclude:
+        # {array of string}: REST API Header 기준으로 등록하는 API 정보
+        headersToMatch:
+        # {array of string}: REST API Content-Type 기준으로 등록하는 API 정보
+        producesToMatch:
+        # {array of string}: REST API 응답 Content-Type 기준으로 등록하는API 정보
+        consumesToMatch:
+        # {object}: API에 대한 설명으로 공용으로 사용되는 OpenApi 정보를 대체합니다.
+        info:
+          # {string}
+          title: Open Commons Spring Web API
+          # {string}
+          description: Open Commons Spring Web 에서 제공하는 API 입니다.
+          # {string}
+          termsOfService: 
+          # {object}
+          contact:
+            # {string}
+            name: Park, Jun-Hong
+            # {string}
+            url: 
+            # {string}
+            email: parkjunhong77@gmail.com
+            # {hashtable}: 이름만 있고, 작성하지 않은 경우 읽어 들일 때 오류 발생
+#            extensions:
+          # {object}
+          license:
+            # {string}
+            name: MIT
+            # {string}
+            url: http://www.apache.org/licenses/
+            # {string}
+            identifier:
+            # {hashtable}: 이름만 있고, 작성하지 않은 경우 읽어 들일 때 오류 발생
+#            extensions:
+          # {string}
+          version: 1.0
+          # {hashtable}: 이름만 있고, 작성하지 않은 경우 읽어 들일 때 오류 발생
+#          extensions:
+          # {string}
+          summary:
+        # {object}: 외부 문서 정보
+        external-docs:
+          # {string}
+          description:
+          # {string}
+          url:  

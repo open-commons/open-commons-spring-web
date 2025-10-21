@@ -1,3 +1,9 @@
+[2025/10/21]
+- New
+  + open.commons.spring.web.environment.OscwYamlEnvironmentPostProcessor: 라이브러리 내부 yaml 설정 지원
+  + open.commons.spring.web.oas.GroupOpenApiRegistrar: GroupOpenApi 자동 등록
+  + resources/META-INF/open-commons-spring-web.yml: 설정
+
 [2025/10/13]
 - Modify
   + AuthorizedField#handleType(), AuthorizedRequestData#handleType() 데이터 유형 변경(Integer -> String)에 따른 코드 수정

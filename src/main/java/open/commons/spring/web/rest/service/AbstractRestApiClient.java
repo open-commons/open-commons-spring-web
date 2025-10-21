@@ -100,7 +100,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 2.		박준홍			최초 작성
+     * 2025. 7. 2.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -122,7 +122,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 26.		박준홍			최초 작성
+     * 2025. 8. 26.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -143,7 +143,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 28.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param fqUrl
@@ -154,7 +154,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 8. 28.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      * 
      * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
      */
@@ -193,7 +193,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 26.		박준홍			최초 작성
+     * 2025. 8. 26.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param path
@@ -220,7 +220,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param scheme
@@ -238,7 +238,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected final URI createURI(@NotBlank String scheme, @NotBlank String host, @Min(1) int port, String path, @Nullable MultiValueMap<String, String> query, String fragment) {
         return createURI(StringUtils.concatenate("", scheme, "://", host, ":", port), path, null, query, fragment);
@@ -251,7 +251,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param baseHttpUrl
@@ -267,7 +267,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected URI createURI(@NotBlank String baseHttpUrl, @NotBlank String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, String> queryVariables,
             String fragment) {
@@ -308,7 +308,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 28.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -338,7 +338,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 8. 28.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      * 
      * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
      */
@@ -359,7 +359,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 28.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -387,7 +387,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 8. 28.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      * 
      * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
      */
@@ -407,7 +407,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 28.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -433,7 +433,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 8. 28.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      * 
      * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
      */
@@ -452,7 +452,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 28.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -489,7 +489,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 8. 28.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      * 
      * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
      */
@@ -510,7 +510,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 28.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -543,7 +543,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 8. 28.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      * 
      * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
      */
@@ -563,7 +563,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 28.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -599,7 +599,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 8. 28.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      * 
      * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
      */
@@ -619,7 +619,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -653,7 +653,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query//
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -673,7 +673,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -705,7 +705,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -724,7 +724,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -754,7 +754,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -773,7 +773,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -813,7 +813,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -833,7 +833,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -871,7 +871,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -890,7 +890,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -926,7 +926,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -945,7 +945,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -979,7 +979,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
@@ -999,7 +999,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1039,7 +1039,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
@@ -1059,7 +1059,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1095,7 +1095,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1115,7 +1115,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1149,7 +1149,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1168,7 +1168,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1200,7 +1200,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1219,7 +1219,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1261,7 +1261,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1281,7 +1281,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1321,7 +1321,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1340,7 +1340,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1378,7 +1378,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1397,7 +1397,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1429,7 +1429,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query//
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1449,7 +1449,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1479,7 +1479,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1498,7 +1498,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1526,7 +1526,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1545,7 +1545,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1583,7 +1583,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1603,7 +1603,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1639,7 +1639,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1658,7 +1658,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1692,7 +1692,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1711,7 +1711,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1743,7 +1743,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
@@ -1763,7 +1763,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1801,7 +1801,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
@@ -1821,7 +1821,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1855,7 +1855,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1875,7 +1875,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1907,7 +1907,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1926,7 +1926,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1956,7 +1956,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -1974,7 +1974,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2014,7 +2014,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2034,7 +2034,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2072,7 +2072,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2091,7 +2091,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2127,7 +2127,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> Result<RET> execute(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2144,7 +2144,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 28.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2172,7 +2172,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 8. 28.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      * 
      * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
      */
@@ -2192,7 +2192,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 28.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2218,7 +2218,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 8. 28.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      * 
      * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
      */
@@ -2237,7 +2237,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 28.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2272,7 +2272,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 8. 28.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      * 
      * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
      */
@@ -2292,7 +2292,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 28.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 28.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2325,7 +2325,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 8. 28.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      * 
      * @see RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Map)
      */
@@ -2345,7 +2345,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2377,7 +2377,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query//
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2396,7 +2396,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2426,7 +2426,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2445,7 +2445,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2483,7 +2483,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2502,7 +2502,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2538,7 +2538,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2557,7 +2557,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2589,7 +2589,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
@@ -2608,7 +2608,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2646,7 +2646,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
@@ -2665,7 +2665,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2699,7 +2699,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2718,7 +2718,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2750,7 +2750,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2768,7 +2768,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2808,7 +2808,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2827,7 +2827,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2865,7 +2865,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, Map<String, ?> pathVariables, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2883,7 +2883,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2913,7 +2913,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query//
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2932,7 +2932,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2960,7 +2960,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -2978,7 +2978,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3014,7 +3014,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -3033,7 +3033,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3067,7 +3067,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -3085,7 +3085,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3115,7 +3115,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
@@ -3134,7 +3134,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3170,7 +3170,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpEntity<REQ> entity //
@@ -3189,7 +3189,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3221,7 +3221,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -3240,7 +3240,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3270,7 +3270,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -3288,7 +3288,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3326,7 +3326,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -3345,7 +3345,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3381,7 +3381,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected <REQ, RES, RET> RET executeAsRaw(@NotNull HttpMethod method, String path, @Nullable MultiValueMap<String, ?> query, String fragment //
             , @Nullable HttpHeaders headers, @Nullable REQ requestBody //
@@ -3405,7 +3405,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 27.		박준홍			최초 작성
+     * 2025. 8. 27.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -3430,13 +3430,13 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     @NotEmpty
     protected abstract String getBaseUrl();
@@ -3449,13 +3449,13 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 1.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 1.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @return
      *
      * @since 2025. 7. 1.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      * 
      * @see NoHttpResponseException
      * @see ResourceAccessException
@@ -3480,7 +3480,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 27.		박준홍			최초 작성
+     * 2025. 8. 27.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -3506,7 +3506,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 27.		박준홍			최초 작성
+     * 2025. 8. 27.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -3526,7 +3526,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 27.		박준홍			최초 작성
+     * 2025. 8. 27.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param restTemplate
@@ -3549,14 +3549,14 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param data
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected static final HttpHeaders convertToHeaders(@Nullable MultiValueMap<String, Object> data) {
         return new HttpHeaders(convertToMultiValueMap(data));
@@ -3570,14 +3570,14 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param data
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected static final MultiValueMap<String, String> convertToMultiValueMap(@Nullable List<Object> data) {
         return toMultiValueMap(data.toArray(new Object[0]));
@@ -3591,14 +3591,14 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param data
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected static final MultiValueMap<String, String> convertToMultiValueMap(@Nullable MultiValueMap<String, ?> data) {
 
@@ -3623,7 +3623,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      * 
      * @param requestBody
@@ -3632,7 +3632,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected static final <REQ> HttpEntity<REQ> createHttpEntity(REQ requestBody, MultiValueMap<String, String> headers) {
         return new HttpEntity<REQ>(requestBody, headers);
@@ -3645,7 +3645,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3654,7 +3654,7 @@ public abstract class AbstractRestApiClient {
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected static final <REQ> HttpEntity<REQ> createHttpEntity(REQ requestBody, String... headers) {
         return new HttpEntity<REQ>(requestBody, toMultiValueMap(headers));
@@ -3667,7 +3667,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <P>
@@ -3675,7 +3675,7 @@ public abstract class AbstractRestApiClient {
      * @param action
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected static <P> void ifNotNull(P param, Consumer<P> action) {
         if (param != null) {
@@ -3690,7 +3690,7 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <P>
@@ -3699,7 +3699,7 @@ public abstract class AbstractRestApiClient {
      * @param action
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected static <P, R> void ifNotNull(P param, Function<P, R> action) {
         if (param != null) {
@@ -3714,14 +3714,14 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param headerValues
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected static final HttpHeaders toHeaders(@NotNull List<String> headerValues) {
         return toHeaders(headerValues.toArray(new String[0]));
@@ -3734,14 +3734,14 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param data
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected static final HttpHeaders toHeaders(@NotNull MultiValueMap<String, String> data) {
         return new HttpHeaders(data);
@@ -3754,14 +3754,14 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param headerValues
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected static final HttpHeaders toHeaders(@NotNull String... headerValues) {
         return new HttpHeaders(toMultiValueMap(headerValues));
@@ -3775,14 +3775,14 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param data
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected static final MultiValueMap<String, String> toMultiValueMap(Object... data) {
         if (data == null) {
@@ -3802,14 +3802,14 @@ public abstract class AbstractRestApiClient {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 2.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 2.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param data
      * @return
      *
      * @since 2025. 7. 2.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     protected static final MultiValueMap<String, String> toMultiValueMap(String... data) {
         if (data == null) {

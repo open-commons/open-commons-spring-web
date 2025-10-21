@@ -42,7 +42,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @since 2020. 8. 21.
@@ -58,7 +58,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 8. 27.		박준홍			최초 작성
+     * 2020. 8. 27.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the body
@@ -79,7 +79,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the headers
@@ -100,7 +100,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the method
@@ -121,7 +121,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the url
@@ -141,7 +141,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 8. 27.		박준홍			최초 작성
+     * 2020. 8. 27.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param body
@@ -164,7 +164,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param headers
@@ -187,7 +187,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param method
@@ -208,7 +208,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 21.     박준홍         최초 작성
+     * 2020. 8. 21.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param url

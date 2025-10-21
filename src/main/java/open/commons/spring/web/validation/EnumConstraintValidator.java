@@ -66,7 +66,7 @@ public class EnumConstraintValidator<C extends Annotation, T extends Enum<T>> ex
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 12. 16.		박준홍			최초 작성
+     * 2021. 12. 16.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -85,7 +85,7 @@ public class EnumConstraintValidator<C extends Annotation, T extends Enum<T>> ex
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 12. 16.		박준홍			최초 작성
+     * 2021. 12. 16.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <R>

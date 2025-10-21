@@ -42,8 +42,8 @@ import open.commons.core.concurrent.AsyncJobManager;
  * [개정이력]
  *      날짜    	| 작성자	|	내용
  * ------------------------------------------
- * 2020. 11. 26.        박준홍     최초 작성
- * 2021. 1. 13.         박준홍     클래스 이관.
+ * 2020. 11. 26.        parkjunhong77@gmail.com     최초 작성
+ * 2021. 1. 13.         parkjunhong77@gmail.com     클래스 이관.
  * </pre>
  * 
  * @since 2020. 11. 26.
@@ -59,7 +59,7 @@ public interface IAsyncJobHandler {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 11. 10.        박준홍         최초 작성
+     * 2020. 11. 10.        parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <T>
@@ -81,7 +81,7 @@ public interface IAsyncJobHandler {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 11. 26.		박준홍			최초 작성
+     * 2020. 11. 26.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -108,7 +108,7 @@ public interface IAsyncJobHandler {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 4. 23.		박준홍			최초 작성
+     * 2021. 4. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -129,7 +129,7 @@ public interface IAsyncJobHandler {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 1. 13.		박준홍			최초 작성
+     * 2021. 1. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <H>
@@ -160,7 +160,7 @@ public interface IAsyncJobHandler {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 4. 23.		박준홍			최초 작성
+     * 2021. 4. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <K>
@@ -186,8 +186,8 @@ public interface IAsyncJobHandler {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 11. 10.        박준홍         최초 작성
-     * 2023. 11. 02.        박준홍         데이터 반환 추가
+     * 2020. 11. 10.        parkjunhong77@gmail.com         최초 작성
+     * 2023. 11. 02.        parkjunhong77@gmail.com         데이터 반환 추가
      * </pre>
      *
      * @param <H>
@@ -217,8 +217,8 @@ public interface IAsyncJobHandler {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 4. 23.		박준홍			최초 작성
-     * 2023. 11. 02.        박준홍         데이터 반환 추가
+     * 2021. 4. 23.		parkjunhong77@gmail.com			최초 작성
+     * 2023. 11. 02.        parkjunhong77@gmail.com         데이터 반환 추가
      * </pre>
      *
      * @param <K>

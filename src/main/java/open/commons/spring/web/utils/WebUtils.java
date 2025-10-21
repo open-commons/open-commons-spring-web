@@ -66,7 +66,7 @@ public class WebUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2018. 8. 22.     박준홍         최초 작성
+     * 2018. 8. 22.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param base64EncodeString
@@ -87,7 +87,7 @@ public class WebUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2018. 8. 22.     박준홍         최초 작성
+     * 2018. 8. 22.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param plainString
@@ -108,7 +108,7 @@ public class WebUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 6. 28.		박준홍			최초 작성
+     * 2019. 6. 28.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param request
@@ -163,7 +163,7 @@ public class WebUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2018. 8. 22.     박준홍         최초 작성
+     * 2018. 8. 22.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param view
@@ -202,7 +202,7 @@ public class WebUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2018. 9. 27.     박준홍         최초 작성
+     * 2018. 9. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param parameter
@@ -231,7 +231,7 @@ public class WebUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2018. 9. 27.     박준홍         최초 작성
+     * 2018. 9. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param parameter
@@ -255,7 +255,7 @@ public class WebUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2018. 9. 27.     박준홍         최초 작성
+     * 2018. 9. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param parameters
@@ -290,7 +290,7 @@ public class WebUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2018. 9. 27.     박준홍         최초 작성
+     * 2018. 9. 27.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param parameters
@@ -315,8 +315,8 @@ public class WebUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2012. 1. 4.      박준홍        최초 작성
-     * 2025. 4. 16.     박준홍        이관 및 이름 변경
+     * 2012. 1. 4.      parkjunhong77@gmail.com        최초 작성
+     * 2025. 4. 16.     parkjunhong77@gmail.com        이관 및 이름 변경
      *                                 - 변경 전: getParams
      *                                 - 변경 후: getParameters
      * </pre>
@@ -431,7 +431,7 @@ public class WebUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 27.		박준홍			최초 작성
+     * 2025. 8. 27.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param url

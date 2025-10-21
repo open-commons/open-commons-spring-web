@@ -67,7 +67,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -85,7 +85,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param pattern
@@ -106,7 +106,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param pattern
@@ -129,7 +129,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param pattern
@@ -155,7 +155,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 20.		박준홍			최초 작성
+     * 2025. 8. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param pattern
@@ -188,7 +188,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 20.		박준홍			최초 작성
+     * 2025. 8. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param pattern
@@ -213,7 +213,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 19.		박준홍			최초 작성
+     * 2025. 8. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the filterClass
@@ -236,7 +236,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the httpMethod
@@ -262,7 +262,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the pattern
@@ -289,7 +289,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 19.		박준홍			최초 작성
+     * 2025. 8. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the targetType
@@ -312,7 +312,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the caseSensitive
@@ -334,7 +334,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 19.		박준홍			최초 작성
+     * 2025. 8. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -368,7 +368,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param caseSensitive
@@ -391,7 +391,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 19.		박준홍			최초 작성
+     * 2025. 8. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param filterClass
@@ -414,7 +414,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param httpMethod
@@ -437,7 +437,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param pattern
@@ -463,7 +463,7 @@ public class AntPathRequest {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 19.		박준홍			최초 작성
+     * 2025. 8. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param targetType

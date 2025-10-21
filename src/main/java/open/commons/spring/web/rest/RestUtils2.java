@@ -78,7 +78,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 06. 11.		박준홍			최초 작성
+     * 2021. 06. 11.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -130,7 +130,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 03. 06.		박준홍			최초 작성
+     * 2023. 03. 06.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -186,7 +186,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 06. 11.		박준홍			최초 작성
+     * 2021. 06. 11.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -239,7 +239,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 03. 06.		박준홍			최초 작성
+     * 2023. 03. 06.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -295,7 +295,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 06. 11.		박준홍			최초 작성
+     * 2021. 06. 11.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -355,7 +355,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 03. 06.		박준홍			최초 작성
+     * 2023. 03. 06.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -418,7 +418,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 06. 11.		박준홍			최초 작성
+     * 2021. 06. 11.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -478,7 +478,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 03. 06.		박준홍			최초 작성
+     * 2023. 03. 06.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -541,7 +541,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 06. 11.		박준홍			최초 작성
+     * 2021. 06. 11.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -592,7 +592,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 03. 06.		박준홍			최초 작성
+     * 2023. 03. 06.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -646,7 +646,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 06. 11.		박준홍			최초 작성
+     * 2021. 06. 11.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -697,7 +697,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 03. 06.		박준홍			최초 작성
+     * 2023. 03. 06.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -750,8 +750,8 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 06. 11.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2021. 06. 11.        parkjunhong77@gmail.com         최초 작성
+     * 2025. 7. 14.         parkjunhong77@gmail.com     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -801,8 +801,8 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2023. 03. 06.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, Class, Function, Result, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2023. 03. 06.        parkjunhong77@gmail.com         최초 작성
+     * 2025. 7. 14.         parkjunhong77@gmail.com     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, Class, Function, Result, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -855,8 +855,8 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 06. 11.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, ParameterizedTypeReference, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2021. 06. 11.        parkjunhong77@gmail.com         최초 작성
+     * 2025. 7. 14.         parkjunhong77@gmail.com     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, ParameterizedTypeReference, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -907,8 +907,8 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2023. 03. 06.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2023. 03. 06.        parkjunhong77@gmail.com         최초 작성
+     * 2025. 7. 14.         parkjunhong77@gmail.com     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -961,8 +961,8 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 06. 11.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2021. 06. 11.        parkjunhong77@gmail.com         최초 작성
+     * 2025. 7. 14.         parkjunhong77@gmail.com     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1020,8 +1020,8 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2023. 03. 06.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, Class, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2023. 03. 06.        parkjunhong77@gmail.com         최초 작성
+     * 2025. 7. 14.         parkjunhong77@gmail.com     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, Class, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1081,8 +1081,8 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 06. 11.    박준홍     최초 작성
-     * 2025. 7. 15.     박준홍    {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, ParameterizedTypeReference, Function, Function)}  메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2021. 06. 11.    parkjunhong77@gmail.com     최초 작성
+     * 2025. 7. 15.     parkjunhong77@gmail.com    {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, ParameterizedTypeReference, Function, Function)}  메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1139,8 +1139,8 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2023. 03. 06.        박준홍     최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2023. 03. 06.        parkjunhong77@gmail.com     최초 작성
+     * 2025. 7. 14.         parkjunhong77@gmail.com     {@link RestUtils2#exchange(RestTemplate, HttpMethod, String, String, int, String, String, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1200,8 +1200,8 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 06. 11.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2021. 06. 11.        parkjunhong77@gmail.com         최초 작성
+     * 2025. 7. 14.         parkjunhong77@gmail.com     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, Class, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1246,8 +1246,8 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2023. 03. 06.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, Class, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2023. 03. 06.        parkjunhong77@gmail.com         최초 작성
+     * 2025. 7. 14.         parkjunhong77@gmail.com     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, Class, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1295,8 +1295,8 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 06. 11.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, ParameterizedTypeReference, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2021. 06. 11.        parkjunhong77@gmail.com         최초 작성
+     * 2025. 7. 14.         parkjunhong77@gmail.com     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, ParameterizedTypeReference, Function, Function)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1341,8 +1341,8 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2023. 03. 06.        박준홍         최초 작성
-     * 2025. 7. 14.         박준홍     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
+     * 2023. 03. 06.        parkjunhong77@gmail.com         최초 작성
+     * 2025. 7. 14.         parkjunhong77@gmail.com     {@link RestUtils2#exchange(RestTemplate, HttpMethod, URI, HttpEntity, ParameterizedTypeReference, Function, Function, int)} 메소드의 반환데이터에서 {@link Result}를 제거함.
      * </pre>
      *
      * @param <REQ>
@@ -1465,7 +1465,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 8. 26.     박준홍         최초 작성
+     * 2025. 8. 26.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1517,7 +1517,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 8. 26.     박준홍         최초 작성
+     * 2025. 8. 26.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1572,7 +1572,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 8. 26.     박준홍         최초 작성
+     * 2025. 8. 26.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1624,7 +1624,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 8. 26.     박준홍         최초 작성
+     * 2025. 8. 26.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1679,7 +1679,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 8. 26.     박준홍         최초 작성
+     * 2025. 8. 26.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1725,7 +1725,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 8. 26.     박준홍         최초 작성
+     * 2025. 8. 26.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1774,7 +1774,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 8. 26.     박준홍         최초 작성
+     * 2025. 8. 26.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1820,7 +1820,7 @@ public class RestUtils2 {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 8. 26.     박준홍         최초 작성
+     * 2025. 8. 26.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <REQ>

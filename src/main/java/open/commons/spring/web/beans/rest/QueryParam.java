@@ -52,7 +52,7 @@ public class QueryParam implements Comparable<QueryParam> {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 10.		박준홍			최초 작성
+     * 2025. 7. 10.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -83,7 +83,7 @@ public class QueryParam implements Comparable<QueryParam> {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 10.		박준홍			최초 작성
+     * 2025. 7. 10.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param name
@@ -126,7 +126,7 @@ public class QueryParam implements Comparable<QueryParam> {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 10.		박준홍			최초 작성
+     * 2025. 7. 10.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the name
@@ -163,7 +163,7 @@ public class QueryParam implements Comparable<QueryParam> {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 10.		박준홍			최초 작성
+     * 2025. 7. 10.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the required
@@ -186,7 +186,7 @@ public class QueryParam implements Comparable<QueryParam> {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 10.		박준홍			최초 작성
+     * 2025. 7. 10.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param name
@@ -209,7 +209,7 @@ public class QueryParam implements Comparable<QueryParam> {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 10.		박준홍			최초 작성
+     * 2025. 7. 10.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param required

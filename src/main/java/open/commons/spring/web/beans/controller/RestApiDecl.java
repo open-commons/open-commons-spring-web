@@ -28,8 +28,15 @@ package open.commons.spring.web.beans.controller;
 
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -58,6 +65,7 @@ public class RestApiDecl {
      */
     @NotBlank
     private RequestMethod method;
+
     /**
      * REST API Path<br>
      * value: {@link RequestMapping#path()}에 해당하는 값.
@@ -66,13 +74,29 @@ public class RestApiDecl {
     private String path;
 
     /**
+     * {@link Controller}, {@link RestController} 클래스에 선언된 {@link RequestMapping#path()} 값
+     */
+    private String classPath;
+
+    /**
+     * {@link Controller}, {@link RestController} 클래스의 메소드에 선언된 'path' 값.
+     * <li>{@link DeleteMapping}
+     * <li>{@link GetMapping}
+     * <li>{@link PatchMapping}
+     * <li>{@link PostMapping}
+     * <li>{@link PutMapping}
+     * <li>{@link RequestMapping}
+     */
+    private String methodPath;
+
+    /**
      * <br>
      * 
      * <pre>
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -90,7 +114,30 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 10. 20.		parkjunhong77@gmail.com			최초 작성
+     * </pre>
+     * 
+     * @return the classPath
+     *
+     * @since 2025. 10. 20.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #classPath
+     */
+
+    public String getClassPath() {
+        return classPath;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the description
@@ -113,7 +160,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the method
@@ -136,7 +183,30 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 10. 20.		parkjunhong77@gmail.com			최초 작성
+     * </pre>
+     * 
+     * @return the methodPath
+     *
+     * @since 2025. 10. 20.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #methodPath
+     */
+
+    public String getMethodPath() {
+        return methodPath;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the name
@@ -159,7 +229,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the path
@@ -182,7 +252,30 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 10. 20.		parkjunhong77@gmail.com			최초 작성
+     * </pre>
+     *
+     * @param classPath
+     *            the classPath to set
+     *
+     * @since 2025. 10. 20.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #classPath
+     */
+    public void setClassPath(String classPath) {
+        this.classPath = classPath;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param description
@@ -205,7 +298,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param method
@@ -228,7 +321,30 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 10. 20.		parkjunhong77@gmail.com			최초 작성
+     * </pre>
+     *
+     * @param methodPath
+     *            the methodPath to set
+     *
+     * @since 2025. 10. 20.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #methodPath
+     */
+    public void setMethodPath(String methodPath) {
+        this.methodPath = methodPath;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param name
@@ -251,7 +367,7 @@ public class RestApiDecl {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param path
@@ -269,7 +385,7 @@ public class RestApiDecl {
 
     /**
      *
-     * @since 2025. 9. 29.
+     * @since 2025. 10. 20.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -286,6 +402,10 @@ public class RestApiDecl {
         builder.append(method);
         builder.append(", path=");
         builder.append(path);
+        builder.append(", classPath=");
+        builder.append(classPath);
+        builder.append(", methodPath=");
+        builder.append(methodPath);
         builder.append("]");
         return builder.toString();
     }

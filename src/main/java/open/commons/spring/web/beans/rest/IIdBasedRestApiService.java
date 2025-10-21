@@ -59,7 +59,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -72,7 +72,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, Class<RES> responseType) {
         return execute(id, null, null, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
@@ -86,7 +86,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -101,7 +101,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
@@ -116,7 +116,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -133,7 +133,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -149,7 +149,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -164,7 +164,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -179,7 +179,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -196,7 +196,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -212,7 +212,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -231,7 +231,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -248,7 +248,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -265,7 +265,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -281,7 +281,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -300,7 +300,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -317,7 +317,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -338,7 +338,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -356,7 +356,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -375,7 +375,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -391,7 +391,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -412,7 +412,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -429,7 +429,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -452,7 +452,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -470,7 +470,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -487,7 +487,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -503,7 +503,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -522,7 +522,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -539,7 +539,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -560,7 +560,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -578,7 +578,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -593,7 +593,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -608,7 +608,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -625,7 +625,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -641,7 +641,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -660,7 +660,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -677,7 +677,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -694,7 +694,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -709,7 +709,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -728,7 +728,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -744,7 +744,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -765,7 +765,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -782,7 +782,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -797,7 +797,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable String fragment) {
@@ -812,7 +812,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -829,7 +829,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
@@ -845,7 +845,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -864,7 +864,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
@@ -881,7 +881,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -896,7 +896,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType) {
         return execute(id, pathVariables, null, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
@@ -910,7 +910,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -927,7 +927,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
@@ -942,7 +942,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -961,7 +961,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -977,7 +977,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -994,7 +994,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -1009,7 +1009,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1028,7 +1028,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1044,7 +1044,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1065,7 +1065,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1082,7 +1082,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1101,7 +1101,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1117,7 +1117,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1138,7 +1138,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1155,7 +1155,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1178,7 +1178,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1196,7 +1196,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1217,7 +1217,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1233,7 +1233,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1256,7 +1256,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1273,7 +1273,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1298,7 +1298,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1316,7 +1316,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1335,7 +1335,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1351,7 +1351,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1372,7 +1372,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1389,7 +1389,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1412,7 +1412,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1430,7 +1430,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1447,7 +1447,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -1462,7 +1462,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1481,7 +1481,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -1497,7 +1497,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1518,7 +1518,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -1535,7 +1535,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1554,7 +1554,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -1569,7 +1569,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1590,7 +1590,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -1606,7 +1606,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1629,7 +1629,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -1646,7 +1646,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1663,7 +1663,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable String fragment) {
@@ -1678,7 +1678,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1697,7 +1697,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
@@ -1713,7 +1713,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1734,7 +1734,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
@@ -1751,7 +1751,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1772,7 +1772,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType) {
         return execute(id, pathVariables, null, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
@@ -1786,7 +1786,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1809,7 +1809,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
@@ -1824,7 +1824,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1849,7 +1849,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -1865,7 +1865,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1888,7 +1888,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -1903,7 +1903,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1928,7 +1928,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1944,7 +1944,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -1971,7 +1971,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -1988,7 +1988,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2013,7 +2013,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -2029,7 +2029,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2056,7 +2056,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -2073,7 +2073,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2102,7 +2102,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -2120,7 +2120,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2147,7 +2147,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -2163,7 +2163,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2192,7 +2192,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -2209,7 +2209,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2240,7 +2240,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -2258,7 +2258,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2283,7 +2283,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -2299,7 +2299,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2326,7 +2326,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -2343,7 +2343,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2372,7 +2372,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -2390,7 +2390,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2413,7 +2413,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -2428,7 +2428,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2453,7 +2453,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -2469,7 +2469,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2496,7 +2496,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -2513,7 +2513,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2538,7 +2538,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -2553,7 +2553,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2580,7 +2580,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -2596,7 +2596,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2625,7 +2625,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -2642,7 +2642,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2665,7 +2665,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment) {
@@ -2680,7 +2680,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2705,7 +2705,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //
@@ -2721,7 +2721,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2748,7 +2748,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //
@@ -2765,7 +2765,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2783,7 +2783,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, Class<RES> responseType) {
         return execute(id, pathVariables, requestBody, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
@@ -2797,7 +2797,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2817,7 +2817,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
@@ -2832,7 +2832,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2854,7 +2854,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -2870,7 +2870,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2890,7 +2890,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -2905,7 +2905,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2927,7 +2927,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -2943,7 +2943,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -2967,7 +2967,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -2984,7 +2984,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3006,7 +3006,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -3022,7 +3022,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3046,7 +3046,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -3063,7 +3063,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3089,7 +3089,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -3107,7 +3107,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3131,7 +3131,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -3147,7 +3147,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3173,7 +3173,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -3190,7 +3190,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3219,7 +3219,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -3235,7 +3235,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3257,7 +3257,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment) {
@@ -3272,7 +3272,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3296,7 +3296,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
@@ -3312,7 +3312,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3338,7 +3338,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
@@ -3355,7 +3355,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3377,7 +3377,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -3392,7 +3392,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3416,7 +3416,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -3432,7 +3432,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3458,7 +3458,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -3475,7 +3475,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3499,7 +3499,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -3514,7 +3514,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3540,7 +3540,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -3556,7 +3556,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3584,7 +3584,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -3601,7 +3601,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3621,7 +3621,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment) {
@@ -3636,7 +3636,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3658,7 +3658,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
@@ -3674,7 +3674,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3698,7 +3698,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
@@ -3715,7 +3715,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3739,7 +3739,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType) {
@@ -3754,7 +3754,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3780,7 +3780,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -3796,7 +3796,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3824,7 +3824,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -3841,7 +3841,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3867,7 +3867,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -3883,7 +3883,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3911,7 +3911,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -3928,7 +3928,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -3958,7 +3958,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -3976,7 +3976,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4004,7 +4004,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4021,7 +4021,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4051,7 +4051,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4069,7 +4069,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4101,7 +4101,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4120,7 +4120,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4150,7 +4150,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4167,7 +4167,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4199,7 +4199,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4217,7 +4217,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4252,7 +4252,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     public <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4269,7 +4269,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4297,7 +4297,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4313,7 +4313,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4343,7 +4343,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4360,7 +4360,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4392,7 +4392,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4410,7 +4410,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4438,7 +4438,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4454,7 +4454,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4484,7 +4484,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4501,7 +4501,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4533,7 +4533,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4551,7 +4551,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4581,7 +4581,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4597,7 +4597,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4629,7 +4629,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4646,7 +4646,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4680,7 +4680,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4698,7 +4698,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4724,7 +4724,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4740,7 +4740,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4768,7 +4768,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4785,7 +4785,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4815,7 +4815,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -4833,7 +4833,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4852,7 +4852,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType) {
         return execute(id, null, null, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
@@ -4866,7 +4866,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4887,7 +4887,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
@@ -4902,7 +4902,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4925,7 +4925,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -4941,7 +4941,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -4962,7 +4962,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -4977,7 +4977,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5000,7 +5000,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -5016,7 +5016,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5041,7 +5041,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -5058,7 +5058,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5081,7 +5081,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -5097,7 +5097,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5122,7 +5122,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -5139,7 +5139,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5166,7 +5166,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -5184,7 +5184,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5209,7 +5209,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -5225,7 +5225,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5252,7 +5252,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -5269,7 +5269,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5298,7 +5298,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -5316,7 +5316,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5339,7 +5339,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -5355,7 +5355,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5380,7 +5380,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -5397,7 +5397,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5424,7 +5424,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -5442,7 +5442,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5463,7 +5463,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -5478,7 +5478,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5501,7 +5501,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -5517,7 +5517,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5542,7 +5542,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -5559,7 +5559,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5582,7 +5582,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -5597,7 +5597,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5622,7 +5622,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -5638,7 +5638,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5665,7 +5665,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -5682,7 +5682,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5703,7 +5703,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment) {
@@ -5718,7 +5718,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5741,7 +5741,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //
@@ -5757,7 +5757,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5782,7 +5782,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //
@@ -5799,7 +5799,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5815,7 +5815,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, Class<RES> responseType) {
         return execute(id, null, requestBody, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
@@ -5829,7 +5829,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5847,7 +5847,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
@@ -5862,7 +5862,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5882,7 +5882,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -5898,7 +5898,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5916,7 +5916,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -5931,7 +5931,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5951,7 +5951,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -5967,7 +5967,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -5989,7 +5989,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -6006,7 +6006,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6026,7 +6026,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -6042,7 +6042,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6064,7 +6064,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -6081,7 +6081,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6105,7 +6105,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -6123,7 +6123,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6145,7 +6145,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -6161,7 +6161,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6185,7 +6185,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -6202,7 +6202,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6229,7 +6229,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -6247,7 +6247,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6267,7 +6267,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment) {
@@ -6282,7 +6282,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6304,7 +6304,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
@@ -6320,7 +6320,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6344,7 +6344,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
@@ -6361,7 +6361,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6381,7 +6381,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -6399,7 +6399,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6421,7 +6421,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -6437,7 +6437,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6461,7 +6461,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -6478,7 +6478,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6500,7 +6500,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -6515,7 +6515,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6539,7 +6539,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -6555,7 +6555,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6581,7 +6581,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -6598,7 +6598,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6616,7 +6616,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment) {
@@ -6631,7 +6631,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6651,7 +6651,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
@@ -6667,7 +6667,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6689,7 +6689,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
@@ -6706,7 +6706,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6728,7 +6728,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType) {
         return execute(id, null, requestBody, responseType, null, null, null, CallbackOn.success(null), CallbackOn.error());
@@ -6742,7 +6742,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6766,7 +6766,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess) {
@@ -6781,7 +6781,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6807,7 +6807,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, Result<RET>> onSuccess //
@@ -6823,7 +6823,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6847,7 +6847,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -6862,7 +6862,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6888,7 +6888,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -6904,7 +6904,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6932,7 +6932,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -6949,7 +6949,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -6975,7 +6975,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -6991,7 +6991,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7019,7 +7019,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -7036,7 +7036,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7066,7 +7066,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -7084,7 +7084,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7112,7 +7112,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -7128,7 +7128,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7158,7 +7158,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -7175,7 +7175,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7208,7 +7208,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -7226,7 +7226,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7252,7 +7252,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment) {
@@ -7267,7 +7267,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7295,7 +7295,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
@@ -7311,7 +7311,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7341,7 +7341,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
@@ -7358,7 +7358,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7384,7 +7384,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -7399,7 +7399,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7427,7 +7427,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -7443,7 +7443,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7473,7 +7473,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -7490,7 +7490,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7518,7 +7518,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -7533,7 +7533,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7563,7 +7563,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -7579,7 +7579,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7611,7 +7611,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -7628,7 +7628,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7652,7 +7652,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> Result<RES> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment) {
@@ -7667,7 +7667,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7693,7 +7693,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //
@@ -7709,7 +7709,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 3.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 3.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7737,7 +7737,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 3.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> Result<RET> execute(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //
@@ -7754,7 +7754,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7767,7 +7767,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, Class<RES> responseType) {
         return executeAsRaw(id, null, null, responseType, null, null, null, CallbackOn.successAsRaw(null));
@@ -7781,7 +7781,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7796,7 +7796,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
@@ -7811,7 +7811,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7826,7 +7826,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -7841,7 +7841,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7858,7 +7858,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -7874,7 +7874,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7891,7 +7891,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -7907,7 +7907,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7926,7 +7926,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -7943,7 +7943,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7962,7 +7962,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -7978,7 +7978,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -7999,7 +7999,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -8016,7 +8016,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8033,7 +8033,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -8049,7 +8049,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8068,7 +8068,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -8085,7 +8085,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8100,7 +8100,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -8115,7 +8115,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8132,7 +8132,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -8148,7 +8148,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8165,7 +8165,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -8180,7 +8180,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8199,7 +8199,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -8215,7 +8215,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8230,7 +8230,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable String fragment) {
@@ -8245,7 +8245,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8262,7 +8262,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
@@ -8278,7 +8278,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8293,7 +8293,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType) {
         return executeAsRaw(id, pathVariables, null, responseType, null, null, null, CallbackOn.successAsRaw(null));
@@ -8307,7 +8307,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8324,7 +8324,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
@@ -8339,7 +8339,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8356,7 +8356,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -8371,7 +8371,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8390,7 +8390,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -8406,7 +8406,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8425,7 +8425,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -8441,7 +8441,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8462,7 +8462,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -8479,7 +8479,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8500,7 +8500,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -8516,7 +8516,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8539,7 +8539,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -8556,7 +8556,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8575,7 +8575,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -8591,7 +8591,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8612,7 +8612,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -8629,7 +8629,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8646,7 +8646,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -8661,7 +8661,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8680,7 +8680,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -8696,7 +8696,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8715,7 +8715,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -8730,7 +8730,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8751,7 +8751,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -8767,7 +8767,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8784,7 +8784,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable String fragment) {
@@ -8799,7 +8799,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8818,7 +8818,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
@@ -8834,7 +8834,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8855,7 +8855,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType) {
         return executeAsRaw(id, pathVariables, null, responseType, null, null, null, CallbackOn.successAsRaw(null));
@@ -8869,7 +8869,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8892,7 +8892,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
@@ -8907,7 +8907,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8930,7 +8930,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -8945,7 +8945,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -8970,7 +8970,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -8986,7 +8986,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9011,7 +9011,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -9027,7 +9027,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9054,7 +9054,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -9071,7 +9071,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9098,7 +9098,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -9114,7 +9114,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9143,7 +9143,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -9160,7 +9160,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9185,7 +9185,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -9201,7 +9201,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9228,7 +9228,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -9245,7 +9245,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9268,7 +9268,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -9283,7 +9283,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9308,7 +9308,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -9324,7 +9324,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9349,7 +9349,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -9364,7 +9364,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9391,7 +9391,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -9407,7 +9407,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9430,7 +9430,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment) {
@@ -9445,7 +9445,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9470,7 +9470,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //
@@ -9486,7 +9486,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9504,7 +9504,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, Class<RES> responseType) {
         return executeAsRaw(id, pathVariables, requestBody, responseType, null, null, null, CallbackOn.successAsRaw(null));
@@ -9518,7 +9518,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9538,7 +9538,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
@@ -9553,7 +9553,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9573,7 +9573,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -9588,7 +9588,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9610,7 +9610,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -9626,7 +9626,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9648,7 +9648,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -9664,7 +9664,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9688,7 +9688,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -9705,7 +9705,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9729,7 +9729,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -9745,7 +9745,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9772,7 +9772,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     public <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -9788,7 +9788,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9810,7 +9810,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment) {
@@ -9825,7 +9825,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9849,7 +9849,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
@@ -9865,7 +9865,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9887,7 +9887,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -9902,7 +9902,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9926,7 +9926,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -9942,7 +9942,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -9966,7 +9966,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -9981,7 +9981,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10007,7 +10007,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -10023,7 +10023,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10043,7 +10043,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment) {
@@ -10058,7 +10058,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10080,7 +10080,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
@@ -10096,7 +10096,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10120,7 +10120,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType) {
@@ -10135,7 +10135,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10161,7 +10161,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10177,7 +10177,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10203,7 +10203,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10219,7 +10219,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10247,7 +10247,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10264,7 +10264,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10292,7 +10292,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10309,7 +10309,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10339,7 +10339,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10357,7 +10357,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10387,7 +10387,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10404,7 +10404,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10437,7 +10437,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     public <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10454,7 +10454,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10482,7 +10482,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10498,7 +10498,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10528,7 +10528,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10545,7 +10545,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10573,7 +10573,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10589,7 +10589,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10619,7 +10619,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10636,7 +10636,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10666,7 +10666,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10682,7 +10682,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10714,7 +10714,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10731,7 +10731,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10757,7 +10757,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10773,7 +10773,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 8. 8..      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 8. 8..      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10801,7 +10801,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 8. 8..
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable Map<String, String> pathVariables, @Nullable REQ requestBody,
             @NotNull ParameterizedTypeReference<RES> responseType //
@@ -10818,7 +10818,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10837,7 +10837,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType) {
         return executeAsRaw(id, null, null, responseType, null, null, null, CallbackOn.successAsRaw(null));
@@ -10851,7 +10851,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10872,7 +10872,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
@@ -10887,7 +10887,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10908,7 +10908,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -10923,7 +10923,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10946,7 +10946,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -10962,7 +10962,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -10985,7 +10985,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -11001,7 +11001,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11026,7 +11026,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -11043,7 +11043,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11068,7 +11068,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -11084,7 +11084,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11111,7 +11111,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -11128,7 +11128,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11151,7 +11151,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -11167,7 +11167,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11192,7 +11192,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -11209,7 +11209,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11230,7 +11230,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -11245,7 +11245,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11268,7 +11268,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -11284,7 +11284,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11307,7 +11307,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -11322,7 +11322,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11347,7 +11347,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -11363,7 +11363,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11384,7 +11384,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment) {
@@ -11399,7 +11399,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11422,7 +11422,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //
@@ -11438,7 +11438,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11454,7 +11454,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, Class<RES> responseType) {
         return executeAsRaw(id, null, requestBody, responseType, null, null, null, CallbackOn.successAsRaw(null));
@@ -11468,7 +11468,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11486,7 +11486,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
@@ -11501,7 +11501,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11519,7 +11519,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -11534,7 +11534,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11554,7 +11554,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -11570,7 +11570,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11590,7 +11590,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -11606,7 +11606,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11628,7 +11628,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -11645,7 +11645,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11667,7 +11667,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -11683,7 +11683,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11708,7 +11708,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -11726,7 +11726,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11746,7 +11746,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment) {
@@ -11761,7 +11761,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11783,7 +11783,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
@@ -11799,7 +11799,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11819,7 +11819,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -11834,7 +11834,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11856,7 +11856,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -11872,7 +11872,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11894,7 +11894,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -11909,7 +11909,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11933,7 +11933,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -11949,7 +11949,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -11967,7 +11967,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment) {
@@ -11982,7 +11982,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12002,7 +12002,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull Class<RES> responseType //
             , @Nullable String fragment //
@@ -12018,7 +12018,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12040,7 +12040,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType) {
         return executeAsRaw(id, null, requestBody, responseType, null, null, null, CallbackOn.successAsRaw(null));
@@ -12054,7 +12054,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12078,7 +12078,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @NotNull Function<ResponseEntity<RES>, RET> onSuccess) {
@@ -12093,7 +12093,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12117,7 +12117,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers) {
@@ -12132,7 +12132,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12158,7 +12158,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -12174,7 +12174,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12200,7 +12200,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -12216,7 +12216,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12244,7 +12244,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -12261,7 +12261,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12289,7 +12289,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -12305,7 +12305,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12336,7 +12336,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers //
@@ -12354,7 +12354,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12380,7 +12380,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment) {
@@ -12395,7 +12395,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12423,7 +12423,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable HttpHeaders headers, @Nullable String fragment //
@@ -12439,7 +12439,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12465,7 +12465,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query) {
@@ -12480,7 +12480,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12508,7 +12508,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query //
@@ -12524,7 +12524,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12552,7 +12552,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment) {
@@ -12567,7 +12567,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12597,7 +12597,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable MultiValueMap<String, Object> query, @Nullable String fragment //
@@ -12613,7 +12613,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12637,7 +12637,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES> RES executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment) {
@@ -12652,7 +12652,7 @@ public interface IIdBasedRestApiService {
      * [개정이력]
      *      날짜       | 작성자                           |  내용
      * ------------------------------------------------------------------------
-     * 2025. 7. 14.      박준홍(jhpark@ymtech.co.kr)            최초 작성
+     * 2025. 7. 14.      parkjunhong77@gmail.com(jhpark@ymtech.co.kr)            최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -12678,7 +12678,7 @@ public interface IIdBasedRestApiService {
      * @return
      *
      * @since 2025. 7. 14.
-     * @author 박준홍(jhpark@ymtech.co.kr)
+     * @author parkjunhong77@gmail.com(jhpark@ymtech.co.kr)
      */
     default <REQ, RES, RET> RET executeAsRaw(@NotEmpty String id, @Nullable REQ requestBody, @NotNull ParameterizedTypeReference<RES> responseType //
             , @Nullable String fragment //

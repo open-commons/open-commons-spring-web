@@ -45,7 +45,7 @@ public class InvalidBeanNameFqnResolveException extends BeansException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 13.		박준홍			최초 작성
+     * 2025. 6. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param message
@@ -65,7 +65,7 @@ public class InvalidBeanNameFqnResolveException extends BeansException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 13.		박준홍			최초 작성
+     * 2025. 6. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param message

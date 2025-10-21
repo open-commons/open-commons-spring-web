@@ -99,7 +99,7 @@ public abstract class MdcWrappedJob<V> {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 8. 1.      박준홍         최초 작성
+     * 2025. 8. 1.      parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param mdc
@@ -147,7 +147,7 @@ public abstract class MdcWrappedJob<V> {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 8. 1.      박준홍         최초 작성
+     * 2025. 8. 1.      parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      *
@@ -193,7 +193,7 @@ public abstract class MdcWrappedJob<V> {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param symbol
@@ -219,7 +219,7 @@ public abstract class MdcWrappedJob<V> {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 7. 31.     박준홍         최초 작성
+     * 2025. 7. 31.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <T>
@@ -244,7 +244,7 @@ public abstract class MdcWrappedJob<V> {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 7. 31.     박준홍         최초 작성
+     * 2025. 7. 31.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @param context
@@ -270,7 +270,7 @@ public abstract class MdcWrappedJob<V> {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 7. 31.     박준홍         최초 작성
+     * 2025. 7. 31.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @param context
@@ -300,7 +300,7 @@ public abstract class MdcWrappedJob<V> {
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2025. 8. 1.      박준홍         최초 작성
+         * 2025. 8. 1.      parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param mdc
@@ -342,7 +342,7 @@ public abstract class MdcWrappedJob<V> {
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2025. 8. 1.      박준홍         최초 작성
+         * 2025. 8. 1.      parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param mdc

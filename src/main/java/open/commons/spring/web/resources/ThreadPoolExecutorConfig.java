@@ -84,7 +84,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -103,7 +103,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param config
@@ -127,7 +127,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the corePoolSize
@@ -150,7 +150,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the keepAliveTime
@@ -173,7 +173,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the maximumPoolSize
@@ -196,7 +196,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the timeUnit
@@ -219,7 +219,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the allowCoreThreadTimeOut
@@ -242,7 +242,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the initialized
@@ -265,7 +265,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param allowCoreThreadTimeOut
@@ -290,7 +290,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param corePoolSize
@@ -315,7 +315,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param keepAliveTime
@@ -340,7 +340,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param maximumPoolSize
@@ -365,7 +365,7 @@ public class ThreadPoolExecutorConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param timeUnit

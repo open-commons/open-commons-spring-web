@@ -76,7 +76,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
+     * 2025. 6. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -98,7 +98,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
+     * 2025. 6. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -125,7 +125,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 7. 28.     박준홍         최초 작성
+     * 2025. 7. 28.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <V>
@@ -163,7 +163,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 20.		박준홍			최초 작성
+     * 2025. 5. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <B>
@@ -202,7 +202,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 21.		박준홍			최초 작성
+     * 2025. 5. 21.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <B>
@@ -240,7 +240,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
+     * 2025. 6. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -263,7 +263,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
+     * 2025. 6. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -288,7 +288,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
+     * 2025. 6. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -311,7 +311,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
+     * 2025. 6. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -330,7 +330,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
+     * 2025. 6. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -349,7 +349,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
+     * 2025. 6. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -368,7 +368,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
+     * 2025. 6. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -387,7 +387,7 @@ public abstract class AbstractAspectPointcuts {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 23.		박준홍			최초 작성
+     * 2025. 6. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *

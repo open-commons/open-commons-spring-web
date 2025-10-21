@@ -63,7 +63,7 @@ public @interface AuthorizedObject {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 5. 16.     박준홍         최초 작성
+     * 2025. 5. 16.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @return
@@ -83,7 +83,7 @@ public @interface AuthorizedObject {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 26.		박준홍			최초 작성
+     * 2025. 5. 26.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -105,7 +105,7 @@ public @interface AuthorizedObject {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 5. 26.     박준홍         최초 작성
+     * 2025. 5. 26.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @return
@@ -123,7 +123,7 @@ public @interface AuthorizedObject {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 26.		박준홍			최초 작성
+     * 2025. 5. 26.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return

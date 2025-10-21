@@ -99,7 +99,7 @@ public class AbstractSshService extends AbstractGenericService {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 11. 26.        박준홍         최초 작성
+     * 2020. 11. 26.        parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @since 2020. 11. 26.
@@ -114,7 +114,7 @@ public class AbstractSshService extends AbstractGenericService {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 23.		박준홍			최초 작성
+     * 2025. 7. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param host
@@ -169,7 +169,7 @@ public class AbstractSshService extends AbstractGenericService {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 11. 20.		박준홍			최초 작성
+     * 2023. 11. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @param host
@@ -208,7 +208,7 @@ public class AbstractSshService extends AbstractGenericService {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 23.		박준홍			최초 작성
+     * 2025. 7. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param host
@@ -250,7 +250,7 @@ public class AbstractSshService extends AbstractGenericService {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 23.		박준홍			최초 작성
+     * 2025. 7. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param host
@@ -300,7 +300,7 @@ public class AbstractSshService extends AbstractGenericService {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 11. 20.		박준홍			최초 작성
+     * 2023. 11. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param host
@@ -338,7 +338,7 @@ public class AbstractSshService extends AbstractGenericService {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 23.		박준홍			최초 작성
+     * 2025. 7. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param host
@@ -378,7 +378,7 @@ public class AbstractSshService extends AbstractGenericService {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 23.		박준홍			최초 작성
+     * 2025. 7. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param host
@@ -415,7 +415,7 @@ public class AbstractSshService extends AbstractGenericService {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 11. 20.		박준홍			최초 작성
+     * 2023. 11. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @param host

@@ -70,7 +70,7 @@ public class DelegatingExecutorService<S extends ExecutorService> extends Abstra
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 31.		박준홍			최초 작성
+     * 2025. 7. 31.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param delegate
@@ -125,7 +125,7 @@ public class DelegatingExecutorService<S extends ExecutorService> extends Abstra
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 2.		박준홍			최초 작성
+     * 2025. 8. 2.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param symbol
@@ -256,7 +256,7 @@ public class DelegatingExecutorService<S extends ExecutorService> extends Abstra
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 31.		박준홍			최초 작성
+     * 2025. 7. 31.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -278,7 +278,7 @@ public class DelegatingExecutorService<S extends ExecutorService> extends Abstra
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 31.		박준홍			최초 작성
+     * 2025. 7. 31.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -300,7 +300,7 @@ public class DelegatingExecutorService<S extends ExecutorService> extends Abstra
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 31.		박준홍			최초 작성
+     * 2025. 7. 31.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param runnable

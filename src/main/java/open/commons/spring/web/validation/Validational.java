@@ -58,7 +58,7 @@ public abstract class Validational<C extends List<E>, E extends Validational<Lis
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 10. 10.        박준홍         최초 작성
+     * 2019. 10. 10.        parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param buf
@@ -91,7 +91,7 @@ public abstract class Validational<C extends List<E>, E extends Validational<Lis
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 10. 10.        박준홍         최초 작성
+     * 2019. 10. 10.        parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @return
@@ -109,7 +109,7 @@ public abstract class Validational<C extends List<E>, E extends Validational<Lis
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 10. 10.        박준홍         최초 작성
+     * 2019. 10. 10.        parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param validator

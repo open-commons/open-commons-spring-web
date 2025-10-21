@@ -68,7 +68,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -87,7 +87,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 11.		박준홍			최초 작성
+     * 2025. 8. 11.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param config
@@ -119,7 +119,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the awaitTerminationMillis
@@ -142,7 +142,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the beanName
@@ -165,7 +165,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the poolSize
@@ -188,7 +188,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the threadGroupName
@@ -211,7 +211,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the threadNamePrefix
@@ -234,7 +234,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the threadPriority
@@ -257,7 +257,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the continueExistingPeriodicTasksAfterShutdownPolicy
@@ -280,7 +280,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the daemon
@@ -303,7 +303,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the executeExistingDelayedTasksAfterShutdownPolicy
@@ -326,7 +326,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 8.		박준홍			최초 작성
+     * 2025. 8. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the initialized
@@ -349,7 +349,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the removeOnCancelPolicy
@@ -372,7 +372,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the waitForTasksToCompleteOnShutdown
@@ -395,7 +395,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param awaitTerminationMillis
@@ -420,7 +420,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param awaitTerminationSeconds
@@ -445,7 +445,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param beanName
@@ -470,7 +470,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param continueExistingPeriodicTasksAfterShutdownPolicy
@@ -495,7 +495,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param daemon
@@ -520,7 +520,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param executeExistingDelayedTasksAfterShutdownPolicy
@@ -545,7 +545,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param poolSize
@@ -570,7 +570,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param removeOnCancelPolicy
@@ -595,7 +595,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param threadGroupName
@@ -620,7 +620,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param threadNamePrefix
@@ -645,7 +645,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param threadPriority
@@ -670,7 +670,7 @@ public class ThreadPoolTaskSchedulerConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param waitForTasksToCompleteOnShutdown

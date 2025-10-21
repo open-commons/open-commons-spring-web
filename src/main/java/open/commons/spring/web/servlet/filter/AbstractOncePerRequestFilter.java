@@ -61,7 +61,7 @@ public abstract class AbstractOncePerRequestFilter extends OncePerRequestFilter 
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 19.		박준홍			최초 작성
+     * 2025. 8. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -79,7 +79,7 @@ public abstract class AbstractOncePerRequestFilter extends OncePerRequestFilter 
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 8. 4.      박준홍         최초 작성
+     * 2025. 8. 4.      parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param ignoredUrl

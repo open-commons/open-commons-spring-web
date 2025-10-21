@@ -111,7 +111,7 @@ public class GlobalServletConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 5.		박준홍			최초 작성
+     * 2025. 6. 5.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param context
@@ -154,7 +154,7 @@ public class GlobalServletConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 19.		박준홍			최초 작성
+     * 2025. 8. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param filter
@@ -180,7 +180,7 @@ public class GlobalServletConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param filter
@@ -206,7 +206,7 @@ public class GlobalServletConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 7.		박준홍			최초 작성
+     * 2025. 8. 7.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param headers
@@ -310,8 +310,8 @@ public class GlobalServletConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 18.		박준홍			최초 작성
-     * 2025. 8. 7.      박준홍         기본적으로 지원하는 헤더를 내부 코드로 강제화 시킴.
+     * 2025. 7. 18.		parkjunhong77@gmail.com			최초 작성
+     * 2025. 8. 7.      parkjunhong77@gmail.com         기본적으로 지원하는 헤더를 내부 코드로 강제화 시킴.
      *                                  - real-ip: X-Real-IP
      *                                  - client-port: X-Client-Port
      *                                  - forwarded-for: X-Forwarded-For
@@ -359,7 +359,7 @@ public class GlobalServletConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 7.		박준홍			최초 작성
+     * 2025. 8. 7.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -413,7 +413,7 @@ public class GlobalServletConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 8.		박준홍			최초 작성
+     * 2025. 8. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -452,7 +452,7 @@ public class GlobalServletConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 20.		박준홍			최초 작성
+     * 2025. 8. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return

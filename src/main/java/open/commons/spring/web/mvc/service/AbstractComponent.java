@@ -89,7 +89,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------   
-     * 2020. 1. 21.		박준홍			최초 작성
+     * 2020. 1. 21.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @since 2020. 1. 21.
@@ -105,7 +105,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 8. 24.		박준홍			최초 작성
+     * 2021. 8. 24.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -128,7 +128,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 8. 24.		박준홍			최초 작성
+     * 2021. 8. 24.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -153,7 +153,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 8. 24.     박준홍         최초 작성
+     * 2021. 8. 24.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <T>
@@ -179,7 +179,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 8. 24.		박준홍			최초 작성
+     * 2021. 8. 24.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -208,7 +208,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 11. 9.		박준홍			최초 작성
+     * 2021. 11. 9.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -243,7 +243,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 11. 9.		박준홍			최초 작성
+     * 2021. 11. 9.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <R>
@@ -281,7 +281,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 10. 4.		박준홍			최초 작성
+     * 2021. 10. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param action
@@ -313,7 +313,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 10. 4.		박준홍			최초 작성
+     * 2021. 10. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -346,7 +346,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2022. 5. 4.		박준홍			최초 작성
+     * 2022. 5. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -386,7 +386,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2022. 5. 4.		박준홍			최초 작성
+     * 2022. 5. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -422,7 +422,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2022. 5. 4.		박준홍			최초 작성
+     * 2022. 5. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -461,7 +461,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2022. 5. 4.		박준홍			최초 작성
+     * 2022. 5. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -501,7 +501,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 8. 24.		박준홍			최초 작성
+     * 2021. 8. 24.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -526,7 +526,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 8. 24.		박준홍			최초 작성
+     * 2021. 8. 24.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <T>
@@ -554,7 +554,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 12. 15.        박준홍         최초 작성
+     * 2021. 12. 15.        parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <T>
@@ -584,7 +584,7 @@ public class AbstractComponent {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 12. 15.        박준홍         최초 작성
+     * 2021. 12. 15.        parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <T>

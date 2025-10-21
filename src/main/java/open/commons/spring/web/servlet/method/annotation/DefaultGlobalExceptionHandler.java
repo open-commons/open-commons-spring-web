@@ -81,7 +81,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 1. 17.		박준홍			최초 작성
+     * 2020. 1. 17.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @since 2020. 1. 17.
@@ -99,7 +99,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 28.		박준홍			최초 작성
+     * 2025. 5. 28.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param exceptionHttpStatusBinder
@@ -118,7 +118,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 4. 17.     박준홍         최초 작성
+     * 2025. 4. 17.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @param exceptionHttpStatusBinder
@@ -143,7 +143,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 1. 17.		박준홍			최초 작성
+     * 2020. 1. 17.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param status
@@ -167,12 +167,12 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 1. 17.		박준홍			최초 작성
-     * 2020. 7. 30.     박준홍         {@link BadRequestException} 추가
-     * 2022. 12. 01.    박준홍         {@link NotFoundException} 추가.
-     * 2025. 5. 19.     박준홍         {@link UnauthorizedAccessException} 추가.
-     * 2025. 5. 28      박준홍         {@link #resolveAnnotatedResponseStatus(Exception, HttpStatus)} 적용
-     * 2025. 5. 28      박준홍         deprecated 처리됨.
+     * 2020. 1. 17.		parkjunhong77@gmail.com			최초 작성
+     * 2020. 7. 30.     parkjunhong77@gmail.com         {@link BadRequestException} 추가
+     * 2022. 12. 01.    parkjunhong77@gmail.com         {@link NotFoundException} 추가.
+     * 2025. 5. 19.     parkjunhong77@gmail.com         {@link UnauthorizedAccessException} 추가.
+     * 2025. 5. 28      parkjunhong77@gmail.com         {@link #resolveAnnotatedResponseStatus(Exception, HttpStatus)} 적용
+     * 2025. 5. 28      parkjunhong77@gmail.com         deprecated 처리됨.
      * </pre>
      *
      * @param ex
@@ -206,11 +206,11 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 1. 17.		박준홍			최초 작성
-     * 2020. 7. 30.     박준홍         {@link InternalServerException} 추가
-     * 2025. 5. 28      박준홍         {@link UnsupportedOperationException} 처리 분리
-     * 2025. 5. 28      박준홍         {@link #resolveAnnotatedResponseStatus(Exception, HttpStatus)} 적용
-     * 2025. 5. 28      박준홍         deprecated 처리됨.
+     * 2020. 1. 17.		parkjunhong77@gmail.com			최초 작성
+     * 2020. 7. 30.     parkjunhong77@gmail.com         {@link InternalServerException} 추가
+     * 2025. 5. 28      parkjunhong77@gmail.com         {@link UnsupportedOperationException} 처리 분리
+     * 2025. 5. 28      parkjunhong77@gmail.com         {@link #resolveAnnotatedResponseStatus(Exception, HttpStatus)} 적용
+     * 2025. 5. 28      parkjunhong77@gmail.com         deprecated 처리됨.
      * </pre>
      * 
      * @param ex
@@ -261,7 +261,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 28.		박준홍			최초 작성
+     * 2025. 5. 28.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param ex
@@ -324,7 +324,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 28.		박준홍			최초 작성
+     * 2025. 5. 28.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param ex
@@ -357,7 +357,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 28.		박준홍			최초 작성
+     * 2025. 5. 28.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param exceptionHttpStatusBinders

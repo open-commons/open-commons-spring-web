@@ -119,7 +119,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -137,7 +137,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the consumesToMatch
@@ -162,7 +162,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the displayName
@@ -185,7 +185,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the externalDocs
@@ -208,7 +208,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the group
@@ -231,7 +231,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the headersToMatch
@@ -256,7 +256,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the info
@@ -279,7 +279,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the packagesToExclude
@@ -304,7 +304,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the packagesToScan
@@ -329,7 +329,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the pathsToExclude
@@ -354,7 +354,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the pathsToMatch
@@ -379,7 +379,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the producesToMatch
@@ -404,7 +404,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param consumesToMatch
@@ -427,7 +427,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param displayName
@@ -450,7 +450,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param externalDocs
@@ -473,7 +473,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param group
@@ -496,7 +496,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param headersToMatch
@@ -519,7 +519,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param info
@@ -542,7 +542,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param packagesToExclude
@@ -565,7 +565,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param packagesToScan
@@ -588,7 +588,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param pathsToExclude
@@ -611,7 +611,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param pathsToMatch
@@ -634,7 +634,7 @@ public class GroupedOpenApiProperties {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param producesToMatch

@@ -109,7 +109,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 10. 24.		박준홍			최초 작성
+     * 2019. 10. 24.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param headers
@@ -137,7 +137,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 25.     박준홍         최초 작성
+     * 2020. 8. 25.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param headers
@@ -199,8 +199,8 @@ public class RestUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2016. 11. 21     박준홍         최초 작성
-     * 2019. 4. 9.      박준홍         기능 확장. (사설 인증서 지원)
+     * 2016. 11. 21     parkjunhong77@gmail.com         최초 작성
+     * 2019. 4. 9.      parkjunhong77@gmail.com         기능 확장. (사설 인증서 지원)
      * </pre>
      *
      * @param allowPrivateCA
@@ -252,7 +252,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 4. 9.      박준홍         최초 작성
+     * 2019. 4. 9.      parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param allowPrivateCA
@@ -289,7 +289,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 8. 27.		박준홍			최초 작성
+     * 2020. 8. 27.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param context
@@ -356,7 +356,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 10. 24.        박준홍         최초 작성
+     * 2019. 10. 24.        parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -413,7 +413,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 10. 24.		박준홍			최초 작성
+     * 2019. 10. 24.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -465,7 +465,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 11. 20.		박준홍			최초 작성
+     * 2020. 11. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -522,7 +522,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 11. 20.		박준홍			최초 작성
+     * 2020. 11. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -574,7 +574,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 10. 24.        박준홍         최초 작성
+     * 2019. 10. 24.        parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -633,7 +633,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 10. 24.		박준홍			최초 작성
+     * 2019. 10. 24.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -691,7 +691,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 11. 20.		박준홍			최초 작성
+     * 2020. 11. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -750,7 +750,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 11. 20.		박준홍			최초 작성
+     * 2020. 11. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -808,7 +808,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 10. 24.		박준홍			최초 작성
+     * 2019. 10. 24.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -852,7 +852,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 11. 20.		박준홍			최초 작성
+     * 2020. 11. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -897,7 +897,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 11. 23.		박준홍			최초 작성
+     * 2020. 11. 23.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param <REQ>
@@ -984,7 +984,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2020. 8. 28.     박준홍         최초 작성
+     * 2020. 8. 28.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param headers
@@ -1018,8 +1018,8 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 10. 21.		박준홍			최초 작성
-     * 2025. 7. 2.          박준홍     key=value에 {@link URLEncoder#encode(String)} 적용
+     * 2020. 10. 21.		parkjunhong77@gmail.com			최초 작성
+     * 2025. 7. 2.          parkjunhong77@gmail.com     key=value에 {@link URLEncoder#encode(String)} 적용
      * </pre>
      *
      * @param parameters
@@ -1061,7 +1061,7 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 2.		박준홍			최초 작성
+     * 2025. 7. 2.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param value
@@ -1086,8 +1086,8 @@ public class RestUtils {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 10. 21.		박준홍			최초 작성
-     * 2025. 7. 2.          박준홍     key=value에서 key 의 <code>null</code> 여부 확인.
+     * 2020. 10. 21.		parkjunhong77@gmail.com			최초 작성
+     * 2025. 7. 2.          parkjunhong77@gmail.com     key=value에서 key 의 <code>null</code> 여부 확인.
      * </pre>
      *
      * @param parameters

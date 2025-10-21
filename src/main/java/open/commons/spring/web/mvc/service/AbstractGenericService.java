@@ -44,7 +44,7 @@ public abstract class AbstractGenericService extends AbstractComponent implement
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 1. 21.		박준홍			최초 작성
+     * 2020. 1. 21.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @since 2020. 1. 21.

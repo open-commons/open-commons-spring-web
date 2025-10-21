@@ -54,7 +54,7 @@ public class NotFoundException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2022. 12. 1.		박준홍			최초 작성
+     * 2022. 12. 1.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -72,7 +72,7 @@ public class NotFoundException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2022. 12. 1.		박준홍			최초 작성
+     * 2022. 12. 1.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param message
@@ -92,7 +92,7 @@ public class NotFoundException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2022. 12. 1.		박준홍			최초 작성
+     * 2022. 12. 1.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param message
@@ -113,7 +113,7 @@ public class NotFoundException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2022. 12. 1.		박준홍			최초 작성
+     * 2022. 12. 1.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param message
@@ -136,7 +136,7 @@ public class NotFoundException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2022. 12. 1.		박준홍			최초 작성
+     * 2022. 12. 1.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param cause

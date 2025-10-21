@@ -72,7 +72,7 @@ public class AuthorizedResourceBuiltinHandlerConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 12.		박준홍			최초 작성
+     * 2025. 6. 12.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *

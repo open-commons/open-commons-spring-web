@@ -49,7 +49,7 @@ public class BeanMergeFailedException extends BeansException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 19.		박준홍			최초 작성
+     * 2025. 9. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param format
@@ -70,7 +70,7 @@ public class BeanMergeFailedException extends BeansException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 19.		박준홍			최초 작성
+     * 2025. 9. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param format

@@ -262,7 +262,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 30.		박준홍			최초 작성
+     * 2025. 7. 30.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param registry
@@ -285,7 +285,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 9. 3.		박준홍			최초 작성
+     * 2020. 9. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param registry
@@ -339,7 +339,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 30.		박준홍			최초 작성
+     * 2025. 7. 30.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param registry
@@ -362,7 +362,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 30.		박준홍			최초 작성
+     * 2025. 7. 30.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param registry
@@ -429,7 +429,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 11.		박준홍			최초 작성
+     * 2025. 8. 11.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param registry
@@ -455,7 +455,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 9. 3.		박준홍			최초 작성
+     * 2020. 9. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param registry
@@ -479,7 +479,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 11.		박준홍			최초 작성
+     * 2025. 8. 11.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param registry
@@ -540,7 +540,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 18.		박준홍			최초 작성
+     * 2025. 9. 18.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param argResolver
@@ -562,7 +562,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 30.		박준홍			최초 작성
+     * 2025. 7. 30.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param enumPkgs
@@ -591,7 +591,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 30.		박준홍			최초 작성
+     * 2025. 7. 30.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param interceptorIgnoreUrlConfigurations

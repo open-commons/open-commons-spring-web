@@ -83,7 +83,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 6. 20.		박준홍			최초 작성
+         * 2025. 6. 20.		parkjunhong77@gmail.com			최초 작성
          * </pre>
          *
          * @return
@@ -102,7 +102,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 6. 20.		박준홍			최초 작성
+         * 2025. 6. 20.		parkjunhong77@gmail.com			최초 작성
          * </pre>
          *
          * @return
@@ -143,7 +143,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 6. 20.		박준홍			최초 작성
+         * 2025. 6. 20.		parkjunhong77@gmail.com			최초 작성
          * </pre>
          *
          * @param targetClass
@@ -165,7 +165,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 6. 19.		박준홍			최초 작성
+         * 2025. 6. 19.		parkjunhong77@gmail.com			최초 작성
          * </pre>
          * 
          * @param targetClass
@@ -407,7 +407,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 9. 20.		박준홍			최초 작성
+         * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
          * </pre>
          *
          * @return
@@ -425,7 +425,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 9. 20.		박준홍			최초 작성
+         * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
          * </pre>
          *
          * @param handleBean
@@ -445,7 +445,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 9. 20.		박준홍			최초 작성
+         * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
          * </pre>
          *
          * @param handleType
@@ -465,7 +465,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 9. 20.		박준홍			최초 작성
+         * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
          * </pre>
          *
          * @param name
@@ -490,7 +490,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 9. 20.		박준홍			최초 작성
+         * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
          * </pre>
          *
          * @return
@@ -506,7 +506,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 6. 19.		박준홍			최초 작성
+         * 2025. 6. 19.		parkjunhong77@gmail.com			최초 작성
          * </pre>
          *
          * @param function
@@ -525,7 +525,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * [개정이력]
          *      날짜      | 작성자   |   내용
          * ------------------------------------------
-         * 2025. 9. 20.     박준홍         최초 작성
+         * 2025. 9. 20.     parkjunhong77@gmail.com         최초 작성
          * </pre>
          *
          * @param fieldHandleBean
@@ -545,7 +545,7 @@ public class AuthorizedRequestDataMetadataBuilder {
          * [개정이력]
          *      날짜    	| 작성자	|	내용
          * ------------------------------------------
-         * 2025. 9. 20.		박준홍			최초 작성
+         * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
          * </pre>
          *
          * @param type

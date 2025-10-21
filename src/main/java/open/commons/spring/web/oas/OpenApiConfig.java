@@ -116,7 +116,13 @@ public class OpenApiConfig {
      * 
      * @since 0.8.0
      */
-    private static final String PROPERTIES_GROUPED_OPEN_API = "open-commons.springdoc.grouped-open-api";
+    public static final String PROPERTIES_GROUPED_OPEN_API = "open-commons.springdoc.grouped-open-api";
+
+    /**
+     * 내부에서 제공하는 REST API 그룹명.<br>
+     * 항목이름: {@value #PROPERTIES_GROUPED_OPEN_API}.ocsw_api.group
+     */
+    public static final String PROPERTIES_OCSW_API_GROUP = "__builtin_ocsw-supported";
 
     private ApplicationContext context;
 
@@ -127,7 +133,7 @@ public class OpenApiConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 7. 19.		박준홍			최초 작성
+     * 2023. 7. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @param context
@@ -147,7 +153,7 @@ public class OpenApiConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 7. 19.		박준홍			최초 작성
+     * 2023. 7. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return Open API 정보. 단 필수정보(email, name)가 없는 경우 생성되지 않습니다.
@@ -184,7 +190,7 @@ public class OpenApiConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 7. 19.		박준홍			최초 작성
+     * 2023. 7. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return Open API 외부 문서 정보. 단, 필수정보(url)가 없는 경우 생성되지 않습니다.
@@ -207,7 +213,7 @@ public class OpenApiConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 7. 19.		박준홍			최초 작성
+     * 2023. 7. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -234,7 +240,7 @@ public class OpenApiConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -256,7 +262,7 @@ public class OpenApiConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 29.		박준홍			최초 작성
+     * 2025. 4. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param props
@@ -306,7 +312,7 @@ public class OpenApiConfig {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 4. 8.		박준홍			최초 작성
+     * 2025. 4. 8.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param prop
@@ -341,7 +347,5 @@ public class OpenApiConfig {
         }
 
         return api;
-
     }
-
 }

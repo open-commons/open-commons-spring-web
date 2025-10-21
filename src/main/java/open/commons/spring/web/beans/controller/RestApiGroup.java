@@ -31,6 +31,10 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
@@ -53,6 +57,11 @@ public class RestApiGroup {
      */
     private String description;
 
+    /**
+     * {@link Controller}, {@link RestController} 클래스에 선언된 {@link RequestMapping#path()} 값
+     */
+    private String groupPath;
+
     /** REST API 목록 */
     @NotNull
     private List<RestApiDecl> restApis;
@@ -64,7 +73,7 @@ public class RestApiGroup {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -82,7 +91,30 @@ public class RestApiGroup {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 10. 20.		parkjunhong77@gmail.com			최초 작성
+     * </pre>
+     * 
+     * @return the classPath
+     *
+     * @since 2025. 10. 20.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #groupPath
+     */
+
+    public String getGroupPath() {
+        return groupPath;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the description
@@ -105,7 +137,7 @@ public class RestApiGroup {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the name
@@ -128,7 +160,7 @@ public class RestApiGroup {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the restApis
@@ -151,7 +183,30 @@ public class RestApiGroup {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 10. 20.		parkjunhong77@gmail.com			최초 작성
+     * </pre>
+     *
+     * @param classPath
+     *            the classPath to set
+     *
+     * @since 2025. 10. 20.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see #groupPath
+     */
+    public void setGroupPath(String classPath) {
+        this.groupPath = classPath;
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param description
@@ -174,7 +229,7 @@ public class RestApiGroup {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param name
@@ -197,7 +252,7 @@ public class RestApiGroup {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param restApis
@@ -215,7 +270,7 @@ public class RestApiGroup {
 
     /**
      *
-     * @since 2025. 9. 29.
+     * @since 2025. 10. 20.
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
@@ -230,6 +285,8 @@ public class RestApiGroup {
         builder.append(description);
         builder.append(", restApis=");
         builder.append(restApis);
+        builder.append(", classPath=");
+        builder.append(groupPath);
         builder.append("]");
         return builder.toString();
     }

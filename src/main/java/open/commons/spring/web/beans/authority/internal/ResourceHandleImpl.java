@@ -74,7 +74,7 @@ public class ResourceHandleImpl implements ResourceHandle {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param isBuiltin
@@ -106,7 +106,7 @@ public class ResourceHandleImpl implements ResourceHandle {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 19.		박준홍			최초 작성
+     * 2025. 9. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @param target
@@ -129,7 +129,7 @@ public class ResourceHandleImpl implements ResourceHandle {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 19.		박준홍			최초 작성
+     * 2025. 9. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param target
@@ -184,7 +184,7 @@ public class ResourceHandleImpl implements ResourceHandle {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 29.		박준홍			최초 작성
+     * 2025. 9. 29.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the isBuiltin

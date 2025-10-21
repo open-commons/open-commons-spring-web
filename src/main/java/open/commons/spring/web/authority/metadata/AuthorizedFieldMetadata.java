@@ -67,7 +67,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 12.		박준홍			최초 작성
+     * 2025. 6. 12.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -109,7 +109,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 12.		박준홍			최초 작성
+     * 2025. 6. 12.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the authorityBean
@@ -134,7 +134,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 12.		박준홍			최초 작성
+     * 2025. 6. 12.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the fieldHandleBean
@@ -157,7 +157,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 13.		박준홍			최초 작성
+     * 2025. 6. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the handleType
@@ -180,7 +180,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 12.		박준홍			최초 작성
+     * 2025. 6. 12.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the name
@@ -218,7 +218,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 12.		박준홍			최초 작성
+     * 2025. 6. 12.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param authorityBean
@@ -242,7 +242,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 12.		박준홍			최초 작성
+     * 2025. 6. 12.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param fieldHandleBean
@@ -266,7 +266,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 13.		박준홍			최초 작성
+     * 2025. 6. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param handleType
@@ -289,7 +289,7 @@ public class AuthorizedFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 6. 12.		박준홍			최초 작성
+     * 2025. 6. 12.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param name

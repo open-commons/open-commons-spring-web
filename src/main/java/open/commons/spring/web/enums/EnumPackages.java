@@ -55,7 +55,7 @@ public class EnumPackages {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 6. 7.		박준홍			최초 작성
+     * 2019. 6. 7.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @since 2019. 6. 7.
@@ -71,7 +71,7 @@ public class EnumPackages {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 6. 7.      박준홍         최초 작성
+     * 2019. 6. 7.      parkjunhong77@gmail.com         최초 작성
      * </pre>
      * 
      * @return the packages
@@ -92,7 +92,7 @@ public class EnumPackages {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 6. 7.      박준홍         최초 작성
+     * 2019. 6. 7.      parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param packages

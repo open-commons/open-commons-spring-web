@@ -52,7 +52,7 @@ public class InternalServerException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 7. 30.		박준홍			최초 작성
+     * 2020. 7. 30.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @since 2020. 7. 30.
@@ -67,7 +67,7 @@ public class InternalServerException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 7. 30.		박준홍			최초 작성
+     * 2020. 7. 30.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param arg0
@@ -84,7 +84,7 @@ public class InternalServerException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 7. 30.		박준홍			최초 작성
+     * 2020. 7. 30.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param arg0
@@ -102,7 +102,7 @@ public class InternalServerException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 7. 30.		박준홍			최초 작성
+     * 2020. 7. 30.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param arg0
@@ -122,7 +122,7 @@ public class InternalServerException extends RuntimeException {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 7. 30.		박준홍			최초 작성
+     * 2020. 7. 30.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param arg0

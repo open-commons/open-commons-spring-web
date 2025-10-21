@@ -45,7 +45,7 @@ public interface IEventObject<T, E extends IEventStatus> extends Cloneable {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 9. 9.      박준홍         최초 작성
+     * 2021. 9. 9.      parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @return
@@ -66,7 +66,7 @@ public interface IEventObject<T, E extends IEventStatus> extends Cloneable {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 9. 9.		박준홍			최초 작성
+     * 2021. 9. 9.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -84,7 +84,7 @@ public interface IEventObject<T, E extends IEventStatus> extends Cloneable {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 9. 9.		박준홍			최초 작성
+     * 2021. 9. 9.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return

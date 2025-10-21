@@ -71,7 +71,7 @@ public class ExceptionHttpStatusBinder {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 28.		박준홍			최초 작성
+     * 2025. 5. 28.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param properties
@@ -91,7 +91,7 @@ public class ExceptionHttpStatusBinder {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 28.		박준홍			최초 작성
+     * 2025. 5. 28.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param valid
@@ -116,7 +116,7 @@ public class ExceptionHttpStatusBinder {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 28.		박준홍			최초 작성
+     * 2025. 5. 28.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param ex
@@ -143,7 +143,7 @@ public class ExceptionHttpStatusBinder {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 28.		박준홍			최초 작성
+     * 2025. 5. 28.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *

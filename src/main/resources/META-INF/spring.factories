@@ -1,3 +1,6 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  open.commons.spring.web.environment.OscwYamlEnvironmentPostProcessor
+
 #org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 open.commons.spring.web.autoconfigure.EnableOpenCommonsSpringWeb=\
   open.commons.spring.web.autoconfigure.configuration.AuthorizedResourceBuiltinHandlerConfiguration,\

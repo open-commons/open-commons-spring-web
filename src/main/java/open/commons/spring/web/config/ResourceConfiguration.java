@@ -53,6 +53,7 @@ import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -70,6 +71,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import open.commons.spring.web.async.MdcTaskDecorator;
 import open.commons.spring.web.client.CloseableRestTemplate;
 import open.commons.spring.web.handler.InterceptorIgnoreUrlProperties;
+import open.commons.spring.web.oas.GroupOpenApiRegistrar;
 import open.commons.spring.web.resources.RestTemplateRequestFactoryResource;
 import open.commons.spring.web.resources.ScheduledThreadPoolExecutorConfig;
 import open.commons.spring.web.resources.ThreadPoolExecutorConfig;
@@ -86,6 +88,7 @@ import open.commons.spring.web.servlet.filter.AntPathRequest;
  * @author Park_Jun_Hong_(parkjunhong77@gmail.com)
  */
 @Configuration
+@Import(GroupOpenApiRegistrar.class)
 public class ResourceConfiguration {
 
     public static final String PROPERTIES_OPEN_COMMONS_SPRING_WEB_ROOT_PATH = "open-commons.spring.web";
@@ -195,7 +198,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 6. 27.		박준홍			최초 작성
+     * 2019. 6. 27.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @param context
@@ -254,7 +257,8 @@ public class ResourceConfiguration {
     @Bean(name = BEAN_QUALIFIER_RESTTEMPLATE_PROXY_MODE_ALLOW_PRIVATE_CA)
     @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Primary
-    CloseableRestTemplate beanRestTemplateProxyModeAllowPrivateCA(@Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
+    CloseableRestTemplate beanRestTemplateProxyModeAllowPrivateCA(
+            @Qualifier(CONFIGURATION_DEFAULT_RESTTEMPLATE_REQUEST_SOURCE) RestTemplateRequestFactoryResource reqFactoryResource)
             throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
         HttpClient httpClient = RestFacade.createHttpsClient(true);
         HttpComponentsClientHttpRequestFactory reqFactory = getRequestFactory(httpClient, reqFactoryResource);
@@ -270,7 +274,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 1.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param config
@@ -293,7 +297,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param config
@@ -316,8 +320,8 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2020. 1. 20.		박준홍			최초 작성
-     * 2025. 5. 28.     박준홍         명시적으로 {@link ThreadPoolTaskExecutorConfig} 파라미터로 전달
+     * 2020. 1. 20.		parkjunhong77@gmail.com			최초 작성
+     * 2025. 5. 28.     parkjunhong77@gmail.com         명시적으로 {@link ThreadPoolTaskExecutorConfig} 파라미터로 전달
      * </pre>
      * 
      * @param taskExecConfig
@@ -343,7 +347,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param config
@@ -366,7 +370,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 1.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param prefix
@@ -413,7 +417,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 1.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -448,7 +452,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param config
@@ -472,7 +476,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -501,7 +505,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 8. 13      박준홍         최초 작성
+     * 2025. 8. 13      parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param config
@@ -524,8 +528,8 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2019. 6. 27.     박준홍         최초 작성
-     * 2025. 8. 1.      박준홍         설정경로 변경으로 기존 경로를 호환하는 구조로 변경. (추후 하나의 경로로 정리할 예정)
+     * 2019. 6. 27.     parkjunhong77@gmail.com         최초 작성
+     * 2025. 8. 1.      parkjunhong77@gmail.com         설정경로 변경으로 기존 경로를 호환하는 구조로 변경. (추후 하나의 경로로 정리할 예정)
      * </pre>
      *
      * @return
@@ -564,7 +568,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2025. 7. 31.     박준홍         최초 작성
+     * 2025. 7. 31.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @return
@@ -590,7 +594,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param config
@@ -613,7 +617,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -656,7 +660,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param config
@@ -681,7 +685,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 1.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param prefix
@@ -702,7 +706,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 7. 30.		박준홍			최초 작성
+     * 2025. 7. 30.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -724,7 +728,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 4.		박준홍			최초 작성
+     * 2025. 8. 4.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @return
@@ -746,7 +750,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 1.		박준홍			최초 작성
+     * 2025. 8. 1.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param config
@@ -778,7 +782,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 13.		박준홍			최초 작성
+     * 2025. 8. 13.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param config
@@ -809,7 +813,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 8. 19.		박준홍			최초 작성
+     * 2021. 8. 19.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param config
@@ -855,7 +859,7 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param config
@@ -898,8 +902,8 @@ public class ResourceConfiguration {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2019. 6. 27.		박준홍			최초 작성
-     * 2020. 12. 9.		박준홍			access modifier 변경 (private -> public static)
+     * 2019. 6. 27.		parkjunhong77@gmail.com			최초 작성
+     * 2020. 12. 9.		parkjunhong77@gmail.com			access modifier 변경 (private -> public static)
      * </pre>
      *
      * @param httpClient

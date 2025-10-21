@@ -50,7 +50,7 @@ public abstract class CliExecutionComponent extends AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2021. 11. 16.		박준홍			최초 작성
+     * 2021. 11. 16.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -68,7 +68,7 @@ public abstract class CliExecutionComponent extends AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 11. 7.		박준홍			최초 작성
+     * 2023. 11. 7.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param cmdarray
@@ -95,7 +95,7 @@ public abstract class CliExecutionComponent extends AbstractComponent {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2021. 11. 16.        박준홍         최초 작성
+     * 2021. 11. 16.        parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param cmdarray
@@ -121,7 +121,7 @@ public abstract class CliExecutionComponent extends AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 11. 7.		박준홍			최초 작성
+     * 2023. 11. 7.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param cmdarray
@@ -162,7 +162,7 @@ public abstract class CliExecutionComponent extends AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 11. 7.		박준홍			최초 작성
+     * 2023. 11. 7.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param cmdarray
@@ -191,7 +191,7 @@ public abstract class CliExecutionComponent extends AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 11. 7.		박준홍			최초 작성
+     * 2023. 11. 7.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param cmdarray
@@ -220,7 +220,7 @@ public abstract class CliExecutionComponent extends AbstractComponent {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2023. 11. 7.     박준홍         최초 작성
+     * 2023. 11. 7.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param cmdarray
@@ -247,7 +247,7 @@ public abstract class CliExecutionComponent extends AbstractComponent {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2023. 11. 7.		박준홍			최초 작성
+     * 2023. 11. 7.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param cmdarray
@@ -304,7 +304,7 @@ public abstract class CliExecutionComponent extends AbstractComponent {
      * [개정이력]
      *      날짜      | 작성자   |   내용
      * ------------------------------------------
-     * 2023. 11. 7.     박준홍         최초 작성
+     * 2023. 11. 7.     parkjunhong77@gmail.com         최초 작성
      * </pre>
      *
      * @param cmdarray

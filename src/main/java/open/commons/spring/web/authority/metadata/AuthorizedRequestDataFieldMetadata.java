@@ -67,7 +67,7 @@ public class AuthorizedRequestDataFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 20.		박준홍			최초 작성
+     * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      *
@@ -105,7 +105,7 @@ public class AuthorizedRequestDataFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 20.		박준홍			최초 작성
+     * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the handleBean
@@ -128,7 +128,7 @@ public class AuthorizedRequestDataFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 20.		박준홍			최초 작성
+     * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the handleType
@@ -151,7 +151,7 @@ public class AuthorizedRequestDataFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 20.		박준홍			최초 작성
+     * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @return the fieldName
@@ -187,7 +187,7 @@ public class AuthorizedRequestDataFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 20.		박준홍			최초 작성
+     * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param handleBean
@@ -210,7 +210,7 @@ public class AuthorizedRequestDataFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 20.		박준홍			최초 작성
+     * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param handleType
@@ -233,7 +233,7 @@ public class AuthorizedRequestDataFieldMetadata extends AuthorizedMetadata {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 9. 20.		박준홍			최초 작성
+     * 2025. 9. 20.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param fieldName

@@ -62,7 +62,7 @@ public class DelegatingTaskScheduler<S extends TaskScheduler & AsyncListenableTa
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      * 
      * @param delegate
@@ -166,7 +166,7 @@ public class DelegatingTaskScheduler<S extends TaskScheduler & AsyncListenableTa
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 8. 3.		박준홍			최초 작성
+     * 2025. 8. 3.		parkjunhong77@gmail.com			최초 작성
      * </pre>
      *
      * @param runnable
