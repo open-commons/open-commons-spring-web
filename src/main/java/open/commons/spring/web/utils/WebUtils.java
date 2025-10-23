@@ -27,6 +27,7 @@
 package open.commons.spring.web.utils;
 
 import java.nio.charset.Charset;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -99,6 +100,61 @@ public class WebUtils {
      */
     public static final String base64EncodeToUrlSafeString(String plainString) {
         return Base64Utils.encodeToUrlSafeString(plainString.getBytes());
+    }
+
+    /**
+     * 요청 정보와 예외발생 정보를 이용하여 응답 메시지 를 생성한다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 10. 22.		parkjunhong77@gmail.com			최초 작성
+     * </pre>
+     *
+     * @param request
+     * @param ex
+     * @param status
+     * @return
+     *
+     * @since 2025. 10. 22.
+     * @version 2.1.0
+     * @author Park Jun-Hong (parkjunhong77@gmail.com)
+     */
+    public static FIFOMap<String, Object> createEntity(HttpServletRequest request, Exception ex, HttpStatus status) {
+
+        FIFOMap<String, Object> entity = new FIFOMap<>();
+
+        entity.put("timestamp", System.currentTimeMillis());
+        entity.put("status", String.join("/", status.toString(), status.getReasonPhrase()));
+        entity.put("session", request.getRequestedSessionId());
+
+        // Set a URI
+        String uri = request.getRequestURI();
+        if (uri.contains("=")) {
+            uri = StringUtils.substringAfter(uri, "=");
+        }
+        entity.put("uri", uri);
+
+        // Set HEADERs
+        TreeMap<String, Object> headers = new TreeMap<>();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        String headerName = null;
+        while (headerNames.hasMoreElements()) {
+            headers.put(headerName = headerNames.nextElement(), request.getHeader(headerName));
+        }
+        entity.put("headers", headers);
+
+        // Set REQUEST PARAMETERs
+        entity.put("parameters", request.getParameterMap());
+
+        // Set EXCEPTIONS
+        TreeMap<String, Object> exception = new TreeMap<>();
+        exception.put("type", ex.getClass().getName());
+        exception.put("cause", ex.getMessage());
+        entity.put("exception", exception);
+
+        return entity;
     }
 
     /**

@@ -1,3 +1,18 @@
+[2025/10/23]
+- New
+  + HttpSecurity 설정 지원
+    + open.commons.spring.web.security.AbstractHttpSecurityConfig
+    +  open.commons.spring.web.security.AbstractSecurityExceptionStatusBinder
+    +  open.commons.spring.web.security.AccessDeninedExceptionHttpStatusBinder
+    +  open.commons.spring.web.security.AuthenticationExceptionHttpStatusBinder
+    +  open.commons.spring.web.security.AuthenticationFailureHttpStatusBinder
+  + open.commons.spring.web.utils.ExceptionHttpStatusUtils
+- Add
+  + open.commons.spring.web.utils.WebUtils.createEntity(HttpServletRequest, Exception, HttpStatus)
+- Modify
+  + open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder.resolveHttpStatus(Class&lt;EX&gt;, HttpStatus)
+   
+
 [2025/10/21]
 - New
   + open.commons.spring.web.environment.OscwYamlEnvironmentPostProcessor: 라이브러리 내부 yaml 설정 지원

@@ -31,7 +31,6 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.Ordered;
-import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -50,6 +49,7 @@ import open.commons.spring.web.servlet.InternalServerException;
 import open.commons.spring.web.servlet.NotFoundException;
 import open.commons.spring.web.servlet.UnauthorizedAccessException;
 import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
+import open.commons.spring.web.utils.ExceptionHttpStatusUtils;
 import open.commons.spring.web.utils.WebUtils;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -246,13 +246,6 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
         return handleExceptionInternal(ex, entity, new HttpHeaders(), status, request);
     }
 
-    @ExceptionHandler({ JsonMappingException.class })
-    public ResponseEntity<Object> handleJsonMappingException(JsonMappingException ex, WebRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        FIFOMap<String, Object> entity = this.FN_CREATE_ENTITY.apply(request, ex, status);
-        return handleExceptionInternal(ex, entity, new HttpHeaders(), status, request);
-    }
-
     /**
      * 
      * <br>
@@ -317,6 +310,13 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
 
+    @ExceptionHandler({ JsonMappingException.class })
+    public ResponseEntity<Object> handleJsonMappingException(JsonMappingException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        FIFOMap<String, Object> entity = this.FN_CREATE_ENTITY.apply(request, ex, status);
+        return handleExceptionInternal(ex, entity, new HttpHeaders(), status, request);
+    }
+
     /**
      * 사용자 정의 예외 클래스에 선언된 {@link HttpStatus} 정보를 제공합니다. <br>
      * 
@@ -340,14 +340,7 @@ public class DefaultGlobalExceptionHandler extends ResponseEntityExceptionHandle
      * @see ResponseStatus
      */
     protected HttpStatus resolveAnnotatedResponseStatus(Exception ex, HttpStatus defaultStatus) {
-
-        HttpStatus httpStatus = this.exceptionHttpStatusBinder != null ? this.exceptionHttpStatusBinder.resolveHttpStatus(ex.getClass()) : null;
-        if (httpStatus != null) {
-            return httpStatus;
-        } else {
-            ResponseStatus resStatus = AnnotatedElementUtils.findMergedAnnotation(ex.getClass(), ResponseStatus.class);
-            return resStatus != null ? resStatus.code() : defaultStatus;
-        }
+        return ExceptionHttpStatusUtils.resolveResponseStatus(this.exceptionHttpStatusBinder, ex, defaultStatus);
     }
 
     /**

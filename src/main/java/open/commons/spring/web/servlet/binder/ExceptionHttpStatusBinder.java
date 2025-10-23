@@ -36,7 +36,9 @@ import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import open.commons.core.utils.ExceptionUtils;
 import open.commons.core.utils.StringUtils;
@@ -116,24 +118,33 @@ public class ExceptionHttpStatusBinder {
      * [개정이력]
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
-     * 2025. 5. 28.		parkjunhong77@gmail.com			최초 작성
+     * 2025. 5. 28.		parkjunhong77@gmail.com		최초 작성
+     * 2025. 10. 22.    parkjunhong77@gmail.com     기본 상태 추가 및 {@link ResponseStatus} 적용 확인 추가
      * </pre>
      *
-     * @param ex
+     * @param exClass
      *            예외 클래스 유형.
+     * @param defaultStatus
+     *            전달받은 예외 클래스(<code>ex</code>)와 연결된 {@link HttpStatus}가 없는 경우
      * @return
      *
      * @since 2025. 5. 28.
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public <EX extends Throwable> HttpStatus resolveHttpStatus(@NotNull Class<EX> ex) {
+    public <EX extends Throwable> HttpStatus resolveHttpStatus(@NotNull Class<EX> exClass, HttpStatus defaultStatus) {
 
-        if (ex == null) {
+        if (exClass == null) {
             throw ExceptionUtils.newException(IllegalArgumentException.class, new NullPointerException("an instance of Throwable is null."), "예외클래스 정보는 반드시 존재해야 합니다.");
         }
 
-        return this.mappings.get(ex);
+        HttpStatus status = this.mappings.get(exClass);
+        if (status == null) {
+            ResponseStatus resStatus = AnnotatedElementUtils.findMergedAnnotation(exClass, ResponseStatus.class);
+            status = resStatus != null ? resStatus.code() : defaultStatus;
+        }
+
+        return status;
     }
 
     /**

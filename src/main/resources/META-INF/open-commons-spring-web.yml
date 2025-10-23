@@ -18,7 +18,7 @@ open-commons:
       exception-httpstatus-binder:
         # key: Throwable 하위 클래스, value: org.springframework.http.HttpStatus 의 인스턴스 이름 (예: BAD_REQUEST)  
         properties:
-          java.lang.UnsupportedOperationException: INTERNAL_SERVER_ERROR
+          java.lang.UnsupportedOperationException: SERVICE_UNAVAILABLE
           javax.validation.ConstraintViolationException: BAD_REQUEST
       concurrent:
         thread-pool-task-executor:

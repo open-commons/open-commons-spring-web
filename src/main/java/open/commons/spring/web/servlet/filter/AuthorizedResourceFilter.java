@@ -39,10 +39,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import open.commons.core.Result;
+import open.commons.spring.web.authority.AuthorizedField;
 import open.commons.spring.web.beans.authority.IAuthorizedResourceAuthenticationPause;
 import open.commons.spring.web.thread.AuthorizedResourceContext;
 
 /**
+ * {@link AuthorizedField}가 설정된 데이터를 요청에 따라 제외시키는 기능을 제공하는 필터.
  * 
  * @since 2025. 6. 24.
  * @version 0.8.0
