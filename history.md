@@ -1,3 +1,8 @@
+[2025/10/24]
+- New
+  + open.commons.spring.web.security.SimpleUrlAuthenticationFailureHttpStatusBinder: 사용자 정의 예외상황 X Http Status 지원
+  + open.commons.spring.web.servlet.UnauthenticationException: 인증 실패를 위한 예외 상황
+
 [2025/10/23]
 - New
   + HttpSecurity 설정 지원

@@ -38,10 +38,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * 
  * @see HttpStatus#UNAUTHORIZED
  */
-@ResponseStatus(HttpStatus.UNAUTHORIZED)
+@ResponseStatus(HttpStatus.FORBIDDEN)
 public class UnauthorizedAccessException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -5654841733696493225L;
 
     /**
      * <br>
