@@ -94,14 +94,14 @@ public class RequestHeaderFilter extends AbstractOncePerRequestFilter {
         try {
             String headerName = null;
             String headerValue = null;
-            for (SharedHeader sh : this.sharedHeaders) {
+            for (SharedHeader hdConfig : this.sharedHeaders) {
                 // #1. 헤더 조회
-                headerValue = request.getHeader(headerName = sh.getHeader());
+                headerValue = request.getHeader(headerName = hdConfig.getHeader());
                 if (headerValue == null) {
                     continue;
                 }
                 // #2. 헤더값 검증 후 공유
-                if (sh.getValidator().test(headerValue)) {
+                if (hdConfig.getValidator().test(headerValue)) {
                     THREAD_SHARED_CONTEXT.set(headerName, headerValue);
                 } else {
                     logger.warn("'{}'로 사용할 정보({})가 올바르지 않습니다.", headerName, headerValue);

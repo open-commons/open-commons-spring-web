@@ -406,8 +406,6 @@ public abstract class AbstractHttpSecurityConfig {
     protected void exceptionHandling(ExceptionHandlingConfigurer<HttpSecurity> configurer) {
     }
 
-    // private final <T> void executeIfOverride(Customizer<T> configurer, ThrowableFunction<Customizer<T>, HttpSecurity>
-    // applier) throws Exception {
     private final <T> void executeIfOverride(Customizer<T> configurer, ThrowableFunction<Customizer<T>, HttpSecurity> applier, String methodName, Class<?>... argTypes)
             throws Exception {
         if (isOverrided(methodName, argTypes)) {
