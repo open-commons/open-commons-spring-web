@@ -27,6 +27,8 @@
 package open.commons.spring.web.beans.authority;
 
 import open.commons.core.Result;
+import open.commons.core.utils.StringUtils;
+import open.commons.spring.web.utils.SecurityUtils;
 
 /**
  * 자원 접근 권한 제공 기능 정의.
@@ -38,8 +40,7 @@ import open.commons.core.Result;
 public interface IResourceAccessAuthorityProvider {
 
     /**
-     * 
-     * <br>
+     * <code>Security Session</code>이 존재한다면, 사용자 정보(일반적으로 username)을 제공합니다. <br>
      * 
      * <pre>
      * [개정이력]
@@ -55,6 +56,7 @@ public interface IResourceAccessAuthorityProvider {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     default Result<String> getCurrentUserId() {
-        return Result.success(null);
+        String principal = SecurityUtils.getCurrentPrincipal();
+        return new Result<String>(principal, StringUtils.isNullOrEmptyString(principal));
     }
 }

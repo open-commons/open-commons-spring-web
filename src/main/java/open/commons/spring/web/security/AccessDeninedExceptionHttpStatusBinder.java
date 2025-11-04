@@ -37,16 +37,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+import open.commons.spring.web.servlet.binder.AbstractExceptionStatusWriter;
 import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
 
 /**
- * '인증됨 + 권한 부족(AccessDeniedException)'에 대한 처리.
+ * 'Spring Security' 인증절차에서 발생하는 '인증됨 + 권한 부족(AccessDeniedException)'에 대한 처리.
  * 
  * @since 2025. 10. 22.
  * @version 2.1.0
  * @author Park Jun-Hong (parkjunhong77@gmail.com)
  */
-public class AccessDeninedExceptionHttpStatusBinder extends AbstractSecurityExceptionStatusBinder implements AccessDeniedHandler {
+public class AccessDeninedExceptionHttpStatusBinder extends AbstractExceptionStatusWriter implements AccessDeniedHandler {
 
     /**
      * <br>
@@ -75,10 +76,10 @@ public class AccessDeninedExceptionHttpStatusBinder extends AbstractSecurityExce
      * @version 2.1.0
      * @author Park Jun-Hong (parkjunhong77@gmail.com)
      *
-     * @see open.commons.spring.web.security.AbstractSecurityExceptionStatusBinder#defaultHttpStatus()
+     * @see open.commons.spring.web.servlet.binder.AbstractExceptionStatusWriter#defaultHttpStatus()
      */
     @Override
-    protected HttpStatus defaultHttpStatus() {
+    public HttpStatus defaultHttpStatus() {
         return HttpStatus.FORBIDDEN;
     }
 

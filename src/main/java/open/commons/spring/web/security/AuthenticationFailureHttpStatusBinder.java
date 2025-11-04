@@ -37,16 +37,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+import open.commons.spring.web.servlet.binder.AbstractExceptionStatusWriter;
 import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
 
 /**
- * '폼 로그인 필터(UsernamePasswordAuthenticationFilter)의 실패'에 대한 처리.
+ * 'Spring Security' 인증절차에서 발생하는 '폼 로그인 필터(UsernamePasswordAuthenticationFilter)의 실패'에 대한 처리.
  * 
  * @since 2025. 10. 22.
  * @version 2.1.0
  * @author Park Jun-Hong (parkjunhong77@gmail.com)
  */
-public class AuthenticationFailureHttpStatusBinder extends AbstractSecurityExceptionStatusBinder implements AuthenticationFailureHandler {
+public class AuthenticationFailureHttpStatusBinder extends AbstractExceptionStatusWriter implements AuthenticationFailureHandler {
 
     /**
      * <br>
@@ -67,6 +68,19 @@ public class AuthenticationFailureHttpStatusBinder extends AbstractSecurityExcep
      */
     public AuthenticationFailureHttpStatusBinder(@Nonnull ExceptionHttpStatusBinder binder) {
         super(binder);
+    }
+
+    /**
+     *
+     * @since 2025. 10. 30.
+     * @version 2.1.0
+     * @author Park Jun-Hong (parkjunhong77@gmail.com)
+     *
+     * @see open.commons.spring.web.servlet.binder.IExceptionResponseWriter#defaultHttpStatus()
+     */
+    @Override
+    public HttpStatus defaultHttpStatus() {
+        return HttpStatus.UNAUTHORIZED;
     }
 
     /**

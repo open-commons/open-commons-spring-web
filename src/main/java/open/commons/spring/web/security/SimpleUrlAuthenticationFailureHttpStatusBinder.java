@@ -39,6 +39,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
 
 /**
+ * 'Spring Security' 인증절차에서 발생하는 예외상황을 'url'로 처리하는 기능을 제공.
  * 
  * @since 2025. 10. 24.
  * @version 2.1.0

@@ -277,10 +277,10 @@ public abstract class AbstractHttpSecurityConfig {
         if (this.enableOauth2Login) {
             executeIfOverride(this::oauth2Login, http::oauth2Login, "oauth2Login", OAuth2LoginConfigurer.class);
         }
-        if (this.enableOauth2Login) {
+        if (this.enableOauth2Client) {
             executeIfOverride(this::oauth2Client, http::oauth2Client, "oauth2Client", OAuth2ClientConfigurer.class);
         }
-        if (this.enableOauth2Login) {
+        if (this.enableOauth2ResourceServer) {
             executeIfOverride(this::oauth2ResourceServer, http::oauth2ResourceServer, "oauth2ResourceServer", OAuth2ResourceServerConfigurer.class);
         }
         if (this.enableX509) {

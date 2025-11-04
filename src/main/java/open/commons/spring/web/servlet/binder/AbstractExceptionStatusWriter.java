@@ -24,20 +24,11 @@
  * 
  */
 
-package open.commons.spring.web.security;
-
-import java.io.IOException;
+package open.commons.spring.web.servlet.binder;
 
 import javax.annotation.Nonnull;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-
-import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
-import open.commons.spring.web.utils.WebUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,7 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @version 2.1.0
  * @author Park Jun-Hong (parkjunhong77@gmail.com)
  */
-public abstract class AbstractSecurityExceptionStatusBinder {
+public abstract class AbstractExceptionStatusWriter implements IExceptionResponseWriter {
 
     private static final ObjectMapper OM = new ObjectMapper();
 
@@ -75,7 +66,7 @@ public abstract class AbstractSecurityExceptionStatusBinder {
      * @version 2.1.0
      * @author Park Jun-Hong (parkjunhong77@gmail.com)
      */
-    public AbstractSecurityExceptionStatusBinder(@Nonnull ExceptionHttpStatusBinder binder) {
+    public AbstractExceptionStatusWriter(@Nonnull ExceptionHttpStatusBinder binder) {
         this(binder, OM);
     }
 
@@ -96,91 +87,38 @@ public abstract class AbstractSecurityExceptionStatusBinder {
      * @version 2.1.0
      * @author Park Jun-Hong (parkjunhong77@gmail.com)
      */
-    public AbstractSecurityExceptionStatusBinder(ExceptionHttpStatusBinder binder, ObjectMapper objectMapper) {
+    public AbstractExceptionStatusWriter(ExceptionHttpStatusBinder binder, ObjectMapper objectMapper) {
         this.binder = binder;
         this.objectMapper = objectMapper != null ? objectMapper : OM;
     }
 
     /**
-     * 예외상황에 연결된 {@link HttpStatus} 를 제공합니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 10. 23.		parkjunhong77@gmail.com			최초 작성
-     * </pre>
      *
-     * @param ex
-     * @return
-     *
-     * @since 2025. 10. 23.
+     * @since 2025. 10. 30.
      * @version 2.1.0
      * @author Park Jun-Hong (parkjunhong77@gmail.com)
+     *
+     * @see open.commons.spring.web.servlet.binder.IExceptionResponseWriter#getBinder()
      */
-    protected final HttpStatus bind(@Nonnull Exception ex) {
-        return this.binder.resolveHttpStatus(ex.getClass(), defaultHttpStatus());
+    @Override
+    public ExceptionHttpStatusBinder getBinder() {
+        return this.binder;
     }
 
     /**
-     * 요청정보({@link HttpServletRequest})와 오류 정보({@link Exception})를 이용하여 응답 데이터를 생성합니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 10. 23.		parkjunhong77@gmail.com			최초 작성
-     * </pre>
      *
-     * @param req
-     *            요청 정보
-     * @param ex
-     *            예외 정보
-     * @return
-     *
-     * @since 2025. 10. 23.
+     * @since 2025. 10. 30.
      * @version 2.1.0
      * @author Park Jun-Hong (parkjunhong77@gmail.com)
-     */
-    protected Object createResponseEntity(HttpServletRequest req, Exception ex) {
-        return WebUtils.createEntity(req, ex, bind(ex));
-    }
-
-    /**
-     * {@link Exception}에 연결된 {@link HttpStatus}가 없는 경우 사용할 {@link HttpStatus}를 제공합니다. <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 10. 23.		parkjunhong77@gmail.com			최초 작성
-     * </pre>
      *
-     * @return
-     *
-     * @since 2025. 10. 23.
-     * @version 2.1.0
-     * @author Park Jun-Hong (parkjunhong77@gmail.com)
+     * @see open.commons.spring.web.servlet.binder.IExceptionResponseWriter#writeAsString(java.lang.Object)
      */
-    protected HttpStatus defaultHttpStatus() {
-        return HttpStatus.INTERNAL_SERVER_ERROR;
-    }
-
-    protected String writeAsString(Object o) {
+    @Override
+    public String writeAsString(Object o) {
         try {
             return o != null ? this.objectMapper.writeValueAsString(o) : "null";
         } catch (JsonProcessingException e) {
             return e.toString();
         }
-    }
-
-    protected void writeExceptionResponse(HttpServletRequest request, HttpServletResponse response, Exception exception) throws IOException, ServletException {
-        HttpStatus status = bind(exception);
-        response.setStatus(status.value());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding("UTF-8");
-
-        Object entity = createResponseEntity(request, exception);
-        response.getWriter().write(writeAsString(entity));
     }
 }

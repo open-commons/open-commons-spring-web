@@ -37,16 +37,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+import open.commons.spring.web.servlet.binder.AbstractExceptionStatusWriter;
 import open.commons.spring.web.servlet.binder.ExceptionHttpStatusBinder;
 
 /**
- * '인증 전 실패(AuthenticationException)' 에 대한 처리.
+ * 'Spring Security' 인증절차에서 발생하는 '인증 전 실패(AuthenticationException)' 에 대한 처리.
  * 
  * @since 2025. 10. 22.
  * @version 2.1.0
  * @author Park Jun-Hong (parkjunhong77@gmail.com)
  */
-public class AuthenticationExceptionHttpStatusBinder extends AbstractSecurityExceptionStatusBinder implements AuthenticationEntryPoint {
+public class AuthenticationExceptionHttpStatusBinder extends AbstractExceptionStatusWriter implements AuthenticationEntryPoint {
 
     /**
      * <br>
@@ -81,5 +82,18 @@ public class AuthenticationExceptionHttpStatusBinder extends AbstractSecurityExc
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         writeExceptionResponse(request, response, authException);
+    }
+
+    /**
+     *
+     * @since 2025. 10. 30.
+     * @version 2.1.0
+     * @author Park Jun-Hong (parkjunhong77@gmail.com)
+     *
+     * @see open.commons.spring.web.servlet.binder.IExceptionResponseWriter#defaultHttpStatus()
+     */
+    @Override
+    public HttpStatus defaultHttpStatus() {
+        return HttpStatus.UNAUTHORIZED;
     }
 }

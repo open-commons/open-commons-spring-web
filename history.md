@@ -1,3 +1,14 @@
+[2025/10/30]
+- New
+  + open.commons.spring.web.servlet.binder.IExceptionResponseWriter: 예외 클래스를 응답 데이터로 제공하는 기능을 정의.
+- Modify
+  + open.commons.spring.web.security
+    + AccessDeninedExceptionHttpStatusBinder
+    + AuthenticationExceptionHttpStatusBinder
+    + AuthenticationFailureHttpStatusBinder
+    + SimpleUrlAuthenticationFailureHttpStatusBinder
+  + open.commons.spring.web.servlet.binder.AbstractExceptionStatusWriter
+
 [2025/10/24]
 - New
   + open.commons.spring.web.security.SimpleUrlAuthenticationFailureHttpStatusBinder: 사용자 정의 예외상황 X Http Status 지원
