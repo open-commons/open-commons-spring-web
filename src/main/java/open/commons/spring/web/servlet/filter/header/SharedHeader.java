@@ -26,7 +26,10 @@
 
 package open.commons.spring.web.servlet.filter.header;
 
-import java.util.function.Predicate;
+import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 'frond-end' 또는 외부에서 전달한 'header' 정보 중에 공유하기 위한 설정 기능.
@@ -53,7 +56,29 @@ public interface SharedHeader {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public String getHeader();
+    public String header();
+
+    /**
+     * 검증을 통과한 이후에 수행할 작업을 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 11. 7.		parkjunhong77@gmail.com			최초 작성
+     * </pre>
+     *
+     * @return
+     *
+     * @since 2025. 11. 7.
+     * @version 2.1.0
+     * @author Park Jun-Hong (parkjunhong77@gmail.com)
+     */
+    @NotNull
+    default BiConsumer<String, String> postAction() {
+        return (name, value) -> {
+        };
+    }
 
     /**
      * 헤더값 검증 도구를 제공합니다. <br>
@@ -71,6 +96,8 @@ public interface SharedHeader {
      * @version 0.8.0
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
-    public Predicate<String> getValidator();
-
+    @NotNull
+    default BiPredicate<String, String> validator() {
+        return (name, value) -> false;
+    }
 }

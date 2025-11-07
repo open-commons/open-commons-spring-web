@@ -26,9 +26,13 @@
 
 package open.commons.spring.web.servlet.filter.header;
 
-import java.util.function.Predicate;
+import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
+
+import javax.validation.constraints.NotNull;
 
 /**
+ * 'frond-end' 또는 외부에서 전달한 'header' 정보 중에 공유하기 위한 설정 기능.
  * 
  * @since 2025. 8. 20.
  * @version 0.8.0
@@ -37,27 +41,11 @@ import java.util.function.Predicate;
 public class DefaultSharedHeader implements SharedHeader {
 
     /** 헤더 이름 */
-    protected String header;
+    protected final String header;
     /** 헤더 값 검증 */
-    protected Predicate<String> validator;
-
-    /**
-     * <br>
-     * 
-     * <pre>
-     * [개정이력]
-     *      날짜    	| 작성자	|	내용
-     * ------------------------------------------
-     * 2025. 8. 20.		parkjunhong77@gmail.com			최초 작성
-     * </pre>
-     *
-     *
-     * @since 2025. 8. 20.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
-     */
-    public DefaultSharedHeader() {
-    }
+    protected final BiPredicate<String, String> validator;
+    /** 후처리 작업 */
+    protected final BiConsumer<String, String> postAction;
 
     /**
      * <br>
@@ -76,9 +64,33 @@ public class DefaultSharedHeader implements SharedHeader {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      */
-    public DefaultSharedHeader(String headerName, Predicate<String> validator) {
-        this.header = headerName;
+    public DefaultSharedHeader(String headerName, BiPredicate<String, String> validator) {
+        this(headerName, validator, (name, value) -> {
+        });
+    }
+
+    /**
+     * <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 11. 7.		parkjunhong77@gmail.com			최초 작성
+     * </pre>
+     *
+     * @param header
+     * @param validator
+     * @param postAction
+     *
+     * @since 2025. 11. 7.
+     * @version 2.1.0
+     * @author Park Jun-Hong (parkjunhong77@gmail.com)
+     */
+    public DefaultSharedHeader(String header, BiPredicate<String, String> validator, BiConsumer<String, String> postAction) {
+        this.header = header;
         this.validator = validator;
+        this.postAction = postAction;
     }
 
     /**
@@ -87,24 +99,25 @@ public class DefaultSharedHeader implements SharedHeader {
      * @version 0.8.0
      * @author parkjunhong77@gmail.com
      *
-     * @see open.commons.spring.web.servlet.filter.header.SharedHeader#getHeader()
+     * @see open.commons.spring.web.servlet.filter.header.SharedHeader#header()
      */
     @Override
-    public String getHeader() {
+    public String header() {
         return this.header;
     }
 
     /**
      *
-     * @since 2025. 8. 20.
-     * @version 0.8.0
-     * @author parkjunhong77@gmail.com
+     * @since 2025. 11. 7.
+     * @version 2.1.0
+     * @author Park Jun-Hong (parkjunhong77@gmail.com)
      *
-     * @see open.commons.spring.web.servlet.filter.header.SharedHeader#getValidator()
+     * @see open.commons.spring.web.servlet.filter.header.SharedHeader#postAction()
      */
     @Override
-    public Predicate<String> getValidator() {
-        return this.validator;
+    @NotNull
+    public BiConsumer<String, String> postAction() {
+        return this.postAction;
     }
 
     /**
@@ -126,4 +139,17 @@ public class DefaultSharedHeader implements SharedHeader {
         return builder.toString();
     }
 
+    /**
+     *
+     * @since 2025. 8. 20.
+     * @version 0.8.0
+     * @author parkjunhong77@gmail.com
+     *
+     * @see open.commons.spring.web.servlet.filter.header.SharedHeader#validator()
+     */
+    @Override
+    @NotNull
+    public BiPredicate<String, String> validator() {
+        return this.validator;
+    }
 }

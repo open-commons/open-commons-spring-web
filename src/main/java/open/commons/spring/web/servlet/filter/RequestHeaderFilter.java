@@ -43,6 +43,7 @@ import org.springframework.core.annotation.Order;
 
 import open.commons.core.lang.IThreadLocalContext;
 import open.commons.core.lang.ThreadLocalContextService;
+import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration;
 import open.commons.spring.web.servlet.filter.header.SharedHeader;
 
@@ -90,19 +91,21 @@ public class RequestHeaderFilter extends AbstractOncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
         try {
             String headerName = null;
             String headerValue = null;
             for (SharedHeader hdConfig : this.sharedHeaders) {
                 // #1. 헤더 조회
-                headerValue = request.getHeader(headerName = hdConfig.getHeader());
-                if (headerValue == null) {
+                headerValue = request.getHeader(headerName = hdConfig.header());
+                if (StringUtils.isNullOrEmptyString(headerValue)) {
                     continue;
                 }
                 // #2. 헤더값 검증 후 공유
-                if (hdConfig.getValidator().test(headerValue)) {
+                if (hdConfig.validator().test(headerName, headerValue)) {
                     THREAD_SHARED_CONTEXT.set(headerName, headerValue);
+                    // start - 공유 헤더로 설정한 이후에 추가 동작 지원. : 2025. 11. 7. 오후 2:27:11
+                    hdConfig.postAction().accept(headerName, headerValue);
+                    // end - 공유 헤더로 설정한 이후에 추가 동작 지원. : 2025. 11. 7. 오후 2:27:11
                 } else {
                     logger.warn("'{}'로 사용할 정보({})가 올바르지 않습니다.", headerName, headerValue);
                 }

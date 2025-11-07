@@ -1,3 +1,12 @@
+[2025/11/07]
+- Modify
+  + 공유헤더 검증 통과 후 '후처리 기능' 추가
+    + open.commons.spring.web.servlet.filter.header
+      + SharedHeader
+      + DefaultSharedHeader
+      + SharedHeadersBuiltinProvider
+    + open.commons.spring.web.servlet.filter.RequestHeaderFilter
+
 [2025/10/30]
 - New
   + open.commons.spring.web.servlet.binder.IExceptionResponseWriter: 예외 클래스를 응답 데이터로 제공하는 기능을 정의.

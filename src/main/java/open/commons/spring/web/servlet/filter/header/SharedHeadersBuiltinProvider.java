@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.MDC;
+
 import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.log.LogFeature;
 
@@ -50,9 +52,16 @@ public class SharedHeadersBuiltinProvider {
 
     static {
         // 로그파일 분기 요청 헤더 추가
-        HEADERS.add(new DefaultSharedHeader(X_LOG_FEATURE, h -> {
-            return StringUtils.isNullOrEmptyString(h) ? false : h.matches(LogFeature.FEATURE_REG_EX);
-        }));
+        HEADERS.add(new DefaultSharedHeader( //
+                X_LOG_FEATURE, //
+                (name, value) -> {
+                    return X_LOG_FEATURE.equalsIgnoreCase(name) //
+                            && StringUtils.isNullOrEmptyString(value) ? false : value.matches(LogFeature.FEATURE_REG_EX) //
+                    ;
+                } //
+                , (name, value) -> {
+                    MDC.put("feature", value);
+                }));
     }
 
     public static List<SharedHeader> load() {
