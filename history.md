@@ -1,3 +1,8 @@
+[2025/11/12]
+- Bugfix
+  + 시스템 설정 정보 읽는 오류 수정
+    + open.commons.spring.web.config.CustomWebMvcConfigurer.bindProperties(Environment, String, Class&lt;T&gt;, T)
+
 [2025/11/07]
 - Modify
   + 공유헤더 검증 통과 후 '후처리 기능' 추가

@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
+import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
@@ -53,7 +54,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import open.commons.core.utils.StringUtils;
 import open.commons.spring.web.annotation.RequestValueSupported;
 import open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration;
 import open.commons.spring.web.beans.resolver.IAuthorizedDataResolver;
@@ -213,8 +213,9 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     private static final String SPRING_MVC_STATIC_PATH_PATTERN = "spring.mvc.static-path-pattern";
     /** 정적 자원 실제 경로 */
     private static final String SPRING_WEB_RESOURCES_STATIC_LOCATIONS = "spring.web.resources.static-locations";
+
     /** 기본 정적 자원 실제 경로 */
-    private static final String[] DEFAULTS = { "classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/" };
+    private static final String[] DEFAULTS_STATIC_LOCATIONS = { "classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/" };
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -226,6 +227,9 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
     /** 커스텀 {@link HandlerMethodArgumentResolver} */
     private List<IAuthorizedDataResolver> argumentResolvers = new ArrayList<>();
+
+    // @Value("${" + SPRING_WEB_RESOURCES_STATIC_LOCATIONS + "}")
+    // private String[] staticLocations;
 
     /**
      * @deprecated {@link #setEnumPkgs(EnumPackages)} 메소드 내부에서 {@link AutoConfigurationPackages}를 이용해서 BasePackage 정보를
@@ -489,10 +493,10 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * @author Park, Jun-Hong parkjunhong77@gmail.com
      */
     protected void addStaticResourceHandlers(ResourceHandlerRegistry registry) {
-        String springMvcStaticPathPattern = this.environment.getProperty(SPRING_MVC_STATIC_PATH_PATTERN, "/static/**");
+        String springMvcStaticPathPattern = bindProperties(this.environment, SPRING_MVC_STATIC_PATH_PATTERN, String.class, "/static/**");
         if (new AntPathMatcher().isPattern(springMvcStaticPathPattern)) {
             String handler = springMvcStaticPathPattern;
-            String[] locations = resolveSpringWebResourceStaticLocations(this.environment);
+            String[] locations = bindProperties(this.environment, SPRING_WEB_RESOURCES_STATIC_LOCATIONS, String[].class, DEFAULTS_STATIC_LOCATIONS);
             addResourceHandlers(registry, handler, locations);
         }
     }
@@ -609,16 +613,32 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
         this.interceptorIgnoreUrlConfigurations = interceptorIgnoreUrlConfigurations;
     }
 
-    private static String[] resolveSpringWebResourceStaticLocations(Environment env) {
-        String raw = env.getProperty(SPRING_WEB_RESOURCES_STATIC_LOCATIONS);
-        if (StringUtils.isNullOrEmptyString(raw)) {
-            return DEFAULTS;
-        }
-
-        String[] parts = StringUtils.split(raw, ",", true);
-        for (int i = 0; i < parts.length; i++) {
-            parts[i] = parts[i].trim();
-        }
-        return parts;
+    /**
+     * 요청한 설정 정보를 제공하고, 존재하지 않는 경우는 기본값을 제공합니다. <br>
+     * 
+     * <pre>
+     * [개정이력]
+     *      날짜    	| 작성자	|	내용
+     * ------------------------------------------
+     * 2025. 11. 12.		parkjunhong77@gmail.com			최초 작성
+     * </pre>
+     *
+     * @param <T>
+     * @param env
+     *            전체 서비스 설정
+     * @param property
+     *            설정 이름
+     * @param propClass
+     *            설정 데이터 유형
+     * @param defaultValue
+     *            기본 설정값
+     * @return
+     *
+     * @since 2025. 11. 12.
+     * @version 2.1.0
+     * @author Park Jun-Hong (parkjunhong77@gmail.com)
+     */
+    private static <T> T bindProperties(Environment env, String property, Class<T> propClass, T defaultValue) {
+        return Binder.get(env).bind(property, propClass).orElse(defaultValue);
     }
 }
