@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.reflections.Reflections;
 import org.slf4j.Logger;
@@ -54,6 +55,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import open.commons.core.utils.ArrayUtils;
 import open.commons.spring.web.annotation.RequestValueSupported;
 import open.commons.spring.web.autoconfigure.configuration.GlobalServletConfiguration;
 import open.commons.spring.web.beans.resolver.IAuthorizedDataResolver;
@@ -211,6 +213,12 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
     /** 정적 자원 경로 alias 패턴 */
     private static final String SPRING_MVC_STATIC_PATH_PATTERN = "spring.mvc.static-path-pattern";
+    /**
+     * 사용자 정의 정적 자원 경로 alias 패턴<br>
+     * 
+     * @since 2025. 11. 20.
+     */
+    private static final String SPRING_MVC_STATIC_PATH_PATTERN_X = "spring.mvc.static-path-pattern-x";
     /** 정적 자원 실제 경로 */
     private static final String SPRING_WEB_RESOURCES_STATIC_LOCATIONS = "spring.web.resources.static-locations";
 
@@ -484,6 +492,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      *      날짜    	| 작성자	|	내용
      * ------------------------------------------
      * 2025. 8. 11.		parkjunhong77@gmail.com			최초 작성
+     * 2025. 11. 20.    parkjunhong77@gmail.com     사용자 정의 정적 자원 경로 alias 패턴 처리 추가.
      * </pre>
      *
      * @param registry
@@ -494,11 +503,15 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      */
     protected void addStaticResourceHandlers(ResourceHandlerRegistry registry) {
         String springMvcStaticPathPattern = bindProperties(this.environment, SPRING_MVC_STATIC_PATH_PATTERN, String.class, "/static/**");
-        if (new AntPathMatcher().isPattern(springMvcStaticPathPattern)) {
-            String handler = springMvcStaticPathPattern;
-            String[] locations = bindProperties(this.environment, SPRING_WEB_RESOURCES_STATIC_LOCATIONS, String[].class, DEFAULTS_STATIC_LOCATIONS);
-            addResourceHandlers(registry, handler, locations);
-        }
+        // 사용자 정의 패턴
+        String[] customStaticPathPatterns = bindProperties(this.environment, SPRING_MVC_STATIC_PATH_PATTERN_X, String[].class, null);
+        // '정적 자원 요청 패턴 검증'
+        String[] handlers = Stream.of(ArrayUtils.add(customStaticPathPatterns, springMvcStaticPathPattern)) //
+                .filter(new AntPathMatcher()::isPattern) //
+                .toArray(String[]::new);
+        // '정적 자원 경로'
+        String[] locations = bindProperties(this.environment, SPRING_WEB_RESOURCES_STATIC_LOCATIONS, String[].class, DEFAULTS_STATIC_LOCATIONS);
+        addResourceHandlers(registry, handlers, locations);
     }
 
     /**

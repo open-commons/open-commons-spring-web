@@ -1,3 +1,10 @@
+[2025/11/20]
+- Add
+  + '사용자 정의 정적 자원 요청 패턴' 추가
+    + open.commons.spring.web.config.CustomWebMvcConfigurer: 
+      + "spring.mvc.static-path-pattern-x": 속성 추가. (기존 "spring.mvc.static-path-pattern"과 함께 사용하기 위해서 "open.commons.mvc.static-pattern" 을 사용하지 않음.)
+      + addStaticResourceHandlers(ResourceHandlerRegistry): 확장 처리 지원.
+
 [2025/11/12]
 - Bugfix
   + 시스템 설정 정보 읽는 오류 수정
