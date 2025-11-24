@@ -54,7 +54,7 @@ import open.commons.spring.web.servlet.UnauthorizedAccessException;
  * @see AuthorizedMethod
  */
 @Aspect
-@Order(AbstractAuthorizedResourceAspect.ORDER_METHOD)
+@Order(AspectOrder.AUTHORIZED_METHOD)
 public class AuthorizedMethodAspect extends AbstractAuthorizedResourceAspect<IMethodAccessAuthorityProvider> {
 
     /**

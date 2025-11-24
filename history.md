@@ -1,3 +1,11 @@
+[2025/11/24]
+- New
+  + open.commons.spring.web.aspect.AspectOrder: 'OCSW'에서 제공하는 Bean 우선순위 관리 클래스.
+  + 'active profiles' 기반 'Method' 실행 제어
+    + open.commons.spring.web.aspect.ProfilesOnAspect: @Aspect 클래스
+    + open.commons.spring.web.context.annotation.ProfilesOn: Profile 설정 클래스
+    + open.commons.spring.web.exception.ProfileOnDeniedException: 예외 클래스.
+
 [2025/11/20]
 - Add
   + '사용자 정의 정적 자원 요청 패턴' 추가

@@ -121,7 +121,7 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
 
     private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("^\\$\\{\\s*([^:}]+)(?::([^}]*))?\\s*}$");
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     private ApplicationContext context;
     private Environment env;
@@ -181,10 +181,10 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
         // 여기서 groups 를 로깅하거나, Bean 으로 등록하거나, 별도 API 로 제공 가능
         apiGroup.forEach(g -> {
             String tagDesc = null;
-            this.log.debug("Group: {}{}", g.getName(), StringUtils.isNullOrEmptyString(tagDesc = g.getDescription()) ? "" : String.join(tagDesc, " (", ")"));
+            this.logger.trace("Group: {}{}", g.getName(), StringUtils.isNullOrEmptyString(tagDesc = g.getDescription()) ? "" : String.join(tagDesc, " (", ")"));
             g.getRestApis().forEach(api -> {
                 String opDesc = null;
-                this.log.debug("  - {} {}, {}{}", String.format("%-8s", String.join(api.getMethod().toString(), "[", "]")), api.getPath(), api.getName(),
+                this.logger.trace("  - {} {}, {}{}", String.format("%-8s", String.join(api.getMethod().toString(), "[", "]")), api.getPath(), api.getName(),
                         StringUtils.isNullOrEmptyString(opDesc = api.getDescription()) ? "" : String.join(opDesc, " (", ")"));
             });
         });
@@ -211,7 +211,7 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
         // --- 클래스 조건 검사 ---
         Tag tag = AnnotatedElementUtils.findMergedAnnotation(clazz, Tag.class);
         if (tag == null) {
-            log.warn("Controller [{}] 은 @Tag 어노테이션이 없습니다. 스킵합니다.", clazz.getName());
+            logger.warn("Controller [{}] 은 @Tag 어노테이션이 없습니다. 스킵합니다.", clazz.getName());
             return null;
         }
 
@@ -272,7 +272,7 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
         }
 
         if (apiDecls.isEmpty()) {
-            log.warn("Controller [{}] 은 유효한 REST API 메소드가 없습니다.", clazz.getName());
+            logger.warn("Controller [{}] 은 유효한 REST API 메소드가 없습니다.", clazz.getName());
             return new ArrayList<>();
         }
 
@@ -482,7 +482,7 @@ public class RequestMappingProvider implements ApplicationListener<ApplicationRe
 
         _scanAllControllers();
 
-        if (this.log.isDebugEnabled()) {
+        if (this.logger.isDebugEnabled()) {
             _apiInfo(this.controllerApiGroups);
             _apiInfo(this.restControllerApiGroups);
         }

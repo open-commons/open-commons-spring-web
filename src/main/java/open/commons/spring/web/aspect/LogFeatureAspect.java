@@ -69,7 +69,7 @@ import io.micrometer.core.lang.Nullable;
  * @author parkjunhong77@gmail.com
  */
 @Aspect
-@Order(AbstractAuthorizedResourceAspect.ORDER_REQUEST + 1)
+@Order(AspectOrder.LOG_FEATURE)
 public class LogFeatureAspect extends AbstractAspectPointcuts {
 
     /** {@link MDC}에 공유하고자 하는 Thread 이름을 위한 속성 */

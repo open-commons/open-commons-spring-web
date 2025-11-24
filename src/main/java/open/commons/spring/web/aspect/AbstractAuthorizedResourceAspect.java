@@ -39,7 +39,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import open.commons.core.utils.StringUtils;
@@ -53,9 +52,6 @@ import open.commons.spring.web.authority.AuthorizedRequest;
  * @author parkjunhong77@gmail.com
  */
 public abstract class AbstractAuthorizedResourceAspect<T> extends AbstractAspectPointcuts implements IAuthorizedResource<T> {
-
-    public static final int ORDER_METHOD = Ordered.HIGHEST_PRECEDENCE;
-    public static final int ORDER_REQUEST = Ordered.HIGHEST_PRECEDENCE;
 
     private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("^\\$\\{\\s*([^:}]+)(?::([^}]*))?\\s*}$");
 

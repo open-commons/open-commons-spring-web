@@ -65,7 +65,7 @@ import open.commons.spring.web.servlet.UnauthorizedAccessException;
  * @author parkjunhong77@gmail.com
  */
 @Aspect
-@Order(AbstractAuthorizedResourceAspect.ORDER_REQUEST)
+@Order(AspectOrder.AUTHROIZED_REQUEST)
 public class AuthorizedRequestAspect extends AbstractAuthorizedResourceAspect<IRequestAccessAuthorityProvider> {
 
     /**
