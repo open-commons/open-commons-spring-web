@@ -28,12 +28,12 @@ package open.commons.spring.web.aspect;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
@@ -52,7 +52,6 @@ import org.springframework.stereotype.Component;
 import open.commons.core.utils.ObjectUtils;
 import open.commons.spring.web.context.annotation.ProfilesOn;
 import open.commons.spring.web.context.annotation.ProfilesOn.DecisionRule;
-import open.commons.spring.web.context.annotation.ProfilesOn.Strategy;
 import open.commons.spring.web.exception.ProfileOnDeniedException;
 
 /**
@@ -109,11 +108,6 @@ public class ProfilesOnAspect extends AbstractAspectPointcuts {
     public final void annotationProfilesOn() {
     }
 
-    @PostConstruct
-    void info() {
-        logger.info("current.profiles={}", Arrays.toString(this.currentProfiles));
-    }
-
     /**
      * 예외 클래스를 생성합니다. <br>
      * 
@@ -157,37 +151,37 @@ public class ProfilesOnAspect extends AbstractAspectPointcuts {
      * @author Park Jun-Hong (parkjunhong77@gmail.com)
      */
     private boolean decideByRule(@Nonnull String[] standards, @Nonnull DecisionRule rule) {
+        Set<String> filteredStandards = Stream.of(standards).filter(std -> std != null && !std.trim().isEmpty()).collect(Collectors.toSet());
+        // 조건에 부합하는 'standard'가 없는 경우 모두 '매칭 성공' 처리.
+        if (filteredStandards.isEmpty()) {
+            return true;
+        }
         // 현재 profile 정보
         String[] profiles = getProfilesAndMore();
         // 헬퍼 메소드에서 Optional<String> 결과를 받을 변수
         Optional<String> found = null;
         switch (rule) {
-            case ALL:
-                return true; // 항상 true 반환
             case EQ:
                 // [EQ] 동일한 요소 찾기 (HashSet으로 O(N_a + N_b) 최적화)
-                final Set<String> standardsSet = new HashSet<>(Arrays.asList(standards));
                 found = Arrays.stream(profiles) //
-                        .filter(standardsSet::contains) //
+                        .filter(filteredStandards::contains) //
                         .findFirst();
                 break;
             case BEGIN:
                 // [BEGIN] profiles가 standards의 요소로 시작하는지 확인 (anyMatch 단락 활용)
-                final List<String> standardsListForBegin = Arrays.asList(standards);
                 found = Arrays.stream(profiles) //
-                        .filter(profile -> standardsListForBegin.stream().anyMatch(profile::startsWith)) // profile.startsWith(standard)
+                        .filter(profile -> filteredStandards.stream().anyMatch(profile::startsWith)) // profile.startsWith(standard)
                         .findFirst();
                 break;
             case END:
                 // [END] profiles가 standards의 요소로 끝나는지 확인 (anyMatch 단락 활용)
-                final List<String> standardsListForEnd = Arrays.asList(standards);
                 found = Arrays.stream(profiles) //
-                        .filter(profile -> standardsListForEnd.stream().anyMatch(profile::endsWith)) // profile.endsWith(standard)
+                        .filter(profile -> filteredStandards.stream().anyMatch(profile::endsWith)) // profile.endsWith(standard)
                         .findFirst();
                 break;
             case REGEX:
                 // [REGEX] profiles가 standards의 정규식 패턴에 매칭되는지 확인 (패턴 사전 컴파일)
-                final List<Pattern> patterns = Arrays.stream(standards) //
+                final List<Pattern> patterns = filteredStandards.stream() //
                         .map(Pattern::compile) //
                         .collect(Collectors.toList());
                 found = Arrays.stream(profiles) //
@@ -204,12 +198,13 @@ public class ProfilesOnAspect extends AbstractAspectPointcuts {
 
     private boolean decideExecution(ProfilesOn profilesOn) {
         boolean matched = decideByRule(profilesOn.standards(), profilesOn.rule());
-        if (Strategy.ALLOW.equals(profilesOn.strategy())) {
-            return matched;
-        } else if (Strategy.DENY.equals(profilesOn.strategy())) {
-            return !matched;
-        } else {
-            throw new UnsupportedOperationException("Unsupported Strategy: " + profilesOn.strategy());
+        switch (profilesOn.strategy()) {
+            case ALLOW:
+                return matched;
+            case DENY:
+                return !matched;
+            default:
+                throw new UnsupportedOperationException("Unsupported Strategy: " + profilesOn.strategy());
         }
     }
 
@@ -264,16 +259,15 @@ public class ProfilesOnAspect extends AbstractAspectPointcuts {
         Method invodedMethod = ((MethodSignature) pjp.getSignature()).getMethod();
         // 어노테이션
         ProfilesOn profilesOn = AnnotationUtils.findAnnotation(invodedMethod, ProfilesOn.class);
-
-        // 적용하지 않은 경우
-        if (Strategy.NONE.equals(profilesOn.strategy())) {
+        if (decideExecution(profilesOn)) {
             return pjp.proceed();
         } else {
-            if (decideExecution(profilesOn)) {
-                return pjp.proceed();
-            } else {
-                throw createProfileOnDeniedException(profilesOn, invodedMethod);
-            }
+            throw createProfileOnDeniedException(profilesOn, invodedMethod);
         }
+    }
+
+    @PostConstruct
+    void info() {
+        logger.info("current.profiles={}", Arrays.toString(this.currentProfiles));
     }
 }

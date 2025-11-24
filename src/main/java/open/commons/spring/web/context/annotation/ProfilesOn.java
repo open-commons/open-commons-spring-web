@@ -59,13 +59,13 @@ public @interface ProfilesOn {
     /**
      * {@link Environment#getActiveProfiles()}(+추가설정) 과 {@link #standards()} 을 비교/판단하는 방법
      */
-    DecisionRule rule() default DecisionRule.ALL;
+    DecisionRule rule();
 
     /** {@link Environment#getActiveProfiles()}(+추가설정) 과 비교/판단할 정보 */
-    String[] standards() default {};
+    String[] standards();
 
     /** {@link #standards()}에 포함된 정보를 적용하는 방식 */
-    Strategy strategy() default Strategy.NONE;
+    Strategy strategy();
 
     /**
      * {@link Environment#getActiveProfiles()}(+추가설정)과 {@link ProfilesOn#standards()} 값을 비교하는 규칙
@@ -75,8 +75,6 @@ public @interface ProfilesOn {
      * @author Park Jun-Hong (parkjunhong77@gmail.com)
      */
     public static enum DecisionRule {
-        /** 무조건 만족 */
-        ALL,
         /** {@link Environment#getActiveProfiles()}(+추가설정) 중 하나와 {@link ProfilesOn#standards()} 중 하나가 정확히 일치하는지 */
         EQ,
         /** {@link Environment#getActiveProfiles()}(+추가설정)가 {@link ProfilesOn#standards()} 중 하나로 '시작'하는지 */
@@ -100,7 +98,5 @@ public @interface ProfilesOn {
         ALLOW,
         /** 불가 */
         DENY,
-        /** 없음(Aspect에서 아무 제어도 하지 않음) */
-        NONE
     }
 }
